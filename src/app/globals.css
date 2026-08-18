@@ -1,26 +1,211 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------
+   Games Paglu — neo-brutalism, palette-disciplined.
+   Ink + paper + exactly one accent per screen. The accent is the
+   wayfinding: each category owns one colour and floods its reveal.
+   --------------------------------------------------------------- */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-heading: var(--font-display);
   --font-mono: var(--font-geist-mono);
+
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-hot: var(--hot);
+  --color-cat-number: var(--cat-number);
+  --color-cat-place: var(--cat-place);
+  --color-cat-movie: var(--cat-movie);
+  --color-cat-celebrity: var(--cat-celebrity);
+  --color-cat-animal: var(--cat-animal);
+  --color-cat-object: var(--cat-object);
+  --color-accent-flood: var(--accent-flood);
+  --color-on-accent: var(--on-accent);
+  --color-on-hot: var(--on-hot);
+
+  --shadow-brutal: 4px 4px 0 0 var(--ink);
+  --shadow-brutal-sm: 2px 2px 0 0 var(--ink);
+  --shadow-brutal-lg: 7px 7px 0 0 var(--ink);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
 }
 
+:root {
+  --ink: #111111;
+  --paper: #faf7f0;
+  --hot: #ff3b1f;
+
+  --cat-number: #ffd400;
+  --cat-place: #00d3d3;
+  --cat-movie: #ff2e88;
+  --cat-celebrity: #9b5cff;
+  --cat-animal: #9be600;
+  --cat-object: #ff8a00;
+
+  /* The category accents are fixed hues, so text sitting ON them must be fixed
+     too — otherwise dark mode inverts it to cream on yellow. */
+  --on-accent: #111111;
+  --on-hot: #faf7f0;
+
+  /* set per-screen by the category layout; defaults to the brand accent */
+  --accent-flood: var(--hot);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper);
+  --secondary-foreground: var(--ink);
+  --muted: #ece7dc;
+  --muted-foreground: #5c574d;
+  --accent: var(--accent-flood);
+  --accent-foreground: var(--ink);
+  --destructive: #e11900;
+  --border: var(--ink);
+  --input: var(--ink);
+  --ring: var(--ink);
+  --radius: 0px;
+}
+
+/* These games happen in dim living rooms, so dark mode is not a nicety.
+   Ink and paper swap roles; the category accents keep their hue so the
+   wayfinding stays the same in both themes. There is no in-app toggle by
+   design — the OS preference is the setting. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --ink: #f5f1e8;
+    --paper: #14120f;
+    --muted: #2a2621;
+    --muted-foreground: #a8a196;
+    --destructive: #ff5540;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.dark {
+  --ink: #f5f1e8;
+  --paper: #14120f;
+  --muted: #2a2621;
+  --muted-foreground: #a8a196;
+  --destructive: #ff5540;
+}
+
+@layer base {
+  * {
+    border-color: var(--ink);
+  }
+  html {
+    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    overscroll-behavior-y: none;
+  }
+  /* Neo-brutalism is loud enough without a rainbow of focus rings. */
+  :focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* The physical click: shadow collapses, element travels into it. */
+  .brutal {
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow-brutal);
+  }
+  .brutal-sm {
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow-brutal-sm);
+  }
+  .press {
+    transition:
+      transform 80ms cubic-bezier(0.2, 0, 0, 1),
+      box-shadow 80ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  .press:active:not(:disabled) {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 0 var(--ink);
+  }
+  .display {
+    font-family: var(--font-display), ui-sans-serif, sans-serif;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+}
+
+/* The countdown punch. Hard easing, no soft fades. */
+@keyframes punch {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  45% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-punch {
+  animation: punch 420ms cubic-bezier(0.15, 0.9, 0.1, 1) both;
+}
+
+@keyframes slam {
+  0% {
+    transform: scale(1.06) rotate(-0.6deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+.animate-slam {
+  animation: slam 140ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-punch,
+  .animate-slam {
+    animation: none;
+  }
+  .press:active:not(:disabled) {
+    transform: none;
+  }
 }

@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Games Paglu
 
-## Getting Started
+`gamespaglu.com` — your phone as the aid for games played **in person**. Sibling of
+[officepaglu.com](https://officepaglu.com).
 
-First, run the development server:
+Full spec lives in the Obsidian vault: `Cards/Games Paglu Spec.md`.
+
+## What ships in v1
+
+- **Who Am I?** — the phone-on-forehead guessing game (aka Heads Up, Celebrity
+  Head). Six categories: celebrity, movie, place, animal, object, number.
+  Generate → 3s countdown → the word fills the screen → it stays until the next
+  Generate.
+- **Scoreboard** — running totals with ± steppers, undo, auto-ranking. Add
+  players *or teams*.
+- Six standalone generator routes (`/random-number-generator`, …) — the same
+  engine, indexable, for search traffic.
+- Installable offline PWA. Screen Wake Lock while a word is up. Haptics always,
+  sound on with a persistent mute.
+
+No accounts, no backend, no network needed at play time.
+
+## Run it
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Architecture, and why
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Three disciplines exist so that **rooms** (Secret Hitler, imposter games) drop in
+later as an additive change rather than a rewrite:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. `src/lib/games.ts` — every game is a manifest. Home renders from the registry.
+2. `src/lib/draw.ts` — drawing logic is pure TS with no React coupling, so a
+   server can call the identical functions.
+3. `src/lib/state-adapter.ts` — all state goes through one interface. v1 ships
+   only the `local` (localStorage) implementation; `remote` (Supabase Realtime)
+   satisfies the same contract later.
 
-## Learn More
+Other things worth knowing before you edit:
 
-To learn more about Next.js, take a look at the following resources:
+- `src/lib/shuffle-bag.ts` draws **without replacement**, keyed by category +
+  filter signature. Pure random visibly repeats and players read that as a bug.
+- `src/components/fit-text.tsx` binary-searches the largest font size that fits
+  and breaks **only at spaces** — splitting a word across lines is unreadable
+  across a room, which is the one thing the reveal screen exists to do.
+- `--on-accent` / `--on-hot` are fixed and never invert. The category accents are
+  fixed hues, so text on them must not follow the theme, or dark mode gives you
+  cream on yellow.
+- Dark mode follows the OS preference. There is deliberately no toggle.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Word lists
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`src/data/*.json`, committed and shipped. Flat lists (animals, objects) are plain
+strings; filtered lists (places, movies, celebrities) carry `countries`,
+`languages`, `year`, `tags`.
 
-## Deploy on Vercel
+To refresh candidates from TMDB + Wikidata:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+TMDB_API_KEY=... node scripts/build-data.mjs movies
+node scripts/build-data.mjs celebrities
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+That writes `src/data/<bucket>.candidates.json` — **not** the shipped list. The
+human review pass is the step that makes this product good: cut anyone the room
+won't recognise, then merge by hand. An unrecognisable name kills a round harder
+than a repeat does.
+
+Icons are generated, no image deps: `node scripts/make-icons.mjs`.
