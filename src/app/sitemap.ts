@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
 import { CATEGORY_LIST } from "@/lib/categories";
-import { LIVE_GAMES } from "@/lib/games";
+import { GUIDES } from "@/content/guides";
 import { SITE } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "/",
-    ...LIVE_GAMES.map((g) => g.route),
+    "/scoreboard",
+    "/how-to-play",
+    ...GUIDES.map((g) => `/how-to-play/${g.slug}`),
     ...CATEGORY_LIST.map((c) => `/${c.seoSlug}`),
     ...CATEGORY_LIST.map((c) => `/who-am-i/${c.id}`),
   ];

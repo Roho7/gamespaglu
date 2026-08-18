@@ -22,7 +22,7 @@ export const GAMES: GameManifest[] = [
   {
     id: "who-am-i",
     name: "Who Am I?",
-    route: "/who-am-i",
+    route: "/who-am-i/celebrity",
     tagline: "Phone on your forehead. Everyone else can see it. You can't.",
     emoji: "🙈",
     accentVar: "--cat-celebrity",

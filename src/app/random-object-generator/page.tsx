@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GeneratorPage } from "@/components/game/generator-page";
+import { GeneratorScreen } from "@/components/game/generator-screen";
 import { CATEGORIES } from "@/lib/categories";
 
 const meta = CATEGORIES["object"];
@@ -13,15 +13,19 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <GeneratorPage category="object">
-      <>
-        <h2 className="display text-lg">Everyday things you can point at</h2>
+    <GeneratorScreen
+      category="object"
+      mode="tool"
+      heading={meta.seoTitle}
+      about={
+        <>
         <p>
-          Pressure cooker, ceiling fan, cricket bat, safety pin. Ordinary
-          objects are funnier than exotic ones in guessing games, so the list
-          stays firmly in the house.
+          Everyday things you can point at — pressure cooker, ceiling fan,
+          cricket bat, safety pin. Ordinary objects are funnier than exotic ones
+          in a guessing game.
         </p>
       </>
-    </GeneratorPage>
+      }
+    />
   );
 }

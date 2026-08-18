@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { WhoAmIGame } from "@/components/game/who-am-i-game";
+import { GeneratorScreen } from "@/components/game/generator-screen";
 import { CATEGORIES, CATEGORY_ORDER, isCategoryId } from "@/lib/categories";
 
 export function generateStaticParams() {
@@ -18,6 +18,7 @@ export async function generateMetadata({
   return {
     title: `Who Am I? — ${meta.label}`,
     description: `Play Who Am I? with a random ${meta.noun}. ${meta.blurb}`,
+    alternates: { canonical: `/who-am-i/${category}` },
   };
 }
 
@@ -28,5 +29,11 @@ export default async function CategoryPage({
 }) {
   const { category } = await params;
   if (!isCategoryId(category)) notFound();
-  return <WhoAmIGame category={category} />;
+  return (
+    <GeneratorScreen
+      category={category}
+      mode="game"
+      heading={`Who Am I? ${CATEGORIES[category].label}`}
+    />
+  );
 }

@@ -5,20 +5,26 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ---------------------------------------------------------------
-   Games Paglu — neo-brutalism, palette-disciplined.
-   Ink + paper + exactly one accent per screen. The accent is the
-   wayfinding: each category owns one colour and floods its reveal.
+   Games Paglu — neo-brutalism on a dark arcade canvas.
+
+   Dark-first: the canvas is a deep ink-navy with a faint texture, so it
+   doesn't read as flat black, and the six category accents light up against
+   it. Borders are a mid-grey line and shadows are soft black — never the
+   inverted-white slabs that made dark mode painful.
    --------------------------------------------------------------- */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--canvas);
+  --color-foreground: var(--ink);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
   --font-heading: var(--font-display);
   --font-mono: var(--font-geist-mono);
 
+  --color-canvas: var(--canvas);
+  --color-surface: var(--paper);
   --color-ink: var(--ink);
+  --color-line: var(--line);
   --color-paper: var(--paper);
   --color-hot: var(--hot);
   --color-cat-number: var(--cat-number);
@@ -31,25 +37,25 @@
   --color-on-accent: var(--on-accent);
   --color-on-hot: var(--on-hot);
 
-  --shadow-brutal: 4px 4px 0 0 var(--ink);
-  --shadow-brutal-sm: 2px 2px 0 0 var(--ink);
-  --shadow-brutal-lg: 7px 7px 0 0 var(--ink);
+  --shadow-brutal: 5px 5px 0 0 var(--shadow-color);
+  --shadow-brutal-sm: 3px 3px 0 0 var(--shadow-color);
+  --shadow-brutal-lg: 8px 8px 0 0 var(--shadow-color);
 
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
+  --color-card: var(--paper);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--paper);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--ink);
+  --color-primary-foreground: var(--canvas);
+  --color-secondary: var(--paper);
+  --color-secondary-foreground: var(--ink);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent-flood);
+  --color-accent-foreground: var(--on-accent);
   --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
+  --color-border: var(--line);
+  --color-input: var(--line);
   --color-ring: var(--ring);
 
   --radius-sm: 0px;
@@ -59,97 +65,115 @@
   --radius-2xl: 0px;
 }
 
+/* Default theme: dark arcade. */
 :root {
-  --ink: #111111;
-  --paper: #faf7f0;
+  --canvas: #14161d;
+  --paper: #1e212a;
+  --ink: #f3f1ea;
+  --line: #3c4150;
+  --shadow-color: rgb(0 0 0 / 0.55);
+
+  --muted: #262a35;
+  --muted-foreground: #9aa0b0;
+  --ring: #6b7288;
+  --destructive: #ff6a52;
+
   --hot: #ff3b1f;
 
   --cat-number: #ffd400;
-  --cat-place: #00d3d3;
+  --cat-place: #22d3d3;
   --cat-movie: #ff2e88;
   --cat-celebrity: #9b5cff;
   --cat-animal: #9be600;
   --cat-object: #ff8a00;
 
-  /* The category accents are fixed hues, so text sitting ON them must be fixed
-     too — otherwise dark mode inverts it to cream on yellow. */
-  --on-accent: #111111;
-  --on-hot: #faf7f0;
+  /* Accents are fixed hues, so text on them is fixed too — otherwise a theme
+     swap gives you cream on yellow. */
+  --on-accent: #101218;
+  --on-hot: #fdfcf8;
 
-  /* set per-screen by the category layout; defaults to the brand accent */
+  /* Set per screen by the category layout. */
   --accent-flood: var(--hot);
-
-  --background: var(--paper);
-  --foreground: var(--ink);
-  --card: var(--paper);
-  --card-foreground: var(--ink);
-  --popover: var(--paper);
-  --popover-foreground: var(--ink);
-  --primary: var(--ink);
-  --primary-foreground: var(--paper);
-  --secondary: var(--paper);
-  --secondary-foreground: var(--ink);
-  --muted: #ece7dc;
-  --muted-foreground: #5c574d;
-  --accent: var(--accent-flood);
-  --accent-foreground: var(--ink);
-  --destructive: #e11900;
-  --border: var(--ink);
-  --input: var(--ink);
-  --ring: var(--ink);
-  --radius: 0px;
 }
 
-/* These games happen in dim living rooms, so dark mode is not a nicety.
-   Ink and paper swap roles; the category accents keep their hue so the
-   wayfinding stays the same in both themes. There is no in-app toggle by
-   design — the OS preference is the setting. */
-@media (prefers-color-scheme: dark) {
+/* Light theme, for daylight and for the reading pages. Cooler than the old
+   cream, and the shadow becomes a hard ink slab, which is what brutalism
+   wants in light. */
+@media (prefers-color-scheme: light) {
   :root {
-    --ink: #f5f1e8;
-    --paper: #14120f;
-    --muted: #2a2621;
-    --muted-foreground: #a8a196;
-    --destructive: #ff5540;
+    --canvas: #eef0f4;
+    --paper: #fbfbfd;
+    --ink: #14161d;
+    --line: #14161d;
+    --shadow-color: rgb(20 22 29 / 0.9);
+    --muted: #e2e5ec;
+    --muted-foreground: #5a606e;
+    --ring: #14161d;
   }
 }
 
-.dark {
-  --ink: #f5f1e8;
-  --paper: #14120f;
-  --muted: #2a2621;
-  --muted-foreground: #a8a196;
-  --destructive: #ff5540;
+.light {
+  --canvas: #eef0f4;
+  --paper: #fbfbfd;
+  --ink: #14161d;
+  --line: #14161d;
+  --shadow-color: rgb(20 22 29 / 0.9);
+  --muted: #e2e5ec;
+  --muted-foreground: #5a606e;
+  --ring: #14161d;
 }
 
 @layer base {
   * {
-    border-color: var(--ink);
+    border-color: var(--line);
   }
   html {
     font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
     -webkit-tap-highlight-color: transparent;
+    background-color: var(--canvas);
   }
   body {
-    background-color: var(--paper);
+    position: relative;
+    background-color: var(--canvas);
     color: var(--ink);
     overscroll-behavior-y: none;
   }
-  /* Neo-brutalism is loud enough without a rainbow of focus rings. */
+  /* The texture: a faint fibre noise plus a barely-there grid, so the canvas
+     has grain without competing with six coloured tiles. Fixed and
+     pointer-transparent, painted under everything. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.75;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E"),
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 180px 180px, 48px 48px, 48px 48px;
+    mix-blend-mode: soft-light;
+  }
+  @media (prefers-color-scheme: light) {
+    body::before {
+      opacity: 0.22;
+    }
+  }
   :focus-visible {
-    outline: 3px solid var(--ink);
-    outline-offset: 2px;
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
   }
 }
 
 @layer components {
   /* The physical click: shadow collapses, element travels into it. */
   .brutal {
-    border: 3px solid var(--ink);
+    border: 2px solid var(--line);
     box-shadow: var(--shadow-brutal);
   }
   .brutal-sm {
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     box-shadow: var(--shadow-brutal-sm);
   }
   .press {
@@ -159,7 +183,7 @@
   }
   .press:active:not(:disabled) {
     transform: translate(3px, 3px);
-    box-shadow: 0 0 0 0 var(--ink);
+    box-shadow: 0 0 0 0 var(--shadow-color);
   }
   .display {
     font-family: var(--font-display), ui-sans-serif, sans-serif;
@@ -167,9 +191,14 @@
     line-height: 0.92;
     text-transform: uppercase;
   }
+  /* Coloured tiles sit on the dark canvas, so they carry their own dark edge
+     rather than the grey line. */
+  .tile {
+    border: 2px solid var(--on-accent);
+    box-shadow: 5px 5px 0 0 var(--shadow-color);
+  }
 }
 
-/* The countdown punch. Hard easing, no soft fades. */
 @keyframes punch {
   0% {
     transform: scale(0.4);

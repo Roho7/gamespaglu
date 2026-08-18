@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GeneratorPage } from "@/components/game/generator-page";
+import { GeneratorScreen } from "@/components/game/generator-screen";
 import { CATEGORIES } from "@/lib/categories";
 
 const meta = CATEGORIES["celebrity"];
@@ -13,21 +13,24 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <GeneratorPage category="celebrity">
-      <>
-        <h2 className="display text-lg">Indian and international, your call</h2>
+    <GeneratorScreen
+      category="celebrity"
+      mode="tool"
+      heading={meta.seoTitle}
+      about={
+        <>
         <p>
-          Tap the country chips to decide where names come from. Selecting India
-          adds language switches for Hindi, Tamil, Telugu, Malayalam and Kannada
-          cinema — and the Indian list goes well beyond film, with cricketers,
-          singers, politicians and business names in the mix.
+          Choose the countries names come from. Turning on India adds switches
+          for Hindi, Tamil, Telugu, Malayalam and Kannada cinema, and the Indian
+          list reaches well past film — cricketers, singers, politicians and
+          business names are all in the deck.
         </p>
         <p>
-          Every name is hand-checked to be someone a room full of people will
-          actually recognise. Perfect for Who Am I?, charades, dumb charades and
-          Heads Up style games.
+          Every name is hand-checked to be someone a room will actually
+          recognise, because an unguessable name kills a round.
         </p>
       </>
-    </GeneratorPage>
+      }
+    />
   );
 }
