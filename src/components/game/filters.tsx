@@ -49,7 +49,7 @@ export function RegionPicker({
 
       {showLanguages && countries.includes("in") ? (
         <div className="space-y-2">
-          <p className="text-xs font-bold uppercase tracking-wide opacity-60">
+          <p className="caps text-[0.65rem] opacity-55">
             Indian languages
           </p>
           <div className="flex flex-wrap gap-2">
@@ -66,7 +66,7 @@ export function RegionPicker({
         </div>
       ) : null}
 
-      <p className="text-xs font-bold uppercase tracking-wide opacity-60">
+      <p className="caps text-[0.65rem] opacity-55">
         {poolSize} in the deck
       </p>
     </div>
@@ -117,7 +117,7 @@ export function RangePicker({
               inputMode="numeric"
               value={min}
               onChange={(e) => onChange(Number(e.target.value), max)}
-              className="brutal-sm w-full bg-[var(--paper)] px-3 py-2 text-lg font-bold"
+              className="w-full rounded-full border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-2 text-base font-semibold"
             />
           </label>
           <span className="display text-xl">→</span>
@@ -128,7 +128,7 @@ export function RangePicker({
               inputMode="numeric"
               value={max}
               onChange={(e) => onChange(min, Number(e.target.value))}
-              className="brutal-sm w-full bg-[var(--paper)] px-3 py-2 text-lg font-bold"
+              className="w-full rounded-full border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-2 text-base font-semibold"
             />
           </label>
         </div>

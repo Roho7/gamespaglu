@@ -1,21 +1,23 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 
 /**
- * The reveal must fill the screen whether the answer is "47" or
- * "Rashtrapati Bhavan". Binary-search the largest size that still fits, letting
- * long labels wrap onto extra lines rather than capping at the width of one.
- * Never truncates.
+ * Fills the screen with one label, whether it's "47" or "Rashtrapati Bhavan".
  *
- * Absolutely positioned against a relative parent: percentage heights inside a
- * min-height flex column resolve unreliably, and a mis-measured box means a
- * word that doesn't fill the phone.
+ * Measurement note, learned the hard way: a block element's `scrollWidth` is
+ * clamped to its own width, so text spilling past the edge is invisible to it —
+ * "Salaar" rendered at 140px and ran off the screen. We measure the real line
+ * boxes with a Range instead, which reports the true painted extent including
+ * overflow.
+ *
+ * Wrapping happens at spaces only. Splitting a word across lines is unreadable
+ * across a room, which is the one thing this screen exists to do.
  */
 export function FitText({
   text,
   className,
-  min = 24,
+  min = 20,
   max = 320,
 }: {
   text: string;
@@ -25,7 +27,6 @@ export function FitText({
 }) {
   const boxRef = useRef<HTMLDivElement | null>(null);
   const spanRef = useRef<HTMLSpanElement | null>(null);
-  const [ready, setReady] = useState(false);
 
   const fit = useCallback(() => {
     const box = boxRef.current;
@@ -35,13 +36,22 @@ export function FitText({
     const h = box.clientHeight;
     if (w === 0 || h === 0) return;
 
+    const measure = (size: number) => {
+      span.style.fontSize = `${size}px`;
+      const range = document.createRange();
+      range.selectNodeContents(span);
+      const rect = range.getBoundingClientRect();
+      range.detach();
+      return rect;
+    };
+
     let lo = min;
     let hi = max;
     let best = min;
     for (let i = 0; i < 14 && lo <= hi; i++) {
       const mid = Math.floor((lo + hi) / 2);
-      span.style.fontSize = `${mid}px`;
-      if (span.scrollWidth <= w + 1 && span.scrollHeight <= h + 1) {
+      const rect = measure(mid);
+      if (rect.width <= w && rect.height <= h) {
         best = mid;
         lo = mid + 1;
       } else {
@@ -49,7 +59,7 @@ export function FitText({
       }
     }
     span.style.fontSize = `${best}px`;
-    setReady(true);
+    box.style.visibility = "visible";
   }, [min, max]);
 
   useLayoutEffect(() => {
@@ -70,18 +80,15 @@ export function FitText({
     <div
       ref={boxRef}
       className="absolute inset-0 flex items-center justify-center overflow-hidden"
-      style={{ visibility: ready ? "visible" : "hidden" }}
+      style={{ visibility: "hidden" }}
     >
       <span
         ref={spanRef}
         className={className}
         style={{
           display: "block",
-          maxWidth: "100%",
+          width: "100%",
           fontSize: min,
-          // Break at spaces only. Splitting a word across lines ("HO / WR / AH
-          // / BRI / DGE") is unreadable across a room, which is the one thing
-          // this screen exists to do.
           overflowWrap: "normal",
           wordBreak: "normal",
           hyphens: "none",

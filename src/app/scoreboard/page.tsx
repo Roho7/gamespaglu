@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { TopBar } from "@/components/brutal";
-import { MuteToggle } from "@/components/mute-toggle";
+import { AppBar } from "@/components/app-bar";
 import { Scoreboard } from "@/components/scoreboard/scoreboard";
 
 export const metadata: Metadata = {
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 export default function ScoreboardPage() {
   return (
     <main className="mx-auto w-full max-w-xl flex-1">
-      <TopBar back="/" title="Scoreboard" right={<MuteToggle />} />
+      <AppBar back="/" title="Scorecard" />
       <div className="px-4 pb-10">
         <Scoreboard />
       </div>

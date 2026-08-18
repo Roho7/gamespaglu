@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BrutalButton, TopBar } from "@/components/brutal";
+import { AppBar } from "@/components/app-bar";
+import { BrutalButton } from "@/components/brutal";
 import { CrossPromo } from "@/components/cross-promo";
 import { CATEGORIES } from "@/lib/categories";
 import { GUIDES, getGuide } from "@/content/guides";
@@ -65,11 +66,11 @@ export default async function GuidePage({
       className="mx-auto w-full max-w-2xl flex-1"
       style={{ ["--accent-flood" as string]: accent }}
     >
-      <TopBar back="/how-to-play" title="How to play" />
+      <AppBar back="/how-to-play" title="How to play" />
 
       <article className="space-y-8 px-4 pb-12">
         <header
-          className="brutal p-5 text-[var(--on-accent)]"
+          className="card-lift p-5 text-[var(--on-accent)]"
           style={{ background: accent }}
         >
           <span className="text-4xl" aria-hidden>
@@ -97,7 +98,7 @@ export default async function GuidePage({
 
         {guide.playRoute ? (
           <Link href={guide.playRoute} className="block">
-            <BrutalButton variant="accent" size="xl" className="text-2xl">
+            <BrutalButton variant="accent" size="lg" className="w-full text-xl">
               Play it now →
             </BrutalButton>
           </Link>
@@ -109,7 +110,7 @@ export default async function GuidePage({
           </h2>
           <ol className="space-y-4">
             {guide.steps.map((s, i) => (
-              <li key={s.title} className="brutal bg-[var(--paper)] p-4">
+              <li key={s.title} className="card-soft bg-[var(--paper)] p-4">
                 <div className="flex items-baseline gap-3">
                   <span
                     className="display shrink-0 px-2 text-lg text-[var(--on-accent)]"
@@ -153,7 +154,7 @@ export default async function GuidePage({
                   <li key={id}>
                     <Link
                       href={`/who-am-i/${id}`}
-                      className="press brutal-sm flex items-center gap-2 p-3 text-sm font-bold text-[var(--on-accent)]"
+                      className="press card-soft flex items-center gap-2 p-3 text-sm font-bold text-[var(--on-accent)]"
                       style={{ background: `var(${c.accentVar})` }}
                     >
                       <span aria-hidden>{c.emoji}</span>
@@ -171,7 +172,7 @@ export default async function GuidePage({
             <h2 className="display text-2xl">Questions people ask</h2>
             <dl className="space-y-4">
               {guide.faq.map((f) => (
-                <div key={f.q} className="brutal bg-[var(--paper)] p-4">
+                <div key={f.q} className="card-soft bg-[var(--paper)] p-4">
                   <dt className="display text-base">{f.q}</dt>
                   <dd className="mt-2 text-sm leading-relaxed opacity-80">
                     {f.a}

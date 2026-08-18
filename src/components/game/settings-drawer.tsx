@@ -35,7 +35,7 @@ export function SideDrawer({
       <DrawerTrigger
         aria-label={label}
         className={cn(
-          "press brutal-sm flex size-10 items-center justify-center bg-[var(--paper)] text-lg text-[var(--ink)]",
+          "press flex size-9 items-center justify-center rounded-full border-2 border-[var(--line)] bg-[var(--paper)] text-base text-[var(--ink)]",
           className,
         )}
       >
@@ -51,7 +51,7 @@ export function SideDrawer({
           </DrawerTitle>
           <DrawerClose
             aria-label="Close"
-            className="press brutal-sm bg-[var(--canvas)] px-2.5 py-1 text-sm font-black text-[var(--ink)]"
+            className="press flex size-9 items-center justify-center rounded-full border-2 border-[var(--line)] bg-[var(--paper)] text-sm font-bold text-[var(--ink)]"
           >
             ✕
           </DrawerClose>

@@ -96,7 +96,7 @@ export function Scoreboard() {
             }}
             placeholder="Add player or team"
             aria-label="Add player or team"
-            className="brutal-sm min-w-0 flex-1 bg-[var(--paper)] px-3 py-3 text-base font-bold placeholder:opacity-50"
+            className="min-w-0 flex-1 rounded-full border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-2.5 text-base font-semibold placeholder:opacity-45"
           />
           <BrutalButton onClick={addPlayer} disabled={!name.trim()}>
             Add
@@ -105,9 +105,7 @@ export function Scoreboard() {
 
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wide opacity-60">
-              Step
-            </span>
+            <span className="caps text-[0.65rem] opacity-55">Step</span>
             {STEPS.map((s) => (
               <Chip
                 key={s}
@@ -144,7 +142,7 @@ export function Scoreboard() {
             return (
               <li
                 key={p.id}
-                className={`brutal flex items-stretch overflow-hidden ${
+                className={`card-soft flex items-stretch overflow-hidden ${
                   leading
                     ? "bg-[var(--cat-number)] text-[var(--on-accent)]"
                     : "bg-[var(--paper)]"
@@ -154,7 +152,7 @@ export function Scoreboard() {
                   type="button"
                   aria-label={`Subtract ${step} from ${p.name}`}
                   onClick={() => bump(p.id, -step)}
-                  className="press display w-16 shrink-0 border-r-[3px] border-[var(--ink)] text-3xl"
+                  className="press display w-14 shrink-0 border-r-2 border-[var(--line)] text-2xl"
                 >
                   −
                 </button>
@@ -178,7 +176,7 @@ export function Scoreboard() {
                         setExact(p.id, Number(e.target.value) || 0)
                       }
                       aria-label={`${p.name} score`}
-                      className="display w-24 bg-transparent text-3xl outline-none"
+                      className="display w-24 bg-transparent text-2xl outline-none"
                     />
                     <button
                       type="button"
@@ -195,7 +193,7 @@ export function Scoreboard() {
                   type="button"
                   aria-label={`Add ${step} to ${p.name}`}
                   onClick={() => bump(p.id, step)}
-                  className="press display w-16 shrink-0 border-l-[3px] border-[var(--ink)] text-3xl"
+                  className="press display w-14 shrink-0 border-l-2 border-[var(--line)] text-2xl"
                 >
                   +
                 </button>

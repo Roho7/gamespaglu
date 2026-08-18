@@ -15,8 +15,13 @@ Full spec lives in the Obsidian vault: `Cards/Games Paglu Spec.md`.
   players *or teams*.
 - Six standalone generator routes (`/random-number-generator`, …) — the same
   engine, indexable, for search traffic.
+- **Scorecard** — the same board as a bottom sheet, reachable from the app bar on
+  every screen, because keeping score happens *during* a game.
 - Installable offline PWA. Screen Wake Lock while a word is up. Haptics always,
-  sound on with a persistent mute.
+  sound on with a mute in Settings.
+
+Type is **Cabinet Grotesk** by Indian Type Foundry, bundled under the Fontshare
+Free Font License — font and licence live in `src/app/fonts/`.
 
 No accounts, no backend, no network needed at play time.
 

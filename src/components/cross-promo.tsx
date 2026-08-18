@@ -7,7 +7,7 @@ export function CrossPromo() {
       href={SITE.sibling.url}
       target="_blank"
       rel="noreferrer"
-      className="press brutal mt-10 block bg-[var(--hot)] p-4 text-[var(--on-hot)]"
+      className="press card-soft mt-10 block bg-[var(--hot)] p-4 text-[var(--on-hot)]"
       data-analytics="cross-promo-officepaglu"
     >
       <p className="display text-xl">Office Paglu</p>

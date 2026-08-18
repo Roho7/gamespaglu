@@ -3,7 +3,7 @@
 import { blip, MUTE_KEY } from "@/lib/feedback";
 import { usePersisted } from "@/lib/use-persisted";
 
-/** Always visible, always remembered. Sound defaults on — the drama is the point. */
+/** Sound defaults on — the countdown drama is the point. Lives in Settings. */
 export function MuteToggle() {
   const [muted, setMutedPref] = usePersisted<boolean>(MUTE_KEY, false);
 
@@ -16,9 +16,10 @@ export function MuteToggle() {
         setMutedPref(!muted);
         if (muted) blip();
       }}
-      className="press brutal-sm bg-[var(--paper)] px-3 py-1.5 text-lg"
+      className="press flex items-center gap-2 rounded-full border-2 border-[var(--line)] bg-[var(--paper)] px-3 py-1.5 text-xs font-bold text-[var(--ink)]"
     >
-      {muted ? "\u{1F507}" : "\u{1F50A}"}
+      <span aria-hidden>{muted ? "\u{1F507}" : "\u{1F50A}"}</span>
+      {muted ? "Muted" : "Sound on"}
     </button>
   );
 }

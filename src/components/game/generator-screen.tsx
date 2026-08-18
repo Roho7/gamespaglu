@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AppBar } from "@/components/app-bar";
 import { BrutalButton } from "@/components/brutal";
 import { FitText } from "@/components/fit-text";
 import { MuteToggle } from "@/components/mute-toggle";
@@ -47,108 +48,90 @@ export function GeneratorScreen({
       className="flex min-h-dvh flex-col text-[var(--on-accent)]"
       style={{ ["--accent-flood" as string]: accent, background: accent }}
     >
-      <div className="flex items-start justify-between gap-2 p-3">
-        <div className="flex items-center gap-2">
-          <Link
-            href={isGame ? "/" : "/"}
-            aria-label="Back to all games"
-            className="press brutal-sm flex size-10 items-center justify-center bg-[var(--paper)] text-lg text-[var(--ink)]"
-          >
-            ←
-          </Link>
-          <h1 className="display max-w-[9rem] text-sm leading-tight">
-            {heading}
-          </h1>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <MuteToggle />
-          <SideDrawer
-            label="How to play"
-            icon="?"
-            title={isGame ? "How to play" : "About"}
-          >
-            {isGame ? (
-              <ol className="space-y-3 text-sm font-bold">
-                <li>
-                  1. Everyone needs their own phone, open on this screen.
-                </li>
-                <li>
-                  2. Hit Generate. You get three seconds — put the phone on your
-                  forehead, screen facing out.
-                </li>
-                <li>
-                  3. Everyone else can see your {meta.noun}. You can&apos;t. Ask
-                  yes-or-no questions until you get it.
-                </li>
-                <li>4. Got it? Hit Generate again for the next one.</li>
-              </ol>
-            ) : null}
-            {about}
-            <Link
-              href="/how-to-play/who-am-i"
-              className="block text-sm font-bold underline decoration-2"
+      <AppBar
+        back="/"
+        title={<h1 className="display text-base leading-tight">{heading}</h1>}
+        extra={
+          <>
+            <SideDrawer
+              label="How to play"
+              icon="?"
+              title={isGame ? "How to play" : "About"}
             >
-              Full rules and variations →
-            </Link>
-          </SideDrawer>
-          <SideDrawer label="Settings" icon="⚙" title="Settings">
-            {g.hydrated && meta.hasRegionFilter ? (
-              <div className="space-y-3">
-                <p className="text-xs font-bold uppercase tracking-wide opacity-60">
-                  Where from
-                </p>
-                <RegionPicker
-                  countries={g.prefs.countries}
-                  languages={g.prefs.languages}
-                  onCountries={(countries) => g.savePrefs({ countries })}
-                  onLanguages={(languages) => g.savePrefs({ languages })}
-                  poolSize={g.poolSize}
-                  showLanguages={meta.hasLanguageFilter}
-                />
-              </div>
-            ) : null}
-
-            {g.hydrated && meta.hasRangeFilter ? (
-              <div className="space-y-3">
-                <p className="text-xs font-bold uppercase tracking-wide opacity-60">
-                  Range
-                </p>
-                <RangePicker
-                  min={g.prefs.min}
-                  max={g.prefs.max}
-                  onChange={(min, max) => {
-                    const [lo, hi] = clampRange(min, max);
-                    g.savePrefs({ min: lo, max: hi });
-                  }}
-                />
-              </div>
-            ) : null}
-
-            {!meta.hasRegionFilter && !meta.hasRangeFilter ? (
-              <p className="text-sm font-bold opacity-70">
-                Nothing to configure here — the {meta.noun} list is one curated
-                deck, and nothing repeats until it runs out.
-              </p>
-            ) : null}
-
-            <div className="space-y-3 border-t-2 border-[var(--line)] pt-4">
+              {isGame ? (
+                <ol className="space-y-3 text-sm font-medium">
+                  <li>1. Everyone needs their own phone, open on this screen.</li>
+                  <li>
+                    2. Hit Generate. You get three seconds — put the phone on
+                    your forehead, screen facing out.
+                  </li>
+                  <li>
+                    3. Everyone else can see your {meta.noun}. You can&apos;t.
+                    Ask yes-or-no questions until you get it.
+                  </li>
+                  <li>4. Got it? Hit Generate again for the next one.</li>
+                </ol>
+              ) : null}
+              {about}
               <Link
-                href="/scoreboard"
+                href="/how-to-play/who-am-i"
                 className="block text-sm font-bold underline decoration-2"
               >
-                Keeping score? →
+                Full rules and variations →
               </Link>
+            </SideDrawer>
+
+            <SideDrawer label="Settings" icon="⚙" title="Settings">
+              {g.hydrated && meta.hasRegionFilter ? (
+                <div className="space-y-3">
+                  <p className="caps text-[0.65rem] opacity-55">Where from</p>
+                  <RegionPicker
+                    countries={g.prefs.countries}
+                    languages={g.prefs.languages}
+                    onCountries={(countries) => g.savePrefs({ countries })}
+                    onLanguages={(languages) => g.savePrefs({ languages })}
+                    poolSize={g.poolSize}
+                    showLanguages={meta.hasLanguageFilter}
+                  />
+                </div>
+              ) : null}
+
+              {g.hydrated && meta.hasRangeFilter ? (
+                <div className="space-y-3">
+                  <p className="caps text-[0.65rem] opacity-55">Range</p>
+                  <RangePicker
+                    min={g.prefs.min}
+                    max={g.prefs.max}
+                    onChange={(min, max) => {
+                      const [lo, hi] = clampRange(min, max);
+                      g.savePrefs({ min: lo, max: hi });
+                    }}
+                  />
+                </div>
+              ) : null}
+
+              {!meta.hasRegionFilter && !meta.hasRangeFilter ? (
+                <p className="text-sm font-medium opacity-70">
+                  Nothing to configure here — the {meta.noun} list is one
+                  curated deck, and nothing repeats until it runs out.
+                </p>
+              ) : null}
+
+              <div className="flex items-center justify-between gap-3 border-t-2 border-[var(--line)] pt-4">
+                <span className="caps text-[0.65rem] opacity-55">Sound</span>
+                <MuteToggle />
+              </div>
+
               <Link
                 href="/"
                 className="block text-sm font-bold underline decoration-2"
               >
-                All games →
+                All categories →
               </Link>
-            </div>
-          </SideDrawer>
-        </div>
-      </div>
+            </SideDrawer>
+          </>
+        }
+      />
 
       {/* The stage. Empty, counting down, or holding a word — never a form. */}
       <div className="relative min-h-0 flex-1 px-4">
@@ -170,7 +153,7 @@ export function GeneratorScreen({
             <span className="text-6xl" aria-hidden>
               {meta.emoji}
             </span>
-            <p className="display text-2xl opacity-45">
+            <p className="display text-3xl opacity-40">
               {isGame ? `Guess your ${meta.noun}` : `Random ${meta.noun}`}
             </p>
           </div>
@@ -181,12 +164,12 @@ export function GeneratorScreen({
         <p className="pb-1 text-center text-sm font-bold opacity-60">{g.sub}</p>
       ) : null}
 
-      <div className="p-4">
+      <div className="flex justify-center px-4 pb-7">
         <BrutalButton
           variant="paper"
-          size="xl"
+          size="lg"
           onClick={g.generate}
-          className="py-7 text-4xl"
+          className="w-full max-w-xs text-2xl"
         >
           Generate
         </BrutalButton>

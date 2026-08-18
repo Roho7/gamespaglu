@@ -83,16 +83,35 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
 
 ---
 
-## Theme rules
+## Theme rules — soft pastel retro
 
-- **Never derive a border or shadow colour from the text colour.** Doing that made every dark-mode
-  shadow a glowing near-white slab. `--line` and `--shadow-color` are independent tokens.
-- **Text on an accent uses `--on-accent`** (or `--on-hot`), which never inverts. The six category
-  accents are fixed hues; theme-following text on them gives you cream on yellow.
-- **One accent per screen.** The only exception is the home picker, where showing all six *is* the
-  wayfinding.
-- Dark is the default canvas; light follows the OS. There is no in-app toggle, on purpose.
-- Radius is 0 everywhere. Motion is hard-eased and respects `prefers-reduced-motion`.
+- **Pastels only.** The six category accents are soft tints, not saturated colour. Nothing on the
+  site is a pure saturated hue, including the brand accent (`--hot`, a dusty coral).
+- **Text on an accent uses `--on-accent`.** Pastels stay light in both themes, so text on them is
+  always dark ink and never follows the theme.
+- **Never derive a border or shadow colour from the text colour.** That made every dark-mode shadow
+  a glowing near-white slab. `--line` and the shadow tokens are independent.
+- **Shadows are soft and blurred**, never hard offset slabs. Buttons dip on press; they don't
+  collapse a shadow.
+- **Buttons are pills** (`.pill`), and deliberately smallish — `size="lg"` is the biggest, and even
+  the main Generate is capped at `max-w-xs`. Cards use `.card-soft` / `.card-lift` with 20–26px
+  radius. Nothing has square corners.
+- **Type is Cabinet Grotesk** (Indian Type Foundry, Fontshare FFL, bundled at
+  `src/app/fonts/`, licence alongside it). One variable file; `.display` is weight 800 with tight
+  tracking. **Sentence case, not uppercase** — uppercase everywhere read as shouting. Use `.caps`
+  only for tiny labels.
+- **One accent per screen.** The swipe rail is the exception: each card carries its own.
+- Light is the default canvas; dark follows the OS and stays soft. No in-app toggle, on purpose.
+
+## Layout rules
+
+- **The scorecard is not a destination.** It is a bottom sheet in `AppBar`, reachable from every
+  screen mid-game. Do not add a scoreboard tile or nav entry; `/scoreboard` exists only as a
+  deep-link and SEO page.
+- **Every screen renders `AppBar`.** That is what guarantees the scorecard is always one tap away —
+  by construction, not by remembering.
+- The home hero is a swipeable scroll-snap rail (`.rail`), one pastel card per category. Native
+  scroll, no carousel library.
 
 ## Content and data rules
 
@@ -103,6 +122,9 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
   filter signature. Pure random visibly repeats and users read that as a bug.
 - The reveal (`src/components/fit-text.tsx`) breaks **only at spaces**. Splitting a word across
   lines is unreadable across a room, which is the one thing that screen exists to do.
+- **Measure text with a `Range`, never `scrollWidth`.** A block element's `scrollWidth` is clamped
+  to its own width, so overflowing text reports as fitting — "Salaar" rendered at 140px and ran off
+  the screen. `range.getBoundingClientRect()` reports the true painted extent.
 
 ## Architecture rules (so rooms can land later without a rewrite)
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
+/** Pill buttons, deliberately smaller than the old full-bleed slabs. */
 export function BrutalButton({
   children,
   className,
@@ -11,22 +12,21 @@ export function BrutalButton({
   ...props
 }: React.ComponentProps<"button"> & {
   variant?: "solid" | "paper" | "accent" | "ghost";
-  size?: "sm" | "md" | "xl";
+  size?: "sm" | "md" | "lg";
 }) {
   return (
     <button
       {...props}
       className={cn(
         "press display inline-flex items-center justify-center gap-2 select-none",
-        variant !== "ghost" && "brutal",
+        variant !== "ghost" && "pill",
         variant === "solid" && "bg-[var(--ink)] text-[var(--paper)]",
         variant === "paper" && "bg-[var(--paper)] text-[var(--ink)]",
-        variant === "accent" &&
-          "bg-[var(--accent-flood)] text-[var(--on-accent)]",
-        variant === "ghost" && "underline decoration-4 underline-offset-4",
-        size === "sm" && "px-3 py-2 text-sm",
-        size === "md" && "px-5 py-3 text-lg",
-        size === "xl" && "w-full px-6 py-6 text-3xl",
+        variant === "accent" && "bg-[var(--accent-flood)] text-[var(--on-accent)]",
+        variant === "ghost" && "underline decoration-2 underline-offset-4",
+        size === "sm" && "px-3.5 py-1.5 text-sm",
+        size === "md" && "px-5 py-2.5 text-base",
+        size === "lg" && "px-8 py-3.5 text-xl",
         "disabled:opacity-40",
         className,
       )}
@@ -48,10 +48,10 @@ export function Chip({
       aria-pressed={active}
       {...props}
       className={cn(
-        "press brutal-sm inline-flex items-center gap-1.5 px-3 py-2 text-sm font-bold",
+        "press inline-flex items-center gap-1.5 rounded-full border-2 px-3 py-1.5 text-sm font-semibold",
         active
-          ? "bg-[var(--ink)] text-[var(--paper)]"
-          : "bg-[var(--paper)] text-[var(--ink)]",
+          ? "border-[var(--line)] bg-[var(--ink)] text-[var(--paper)]"
+          : "border-[var(--line)] bg-[var(--paper)] text-[var(--ink)] opacity-70",
         className,
       )}
     >
@@ -68,38 +68,47 @@ export function Panel({
   className?: string;
 }) {
   return (
-    <div className={cn("brutal bg-[var(--paper)] p-4", className)}>
+    <div className={cn("card-soft bg-[var(--paper)] p-4", className)}>
       {children}
     </div>
   );
 }
 
-export function TopBar({
-  back,
-  title,
-  right,
-}: {
-  back?: string;
-  title?: string;
-  right?: React.ReactNode;
-}) {
+/** Small round icon control, used in the app bar. */
+export function IconButton({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<"button">) {
   return (
-    <header className="flex items-center justify-between gap-3 px-4 py-3">
-      <div className="flex items-center gap-3">
-        {back ? (
-          <Link
-            href={back}
-            aria-label="Back"
-            className="press brutal-sm bg-[var(--paper)] px-3 py-1.5 text-lg font-black"
-          >
-            ←
-          </Link>
-        ) : null}
-        {title ? (
-          <span className="display text-xl tracking-tight">{title}</span>
-        ) : null}
-      </div>
-      <div className="flex items-center gap-2">{right}</div>
-    </header>
+    <button
+      {...props}
+      className={cn(
+        "press flex size-9 items-center justify-center rounded-full border-2 border-[var(--line)] bg-[var(--paper)] text-base text-[var(--ink)]",
+        className,
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function IconLink({
+  href,
+  children,
+  className,
+  ...props
+}: React.ComponentProps<typeof Link>) {
+  return (
+    <Link
+      href={href}
+      {...props}
+      className={cn(
+        "press flex size-9 items-center justify-center rounded-full border-2 border-[var(--line)] bg-[var(--paper)] text-base text-[var(--ink)]",
+        className,
+      )}
+    >
+      {children}
+    </Link>
   );
 }

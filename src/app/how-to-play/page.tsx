@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { TopBar } from "@/components/brutal";
+import { AppBar } from "@/components/app-bar";
 import { CrossPromo } from "@/components/cross-promo";
 import { GUIDES } from "@/content/guides";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function HowToPlayIndex() {
   return (
     <main className="mx-auto w-full max-w-2xl flex-1">
-      <TopBar back="/" title="How to play" />
+      <AppBar back="/" title="How to play" />
       <div className="space-y-6 px-4 pb-12">
         <p className="text-sm font-bold opacity-70">
           Every game, explained properly. Rules, tactics, variations, and the
@@ -25,7 +25,7 @@ export default function HowToPlayIndex() {
           {GUIDES.map((guide) => (
             <li key={guide.slug}>
               <Link href={`/how-to-play/${guide.slug}`} className="block">
-                <article className="brutal press bg-[var(--paper)]">
+                <article className="card-soft press overflow-hidden bg-[var(--paper)]">
                   <div
                     className="flex items-center gap-3 border-b-2 border-[var(--line)] p-4 text-[var(--on-accent)]"
                     style={{ background: `var(${guide.accentVar})` }}

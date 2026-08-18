@@ -1,21 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Archivo_Black } from "next/font/google";
+import localFont from "next/font/local";
 import { SITE } from "@/lib/site";
 import { PwaRegister } from "@/components/pwa-register";
 import "./globals.css";
 
-const body = Archivo({
+/**
+ * Cabinet Grotesk (Indian Type Foundry, Fontshare Free Font License) — one
+ * variable file covering body and display. Softer and rounder than Archivo
+ * Black, with a wide weight axis, so the heavy display cuts and the body text
+ * come from the same family.
+ */
+const cabinet = localFont({
+  src: "./fonts/CabinetGrotesk-Variable.woff2",
   variable: "--font-body",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-// Single weight, brutally heavy. The reveal screen is the product,
-// so the display face is the design.
-const display = Archivo_Black({
-  variable: "--font-display",
-  weight: "400",
-  subsets: ["latin"],
+  weight: "100 900",
   display: "swap",
 });
 
@@ -43,8 +41,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#eef0f4" },
-    { media: "(prefers-color-scheme: dark)", color: "#14161d" },
+    { media: "(prefers-color-scheme: light)", color: "#f6f4ef" },
+    { media: "(prefers-color-scheme: dark)", color: "#1c1a21" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -60,7 +58,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${body.variable} ${display.variable} h-full antialiased`}
+      className={`${cabinet.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         {children}

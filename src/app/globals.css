@@ -5,21 +5,19 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ---------------------------------------------------------------
-   Games Paglu — neo-brutalism on a dark arcade canvas.
+   Games Paglu — soft pastel retro.
 
-   Dark-first: the canvas is a deep ink-navy with a faint texture, so it
-   doesn't read as flat black, and the six category accents light up against
-   it. Borders are a mid-grey line and shadows are soft black — never the
-   inverted-white slabs that made dark mode painful.
+   Pastel accent per category, soft ink text, pill buttons, rounded cards and
+   gentle shadows. The structure is still bold (heavy display type, real
+   borders, full-bleed colour) but nothing shouts.
    --------------------------------------------------------------- */
 
 @theme inline {
   --color-background: var(--canvas);
   --color-foreground: var(--ink);
   --font-sans: var(--font-body);
-  --font-display: var(--font-display);
-  --font-heading: var(--font-display);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-body);
+  --font-heading: var(--font-body);
 
   --color-canvas: var(--canvas);
   --color-surface: var(--paper);
@@ -37,16 +35,16 @@
   --color-on-accent: var(--on-accent);
   --color-on-hot: var(--on-hot);
 
-  --shadow-brutal: 5px 5px 0 0 var(--shadow-color);
-  --shadow-brutal-sm: 3px 3px 0 0 var(--shadow-color);
-  --shadow-brutal-lg: 8px 8px 0 0 var(--shadow-color);
+  /* Soft, low-offset. Nothing casts a hard slab any more. */
+  --shadow-soft: 0 2px 10px rgb(31 27 24 / 0.07);
+  --shadow-lift: 0 4px 18px rgb(31 27 24 / 0.1);
 
   --color-card: var(--paper);
   --color-card-foreground: var(--ink);
   --color-popover: var(--paper);
   --color-popover-foreground: var(--ink);
   --color-primary: var(--ink);
-  --color-primary-foreground: var(--canvas);
+  --color-primary-foreground: var(--paper);
   --color-secondary: var(--paper);
   --color-secondary-foreground: var(--ink);
   --color-muted: var(--muted);
@@ -58,69 +56,67 @@
   --color-input: var(--line);
   --color-ring: var(--ring);
 
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
-  --radius-2xl: 0px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
+  --radius-2xl: 32px;
 }
 
-/* Default theme: dark arcade. */
 :root {
-  --canvas: #14161d;
-  --paper: #1e212a;
-  --ink: #f3f1ea;
-  --line: #3c4150;
-  --shadow-color: rgb(0 0 0 / 0.55);
+  --canvas: #f6f4ef;
+  --paper: #fffefb;
+  --ink: #241f1c;
+  --line: #241f1c;
 
-  --muted: #262a35;
-  --muted-foreground: #9aa0b0;
-  --ring: #6b7288;
-  --destructive: #ff6a52;
+  --muted: #ebe7df;
+  --muted-foreground: #6d655e;
+  --ring: #241f1c;
+  --destructive: #d9604c;
 
-  --hot: #ff3b1f;
+  /* Brand accent, softened from the old vermilion to a dusty coral. */
+  --hot: #ef9d89;
 
-  --cat-number: #ffd400;
-  --cat-place: #22d3d3;
-  --cat-movie: #ff2e88;
-  --cat-celebrity: #9b5cff;
-  --cat-animal: #9be600;
-  --cat-object: #ff8a00;
+  /* Pastels. Each category owns one, and it floods that screen. */
+  --cat-celebrity: #cbb8f9;
+  --cat-movie: #f9b5c8;
+  --cat-place: #a7ddd0;
+  --cat-animal: #c8e6a0;
+  --cat-object: #f7d9a0;
+  --cat-number: #a9cdf2;
 
-  /* Accents are fixed hues, so text on them is fixed too — otherwise a theme
-     swap gives you cream on yellow. */
-  --on-accent: #101218;
-  --on-hot: #fdfcf8;
+  /* Pastels are light in both themes, so text on them never inverts. */
+  --on-accent: #241f1c;
+  --on-hot: #241f1c;
 
-  /* Set per screen by the category layout. */
   --accent-flood: var(--hot);
+  --radius: 20px;
 }
 
-/* Light theme, for daylight and for the reading pages. Cooler than the old
-   cream, and the shadow becomes a hard ink slab, which is what brutalism
-   wants in light. */
-@media (prefers-color-scheme: light) {
+/* Dark stays soft: a warm near-black, not a contrast test. Pastels are
+   unchanged, so anything sitting on an accent keeps dark ink. */
+@media (prefers-color-scheme: dark) {
   :root {
-    --canvas: #eef0f4;
-    --paper: #fbfbfd;
-    --ink: #14161d;
-    --line: #14161d;
-    --shadow-color: rgb(20 22 29 / 0.9);
-    --muted: #e2e5ec;
-    --muted-foreground: #5a606e;
-    --ring: #14161d;
+    --canvas: #1c1a21;
+    --paper: #26232d;
+    --ink: #f4f1ea;
+    --line: #423d4c;
+    --muted: #2f2b38;
+    --muted-foreground: #a49dad;
+    --ring: #6f6880;
+    --destructive: #f08476;
   }
 }
 
-.light {
-  --canvas: #eef0f4;
-  --paper: #fbfbfd;
-  --ink: #14161d;
-  --line: #14161d;
-  --shadow-color: rgb(20 22 29 / 0.9);
-  --muted: #e2e5ec;
-  --muted-foreground: #5a606e;
-  --ring: #14161d;
+.dark {
+  --canvas: #1c1a21;
+  --paper: #26232d;
+  --ink: #f4f1ea;
+  --line: #423d4c;
+  --muted: #2f2b38;
+  --muted-foreground: #a49dad;
+  --ring: #6f6880;
+  --destructive: #f08476;
 }
 
 @layer base {
@@ -138,27 +134,17 @@
     color: var(--ink);
     overscroll-behavior-y: none;
   }
-  /* The texture: a faint fibre noise plus a barely-there grid, so the canvas
-     has grain without competing with six coloured tiles. Fixed and
-     pointer-transparent, painted under everything. */
+  /* Faint grain so flat pastel doesn't look like plastic. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.75;
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E"),
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 180px 180px, 48px 48px, 48px 48px;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.28'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
     mix-blend-mode: soft-light;
-  }
-  @media (prefers-color-scheme: light) {
-    body::before {
-      opacity: 0.22;
-    }
   }
   :focus-visible {
     outline: 2px solid var(--ring);
@@ -167,45 +153,52 @@
 }
 
 @layer components {
-  /* The physical click: shadow collapses, element travels into it. */
-  .brutal {
+  /* Cards: rounded, thin ink outline, soft shadow. */
+  .card-soft {
     border: 2px solid var(--line);
-    box-shadow: var(--shadow-brutal);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
   }
-  .brutal-sm {
+  .card-lift {
     border: 2px solid var(--line);
-    box-shadow: var(--shadow-brutal-sm);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lift);
+  }
+  /* Buttons are pills. Pressing dips them slightly instead of collapsing a slab. */
+  .pill {
+    border: 2px solid var(--line);
+    border-radius: 9999px;
+    box-shadow: var(--shadow-soft);
   }
   .press {
     transition:
-      transform 80ms cubic-bezier(0.2, 0, 0, 1),
-      box-shadow 80ms cubic-bezier(0.2, 0, 0, 1);
+      transform 110ms cubic-bezier(0.2, 0, 0, 1),
+      box-shadow 110ms cubic-bezier(0.2, 0, 0, 1);
   }
   .press:active:not(:disabled) {
-    transform: translate(3px, 3px);
-    box-shadow: 0 0 0 0 var(--shadow-color);
+    transform: translateY(2px) scale(0.985);
+    box-shadow: 0 1px 3px rgb(31 27 24 / 0.08);
   }
+  /* Heavy display cut. Sentence case now — uppercase everywhere read as shouting. */
   .display {
-    font-family: var(--font-display), ui-sans-serif, sans-serif;
-    letter-spacing: -0.03em;
-    line-height: 0.92;
-    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.94;
   }
-  /* Coloured tiles sit on the dark canvas, so they carry their own dark edge
-     rather than the grey line. */
-  .tile {
-    border: 2px solid var(--on-accent);
-    box-shadow: 5px 5px 0 0 var(--shadow-color);
+  .caps {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
   }
 }
 
 @keyframes punch {
   0% {
-    transform: scale(0.4);
+    transform: scale(0.5);
     opacity: 0;
   }
-  45% {
-    transform: scale(1.12);
+  50% {
+    transform: scale(1.08);
     opacity: 1;
   }
   100% {
@@ -214,24 +207,42 @@
   }
 }
 .animate-punch {
-  animation: punch 420ms cubic-bezier(0.15, 0.9, 0.1, 1) both;
+  animation: punch 440ms cubic-bezier(0.2, 0.85, 0.15, 1) both;
 }
 
-@keyframes slam {
+@keyframes rise {
   0% {
-    transform: scale(1.06) rotate(-0.6deg);
+    transform: translateY(10px) scale(0.99);
+    opacity: 0;
   }
   100% {
-    transform: scale(1) rotate(0deg);
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
 }
-.animate-slam {
-  animation: slam 140ms cubic-bezier(0.2, 0, 0, 1) both;
+.animate-rise {
+  animation: rise 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Swipeable rail — native scroll-snap, no carousel library. */
+.rail {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+.rail > * {
+  scroll-snap-align: center;
+  flex: 0 0 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-punch,
-  .animate-slam {
+  .animate-rise {
     animation: none;
   }
   .press:active:not(:disabled) {
