@@ -24,10 +24,12 @@ export default function Home() {
         </div>
         <Link
           href="/how-to-play"
-          aria-label="How to play"
-          className="press brutal-sm flex size-10 shrink-0 items-center justify-center bg-[var(--paper)] text-lg font-black"
+          className="press brutal-sm flex shrink-0 items-center gap-1.5 bg-[var(--paper)] px-3 py-2 text-xs font-bold uppercase tracking-wide"
         >
-          ?
+          <span aria-hidden className="text-base font-black leading-none">
+            ?
+          </span>
+          How to play
         </Link>
       </header>
 
@@ -71,14 +73,21 @@ export default function Home() {
         </div>
       </Link>
 
-      <nav className="mt-8 flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold uppercase tracking-wide opacity-55">
-        <Link href="/how-to-play" className="underline decoration-2">
-          How to play
-        </Link>
-        <Link href="/how-to-play/secret-hitler" className="underline decoration-2">
-          Rooms coming later
-        </Link>
-      </nav>
+      <Link href="/how-to-play/secret-hitler" className="mt-8 block">
+        <div className="flex items-center gap-3 border-2 border-dashed border-[var(--line)] p-4 opacity-65">
+          <span className="text-2xl grayscale" aria-hidden>
+            🕵️
+          </span>
+          <div>
+            <span className="display text-base leading-none">
+              Rooms — not built yet
+            </span>
+            <p className="mt-1 text-xs font-bold opacity-70">
+              Secret Hitler and imposter games, when they exist. Read the plan →
+            </p>
+          </div>
+        </div>
+      </Link>
 
       <CrossPromo />
 
