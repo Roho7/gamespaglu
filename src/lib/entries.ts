@@ -48,6 +48,30 @@ export const ENTRIES: Record<Exclude<CategoryId, "number">, Entry[]> = {
   celebrity: fromObjects(celebritiesRaw as RawObjectEntry[]),
 };
 
+/**
+ * Which chips a category can offer, derived from its own data rather than
+ * hardcoded. No movie is tagged "worldwide", so offering that chip on the movie
+ * picker produced an empty deck and a Generate button that silently did
+ * nothing. Deriving it means the picker stays honest as the lists grow.
+ */
+export function availableCountries(
+  category: Exclude<CategoryId, "number">,
+): CountryKey[] {
+  const seen = new Set<CountryKey>();
+  for (const e of ENTRIES[category]) for (const c of e.countries) seen.add(c);
+  return [...seen];
+}
+
+export function availableLanguages(
+  category: Exclude<CategoryId, "number">,
+): LanguageKey[] {
+  const seen = new Set<LanguageKey>();
+  for (const e of ENTRIES[category]) {
+    for (const l of e.languages ?? []) seen.add(l);
+  }
+  return [...seen];
+}
+
 export function poolSizes() {
   return Object.fromEntries(
     Object.entries(ENTRIES).map(([k, v]) => [k, v.length]),

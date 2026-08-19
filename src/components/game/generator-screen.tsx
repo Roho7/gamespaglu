@@ -8,6 +8,7 @@ import { MuteToggle } from "@/components/mute-toggle";
 import { SideDrawer } from "@/components/game/settings-drawer";
 import { RangePicker, RegionPicker } from "@/components/game/filters";
 import { CATEGORIES } from "@/lib/categories";
+import { availableCountries, availableLanguages } from "@/lib/entries";
 import { clampRange } from "@/lib/draw";
 import { useGenerator } from "@/lib/use-generator";
 import { useWakeLock } from "@/lib/use-wake-lock";
@@ -92,6 +93,12 @@ export function GeneratorScreen({
                     onLanguages={(languages) => g.savePrefs({ languages })}
                     poolSize={g.poolSize}
                     showLanguages={meta.hasLanguageFilter}
+                    availableCountries={availableCountries(
+                      category as Exclude<typeof category, "number">,
+                    )}
+                    availableLanguages={availableLanguages(
+                      category as Exclude<typeof category, "number">,
+                    )}
                   />
                 </div>
               ) : null}
@@ -164,11 +171,17 @@ export function GeneratorScreen({
         <p className="pb-1 text-center text-sm font-bold opacity-60">{g.sub}</p>
       ) : null}
 
-      <div className="flex justify-center px-4 pb-7">
+      <div className="flex flex-col items-center gap-2 px-4 pb-7">
+        {g.hydrated && g.poolSize === 0 ? (
+          <p className="text-center text-sm font-semibold opacity-70">
+            Nothing matches those filters. Open ⚙ and turn something back on.
+          </p>
+        ) : null}
         <BrutalButton
           variant="paper"
           size="lg"
           onClick={g.generate}
+          disabled={g.hydrated && g.poolSize === 0}
           className="w-full max-w-xs text-2xl"
         >
           Generate

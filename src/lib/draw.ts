@@ -1,5 +1,6 @@
 import { drawIndex } from "./shuffle-bag";
 import { ENTRIES } from "./entries";
+import { CATEGORIES } from "./categories";
 import { ALL_LANGUAGES } from "./countries";
 import type {
   CategoryId,
@@ -22,6 +23,12 @@ export function filterPool(
   filters: Filters,
 ): Entry[] {
   const all = ENTRIES[category];
+
+  // Animals and objects have no region picker, and every entry is tagged
+  // "worldwide". Applying the shared country filter to them matched nothing at
+  // all — the saved default is India+USA — so Generate silently did nothing.
+  // Categories without a region filter always use the whole deck.
+  if (!CATEGORIES[category].hasRegionFilter) return all;
   const countries = filters.countries?.length
     ? filters.countries
     : (["worldwide"] as CountryKey[]);
@@ -47,6 +54,9 @@ export function poolSignature(
   if (category === "number") {
     return `number:${filters.min ?? 1}-${filters.max ?? 100}`;
   }
+  // An unfiltered category is one deck, so its bag key must not move with
+  // filters set on other categories.
+  if (!CATEGORIES[category].hasRegionFilter) return `${category}:all`;
   const c = [...(filters.countries ?? [])].sort().join(",");
   const l = [...(filters.languages ?? [])].sort().join(",");
   return `${category}:${c}|${l}`;

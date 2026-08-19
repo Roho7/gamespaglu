@@ -11,6 +11,8 @@ export function RegionPicker({
   onLanguages,
   poolSize,
   showLanguages,
+  availableCountries,
+  availableLanguages,
 }: {
   countries: CountryKey[];
   languages: LanguageKey[];
@@ -18,6 +20,9 @@ export function RegionPicker({
   onLanguages: (v: LanguageKey[]) => void;
   poolSize: number;
   showLanguages: boolean;
+  /** Only chips backed by real entries are offered. */
+  availableCountries: CountryKey[];
+  availableLanguages: LanguageKey[];
 }) {
   const toggleCountry = (key: CountryKey) => {
     const on = countries.includes(key);
@@ -35,7 +40,7 @@ export function RegionPicker({
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap gap-2">
-        {COUNTRIES.map((c) => (
+        {COUNTRIES.filter((c) => availableCountries.includes(c.key)).map((c) => (
           <Chip
             key={c.key}
             active={countries.includes(c.key)}
@@ -53,7 +58,7 @@ export function RegionPicker({
             Indian languages
           </p>
           <div className="flex flex-wrap gap-2">
-            {LANGUAGES.map((l) => (
+            {LANGUAGES.filter((l) => availableLanguages.includes(l.key)).map((l) => (
               <Chip
                 key={l.key}
                 active={languages.includes(l.key)}

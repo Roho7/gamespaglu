@@ -43,25 +43,41 @@ Placing things side by side says "these belong together". Styling them identical
 peers". Don't make either claim accidentally. Put unrelated items in different regions, with real
 separation, and give them different weight.
 
-### 3. Never render a control that does nothing
+### 3. An empty deck is an invisible bug — check every category, not one
+
+Animals and objects shipped completely broken: every entry is tagged
+`worldwide`, the saved default filter is India+USA, so the pool filtered to zero
+and Generate silently did nothing. It looked perfect in a screenshot. I had only
+tested celebrity, movie and place.
+
+Two rules follow. **Exercise every category and every filter combination**, not a
+representative sample — `npm run check:decks` does this and must pass. And **an
+empty result must never be silent**: Generate is disabled with an explanation
+when the pool is zero, so the failure is visible instead of feeling broken.
+
+Offered filter chips are **derived from the data** (`availableCountries`,
+`availableLanguages`), never hardcoded — that is what stops a chip like
+"Worldwide" appearing on movies, where no entry carries it.
+
+### 4. Never render a control that does nothing
 
 The Indian-language chips originally appeared on the Place generator, where no entry carries a
 language. A control that has no effect is worse than no control: the user taps it, nothing happens,
 and they stop trusting the rest of the interface. Gate controls on a real capability flag
 (`hasLanguageFilter`, `hasRangeFilter`), never on a guess.
 
-### 4. Never show the same destination twice on one screen
+### 5. Never show the same destination twice on one screen
 
 Home had a "?" icon linking to `/how-to-play` in the header *and* a "How to play" text link at the
 bottom. Two doors to one room is clutter pretending to be helpfulness. One entry point, properly
 labelled — a bare icon is a weak affordance for anything important.
 
-### 5. Unbuilt features must look unbuilt
+### 6. Unbuilt features must look unbuilt
 
 Never let a planned feature borrow the styling of a working one. Dashed border, muted, and say the
 words ("not built yet"). A user who taps something that isn't there loses trust immediately.
 
-### 6. Play surfaces are not forms
+### 7. Play surfaces are not forms
 
 The play screen is a wall of one accent, a huge Generate at thumb height, and at most three small
 controls. Everything else — settings, rules, explanations, links — goes in a drawer (gear for
@@ -70,12 +86,12 @@ surface, it belongs in a drawer or in `/how-to-play`.
 
 Prose belongs in `src/content/guides.ts`, not on a play screen.
 
-### 7. The primary action must be reachable by a thumb without scrolling
+### 8. The primary action must be reachable by a thumb without scrolling
 
 Sticky it to the bottom if the content above can grow. A Generate button that falls below the fold
 once filters expand is a broken screen.
 
-### 8. Verify visually before claiming done
+### 9. Verify visually before claiming done
 
 Every UI change: run it, screenshot at **375×812**, in **both** colour schemes, and look at it. Four
 real defects in this repo — reveal text pinned to the top, words breaking mid-word, Generate below
