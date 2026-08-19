@@ -2,12 +2,14 @@ import { drawIndex } from "./shuffle-bag";
 import { ENTRIES } from "./entries";
 import { CATEGORIES } from "./categories";
 import { ALL_LANGUAGES } from "./countries";
+import { ALL_TYPES } from "./celeb-types";
 import type {
   CategoryId,
   CountryKey,
   Entry,
   Filters,
   LanguageKey,
+  TypeKey,
 } from "./types";
 
 /**
@@ -34,9 +36,22 @@ export function filterPool(
     : (["worldwide"] as CountryKey[]);
   const languages = filters.languages?.length ? filters.languages : ALL_LANGUAGES;
 
+  const types = filters.types?.length ? filters.types : ALL_TYPES;
+  const era = filters.era ?? "both";
+
   return all.filter((e) => {
     const countryHit = e.countries.some((c) => countries.includes(c));
     if (!countryHit) return false;
+
+    // Type chips only gate entries that carry a type.
+    if (e.types?.length) {
+      if (!e.types.some((t) => types.includes(t as TypeKey))) return false;
+    }
+    // "evergreen" belongs to both eras, which is what stops arguments about
+    // whether Batman or Sachin is classic or modern.
+    if (era !== "both" && e.era && e.era !== "evergreen" && e.era !== era) {
+      return false;
+    }
     // Language chips only gate entries that carry a language (film titles,
     // film actors). Cricketers and politicians are not language-specific.
     if (e.languages?.length) {
@@ -59,7 +74,8 @@ export function poolSignature(
   if (!CATEGORIES[category].hasRegionFilter) return `${category}:all`;
   const c = [...(filters.countries ?? [])].sort().join(",");
   const l = [...(filters.languages ?? [])].sort().join(",");
-  return `${category}:${c}|${l}`;
+  const t = [...(filters.types ?? [])].sort().join(",");
+  return `${category}:${c}|${l}|${t}|${filters.era ?? "both"}`;
 }
 
 export type DrawResult = {

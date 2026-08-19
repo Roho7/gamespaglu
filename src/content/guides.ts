@@ -86,6 +86,18 @@ export const GUIDES: Guide[] = [
         body: "In the settings drawer, switch on only Tamil, or only Malayalam. A Bollywood-only round and a Kollywood-only round are genuinely different games with different experts in the room.",
       },
       {
+        title: "Kids mode — cartoons only",
+        body: "In the settings drawer, tap Cartoon on its own. You get Doraemon, Shinchan, Chhota Bheem, Tom and Jerry, Mickey Mouse and the rest — nothing a seven-year-old won't know. Anime and Superhero are separate chips, so you can build a round for teenagers instead.",
+      },
+      {
+        title: "Internet round",
+        body: "Tap Internet for a deck of YouTubers and influencers — MrBeast, CarryMinati, Bhuvan Bam, PewDiePie. Ruthless on anyone over thirty, which is the point.",
+      },
+      {
+        title: "Classic vs modern",
+        body: "The era toggle is separate from who-counts, so Music + Classic gives you Kishore Kumar and Elvis, while Music + Modern gives you Arijit Singh and Drake. Names that never went away — Batman, Sachin, Mickey Mouse — answer to both.",
+      },
+      {
         title: "Team play",
         body: "Split into pairs. One partner holds the phone, the other may only answer yes or no. Fastest pair to five correct wins — track it on the Scoreboard.",
       },

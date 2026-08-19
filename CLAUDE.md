@@ -55,6 +55,20 @@ representative sample — `npm run check:decks` does this and must pass. And **a
 empty result must never be silent**: Generate is disabled with an explanation
 when the pool is zero, so the failure is visible instead of feeling broken.
 
+Filters have **two independent axes** for people: `types` (what kind of famous)
+and `era` (when). Don't collapse them — a "recent people" bucket would duplicate
+every domain. `era: "evergreen"` answers to both Classic and Modern, which is
+what stops arguments about whether Batman or Sachin is which.
+
+**Chips are derived from the *other* active filters, not just the data.** There
+are no classic internet personalities, so the Internet chip must vanish under
+Era: Classic — and a selection stranded by an era change is pruned in
+`savePrefs`, never left to empty the deck.
+
+For people and characters, `countries` means **"where this name is a household
+name"**, not country of origin: Doraemon is tagged `in` + `jp` because every
+Indian kid knows him. Movies still use origin.
+
 Offered filter chips are **derived from the data** (`availableCountries`,
 `availableLanguages`), never hardcoded — that is what stops a chip like
 "Worldwide" appearing on movies, where no entry carries it.

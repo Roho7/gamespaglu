@@ -4,6 +4,7 @@ import { Emblem } from "@/components/mb/emblems";
 import { Label } from "@/components/mb/label";
 import { Marquee } from "@/components/mb/marquee";
 import { Chip, IconButton, Panel } from "@/components/mb/ui";
+import { CelebFilterDemo } from "@/components/game/celeb-filter-demo";
 import { RotateHint } from "@/components/mb/rotate-hint";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -105,6 +106,12 @@ export default function StylePage() {
               <Input placeholder="Add player or team" />
             </div>
           </div>
+        </Row>
+
+        <Row title="Celebrity filters — type chips and era">
+          <Panel>
+            <CelebFilterDemo />
+          </Panel>
         </Row>
 
         <Row title="Panels and frames">

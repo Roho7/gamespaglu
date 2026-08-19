@@ -3,13 +3,23 @@ import objectsRaw from "@/data/objects.json";
 import placesRaw from "@/data/places.json";
 import moviesRaw from "@/data/movies.json";
 import celebritiesRaw from "@/data/celebrities.json";
-import type { CategoryId, CountryKey, Entry, LanguageKey } from "./types";
+import type {
+  CategoryId,
+  CountryKey,
+  Entry,
+  Era,
+  EraFilter,
+  LanguageKey,
+  TypeKey,
+} from "./types";
 
 type RawObjectEntry = {
   label: string;
   countries: string[];
   languages?: string[];
   year?: number;
+  types?: string[];
+  era?: string;
   tags?: string[];
 };
 
@@ -36,6 +46,8 @@ function fromObjects(rows: RawObjectEntry[]): Entry[] {
     countries: r.countries as CountryKey[],
     languages: r.languages as LanguageKey[] | undefined,
     year: r.year,
+    types: r.types as TypeKey[] | undefined,
+    era: r.era as Era | undefined,
     tags: r.tags,
   }));
 }
@@ -68,6 +80,41 @@ export function availableLanguages(
   const seen = new Set<LanguageKey>();
   for (const e of ENTRIES[category]) {
     for (const l of e.languages ?? []) seen.add(l);
+  }
+  return [...seen];
+}
+
+/**
+ * Which type chips are worth offering *given the other active filters*.
+ *
+ * There are no classic internet personalities — internet fame is inherently
+ * modern — so under Era: Classic the Internet chip must not appear at all.
+ * Offering it produced an empty deck and a Generate button that did nothing.
+ */
+export function availableTypes(
+  category: Exclude<CategoryId, "number">,
+  filters?: { countries?: CountryKey[]; languages?: LanguageKey[]; era?: EraFilter },
+): TypeKey[] {
+  const countries = filters?.countries;
+  const languages = filters?.languages;
+  const era = filters?.era ?? "both";
+
+  const seen = new Set<TypeKey>();
+  for (const entry of ENTRIES[category]) {
+    if (countries?.length && !entry.countries.some((c) => countries.includes(c))) {
+      continue;
+    }
+    if (
+      languages?.length &&
+      entry.languages?.length &&
+      !entry.languages.some((l) => languages.includes(l))
+    ) {
+      continue;
+    }
+    if (era !== "both" && entry.era && entry.era !== "evergreen" && entry.era !== era) {
+      continue;
+    }
+    for (const t of entry.types ?? []) seen.add(t);
   }
   return [...seen];
 }

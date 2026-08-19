@@ -3,10 +3,18 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useHydrated, usePersisted } from "./use-persisted";
 import { clampRange, drawEntry, drawNumber, filterPool } from "./draw";
+import { availableTypes } from "./entries";
 import { ALL_LANGUAGES, DEFAULT_COUNTRIES } from "./countries";
+import { ALL_TYPES } from "./celeb-types";
 import { primeAudio, revealHit, tick } from "./feedback";
 import { type Colourway, randomColourway } from "./colourways";
-import type { CategoryId, CountryKey, LanguageKey } from "./types";
+import type {
+  CategoryId,
+  CountryKey,
+  EraFilter,
+  LanguageKey,
+  TypeKey,
+} from "./types";
 
 export type Phase = "idle" | "countdown" | "reveal";
 
@@ -15,6 +23,8 @@ const COUNTDOWN_FROM = 3;
 type Prefs = {
   countries: CountryKey[];
   languages: LanguageKey[];
+  types: TypeKey[];
+  era: EraFilter;
   min: number;
   max: number;
 };
@@ -22,6 +32,10 @@ type Prefs = {
 const DEFAULT_PREFS: Prefs = {
   countries: [...DEFAULT_COUNTRIES],
   languages: [...ALL_LANGUAGES],
+  // Everything on by default: a mixed deck makes "am I a real person?" the
+  // best opening question in the game.
+  types: [...ALL_TYPES],
+  era: "both",
   min: 1,
   max: 100,
 };
@@ -51,8 +65,27 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const savePrefs = useCallback(
-    (next: Partial<Prefs>) => setStored({ ...prefs, ...next }),
-    [prefs, setStored],
+    (next: Partial<Prefs>) => {
+      const merged = { ...prefs, ...next };
+
+      // Changing era or country can strand a type selection with nothing behind
+      // it — Internet has no classic entries, for instance. Prune rather than
+      // let the deck empty out.
+      if (category !== "number") {
+        const offered = availableTypes(category, {
+          countries: merged.countries,
+          languages: merged.languages,
+          era: merged.era,
+        });
+        if (offered.length > 0) {
+          const kept = merged.types.filter((t) => offered.includes(t));
+          merged.types = kept.length > 0 ? kept : offered;
+        }
+      }
+
+      setStored(merged);
+    },
+    [category, prefs, setStored],
   );
 
   const clearTimers = useCallback(() => {
@@ -70,6 +103,8 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
     return filterPool(category, {
       countries: prefs.countries,
       languages: prefs.languages,
+      types: prefs.types,
+      era: prefs.era,
     }).length;
   }, [category, prefs]);
 
@@ -81,6 +116,8 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
     return drawEntry(category, {
       countries: prefs.countries,
       languages: prefs.languages,
+      types: prefs.types,
+      era: prefs.era,
     });
   }, [category, prefs]);
 

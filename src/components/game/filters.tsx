@@ -3,7 +3,8 @@
 import { Chip } from "@/components/mb/ui";
 import { Input } from "@/components/ui/input";
 import { COUNTRIES, LANGUAGES } from "@/lib/countries";
-import type { CountryKey, LanguageKey } from "@/lib/types";
+import { CELEB_TYPES, ERAS } from "@/lib/celeb-types";
+import type { CountryKey, EraFilter, LanguageKey, TypeKey } from "@/lib/types";
 
 export function RegionPicker({
   countries,
@@ -137,6 +138,81 @@ export function RangePicker({
           </label>
         </div>
       ) : null}
+    </div>
+  );
+}
+
+/**
+ * What kind of famous.
+ *
+ * Uses the standard filter-bar pattern: an "All" chip plus the nine types.
+ * Tapping a type while All is active selects that type *alone*, so a
+ * cartoons-only round for the kids is one tap rather than eight deselections.
+ * Tapping again inside a subset toggles normally.
+ */
+export function TypePicker({
+  types,
+  onTypes,
+  available,
+}: {
+  types: TypeKey[];
+  onTypes: (v: TypeKey[]) => void;
+  available: TypeKey[];
+}) {
+  const offered = CELEB_TYPES.filter((t) => available.includes(t.key));
+  const allSelected = offered.every((t) => types.includes(t.key));
+
+  const tap = (key: TypeKey) => {
+    if (allSelected) {
+      onTypes([key]);
+      return;
+    }
+    const on = types.includes(key);
+    // Never allow zero selected — an empty pool is a dead end, not a state.
+    if (on && types.length === 1) return;
+    onTypes(on ? types.filter((t) => t !== key) : [...types, key]);
+  };
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Chip
+        active={allSelected}
+        onClick={() => onTypes(offered.map((t) => t.key))}
+      >
+        All
+      </Chip>
+      {offered.map((t) => (
+        <Chip
+          key={t.key}
+          active={!allSelected && types.includes(t.key)}
+          onClick={() => tap(t.key)}
+        >
+          {t.label}
+        </Chip>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * When they were famous. Separate from type on purpose: Drake is Music +
+ * Modern, not a "recent people" bucket duplicated across every domain.
+ * Entries marked evergreen answer to both.
+ */
+export function EraPicker({
+  era,
+  onEra,
+}: {
+  era: EraFilter;
+  onEra: (v: EraFilter) => void;
+}) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {ERAS.map((e) => (
+        <Chip key={e.key} active={era === e.key} onClick={() => onEra(e.key)}>
+          {e.label}
+        </Chip>
+      ))}
     </div>
   );
 }

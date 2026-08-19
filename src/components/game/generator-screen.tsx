@@ -5,7 +5,12 @@ import { AppBar } from "@/components/app-bar";
 import { FitText } from "@/components/fit-text";
 import { MuteToggle } from "@/components/mute-toggle";
 import { SideDrawer } from "@/components/game/settings-drawer";
-import { RangePicker, RegionPicker } from "@/components/game/filters";
+import {
+  EraPicker,
+  RangePicker,
+  RegionPicker,
+  TypePicker,
+} from "@/components/game/filters";
 import { Emblem } from "@/components/mb/emblems";
 import { Marquee } from "@/components/mb/marquee";
 import { RotateHint } from "@/components/mb/rotate-hint";
@@ -13,7 +18,11 @@ import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/lib/categories";
 import { colourwayById, colourwayVars } from "@/lib/colourways";
 import { clampRange } from "@/lib/draw";
-import { availableCountries, availableLanguages } from "@/lib/entries";
+import {
+  availableCountries,
+  availableLanguages,
+  availableTypes,
+} from "@/lib/entries";
 import { useGenerator } from "@/lib/use-generator";
 import { useWakeLock } from "@/lib/use-wake-lock";
 import type { CategoryId } from "@/lib/types";
@@ -98,6 +107,33 @@ export function GeneratorScreen({
                 </SideDrawer>
 
                 <SideDrawer label="Settings" icon="⚙" title="Settings">
+                  {g.hydrated && meta.hasTypeFilter ? (
+                    <div className="space-y-3">
+                      <p className="mb-caps text-[0.6rem] opacity-60">
+                        Who counts
+                      </p>
+                      <TypePicker
+                        types={g.prefs.types}
+                        onTypes={(types) => g.savePrefs({ types })}
+                        available={availableTypes(cat, {
+                          countries: g.prefs.countries,
+                          languages: g.prefs.languages,
+                          era: g.prefs.era,
+                        })}
+                      />
+                    </div>
+                  ) : null}
+
+                  {g.hydrated && meta.hasTypeFilter ? (
+                    <div className="space-y-3">
+                      <p className="mb-caps text-[0.6rem] opacity-60">Era</p>
+                      <EraPicker
+                        era={g.prefs.era}
+                        onEra={(era) => g.savePrefs({ era })}
+                      />
+                    </div>
+                  ) : null}
+
                   {g.hydrated && meta.hasRegionFilter ? (
                     <div className="space-y-3">
                       <p className="mb-caps text-[0.6rem] opacity-60">
