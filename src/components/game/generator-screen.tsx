@@ -42,11 +42,12 @@ export function GeneratorScreen({
   // countdown onward so it never sleeps mid-round.
   useWakeLock(isGame && g.phase !== "idle");
 
-  const accent = `var(${meta.accentVar})`;
+  // Category colour until the first draw; a fresh pastel on every draw after.
+  const accent = g.accent ?? `var(${meta.accentVar})`;
 
   return (
     <main
-      className="flex min-h-dvh flex-col text-[var(--on-accent)]"
+      className="flex min-h-dvh flex-col text-[var(--on-accent)] transition-colors duration-300 motion-reduce:transition-none"
       style={{ ["--accent-flood" as string]: accent, background: accent }}
     >
       <AppBar

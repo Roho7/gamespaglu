@@ -79,7 +79,7 @@ export function FitText({
   return (
     <div
       ref={boxRef}
-      className="absolute inset-0 flex items-center justify-center overflow-hidden"
+      className="absolute inset-y-0 right-5 left-5 flex items-center justify-center overflow-hidden"
       style={{ visibility: "hidden" }}
     >
       <span

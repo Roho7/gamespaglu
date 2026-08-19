@@ -117,6 +117,12 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
   tracking. **Sentence case, not uppercase** — uppercase everywhere read as shouting. Use `.caps`
   only for tiny labels.
 - **One accent per screen.** The swipe rail is the exception: each card carries its own.
+- **Every draw recolours the screen** with a fresh procedural pastel
+  (`src/lib/palette.ts`). Fixed per-category colour meant six people in a circle
+  all held up the same lavender. Hues are forced apart between consecutive
+  draws, and lightness is pinned high so dark ink on top always clears
+  contrast without a per-colour check. Category colour still owns the picker and
+  the idle screen — that is where wayfinding matters.
 - Light is the default canvas; dark follows the OS and stays soft. No in-app toggle, on purpose.
 
 ## Layout rules
@@ -138,6 +144,9 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
   filter signature. Pure random visibly repeats and users read that as a bug.
 - The reveal (`src/components/fit-text.tsx`) breaks **only at spaces**. Splitting a word across
   lines is unreadable across a room, which is the one thing that screen exists to do.
+- **`absolute inset-0` resolves against the padding box**, so a parent's padding
+  does not constrain it — the reveal ran edge-to-edge until the insets were made
+  explicit. Inset with real values when the text must not touch the screen edge.
 - **Measure text with a `Range`, never `scrollWidth`.** A block element's `scrollWidth` is clamped
   to its own width, so overflowing text reports as fitting — "Salaar" rendered at 140px and ran off
   the screen. `range.getBoundingClientRect()` reports the true painted extent.
