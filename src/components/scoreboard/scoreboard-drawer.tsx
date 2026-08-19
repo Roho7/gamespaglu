@@ -22,7 +22,7 @@ export function ScoreboardDrawer() {
     <Drawer open={open} onOpenChange={setOpen} swipeDirection="down">
       <DrawerTrigger
         aria-label="Open scorecard"
-        className="mb-btn mb-btn-secondary px-3.5 py-1.5 text-xs"
+        className="mb-btn mb-btn-secondary mb-no-dots px-3.5 py-1.5 text-xs"
       >
         <span aria-hidden>🏆</span>
         Score

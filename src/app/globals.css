@@ -247,6 +247,11 @@
     --btn-ink: inherit;
   }
 
+  /* Opt out of the dotted inner rule — too busy on small pill controls. */
+  .mb-no-dots::after {
+    display: none;
+  }
+
   /* Small round control, same recipe minus the dots (too dense at this size). */
   .mb-icon-btn {
     display: inline-flex;
