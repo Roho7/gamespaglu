@@ -1,7 +1,10 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { BrutalButton, Chip, Panel } from "@/components/brutal";
+import { Chip, Panel } from "@/components/mb/ui";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { colourwayById, colourwayVars } from "@/lib/colourways";
 import { blip } from "@/lib/feedback";
 import { useHydrated, usePersisted } from "@/lib/use-persisted";
 
@@ -88,7 +91,7 @@ export function Scoreboard() {
     <div className="space-y-4">
       <Panel className="space-y-3">
         <div className="flex gap-2">
-          <input
+          <Input
             value={name}
             onChange={(e) => setName(e.target.value)}
             onKeyDown={(e) => {
@@ -96,16 +99,15 @@ export function Scoreboard() {
             }}
             placeholder="Add player or team"
             aria-label="Add player or team"
-            className="min-w-0 flex-1 rounded-full border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-2.5 text-base font-semibold placeholder:opacity-45"
           />
-          <BrutalButton onClick={addPlayer} disabled={!name.trim()}>
+          <Button onClick={addPlayer} disabled={!name.trim()} className="shrink-0">
             Add
-          </BrutalButton>
+          </Button>
         </div>
 
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="caps text-[0.65rem] opacity-55">Step</span>
+            <span className="mb-caps text-[0.6rem] opacity-60">Step</span>
             {STEPS.map((s) => (
               <Chip
                 key={s}
@@ -116,20 +118,20 @@ export function Scoreboard() {
               </Chip>
             ))}
           </div>
-          <BrutalButton
+          <Button
             size="sm"
-            variant="paper"
+            variant="secondary"
             onClick={undo}
             disabled={history.length === 0}
           >
             ↩ Undo
-          </BrutalButton>
+          </Button>
         </div>
       </Panel>
 
       {players.length === 0 ? (
         <Panel className="py-10 text-center">
-          <p className="display text-2xl">Nobody&apos;s winning yet</p>
+          <p className="mb-display-sm text-2xl">Nobody&apos;s winning yet</p>
           <p className="mt-2 text-sm font-bold opacity-60">
             Add players or teams above. Works for cards, carrom, antakshari —
             anything.
@@ -142,17 +144,20 @@ export function Scoreboard() {
             return (
               <li
                 key={p.id}
-                className={`card-soft flex items-stretch overflow-hidden ${
+                style={
+                  leading ? colourwayVars(colourwayById("mustard")) : undefined
+                }
+                className={`flex items-stretch overflow-hidden rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current ${
                   leading
-                    ? "bg-[var(--cat-number)] text-[var(--on-accent)]"
-                    : "bg-[var(--paper)]"
+                    ? "bg-[var(--field)] text-[var(--ink-on-field)]"
+                    : "bg-[var(--ground-soft)]"
                 }`}
               >
                 <button
                   type="button"
                   aria-label={`Subtract ${step} from ${p.name}`}
                   onClick={() => bump(p.id, -step)}
-                  className="press display w-14 shrink-0 border-r-2 border-[var(--line)] text-2xl"
+                  className="w-14 shrink-0 border-r-[var(--rule-thin)] border-current text-2xl font-extrabold active:translate-y-[1px]"
                 >
                   −
                 </button>
@@ -176,7 +181,7 @@ export function Scoreboard() {
                         setExact(p.id, Number(e.target.value) || 0)
                       }
                       aria-label={`${p.name} score`}
-                      className="display w-24 bg-transparent text-2xl outline-none"
+                      className="w-24 bg-transparent text-2xl font-extrabold outline-none"
                     />
                     <button
                       type="button"
@@ -193,7 +198,7 @@ export function Scoreboard() {
                   type="button"
                   aria-label={`Add ${step} to ${p.name}`}
                   onClick={() => bump(p.id, step)}
-                  className="press display w-14 shrink-0 border-l-2 border-[var(--line)] text-2xl"
+                  className="w-14 shrink-0 border-l-[var(--rule-thin)] border-current text-2xl font-extrabold active:translate-y-[1px]"
                 >
                   +
                 </button>
@@ -205,33 +210,33 @@ export function Scoreboard() {
 
       {players.length > 0 ? (
         <div className="flex gap-2">
-          <BrutalButton
-            variant="paper"
+          <Button
+            variant="secondary"
             className="flex-1"
             onClick={() => setConfirm("reset")}
           >
             Reset scores
-          </BrutalButton>
-          <BrutalButton
-            variant="paper"
+          </Button>
+          <Button
+            variant="secondary"
             className="flex-1"
             onClick={() => setConfirm("new")}
           >
             New game
-          </BrutalButton>
+          </Button>
         </div>
       ) : null}
 
       {/* A mis-tap here loses a whole night of scores, so both confirm. */}
       {confirm ? (
         <Panel className="space-y-3" >
-          <p className="display text-lg">
+          <p className="mb-display-sm text-lg">
             {confirm === "reset"
               ? "Reset every score to zero? Names stay."
               : "Clear everything — names and scores?"}
           </p>
           <div className="flex gap-2">
-            <BrutalButton
+            <Button
               className="flex-1"
               onClick={() => {
                 if (confirm === "reset") {
@@ -243,14 +248,14 @@ export function Scoreboard() {
               }}
             >
               Yes, do it
-            </BrutalButton>
-            <BrutalButton
-              variant="paper"
+            </Button>
+            <Button
+              variant="secondary"
               className="flex-1"
               onClick={() => setConfirm(null)}
             >
               Cancel
-            </BrutalButton>
+            </Button>
           </div>
         </Panel>
       ) : null}

@@ -15,7 +15,7 @@ export type Guide = {
   /** Card + meta description. */
   summary: string;
   emoji: string;
-  accentVar: string;
+  colourway: string;
   players: string;
   time: string;
   needs: string;
@@ -37,7 +37,7 @@ export const GUIDES: Guide[] = [
     summary:
       "The phone-on-forehead guessing game. Everyone can see your name except you. Rules, question tactics and six ways to play it.",
     emoji: "🙈",
-    accentVar: "--cat-celebrity",
+    colourway: "pillar",
     players: "3 or more",
     time: "As long as the room lasts",
     needs: "One phone per player",
@@ -116,7 +116,7 @@ export const GUIDES: Guide[] = [
     summary:
       "A score tracker for any game played in person — cards, carrom, board games, antakshari. Players or teams, tap to score, undo mistakes.",
     emoji: "🏆",
-    accentVar: "--cat-number",
+    colourway: "mustard",
     players: "2 or more",
     time: "One session",
     needs: "One phone, passed around or left on the table",
@@ -161,7 +161,7 @@ export const GUIDES: Guide[] = [
     summary:
       "What's coming next: rooms you join with a code, for hidden-role games like Secret Hitler, Spyfall and Werewolf.",
     emoji: "🕵️",
-    accentVar: "--cat-place",
+    colourway: "indigo",
     players: "5 or more",
     time: "30–60 minutes",
     needs: "A phone each",

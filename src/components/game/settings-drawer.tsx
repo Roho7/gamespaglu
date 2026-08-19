@@ -35,23 +35,23 @@ export function SideDrawer({
       <DrawerTrigger
         aria-label={label}
         className={cn(
-          "press flex size-9 items-center justify-center rounded-full border-2 border-[var(--line)] bg-[var(--paper)] text-base text-[var(--ink)]",
+          "mb-icon-btn",
           className,
         )}
       >
         {icon}
       </DrawerTrigger>
       <DrawerContent
-        className="ml-auto h-full w-[min(22rem,88vw)] border-l-2 border-[var(--line)] bg-[var(--paper)] text-[var(--ink)]"
+        className="ml-auto h-full w-[min(22rem,88vw)] rounded-l-[var(--radius-2xl)] border-[var(--rule)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)]"
         style={{ ["--drawer-content-width" as string]: "min(22rem, 88vw)" }}
       >
-        <div className="flex items-center justify-between gap-3 border-b-2 border-[var(--line)] px-4 py-3">
-          <DrawerTitle className="display text-xl text-[var(--ink)]">
+        <div className="flex items-center justify-between gap-3 border-b-[var(--rule-thin)] border-current px-4 py-3">
+          <DrawerTitle className="mb-display-sm text-xl text-[var(--ground-ink)]">
             {title}
           </DrawerTitle>
           <DrawerClose
             aria-label="Close"
-            className="press flex size-9 items-center justify-center rounded-full border-2 border-[var(--line)] bg-[var(--paper)] text-sm font-bold text-[var(--ink)]"
+            className="mb-icon-btn"
           >
             ✕
           </DrawerClose>

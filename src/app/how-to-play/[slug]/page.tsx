@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AppBar } from "@/components/app-bar";
-import { BrutalButton } from "@/components/brutal";
+import { colourwayById, colourwayVars } from "@/lib/colourways";
 import { CrossPromo } from "@/components/cross-promo";
 import { CATEGORIES } from "@/lib/categories";
 import { GUIDES, getGuide } from "@/content/guides";
@@ -37,7 +37,7 @@ export default async function GuidePage({
   const guide = getGuide(slug);
   if (!guide) notFound();
 
-  const accent = `var(${guide.accentVar})`;
+  const cw = colourwayById(guide.colourway);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -62,22 +62,16 @@ export default async function GuidePage({
   };
 
   return (
-    <main
-      className="mx-auto w-full max-w-2xl flex-1"
-      style={{ ["--accent-flood" as string]: accent }}
-    >
+    <main className="mx-auto w-full max-w-2xl flex-1" style={colourwayVars(cw)}>
       <AppBar back="/how-to-play" title="How to play" />
 
       <article className="space-y-8 px-4 pb-12">
-        <header
-          className="card-lift p-5 text-[var(--on-accent)]"
-          style={{ background: accent }}
-        >
+        <header className="mb-frame mb-tilt rounded-[var(--radius-lg)] p-5">
           <span className="text-4xl" aria-hidden>
             {guide.emoji}
           </span>
-          <h1 className="display mt-2 text-3xl leading-none">{guide.title}</h1>
-          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-xs font-bold uppercase tracking-wide opacity-70">
+          <h1 className="mb-display mt-2 text-3xl">{guide.title}</h1>
+          <div className="mb-caps mt-4 flex flex-wrap gap-x-5 gap-y-1 text-[0.6rem] opacity-80">
             <span>{guide.players} players</span>
             <span>{guide.time}</span>
             <span>{guide.needs}</span>
@@ -85,7 +79,7 @@ export default async function GuidePage({
         </header>
 
         {guide.alsoCalled?.length ? (
-          <p className="text-xs font-bold uppercase tracking-wide opacity-55">
+          <p className="mb-caps text-[0.6rem] opacity-60">
             Also called: {guide.alsoCalled.join(" · ")}
           </p>
         ) : null}
@@ -97,28 +91,26 @@ export default async function GuidePage({
         </div>
 
         {guide.playRoute ? (
-          <Link href={guide.playRoute} className="block">
-            <BrutalButton variant="accent" size="lg" className="w-full text-xl">
-              Play it now →
-            </BrutalButton>
+          <Link
+            href={guide.playRoute}
+            className="mb-btn mb-btn-primary w-full text-xl"
+          >
+            Play it now →
           </Link>
         ) : null}
 
         <section className="space-y-5">
-          <h2 className="display text-2xl">
+          <h2 className="mb-display-sm text-2xl">
             {guide.status === "planned" ? "The plan" : "The rules"}
           </h2>
           <ol className="space-y-4">
             {guide.steps.map((s, i) => (
-              <li key={s.title} className="card-soft bg-[var(--paper)] p-4">
+              <li key={s.title} className="rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4">
                 <div className="flex items-baseline gap-3">
-                  <span
-                    className="display shrink-0 px-2 text-lg text-[var(--on-accent)]"
-                    style={{ background: accent }}
-                  >
+                  <span className="mb-frame shrink-0 rounded-full px-3 py-0.5 text-lg font-extrabold">
                     {i + 1}
                   </span>
-                  <h3 className="display text-lg leading-tight">{s.title}</h3>
+                  <h3 className="mb-display-sm text-lg">{s.title}</h3>
                 </div>
                 <p className="mt-2 text-sm leading-relaxed opacity-80">
                   {s.body}
@@ -130,11 +122,11 @@ export default async function GuidePage({
 
         {guide.variations?.length ? (
           <section className="space-y-5">
-            <h2 className="display text-2xl">Ways to play it</h2>
+            <h2 className="mb-display-sm text-2xl">Ways to play it</h2>
             <ul className="space-y-4">
               {guide.variations.map((v) => (
-                <li key={v.title} className="border-l-4 border-[var(--line)] pl-4">
-                  <h3 className="display text-lg">{v.title}</h3>
+                <li key={v.title} className="border-l-[var(--rule)] border-current pl-4">
+                  <h3 className="mb-display-sm text-lg">{v.title}</h3>
                   <p className="mt-1 text-sm leading-relaxed opacity-80">
                     {v.body}
                   </p>
@@ -146,7 +138,7 @@ export default async function GuidePage({
 
         {guide.categories?.length ? (
           <section className="space-y-3">
-            <h2 className="display text-2xl">Pick a category</h2>
+            <h2 className="mb-display-sm text-2xl">Pick a category</h2>
             <ul className="grid grid-cols-2 gap-2">
               {guide.categories.map((id) => {
                 const c = CATEGORIES[id];
@@ -154,8 +146,8 @@ export default async function GuidePage({
                   <li key={id}>
                     <Link
                       href={`/who-am-i/${id}`}
-                      className="press card-soft flex items-center gap-2 p-3 text-sm font-bold text-[var(--on-accent)]"
-                      style={{ background: `var(${c.accentVar})` }}
+                      className="mb-frame flex items-center gap-2 rounded-[var(--radius-md)] p-3 text-sm font-bold"
+                      style={colourwayVars(colourwayById(c.colourway))}
                     >
                       <span aria-hidden>{c.emoji}</span>
                       {c.label}
@@ -169,11 +161,11 @@ export default async function GuidePage({
 
         {guide.faq?.length ? (
           <section className="space-y-4">
-            <h2 className="display text-2xl">Questions people ask</h2>
+            <h2 className="mb-display-sm text-2xl">Questions people ask</h2>
             <dl className="space-y-4">
               {guide.faq.map((f) => (
-                <div key={f.q} className="card-soft bg-[var(--paper)] p-4">
-                  <dt className="display text-base">{f.q}</dt>
+                <div key={f.q} className="rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4">
+                  <dt className="mb-display-sm text-base">{f.q}</dt>
                   <dd className="mt-2 text-sm leading-relaxed opacity-80">
                     {f.a}
                   </dd>

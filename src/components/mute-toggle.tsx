@@ -16,7 +16,7 @@ export function MuteToggle() {
         setMutedPref(!muted);
         if (muted) blip();
       }}
-      className="press flex items-center gap-2 rounded-full border-2 border-[var(--line)] bg-[var(--paper)] px-3 py-1.5 text-xs font-bold text-[var(--ink)]"
+      className="mb-btn mb-btn-secondary px-4 py-1.5 text-xs"
     >
       <span aria-hidden>{muted ? "\u{1F507}" : "\u{1F50A}"}</span>
       {muted ? "Muted" : "Sound on"}

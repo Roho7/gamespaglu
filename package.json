@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "check:decks": "node scripts/check-decks.mjs"
+    "check:decks": "node scripts/check-decks.mjs",
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check": "npm run check:decks && npm run check:tokens && npm run check:contrast"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AppBar } from "@/components/app-bar";
+import { colourwayById, colourwayVars } from "@/lib/colourways";
 import { CrossPromo } from "@/components/cross-promo";
 import { GUIDES } from "@/content/guides";
 
@@ -25,27 +26,25 @@ export default function HowToPlayIndex() {
           {GUIDES.map((guide) => (
             <li key={guide.slug}>
               <Link href={`/how-to-play/${guide.slug}`} className="block">
-                <article className="card-soft press overflow-hidden bg-[var(--paper)]">
+                <article className="overflow-hidden rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)]">
                   <div
-                    className="flex items-center gap-3 border-b-2 border-[var(--line)] p-4 text-[var(--on-accent)]"
-                    style={{ background: `var(${guide.accentVar})` }}
+                    className="mb-frame flex items-center gap-3 rounded-none border-x-0 border-t-0 p-4"
+                    style={colourwayVars(colourwayById(guide.colourway))}
                   >
                     <span className="text-3xl" aria-hidden>
                       {guide.emoji}
                     </span>
-                    <h2 className="display text-xl leading-tight">
-                      {guide.title}
-                    </h2>
+                    <h2 className="mb-display-sm text-xl">{guide.title}</h2>
                   </div>
                   <div className="space-y-3 p-4">
                     <p className="text-sm font-medium opacity-80">
                       {guide.summary}
                     </p>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs font-bold uppercase tracking-wide opacity-55">
+                    <div className="mb-caps flex flex-wrap gap-x-4 gap-y-1 text-[0.6rem] opacity-60">
                       <span>{guide.players} players</span>
                       <span>{guide.needs}</span>
                       {guide.status === "planned" ? (
-                        <span className="text-[var(--hot)]">Coming later</span>
+                        <span>Coming later</span>
                       ) : null}
                     </div>
                   </div>

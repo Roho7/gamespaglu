@@ -99,31 +99,73 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
 
 ---
 
-## Theme rules — soft pastel retro
+## The design system — Indian matchbox
 
-- **Pastels only.** The six category accents are soft tints, not saturated colour. Nothing on the
-  site is a pure saturated hue, including the brand accent (`--hot`, a dusty coral).
-- **Text on an accent uses `--on-accent`.** Pastels stay light in both themes, so text on them is
-  always dark ink and never follows the theme.
-- **Never derive a border or shadow colour from the text colour.** That made every dark-mode shadow
-  a glowing near-white slab. `--line` and the shadow tokens are independent.
-- **Shadows are soft and blurred**, never hard offset slabs. Buttons dip on press; they don't
-  collapse a shadow.
-- **Buttons are pills** (`.pill`), and deliberately smallish — `size="lg"` is the biggest, and even
-  the main Generate is capped at `max-w-xs`. Cards use `.card-soft` / `.card-lift` with 20–26px
-  radius. Nothing has square corners.
-- **Type is Cabinet Grotesk** (Indian Type Foundry, Fontshare FFL, bundled at
-  `src/app/fonts/`, licence alongside it). One variable file; `.display` is weight 800 with tight
-  tracking. **Sentence case, not uppercase** — uppercase everywhere read as shouting. Use `.caps`
-  only for tiny labels.
-- **One accent per screen.** The swipe rail is the exception: each card carries its own.
-- **Every draw recolours the screen** with a fresh procedural pastel
-  (`src/lib/palette.ts`). Fixed per-category colour meant six people in a circle
-  all held up the same lavender. Hues are forced apart between consecutive
-  draws, and lightness is pinned high so dark ink on top always clears
-  contrast without a per-colour check. Category colour still owns the picker and
-  the idle screen — that is where wayfinding matters.
-- Light is the default canvas; dark follows the OS and stays soft. No in-app toggle, on purpose.
+The whole visual system is four colourway tokens plus a handful of recipes in
+`@layer components`. Get this right and everything stays consistent for free.
+
+### Colour
+
+- **A colourway is the unit, not a colour.** `src/lib/colourways.ts` holds ~10
+  approved sets of `{field, frame, ink, highlight, shadow}`. A real label is 3–4
+  spot inks that work together, so nothing picks hues independently.
+- **Components must never name a colour.** No hex, no `bg-red-500`. Everything
+  comes from `--field`, `--frame`, `--ink-on-field`, `--highlight`, or the page
+  tokens `--ground`, `--ground-soft`, `--ground-ink`, `--band`.
+  `npm run check:tokens` fails the build otherwise.
+- **That guard also catches undefined tokens**, because a `var(--gone)` renders
+  as *nothing* — that is how the scorecard sheet shipped fully transparent and
+  unreadable after a palette rename.
+- **`npm run check:contrast` proves every colourway is readable** at its
+  declared roles: ink ≥4.5:1 on field, highlight and frame ≥3:1, and the shadow
+  ≥3:1 against the ink. Two colourways failed on the first run; that's the point.
+- **Highlight ink is for large bold type only** — small-caps captions and hero
+  display. Never body copy.
+- **There is no dark mode.** A printed label doesn't have one, and the
+  colourways are the theme. Don't reintroduce it.
+
+### Depth and texture
+
+- **The hard offset shadow goes on hero display type sitting on a field.** Never
+  on kraft body text (it reads as mud) and never on small text (it reads as
+  doubled).
+- **The shadow ink is per-colourway (`--shadow-text`).** On the one dark-ink
+  colourway a dark shadow vanishes and the glyph looks embossed, so that
+  colourway carries a light shadow instead.
+- Grain overlay, hard shadows and a ~0.4° tilt are the whole print treatment.
+  No aged paper, no worn edges.
+
+### Recipes — use these, don't reinvent them
+
+| Recipe | What it is |
+|---|---|
+| `.mb-frame` | outer rule + field + dotted inner rule |
+| `.mb-label` / `.mb-label-bleed` | a full label; the bleed variant is the play screen and shows no ground at the edges |
+| `.mb-band` | the black band that holds the primary action |
+| `.mb-btn` + `.mb-btn-{primary,secondary,tertiary}` | one button structure; **hierarchy is palette only**, so it still reads in greyscale |
+| `.mb-icon-btn` | round control; no dots, they're too dense at that size |
+| `.mb-display` / `.mb-display-sm` / `.mb-shadow` / `.mb-caps` | type |
+| `.rail` | scroll-snap swipe rail |
+
+- **One marquee per screen**, behind the hero only, filled from `currentColor`
+  (`src/components/mb/marquee.tsx`). It's a stamp, not wallpaper.
+- **Emblems, not emoji, on a field.** Emoji are glossy modern artwork that
+  always read as pasted onto flat spot ink, and they can't take a colourway.
+- **Drawers must be opaque `--ground`.** A translucent sheet over a saturated
+  label is unreadable.
+- **Page grounds are scoped classes** (`.ground-navy` on the home screen,
+  default kraft elsewhere). Anything that sits on a ground — secondary buttons,
+  panels, drawers — must take its ink from `--ground-ink`, never from a
+  colourway. The colourway red was invisible once the home ground went navy.
+- **Never set button tokens (`--btn-*`) inline on a container.** Inline values
+  beat the `.mb-btn-*` recipes and silently break a button's palette.
+
+### Enforcement
+
+`/style` renders every component, state and colourway on one page. **A new
+component does not exist until it appears there** — one screenshot of that route
+verifies the whole system, which is the only reason the rest of the site stays
+consistent.
 
 ## Layout rules
 

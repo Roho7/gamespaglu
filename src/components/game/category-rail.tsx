@@ -2,13 +2,17 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Emblem } from "@/components/mb/emblems";
+import { Marquee } from "@/components/mb/marquee";
+import { Label } from "@/components/mb/label";
 import { CATEGORY_LIST } from "@/lib/categories";
+import { colourwayById } from "@/lib/colourways";
 import { blip } from "@/lib/feedback";
 
 /**
- * The hero is a swipeable rail of the six things you can be — one full-bleed
- * pastel card per category, native scroll-snap, no carousel library. Swiping is
- * the browse; the pill is the commit.
+ * The hero is a swipeable rail of matchbox labels, one per category. Each keeps
+ * its own colourway here — this is the picker, and colour is the wayfinding.
+ * Native scroll-snap, no carousel library.
  */
 export function CategoryRail() {
   const railRef = useRef<HTMLDivElement | null>(null);
@@ -40,41 +44,40 @@ export function CategoryRail() {
 
   return (
     <section aria-label="Pick a category">
-      <div
-        ref={railRef}
-        className="rail -mx-4 gap-3 px-4"
-        style={{ scrollPaddingInline: "1rem" }}
-      >
-        {CATEGORY_LIST.map((c) => (
-          <article
+      <div ref={railRef} className="rail gap-3">
+        {CATEGORY_LIST.map((c, i) => (
+          <div
             key={c.id}
-            className="card-lift relative flex min-h-[26rem] flex-col justify-between overflow-hidden p-5 text-[var(--on-accent)]"
-            style={{ background: `var(${c.accentVar})`, flexBasis: "calc(100% - 0.75rem)" }}
+            className="h-[26rem]"
+            style={{ flexBasis: "92%" }}
           >
-            <p className="caps text-[0.65rem] opacity-60">
-              Who am I? · {index + 1} of {CATEGORY_LIST.length}
-            </p>
-
-            <div
-              className="pointer-events-none absolute -top-4 -right-8 rotate-12 text-[9rem] leading-none opacity-30 select-none"
-              aria-hidden
+            <Label
+              colourway={c.colourway}
+              tilt={i % 2 === 0 ? "left" : "right"}
+              className="h-full"
+              band={
+                <Link
+                  href={`/who-am-i/${c.id}`}
+                  className="mb-btn mb-btn-primary w-full max-w-xs text-lg"
+                >
+                  Play {c.label.toLowerCase()}
+                </Link>
+              }
             >
-              {c.emoji}
-            </div>
+              <div className="relative flex h-full flex-col items-center justify-between px-4 py-4 text-center">
+                <p className="mb-caps relative z-10 text-[0.6rem]">
+                  Guess my {c.noun}
+                </p>
 
-            <div className="relative">
-              <h2 className="display text-6xl">{c.label}</h2>
-              <p className="mt-3 max-w-[15rem] text-sm font-medium opacity-75">
-                {c.blurb}
-              </p>
-            </div>
+                <div className="relative flex flex-1 items-center justify-center">
+                  <Marquee className="absolute size-[13rem] text-[var(--highlight)]" />
+                  <Emblem category={c.id} className="relative size-32" />
+                </div>
 
-            <Link href={`/who-am-i/${c.id}`} className="relative">
-              <span className="press pill flex items-center justify-center gap-2 bg-[var(--paper)] px-6 py-3 text-lg font-extrabold text-[var(--ink)]">
-                Play {c.label.toLowerCase()} →
-              </span>
-            </Link>
-          </article>
+                <h2 className="mb-display relative z-10 text-4xl">{c.label}</h2>
+              </div>
+            </Label>
+          </div>
         ))}
       </div>
 
@@ -86,16 +89,17 @@ export function CategoryRail() {
             aria-label={`Go to ${c.label}`}
             aria-current={i === index}
             onClick={() => goTo(i)}
-            className="press h-2.5 rounded-full border-2 border-[var(--line)] transition-all"
+            className="h-2.5 rounded-full border-[var(--rule-thin)] border-current transition-all"
             style={{
               width: i === index ? "1.75rem" : "0.625rem",
               background:
-                i === index ? `var(${c.accentVar})` : "var(--paper)",
+                i === index
+                  ? colourwayById(c.colourway).field
+                  : "var(--ground-soft)",
             }}
           />
         ))}
       </div>
-
     </section>
   );
 }

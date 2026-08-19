@@ -1,17 +1,17 @@
 import { SITE } from "@/lib/site";
 
-/** One strip, in voice, never over a game screen. */
+/** One strip, in voice, never over a play surface. */
 export function CrossPromo() {
   return (
     <a
       href={SITE.sibling.url}
       target="_blank"
       rel="noreferrer"
-      className="press card-soft mt-10 block bg-[var(--hot)] p-4 text-[var(--on-hot)]"
+      className="mb-frame mt-10 block rounded-[var(--radius-lg)] p-4"
       data-analytics="cross-promo-officepaglu"
     >
-      <p className="display text-xl">Office Paglu</p>
-      <p className="mt-1 text-xs font-bold">
+      <p className="mb-display-sm text-xl">Office Paglu</p>
+      <p className="mt-1 text-xs font-semibold">
         {SITE.sibling.pitch} Wear the joke to the party you just won. →
       </p>
     </a>

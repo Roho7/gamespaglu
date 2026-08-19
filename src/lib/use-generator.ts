@@ -5,7 +5,7 @@ import { useHydrated, usePersisted } from "./use-persisted";
 import { clampRange, drawEntry, drawNumber, filterPool } from "./draw";
 import { ALL_LANGUAGES, DEFAULT_COUNTRIES } from "./countries";
 import { primeAudio, revealHit, tick } from "./feedback";
-import { randomPastel } from "./palette";
+import { type Colourway, randomColourway } from "./colourways";
 import type { CategoryId, CountryKey, LanguageKey } from "./types";
 
 export type Phase = "idle" | "countdown" | "reveal";
@@ -45,9 +45,9 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
   const [label, setLabel] = useState<string | null>(null);
   const [sub, setSub] = useState<string | undefined>();
   // Null until the first draw, so the idle screen still wears the category's
-  // own colour and the picker's wayfinding survives.
-  const [accent, setAccent] = useState<string | null>(null);
-  const lastHue = useRef<number | undefined>(undefined);
+  // own colourway and the picker's wayfinding survives.
+  const [colourway, setColourway] = useState<Colourway | null>(null);
+  const lastColourwayId = useRef<string | undefined>(undefined);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const savePrefs = useCallback(
@@ -92,10 +92,10 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
     if (!result) return;
 
     // Recolour at the start of the round, so the countdown already carries the
-    // new colour and the reveal lands on it.
-    const pastel = randomPastel(lastHue.current);
-    lastHue.current = pastel.hue;
-    setAccent(pastel.css);
+    // new inks and the reveal lands on them.
+    const next = randomColourway(lastColourwayId.current);
+    lastColourwayId.current = next.id;
+    setColourway(next);
 
     if (!useCountdown) {
       setLabel(result.label);
@@ -133,7 +133,7 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
     setPhase("idle");
     setLabel(null);
     setSub(undefined);
-    setAccent(null);
+    setColourway(null);
   }, [clearTimers]);
 
   return {
@@ -144,7 +144,7 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
     count,
     label,
     sub,
-    accent,
+    colourway,
     poolSize,
     generate,
     reset,

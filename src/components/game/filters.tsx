@@ -1,6 +1,7 @@
 "use client";
 
-import { Chip } from "@/components/brutal";
+import { Chip } from "@/components/mb/ui";
+import { Input } from "@/components/ui/input";
 import { COUNTRIES, LANGUAGES } from "@/lib/countries";
 import type { CountryKey, LanguageKey } from "@/lib/types";
 
@@ -54,7 +55,7 @@ export function RegionPicker({
 
       {showLanguages && countries.includes("in") ? (
         <div className="space-y-2">
-          <p className="caps text-[0.65rem] opacity-55">
+          <p className="mb-caps text-[0.6rem] opacity-60">
             Indian languages
           </p>
           <div className="flex flex-wrap gap-2">
@@ -71,7 +72,7 @@ export function RegionPicker({
         </div>
       ) : null}
 
-      <p className="caps text-[0.65rem] opacity-55">
+      <p className="mb-caps text-[0.6rem] opacity-60">
         {poolSize} in the deck
       </p>
     </div>
@@ -117,23 +118,21 @@ export function RangePicker({
         <div className="flex items-center gap-2">
           <label className="flex-1">
             <span className="sr-only">Minimum</span>
-            <input
+            <Input
               type="number"
               inputMode="numeric"
               value={min}
               onChange={(e) => onChange(Number(e.target.value), max)}
-              className="w-full rounded-full border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-2 text-base font-semibold"
             />
           </label>
-          <span className="display text-xl">→</span>
+          <span className="font-extrabold">→</span>
           <label className="flex-1">
             <span className="sr-only">Maximum</span>
-            <input
+            <Input
               type="number"
               inputMode="numeric"
               value={max}
               onChange={(e) => onChange(min, Number(e.target.value))}
-              className="w-full rounded-full border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-2 text-base font-semibold"
             />
           </label>
         </div>

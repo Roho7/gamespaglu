@@ -7,8 +7,8 @@ export type CategoryMeta = {
   /** Used in copy: "Guess your {noun}". */
   noun: string;
   emoji: string;
-  /** CSS var name for the accent that floods this category's reveal. */
-  accentVar: string;
+  /** Colourway id owning this category's picker card and idle screen. */
+  colourway: string;
   /** Standalone SEO route. */
   seoSlug: string;
   seoTitle: string;
@@ -27,7 +27,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Celebrity",
     noun: "celebrity",
     emoji: "🕶️",
-    accentVar: "--cat-celebrity",
+    colourway: "pillar",
     seoSlug: "random-celebrity-generator",
     seoTitle: "Random Celebrity Generator",
     seoDescription:
@@ -43,7 +43,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Movie",
     noun: "movie",
     emoji: "🎬",
-    accentVar: "--cat-movie",
+    colourway: "indigo",
     seoSlug: "random-movie-generator",
     seoTitle: "Random Movie Generator",
     seoDescription:
@@ -59,7 +59,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Place",
     noun: "place",
     emoji: "🗺️",
-    accentVar: "--cat-place",
+    colourway: "bottle",
     seoSlug: "random-place-generator",
     seoTitle: "Random Place Generator",
     seoDescription:
@@ -75,7 +75,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Animal",
     noun: "animal",
     emoji: "🐘",
-    accentVar: "--cat-animal",
+    colourway: "mustard",
     seoSlug: "random-animal-generator",
     seoTitle: "Random Animal Generator",
     seoDescription:
@@ -91,7 +91,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Object",
     noun: "object",
     emoji: "🪑",
-    accentVar: "--cat-object",
+    colourway: "teal",
     seoSlug: "random-object-generator",
     seoTitle: "Random Object Generator",
     seoDescription:
@@ -107,7 +107,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Number",
     noun: "number",
     emoji: "🔢",
-    accentVar: "--cat-number",
+    colourway: "aubergine",
     seoSlug: "random-number-generator",
     seoTitle: "Random Number Generator",
     seoDescription:

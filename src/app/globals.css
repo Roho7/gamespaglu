@@ -2,197 +2,325 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/* ===============================================================
+   Games Paglu — Indian matchbox label system.
 
-/* ---------------------------------------------------------------
-   Games Paglu — soft pastel retro.
+   Everything is built from four colourway tokens plus a small set of
+   recipes. Components must never name a colour: no hex, no bg-red-500.
+   `npm run check:tokens` fails the build if they do, and /style renders
+   every component in every colourway so drift is visible in one screenshot.
 
-   Pastel accent per category, soft ink text, pill buttons, rounded cards and
-   gentle shadows. The structure is still bold (heavy display type, real
-   borders, full-bleed colour) but nothing shouts.
-   --------------------------------------------------------------- */
+   There is deliberately no dark mode. A printed label doesn't have one,
+   and the colourways ARE the theme.
+   =============================================================== */
 
 @theme inline {
-  --color-background: var(--canvas);
-  --color-foreground: var(--ink);
+  --color-background: var(--ground);
+  --color-foreground: var(--ground-ink);
   --font-sans: var(--font-body);
   --font-display: var(--font-body);
   --font-heading: var(--font-body);
 
-  --color-canvas: var(--canvas);
-  --color-surface: var(--paper);
-  --color-ink: var(--ink);
-  --color-line: var(--line);
-  --color-paper: var(--paper);
-  --color-hot: var(--hot);
-  --color-cat-number: var(--cat-number);
-  --color-cat-place: var(--cat-place);
-  --color-cat-movie: var(--cat-movie);
-  --color-cat-celebrity: var(--cat-celebrity);
-  --color-cat-animal: var(--cat-animal);
-  --color-cat-object: var(--cat-object);
-  --color-accent-flood: var(--accent-flood);
-  --color-on-accent: var(--on-accent);
-  --color-on-hot: var(--on-hot);
+  /* Colourway roles — set per scope, never global. */
+  --color-field: var(--field);
+  --color-frame: var(--frame);
+  --color-ink-on-field: var(--ink-on-field);
+  --color-highlight: var(--highlight);
 
-  /* Soft, low-offset. Nothing casts a hard slab any more. */
-  --shadow-soft: 0 2px 10px rgb(31 27 24 / 0.07);
-  --shadow-lift: 0 4px 18px rgb(31 27 24 / 0.1);
+  /* Page furniture. */
+  --color-ground: var(--ground);
+  --color-ground-ink: var(--ground-ink);
+  --color-ground-soft: var(--ground-soft);
+  --color-band: var(--band);
+  --color-band-ink: var(--band-ink);
+  --color-shadow-ink: var(--shadow-ink);
+  --color-scrim: var(--scrim);
 
-  --color-card: var(--paper);
-  --color-card-foreground: var(--ink);
-  --color-popover: var(--paper);
-  --color-popover-foreground: var(--ink);
-  --color-primary: var(--ink);
-  --color-primary-foreground: var(--paper);
-  --color-secondary: var(--paper);
-  --color-secondary-foreground: var(--ink);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent-flood);
-  --color-accent-foreground: var(--on-accent);
-  --color-destructive: var(--destructive);
-  --color-border: var(--line);
-  --color-input: var(--line);
-  --color-ring: var(--ring);
+  --color-card: var(--ground-soft);
+  --color-card-foreground: var(--ground-ink);
+  --color-popover: var(--ground-soft);
+  --color-popover-foreground: var(--ground-ink);
+  --color-primary: var(--field);
+  --color-primary-foreground: var(--ink-on-field);
+  --color-secondary: var(--ground-soft);
+  --color-secondary-foreground: var(--ground-ink);
+  --color-muted: var(--ground-soft);
+  --color-muted-foreground: var(--ground-muted);
+  --color-accent: var(--highlight);
+  --color-accent-foreground: var(--shadow-ink);
+  --color-destructive: var(--field);
+  --color-border: var(--ground-ink);
+  --color-input: var(--ground-ink);
+  --color-ring: var(--ground-ink);
 
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 26px;
-  --radius-2xl: 32px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 26px;
 }
 
 :root {
-  --canvas: #f6f4ef;
-  --paper: #fffefb;
-  --ink: #241f1c;
-  --line: #241f1c;
+  /* Kraft board: the box the label is pasted onto. */
+  --ground: #d9c49b;
+  --ground-soft: #e8d8b6;
+  --ground-ink: #2a1c0e;
+  --ground-muted: #6b5636;
 
-  --muted: #ebe7df;
-  --muted-foreground: #6d655e;
-  --ring: #241f1c;
-  --destructive: #d9604c;
+  --band: #17110c;
+  --band-ink: #fff8e7;
+  --shadow-ink: #17110c;
 
-  /* Brand accent, softened from the old vermilion to a dusty coral. */
-  --hot: #ef9d89;
+  /* Default colourway, overridden per scope. */
+  --field: #c6202a;
+  --frame: #f5c518;
+  --ink-on-field: #fff8e7;
+  --highlight: #f5c518;
 
-  /* Pastels. Each category owns one, and it floods that screen. */
-  --cat-celebrity: #cbb8f9;
-  --cat-movie: #f9b5c8;
-  --cat-place: #a7ddd0;
-  --cat-animal: #c8e6a0;
-  --cat-object: #f7d9a0;
-  --cat-number: #a9cdf2;
+  --radius: 16px;
 
-  /* Pastels are light in both themes, so text on them never inverts. */
-  --on-accent: #241f1c;
-  --on-hot: #241f1c;
+  /* Recipe constants, so every instance matches. */
+  /* Overlay behind drawers and dialogs. */
+  --scrim: rgb(23 17 12 / 0.6);
 
-  --accent-flood: var(--hot);
-  --radius: 20px;
+  --rule: 3px;
+  --rule-thin: 2px;
+  --dot-inset: 7px;
+  --shadow-offset: 4px;
 }
 
-/* Dark stays soft: a warm near-black, not a contrast test. Pastels are
-   unchanged, so anything sitting on an accent keeps dark ink. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --canvas: #1c1a21;
-    --paper: #26232d;
-    --ink: #f4f1ea;
-    --line: #423d4c;
-    --muted: #2f2b38;
-    --muted-foreground: #a49dad;
-    --ring: #6f6880;
-    --destructive: #f08476;
-  }
-}
-
-.dark {
-  --canvas: #1c1a21;
-  --paper: #26232d;
-  --ink: #f4f1ea;
-  --line: #423d4c;
-  --muted: #2f2b38;
-  --muted-foreground: #a49dad;
-  --ring: #6f6880;
-  --destructive: #f08476;
+/* Page grounds. The default is kraft board; the home screen is dark navy.
+   Scoped as a class so drawers and bars opened over it stay consistent. */
+.ground-navy {
+  --ground: #0f1a2e;
+  --ground-soft: #1a2742;
+  --ground-ink: #f4efe3;
+  --ground-muted: #9aa7bd;
+  --scrim: rgb(6 10 18 / 0.7);
 }
 
 @layer base {
   * {
-    border-color: var(--line);
+    border-color: currentColor;
   }
   html {
     font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
     -webkit-tap-highlight-color: transparent;
-    background-color: var(--canvas);
+    background-color: var(--ground);
   }
   body {
     position: relative;
-    background-color: var(--canvas);
-    color: var(--ink);
+    background-color: var(--ground);
+    color: var(--ground-ink);
     overscroll-behavior-y: none;
   }
-  /* Faint grain so flat pastel doesn't look like plastic. */
+  /* Ink on pulp. Sits above flat fills, under content. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: 0;
     pointer-events: none;
-    opacity: 0.35;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.28'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
     background-size: 160px 160px;
-    mix-blend-mode: soft-light;
+    mix-blend-mode: multiply;
   }
   :focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 3px;
+    outline: var(--rule) solid var(--shadow-ink);
+    outline-offset: 2px;
   }
 }
 
 @layer components {
-  /* Cards: rounded, thin ink outline, soft shadow. */
-  .card-soft {
-    border: 2px solid var(--line);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-soft);
-  }
-  .card-lift {
-    border: 2px solid var(--line);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-lift);
-  }
-  /* Buttons are pills. Pressing dips them slightly instead of collapsing a slab. */
-  .pill {
-    border: 2px solid var(--line);
-    border-radius: 9999px;
-    box-shadow: var(--shadow-soft);
-  }
-  .press {
-    transition:
-      transform 110ms cubic-bezier(0.2, 0, 0, 1),
-      box-shadow 110ms cubic-bezier(0.2, 0, 0, 1);
-  }
-  .press:active:not(:disabled) {
-    transform: translateY(2px) scale(0.985);
-    box-shadow: 0 1px 3px rgb(31 27 24 / 0.08);
-  }
-  /* Heavy display cut. Sentence case now — uppercase everywhere read as shouting. */
-  .display {
+  /* ---- Text ------------------------------------------------- */
+
+  /* The single most matchbox move: heavy type, hard offset shadow. */
+  .mb-display {
     font-weight: 800;
-    letter-spacing: -0.035em;
-    line-height: 0.94;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+    text-shadow: var(--shadow-offset) var(--shadow-offset) 0
+      var(--shadow-text, var(--shadow-ink));
   }
-  .caps {
+  /* No shadow: this is for headings on kraft. Add .mb-shadow when it sits on
+     a field. */
+  .mb-display-sm {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .mb-shadow {
+    text-shadow: 2px 2px 0 var(--shadow-text, var(--shadow-ink));
+  }
+  /* Tracked-out caption, as on every real label. Highlight ink is allowed
+     here only because it is small-caps bold; never for body copy. */
+  .mb-caps {
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.16em;
     font-weight: 700;
+  }
+
+  /* ---- The frame recipe ------------------------------------- */
+
+  /* Outer rule in the frame ink, plus a dotted inner rule inset from it.
+     The dotted line is a pseudo-element so it follows any radius cleanly
+     instead of being distorted by a second border. */
+  .mb-frame {
+    position: relative;
+    border: var(--rule) solid var(--frame);
+    background-color: var(--field);
+    color: var(--ink-on-field);
+  }
+  .mb-frame::after {
+    content: "";
+    position: absolute;
+    inset: var(--dot-inset);
+    border: var(--rule-thin) dashed var(--frame);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  /* ---- Buttons ---------------------------------------------- */
+
+  /* One structure for every button — outer rule, field, dotted inner.
+     Hierarchy is carried entirely by palette, so it survives greyscale. */
+  .mb-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    border: var(--rule) solid var(--btn-rule);
+    background-color: var(--btn-field);
+    color: var(--btn-ink);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    padding: 0.7rem 1.5rem;
+    transition:
+      transform 90ms cubic-bezier(0.2, 0, 0, 1),
+      filter 90ms cubic-bezier(0.2, 0, 0, 1);
+    user-select: none;
+  }
+  .mb-btn::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: var(--rule-thin) dashed var(--btn-dots);
+    border-radius: 9999px;
+    pointer-events: none;
+  }
+  .mb-btn:active:not(:disabled) {
+    transform: translateY(2px) scale(0.99);
+  }
+  .mb-btn:disabled {
+    filter: saturate(0.35) brightness(0.95);
+    opacity: 0.7;
+  }
+  .mb-btn:disabled::after {
+    border-style: solid;
+    opacity: 0.4;
+  }
+
+  /* Loudest: the field itself. */
+  .mb-btn-primary {
+    --btn-field: var(--field);
+    --btn-rule: var(--frame);
+    --btn-dots: var(--frame);
+    --btn-ink: var(--ink-on-field);
+  }
+  /* Same structure, far less ink, so it recedes. Uses the PAGE ink rather
+     than the colourway field: the colourway red was unreadable once the home
+     ground went navy. */
+  .mb-btn-secondary {
+    --btn-field: var(--ground-soft);
+    --btn-rule: var(--ground-ink);
+    --btn-dots: var(--ground-ink);
+    --btn-ink: var(--ground-ink);
+  }
+  /* Quietest: no field at all. */
+  .mb-btn-tertiary {
+    --btn-field: transparent;
+    --btn-rule: currentColor;
+    --btn-dots: currentColor;
+    --btn-ink: inherit;
+  }
+
+  /* Small round control, same recipe minus the dots (too dense at this size). */
+  .mb-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 9999px;
+    border: var(--rule-thin) solid currentColor;
+    background-color: transparent;
+    color: inherit;
+    font-weight: 800;
+    transition: transform 90ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  .mb-icon-btn:active {
+    transform: translateY(2px) scale(0.98);
+  }
+
+  /* ---- The label ------------------------------------------- */
+
+  /* A whole matchbox label: outer frame, field, and a black band at the
+     bottom for the primary action. */
+  .mb-label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: var(--rule) solid var(--frame);
+    background-color: var(--field);
+    color: var(--ink-on-field);
+    box-shadow: 0 6px 0 0 var(--shadow-ink);
+  }
+  .mb-label-field {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 6px;
+    border: var(--rule-thin) solid var(--frame);
+    border-radius: calc(var(--radius-lg) - 6px);
+  }
+  .mb-band {
+    background-color: var(--band);
+    color: var(--band-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Full-bleed variant for the play screen: the label IS the viewport, so no
+     outer rule, no radius, no ground showing at the edges. The inset rule
+     alone carries the matchbox double-line. */
+  .mb-label-bleed {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .mb-label-bleed > .mb-label-field {
+    margin: 8px;
+    border-radius: 4px;
+  }
+
+  /* Placed by hand, not laid out by a machine. */
+  .mb-tilt {
+    transform: rotate(-0.4deg);
+  }
+  .mb-tilt-alt {
+    transform: rotate(0.5deg);
   }
 }
 
-@keyframes punch {
+/* ---- Motion ------------------------------------------------- */
+
+@keyframes mb-punch {
   0% {
     transform: scale(0.5);
     opacity: 0;
@@ -207,26 +335,46 @@
   }
 }
 .animate-punch {
-  animation: punch 440ms cubic-bezier(0.2, 0.85, 0.15, 1) both;
+  animation: mb-punch 420ms cubic-bezier(0.2, 0.85, 0.15, 1) both;
 }
 
-@keyframes rise {
-  0% {
-    transform: translateY(10px) scale(0.99);
-    opacity: 0;
+/* One slow quarter-turn as the word lands. */
+@keyframes mb-stamp-spin {
+  from {
+    transform: rotate(-22deg) scale(0.94);
   }
+  to {
+    transform: rotate(0deg) scale(1);
+  }
+}
+.animate-stamp {
+  animation: mb-stamp-spin 620ms cubic-bezier(0.15, 0.9, 0.1, 1) both;
+}
+
+/* Rotate-your-phone nudge. */
+@keyframes mb-rotate-hint {
+  0%,
+  22% {
+    transform: rotate(0deg);
+  }
+  45%,
+  70% {
+    transform: rotate(-90deg);
+  }
+  92%,
   100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
+    transform: rotate(0deg);
   }
 }
-.animate-rise {
-  animation: rise 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+.animate-rotate-hint {
+  animation: mb-rotate-hint 2.4s ease-in-out infinite;
 }
 
-/* Swipeable rail — native scroll-snap, no carousel library. */
 .rail {
   display: flex;
+  /* overflow-x: auto also clips vertically, which cropped the cards' bottom
+     shadow — so the rail carries the room for it. */
+  padding-bottom: 10px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -242,10 +390,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .animate-punch,
-  .animate-rise {
+  .animate-stamp,
+  .animate-rotate-hint {
     animation: none;
   }
-  .press:active:not(:disabled) {
+  .mb-btn:active:not(:disabled),
+  .mb-icon-btn:active {
     transform: none;
   }
 }

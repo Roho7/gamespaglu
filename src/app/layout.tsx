@@ -40,10 +40,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f6f4ef" },
-    { media: "(prefers-color-scheme: dark)", color: "#1c1a21" },
-  ],
+  themeColor: "#d9c49b", // check-tokens-ignore: browser chrome needs a literal
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,

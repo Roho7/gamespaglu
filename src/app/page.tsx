@@ -1,17 +1,16 @@
-import Link from "next/link";
 import { AppBar } from "@/components/app-bar";
 import { CategoryRail } from "@/components/game/category-rail";
 import { CrossPromo } from "@/components/cross-promo";
-import { IconLink } from "@/components/brutal";
+import { IconLink } from "@/components/mb/ui";
 import { SITE } from "@/lib/site";
 
 export default function Home() {
   return (
-    <>
+    // Navy ground: the labels are meant to sit on something dark, like a
+    // matchbox on a shop counter at night.
+    <div className="ground-navy flex min-h-dvh flex-col bg-[var(--ground)] text-[var(--ground-ink)]">
       <AppBar
-        title={
-          <span className="display text-xl leading-none">Games Paglu</span>
-        }
+        title={<span className="mb-display-sm text-xl">Games Paglu</span>}
         extra={
           <IconLink href="/how-to-play" aria-label="How to play">
             ?
@@ -19,34 +18,16 @@ export default function Home() {
         }
       />
       <main className="mx-auto w-full max-w-2xl flex-1 px-4 pb-10">
-        <p className="caps mb-4 text-[0.65rem] opacity-50">
-          Party games · no setup · works offline
+        <h1 className="mb-display-sm text-3xl">Random generators</h1>
+        <p className="mt-1.5 mb-5 text-sm font-semibold opacity-65">
+          For Who Am I? or Heads Up.
         </p>
-
-        <h1 className="display mb-4 text-2xl">
-          Phone on your forehead.{" "}
-          <span className="opacity-45">Everyone sees it but you.</span>
-        </h1>
 
         <CategoryRail />
 
-        <Link href="/how-to-play/secret-hitler" className="mt-10 block">
-          <div className="flex items-center gap-3 rounded-[20px] border-2 border-dashed border-[var(--line)] p-4 opacity-60">
-            <span className="text-2xl grayscale" aria-hidden>
-              🕵️
-            </span>
-            <div>
-              <span className="display text-base">Rooms — not built yet</span>
-              <p className="mt-0.5 text-xs font-medium opacity-70">
-                Secret Hitler and imposter games, when they exist. Read the plan →
-              </p>
-            </div>
-          </div>
-        </Link>
-
         <CrossPromo />
 
-        <footer className="mt-6 text-xs font-medium opacity-40">
+        <footer className="mt-6 text-xs font-medium opacity-45">
           {SITE.domain} · by the same paglus as{" "}
           <a
             href={SITE.sibling.url}
@@ -58,6 +39,6 @@ export default function Home() {
           </a>
         </footer>
       </main>
-    </>
+    </div>
   );
 }
