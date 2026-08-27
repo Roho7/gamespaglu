@@ -62,7 +62,10 @@ export default async function GuidePage({
   };
 
   return (
-    <main className="mx-auto w-full max-w-2xl flex-1" style={colourwayVars(cw)}>
+    <main
+      className="mx-auto w-full max-w-2xl flex-1 pt-20"
+      style={colourwayVars(cw)}
+    >
       <AppBar back="/how-to-play" title="How to play" />
 
       <article className="space-y-8 px-4 pb-12">

@@ -67,13 +67,9 @@ export function GeneratorScreen({
       <div className="mb-label mb-label-bleed flex-1">
         <div className="mb-label-field relative flex min-h-0 flex-1 flex-col">
           <AppBar
-            onField
             back="/"
-            title={
-              <h1 className="mb-display-sm max-w-[7.5rem] text-[0.7rem] leading-tight">
-                {heading}
-              </h1>
-            }
+            titleHidden
+            title={heading}
             extra={
               <>
                 <SideDrawer
@@ -191,12 +187,9 @@ export function GeneratorScreen({
             }
           />
 
-          {/* The stage: emblem, countdown, or the drawn word. One marquee. */}
-          <div className="relative min-h-0 flex-1">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Marquee className="h-[min(78vw,60vh)] w-[min(78vw,60vh)] text-[var(--highlight)] opacity-90" />
-            </div>
-
+          {/* The stage: sticker, countdown, or the drawn word. One marquee.
+              pt clears the floating pill. */}
+          <div className="relative min-h-0 flex-1 pt-14">
             {g.phase === "countdown" ? (
               <>
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -218,10 +211,15 @@ export function GeneratorScreen({
             ) : (
               <>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Sticker
-                    category={category}
-                    className="relative z-10 h-[26vh] w-[26vh]"
-                  />
+                  {/* The one marquee on this screen, and only ever behind
+                      artwork — never behind type. */}
+                  <div className="relative flex h-[min(74vw,38vh)] w-[min(74vw,38vh)] items-center justify-center">
+                    <Marquee className="absolute inset-0 text-[var(--highlight)]" />
+                    <Sticker
+                      category={category}
+                      className="relative z-10 h-3/5 w-3/5"
+                    />
+                  </div>
                 </div>
                 <p className="mb-caps absolute inset-x-0 bottom-3 z-10 text-center text-[0.7rem]">
                   {isGame ? `Guess my ${meta.noun}` : `Random ${meta.noun}`}

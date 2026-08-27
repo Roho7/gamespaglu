@@ -161,8 +161,12 @@ The whole visual system is four colourway tokens plus a handful of recipes in
 | `.mb-display` / `.mb-display-sm` / `.mb-shadow` / `.mb-caps` | type |
 | `.rail` | scroll-snap swipe rail |
 
-- **One marquee per screen**, behind the hero only, filled from `currentColor`
-  (`src/components/mb/marquee.tsx`). It's a stamp, not wallpaper.
+- **One marquee per screen, behind ARTWORK only — never behind type.** Ink on
+  highlight measures 1.1–2:1 in every colourway, so a word over the starburst is
+  effectively invisible and only the hard shadow was rescuing it. The marquee
+  stamps the sticker or emblem; the drawn word and the countdown sit on the
+  field, which is contrast-checked. Fill from `currentColor`
+  (`src/components/mb/marquee.tsx`).
 - **Emblems, not emoji, on a field.** Emoji are glossy modern artwork that
   always read as pasted onto flat spot ink, and they can't take a colourway.
 - **Stickers are curated by hand and served locally.** The set lives in

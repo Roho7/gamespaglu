@@ -35,7 +35,7 @@ export function SideDrawer({
       <DrawerTrigger
         aria-label={label}
         className={cn(
-          "mb-icon-btn",
+          "text-base font-extrabold active:translate-y-[1px]",
           className,
         )}
       >

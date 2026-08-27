@@ -5,47 +5,64 @@ import { ScoreboardDrawer } from "@/components/scoreboard/scoreboard-drawer";
 import { cn } from "@/lib/utils";
 
 /**
- * Every screen renders this, which is how the scorecard stays one tap away from
- * anywhere by construction rather than by remembering to add it.
+ * A single floating pill, fixed over the content, on every screen.
  *
- * onField = sitting on a saturated label field (play screens), so controls are
- * drawn in the frame ink. Otherwise it sits on kraft and uses the page ink.
+ * Floating rather than docked because the play surface and the home sections
+ * are full-bleed colour — a bar with its own background would cut the screen in
+ * two. Being on every screen by construction is also what keeps the scorecard
+ * one tap away from anywhere.
+ *
+ * Segments are divided by hairlines, like the reference: [back] | [title] |
+ * [extras] | [score].
  */
 export function AppBar({
   back,
   title,
+  titleHidden,
   extra,
-  onField,
   className,
 }: {
   back?: string;
   title?: React.ReactNode;
+  /** Keep the heading in the DOM for crawlers and screen readers, off-screen. */
+  titleHidden?: boolean;
   extra?: React.ReactNode;
-  onField?: boolean;
   className?: string;
 }) {
   return (
-    <header
+    <div
       className={cn(
-        "flex items-center justify-between gap-2 px-3 py-2.5",
-        onField
-          ? "text-[var(--ink-on-field)]"
-          : "text-[var(--ground-ink)]",
+        "pointer-events-none fixed inset-x-0 top-3 z-40 flex justify-center px-3",
         className,
       )}
     >
-      <div className="flex min-w-0 items-center gap-2">
+      {titleHidden && title ? <h1 className="sr-only">{title}</h1> : null}
+
+      <nav className="pointer-events-auto flex max-w-full items-stretch overflow-hidden rounded-full border-[var(--rule-thin)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)] shadow-[0_4px_0_0_var(--shadow-ink)]">
         {back ? (
-          <Link href={back} aria-label="Back" className="mb-icon-btn shrink-0">
+          <Link
+            href={back}
+            aria-label="Back"
+            className="flex items-center px-4 py-2 text-base font-extrabold active:translate-y-[1px]"
+          >
             ←
           </Link>
         ) : null}
-        {title ? <div className="min-w-0">{title}</div> : null}
-      </div>
-      <div className="flex shrink-0 items-center gap-2">
-        {extra}
+
+        {title && !titleHidden ? (
+          <span className="mb-caps flex items-center border-x-[var(--rule-thin)] border-[var(--ground-ink)] px-4 py-2 text-[0.65rem] whitespace-nowrap first:border-l-0">
+            {title}
+          </span>
+        ) : null}
+
+        {extra ? (
+          <div className="flex items-stretch [&>*]:flex [&>*]:items-center [&>*]:border-r-[var(--rule-thin)] [&>*]:border-[var(--ground-ink)] [&>*]:px-3.5 [&>*]:py-2">
+            {extra}
+          </div>
+        ) : null}
+
         <ScoreboardDrawer />
-      </div>
-    </header>
+      </nav>
+    </div>
   );
 }

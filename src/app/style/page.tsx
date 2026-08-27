@@ -36,7 +36,7 @@ export default function StylePage() {
   return (
     <>
       <AppBar back="/" title={<span className="mb-display-sm text-lg">Style</span>} />
-      <main className="mx-auto w-full max-w-3xl flex-1 space-y-10 px-4 pb-16">
+      <main className="mx-auto w-full max-w-3xl flex-1 space-y-10 px-4 pt-20 pb-16">
         <p className="text-sm font-medium opacity-75">
           Indian matchbox system. Every colour here comes from four colourway
           tokens — <code>--field</code>, <code>--frame</code>,{" "}

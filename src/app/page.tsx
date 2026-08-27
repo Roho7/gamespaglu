@@ -1,54 +1,89 @@
+import Link from "next/link";
 import { AppBar } from "@/components/app-bar";
-import { CategoryRail } from "@/components/game/category-rail";
-import { CrossPromo } from "@/components/cross-promo";
-import { IconLink } from "@/components/mb/ui";
+import { HeroRail } from "@/components/home/hero-rail";
+import { colourwayById, colourwayVars } from "@/lib/colourways";
 import { SITE } from "@/lib/site";
 
+/**
+ * Three full-screen sections that snap vertically: the generators, what's
+ * coming, and the Office Paglu banner. Swipe sideways inside the first.
+ *
+ * The page owns the scroll container rather than the body, so the snap points
+ * are reliable and the floating bar never scrolls away.
+ */
 export default function Home() {
   return (
-    // Navy ground: the labels are meant to sit on something dark, like a
-    // matchbox on a shop counter at night.
-    <div className="ground-navy flex min-h-dvh flex-col bg-[var(--ground)] text-[var(--ground-ink)]">
+    <>
       <AppBar
-        title={<span className="mb-display-sm text-xl">Games Paglu</span>}
+        title="Games Paglu"
         extra={
-          <IconLink href="/how-to-play" aria-label="How to play">
+          <Link href="/how-to-play" aria-label="How to play">
             ?
-          </IconLink>
+          </Link>
         }
       />
-      <main className="mx-auto w-full max-w-2xl flex-1 px-4 pb-10">
-        <h1 className="mb-display-sm text-3xl">Random generators</h1>
-        <p className="mt-1.5 mb-5 text-sm font-semibold opacity-65">
-          For Who Am I? or Heads Up.
-        </p>
 
-        <CategoryRail />
+      <main className="h-dvh snap-y snap-mandatory overflow-x-hidden overflow-y-auto">
+        {/* 1 — the generators */}
+        <section className="relative h-full snap-start">
+          <h1 className="sr-only">
+            Random generators for Who Am I? and Heads Up
+          </h1>
+          <HeroRail />
+        </section>
 
-        <CrossPromo />
-
-        <footer className="mt-6 text-xs font-medium opacity-45">
-          Stickers by{" "}
-          <a
-            href="https://giphy.com"
-            className="underline decoration-2"
-            target="_blank"
-            rel="noreferrer"
+        {/* 2 — what's coming */}
+        <section className="ground-navy flex h-full snap-start flex-col items-center justify-center gap-6 bg-[var(--ground)] px-6 text-center text-[var(--ground-ink)]">
+          <p className="mb-caps text-[0.6rem] opacity-55">More games</p>
+          <h2 className="mb-display-sm text-3xl">
+            Rooms are next.
+            <span className="block opacity-50">Not built yet.</span>
+          </h2>
+          <p className="max-w-sm text-sm font-medium opacity-70">
+            Everyone joins with a code on their own phone, for Secret Hitler,
+            Spyfall and the other imposter games.
+          </p>
+          <Link
+            href="/how-to-play/secret-hitler"
+            className="mb-btn mb-btn-secondary text-base"
           >
-            GIPHY
-          </a>
-          <br />
-          {SITE.domain} · by the same paglus as{" "}
-          <a
-            href={SITE.sibling.url}
-            className="underline decoration-2"
-            target="_blank"
-            rel="noreferrer"
+            Read the plan
+          </Link>
+          <Link
+            href="/how-to-play"
+            className="mb-caps text-[0.6rem] underline decoration-2 opacity-55"
           >
-            officepaglu.com
-          </a>
-        </footer>
+            How to play everything else
+          </Link>
+        </section>
+
+        {/* 3 — the sibling */}
+        <section
+          style={colourwayVars(colourwayById("pillar"))}
+          className="mb-label mb-label-bleed h-full snap-start"
+        >
+          <div className="mb-label-field mb-tilt relative flex min-h-0 flex-1 flex-col items-center justify-center gap-5 px-6 text-center">
+            <p className="mb-caps text-[0.6rem] opacity-75">
+              From the same paglus
+            </p>
+            <h2 className="mb-display text-5xl">Office Paglu</h2>
+            <p className="max-w-xs text-sm font-semibold">
+              {SITE.sibling.pitch} Wear the joke to the party you just won.
+            </p>
+          </div>
+          <div className="mb-band px-4 pt-3 pb-9">
+            <a
+              href={SITE.sibling.url}
+              target="_blank"
+              rel="noreferrer"
+              data-analytics="cross-promo-officepaglu"
+              className="mb-btn mb-btn-primary w-full max-w-sm text-xl"
+            >
+              Shop the tees →
+            </a>
+          </div>
+        </section>
       </main>
-    </div>
+    </>
   );
 }

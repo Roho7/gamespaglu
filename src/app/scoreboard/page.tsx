@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ScoreboardPage() {
   return (
-    <main className="mx-auto w-full max-w-xl flex-1">
+    <main className="mx-auto w-full max-w-xl flex-1 pt-20">
       <AppBar back="/" title="Scorecard" />
       <div className="px-4 pb-10">
         <Scoreboard />

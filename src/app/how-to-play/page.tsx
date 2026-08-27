@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function HowToPlayIndex() {
   return (
-    <main className="mx-auto w-full max-w-2xl flex-1">
+    <main className="mx-auto w-full max-w-2xl flex-1 pt-20">
       <AppBar back="/" title="How to play" />
       <div className="space-y-6 px-4 pb-12">
         <p className="text-sm font-bold opacity-70">
