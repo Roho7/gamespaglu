@@ -11,7 +11,7 @@ import {
   RegionPicker,
   TypePicker,
 } from "@/components/game/filters";
-import { Emblem } from "@/components/mb/emblems";
+import { Sticker } from "@/components/mb/sticker";
 import { Marquee } from "@/components/mb/marquee";
 import { RotateHint } from "@/components/mb/rotate-hint";
 import { Button } from "@/components/ui/button";
@@ -218,7 +218,7 @@ export function GeneratorScreen({
             ) : (
               <>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Emblem
+                  <Sticker
                     category={category}
                     className="relative z-10 h-[26vh] w-[26vh]"
                   />

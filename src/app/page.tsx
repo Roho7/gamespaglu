@@ -28,6 +28,16 @@ export default function Home() {
         <CrossPromo />
 
         <footer className="mt-6 text-xs font-medium opacity-45">
+          Stickers by{" "}
+          <a
+            href="https://giphy.com"
+            className="underline decoration-2"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GIPHY
+          </a>
+          <br />
           {SITE.domain} · by the same paglus as{" "}
           <a
             href={SITE.sibling.url}

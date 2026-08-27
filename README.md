@@ -74,3 +74,19 @@ won't recognise, then merge by hand. An unrecognisable name kills a round harder
 than a repeat does.
 
 Icons are generated, no image deps: `node scripts/make-icons.mjs`.
+
+## Stickers
+
+Card artwork is a hand-picked set of GIPHY stickers, downloaded and served from
+`public/stickers` so the site still works with no signal. The curated list lives
+in `Cards/Gif Collection.md` in the Obsidian vault:
+
+```bash
+npm run stickers            # import exactly what the note lists
+npm run stickers -- note.md # or another file
+```
+
+The importer wipes and rebuilds the set from the note, takes the 200px rendition
+rather than the original, and keeps `src/data/stickers.json` and the service
+worker precache list in step. Needs `GIPHY_API_KEY` in `.env` for the metadata
+and attribution links. A category with no sticker uses its drawn emblem.

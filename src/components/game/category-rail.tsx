@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Emblem } from "@/components/mb/emblems";
+import { Sticker } from "@/components/mb/sticker";
 import { Marquee } from "@/components/mb/marquee";
 import { Label } from "@/components/mb/label";
 import { CATEGORY_LIST } from "@/lib/categories";
@@ -71,7 +71,7 @@ export function CategoryRail() {
 
                 <div className="relative flex flex-1 items-center justify-center">
                   <Marquee className="absolute size-[13rem] text-[var(--highlight)]" />
-                  <Emblem category={c.id} className="relative size-32" />
+                  <Sticker category={c.id} className="relative size-32" />
                 </div>
 
                 <h2 className="mb-display relative z-10 text-4xl">{c.label}</h2>

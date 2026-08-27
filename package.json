@@ -10,10 +10,12 @@
     "check:decks": "node scripts/check-decks.mjs",
     "check:tokens": "node scripts/check-tokens.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
-    "check": "npm run check:decks && npm run check:tokens && npm run check:contrast"
+    "check": "npm run check:decks && npm run check:tokens && npm run check:contrast",
+    "stickers": "node --env-file=.env scripts/import-stickers.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
+    "@giphy/js-fetch-api": "^5.8.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.32.0",

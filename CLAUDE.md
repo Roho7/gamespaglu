@@ -165,6 +165,16 @@ The whole visual system is four colourway tokens plus a handful of recipes in
   (`src/components/mb/marquee.tsx`). It's a stamp, not wallpaper.
 - **Emblems, not emoji, on a field.** Emoji are glossy modern artwork that
   always read as pasted onto flat spot ink, and they can't take a colourway.
+- **Stickers are curated by hand and served locally.** The set lives in
+  `Cards/Gif Collection.md` in the vault; `npm run stickers` imports exactly
+  what that note lists into `public/stickers`, rewrites the manifest and the
+  service worker precache list, and deletes anything not in the note. Never
+  bulk-download from GIPHY search — it is almost entirely clip-art noise, which
+  is why the picker approach was abandoned.
+- **A category with no sticker falls back to its drawn emblem**, by design. That
+  same fallback covers a failed load, so the cards never break offline.
+- Stickers are downloaded at the 200px rendition, not the original: the note
+  links to files that can be megabytes, and a card renders at ~120px.
 - **Drawers must be opaque `--ground`.** A translucent sheet over a saturated
   label is unreadable.
 - **Page grounds are scoped classes** (`.ground-navy` on the home screen,
