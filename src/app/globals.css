@@ -172,12 +172,17 @@
     background-color: var(--field);
     color: var(--ink-on-field);
   }
+  /* The dotted rule needs its own radius, not the host's: inheriting meant a
+     square dotted rectangle inside a rounded card whenever the frame itself was
+     square-cornered, and an over-tight curve when it wasn't. Subtracting the
+     inset is what keeps the two curves concentric. Override --dot-radius for
+     pills. */
   .mb-frame::after {
     content: "";
     position: absolute;
     inset: var(--dot-inset);
     border: var(--rule-thin) dashed var(--frame);
-    border-radius: inherit;
+    border-radius: var(--dot-radius, calc(var(--radius-lg) - var(--dot-inset)));
     pointer-events: none;
   }
 

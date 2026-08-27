@@ -144,7 +144,7 @@ export default function StylePage() {
                 style={colourwayVars({
                   ...COLOURWAYS[0],
                 })}
-                className="mb-frame flex flex-col items-center gap-2 rounded-[var(--radius-md)] p-3"
+                className="mb-frame [--dot-radius:calc(var(--radius-md)-var(--dot-inset))] flex flex-col items-center gap-2 rounded-[var(--radius-md)] p-3"
               >
                 <Emblem category={c.id} className="size-14" />
                 <span className="mb-caps text-[0.5rem]">{c.label}</span>

@@ -107,7 +107,7 @@ export default async function GuidePage({
             {guide.steps.map((s, i) => (
               <li key={s.title} className="rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4">
                 <div className="flex items-baseline gap-3">
-                  <span className="mb-frame shrink-0 rounded-full px-3 py-0.5 text-lg font-extrabold">
+                  <span className="mb-frame [--dot-radius:9999px] shrink-0 rounded-full px-3 py-0.5 text-lg font-extrabold">
                     {i + 1}
                   </span>
                   <h3 className="mb-display-sm text-lg">{s.title}</h3>
@@ -146,7 +146,7 @@ export default async function GuidePage({
                   <li key={id}>
                     <Link
                       href={`/who-am-i/${id}`}
-                      className="mb-frame flex items-center gap-2 rounded-[var(--radius-md)] p-3 text-sm font-bold"
+                      className="mb-frame [--dot-radius:calc(var(--radius-md)-var(--dot-inset))] flex items-center gap-2 rounded-[var(--radius-md)] p-3 text-sm font-bold"
                       style={colourwayVars(colourwayById(c.colourway))}
                     >
                       <span aria-hidden>{c.emoji}</span>

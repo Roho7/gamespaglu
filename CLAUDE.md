@@ -153,7 +153,7 @@ The whole visual system is four colourway tokens plus a handful of recipes in
 
 | Recipe | What it is |
 |---|---|
-| `.mb-frame` | outer rule + field + dotted inner rule |
+| `.mb-frame` | outer rule + field + dotted inner rule. The dotted rule's radius is `--dot-radius`, defaulting to `radius-lg − dot-inset` so the two curves stay concentric — it must NOT inherit the host radius (that gave a square dotted rectangle inside a rounded card). Override it on pills and on other radii |
 | `.mb-label` / `.mb-label-bleed` | a full label; the bleed variant is the play screen and shows no ground at the edges |
 | `.mb-band` | the black band that holds the primary action |
 | `.mb-btn` + `.mb-btn-{primary,secondary,tertiary}` | one button structure; **hierarchy is palette only**, so it still reads in greyscale |
