@@ -38,6 +38,8 @@ export function HeroRail() {
     return () => rail.removeEventListener("scroll", onScroll);
   }, [onScroll]);
 
+  const active = CATEGORY_LIST[index];
+
   const goTo = (i: number) => {
     const rail = railRef.current;
     if (!rail) return;
@@ -68,7 +70,7 @@ export function HeroRail() {
               <h3 className="mb-display text-5xl">{c.label}</h3>
             </div>
 
-            <div className="mb-band px-4 pt-3 pb-9">
+            <div className="mb-band px-4 pt-3 pb-9 bg-transparent">
               <Link
                 href={`/who-am-i/${c.id}`}
                 className="mb-btn mb-btn-primary w-full max-w-sm text-xl"
@@ -80,23 +82,57 @@ export function HeroRail() {
         ))}
       </div>
 
-      {/* Dots sit above the band, clear of the thumb and the button. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-24 flex justify-center gap-2">
-        {CATEGORY_LIST.map((c, i) => (
+      {/*
+        Affordances live outside the scrolling element so they stay put, and
+        they take the ACTIVE card's colourway — cream chevrons would vanish on
+        the one light-ink colourway.
+      */}
+      <div
+        style={colourwayVars(colourwayById(active.colourway))}
+        className="pointer-events-none absolute inset-0 z-20 text-[var(--ink-on-field)]"
+      >
+        {index > 0 ? (
           <button
-            key={c.id}
             type="button"
-            aria-label={`Go to ${c.label}`}
-            aria-current={i === index}
-            onClick={() => goTo(i)}
-            className="pointer-events-auto h-2 rounded-full border-[var(--rule-thin)] border-[var(--band-ink)] transition-all"
-            style={{
-              width: i === index ? "1.5rem" : "0.5rem",
-              background: i === index ? "var(--band-ink)" : "transparent",
-            }}
-          />
-        ))}
+            aria-label={`Previous: ${CATEGORY_LIST[index - 1].label}`}
+            onClick={() => goTo(index - 1)}
+            className="pointer-events-auto absolute top-1/2 left-1 -translate-y-1/2 p-3 opacity-55 active:opacity-90"
+          >
+            <Chevron className="size-6 rotate-90" />
+          </button>
+        ) : null}
+
+        {index < CATEGORY_LIST.length - 1 ? (
+          <button
+            type="button"
+            aria-label={`Next: ${CATEGORY_LIST[index + 1].label}`}
+            onClick={() => goTo(index + 1)}
+            className="pointer-events-auto absolute top-1/2 right-1 -translate-y-1/2 p-3 opacity-55 active:opacity-90"
+          >
+            <Chevron className="size-6 -rotate-90" />
+          </button>
+        ) : null}
+
+        <div className="absolute inset-x-0 bottom-36 flex justify-center">
+          <Chevron className="animate-bob size-5" />
+        </div>
       </div>
     </div>
+  );
+}
+
+/** Points down by default; rotate it for the sideways affordances. */
+function Chevron({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden focusable="false" className={className}>
+      <path
+        d="M5 9l7 7 7-7"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
