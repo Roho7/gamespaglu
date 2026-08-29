@@ -12,7 +12,7 @@ export type GameManifest = {
   emoji: string;
   accentVar: string;
   minPlayers: number;
-  /** v1 ships only needsRoom: false. Rooms arrive with a remote state adapter. */
+  /** True once a game needs a room: a socket server and a shared code. */
   needsRoom: boolean;
   status: "live" | "planned";
   categories?: CategoryId[];
@@ -30,6 +30,18 @@ export const GAMES: GameManifest[] = [
     needsRoom: false,
     status: "live",
     categories: ["celebrity", "movie", "place", "animal", "object", "number"],
+  },
+  {
+    id: "girgit",
+    name: "Girgit",
+    route: "/girgit",
+    tagline: "Everyone gets the word. One of you doesn't, and doesn't know it.",
+    emoji: "🦎",
+    accentVar: "--cat-place",
+    minPlayers: 4,
+    // The first one. Rooms are no longer hypothetical.
+    needsRoom: true,
+    status: "live",
   },
   {
     id: "scoreboard",

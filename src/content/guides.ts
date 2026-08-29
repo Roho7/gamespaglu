@@ -168,34 +168,88 @@ export const GUIDES: Guide[] = [
     ],
   },
   {
-    slug: "secret-hitler",
-    title: "Secret Hitler and other imposter games",
+    slug: "girgit",
+    title: "How to play Girgit",
     summary:
-      "What's coming next: rooms you join with a code, for hidden-role games like Secret Hitler, Spyfall and Werewolf.",
-    emoji: "🕵️",
-    colourway: "indigo",
-    players: "5 or more",
-    time: "30–60 minutes",
-    needs: "A phone each",
-    status: "planned",
+      "Sixteen words, one secret, and one player who has no idea which. Everyone writes one clue, then the table works out who was bluffing.",
+    emoji: "\ud83e\udd8e",
+    colourway: "bottle",
+    players: "4 to 10",
+    time: "About four minutes a round",
+    needs: "A phone each, everyone in the same room",
+    status: "live",
+    playRoute: "/girgit",
+    alsoCalled: [
+      "The Chameleon",
+      "Word imposter",
+      "Undercover word game",
+      "Spy word game",
+    ],
     intro: [
-      "Hidden-role games are the obvious next step for a site like this: the phone is genuinely better than paper because it can deal secret information to each player without anyone glimpsing anyone else's card.",
-      "That needs something today's Games Paglu deliberately doesn't have — a room that all the phones join, and a server that knows who is who and never tells the wrong person. It's being built next, not now.",
+      "Girgit is a social deduction game for a table of four to ten. Everyone sees the same grid of sixteen words and the same theme. Everyone can also see which one of those words is the secret \u2014 except one player, the Girgit, who knows only that they are the Girgit.",
+      "Then everyone types a single clue about the secret word. All the clues appear at once. The innocent players are trying to prove they know the word without spelling it out; the Girgit is trying to sound like they know it. Then you argue, and you vote.",
+      "If you have played The Chameleon, you already know this game. Girgit (\u0917\u093f\u0930\u0917\u093f\u091f) is Hindi for chameleon \u2014 and it carries the idiom too: girgit ki tarah rang badalna, to change colours, to be two-faced.",
     ],
     steps: [
       {
-        title: "How it will work",
-        body: "One person creates a room and reads out a four-letter code. Everyone joins on their own phone. The server deals each player their secret role privately, and the host runs the round from their screen.",
+        title: "Everyone joins one room",
+        body: "One person taps Start a room and reads out the four-letter code. Everyone else types it in on their own phone. Nothing is installed and nobody makes an account \u2014 your phone is your seat, and if you close the app and come back, you are still in it.",
       },
       {
-        title: "What's on the list",
-        body: "Secret Hitler first, then Spyfall-style imposter rounds using an everyday-locations word list, then Werewolf and Connections-style word games.",
+        title: "Look at your word, carefully",
+        body: "Hold the button to see the secret word. It shows only while your finger is down, and it never lights up a square on the grid \u2014 a glowing square is readable from across a table by its position alone, without anybody reading a thing. If you are the Girgit, holding the button tells you so, in exactly the same place on screen, so nobody learns anything by watching you.",
+      },
+      {
+        title: "One clue each, revealed together",
+        body: "Type one or two words. Nobody sees anything until the last clue is in, and then they all appear at once with names attached. That simultaneous reveal is the one place this beats the cardboard version: around a table the last person to speak has everybody else's clues for cover, and the Chameleon desperately wants to go last. Here there is no last.",
+      },
+      {
+        title: "Argue. Out loud",
+        body: "This is the game, and the app deliberately does nothing during it. No timer, no chat, no prompts \u2014 just the grid and the clues sitting there while you accuse each other. A clue that is too vague is suspicious. A clue that is too precise is suspicious. So is agreeing with everyone too quickly.",
+      },
+      {
+        title: "Call the vote",
+        body: "Anybody can call it \u2014 you do not need to be the host. Everyone taps a name, nobody sees the votes until they are all in, and then every vote is shown with who cast it. A tie sends you back to arguing, which is exactly what would happen at a table anyway.",
+      },
+      {
+        title: "The escape",
+        body: "If the table picks the Girgit, it is not over. They get one guess at the secret word. Guess right and they walk away with a point anyway. This is what stops an accused player going quiet \u2014 there is always something left to play for.",
+      },
+    ],
+    variations: [
+      {
+        title: "Scoring",
+        body: "Girgit not caught: two points to them. Caught but guesses the word: one point. Caught and guesses wrong: a point to everyone else. There is no target score and no winner \u2014 the session runs until people stop, which is how party games actually end.",
+      },
+      {
+        title: "Someone has to leave",
+        body: "Locking your phone does not lose your seat: you show as away and the round waits. Leaving properly takes effect at the end of the round rather than mid-hand. And if somebody genuinely walks off while holding the secret, the host can abort the round from the room menu \u2014 nobody scores and you deal again.",
+      },
+      {
+        title: "Four players or ten",
+        body: "Four works and is sharp \u2014 with fewer clues each one carries more weight. Around seven or eight is the sweet spot. Ten is the ceiling, because sixteen words and ten clues is about as much as anyone can hold in their head.",
       },
     ],
     faq: [
       {
-        q: "When?",
-        a: "No date. Who Am I? and the Scoreboard needed to be genuinely good first, and rooms are a much bigger build than either.",
+        q: "Does everyone need their own phone?",
+        a: "Yes. Each player has to see their own secret without anyone else seeing it, so passing one phone around does not work here.",
+      },
+      {
+        q: "Can we play it over a video call?",
+        a: "It works, but it is not what it is for. The game is built for people in the same room \u2014 the hesitation and the eye contact are most of it, and there is no voice chat here because we assume you can already hear each other.",
+      },
+      {
+        q: "What if my phone dies or I lose signal?",
+        a: "Your seat, your role and your word are held on the server, not on your phone. Come back and you drop straight into whatever the room is doing. Girgit is the one part of this site that genuinely needs a connection \u2014 everything else works with no signal at all.",
+      },
+      {
+        q: "Does the Girgit know they are the Girgit?",
+        a: "Yes. They see the grid and the theme but not the secret word, so they know they are bluffing from the first second. That is what makes it different from games where the odd one out has no idea.",
+      },
+      {
+        q: "Is this The Chameleon?",
+        a: "It is the same mechanic. The Chameleon is a Big Potato Games title and the name is theirs; Girgit is ours, and if you like one you will like the other. Go buy the box too \u2014 it is a good box.",
       },
     ],
   },

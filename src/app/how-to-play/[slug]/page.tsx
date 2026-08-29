@@ -39,27 +39,39 @@ export default async function GuidePage({
 
   const cw = colourwayById(guide.colourway);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: guide.title,
-    description: guide.summary,
-    url: `${SITE.url}/how-to-play/${guide.slug}`,
-    step: guide.steps.map((s) => ({
-      "@type": "HowToStep",
-      name: s.title,
-      text: s.body,
-    })),
-    ...(guide.faq?.length
-      ? {
-          mainEntity: guide.faq.map((f) => ({
-            "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
-          })),
-        }
-      : {}),
-  };
+  /**
+   * Two separate entities, not one.
+   *
+   * The FAQ used to be hung off the HowTo as `mainEntity`, which is not valid:
+   * FAQ rich results require an `FAQPage`, so the FAQPage markup the spec claims
+   * to ship was never actually eligible on any guide. An array is legal JSON-LD
+   * and keeps both.
+   */
+  const jsonLd: object[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: guide.title,
+      description: guide.summary,
+      url: `${SITE.url}/how-to-play/${guide.slug}`,
+      step: guide.steps.map((s) => ({
+        "@type": "HowToStep",
+        name: s.title,
+        text: s.body,
+      })),
+    },
+  ];
+  if (guide.faq?.length) {
+    jsonLd.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: guide.faq.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    });
+  }
 
   return (
     <main

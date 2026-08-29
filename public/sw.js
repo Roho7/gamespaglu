@@ -3,11 +3,16 @@
  * All word lists are baked into the JS bundle, so caching the app shell is
  * enough — there is nothing to fetch mid-game.
  */
-const CACHE = "gamespaglu-v2";
+const CACHE = "gamespaglu-v3";
 const PRECACHE = [
   "/",
   "/who-am-i",
   "/scoreboard",
+  // Girgit is the one route that genuinely needs the network. It is precached
+  // anyway so that opening it with no signal renders a screen that SAYS so,
+  // rather than the browser's error page — a plausible-looking dead screen is
+  // worse than an honest one.
+  "/girgit",
   "/random-number-generator",
   "/random-celebrity-generator",
   "/random-movie-generator",

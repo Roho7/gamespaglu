@@ -204,6 +204,11 @@ consistent.
 
 ## Layout rules
 
+- **Girgit is the only route that needs a network.** It is precached anyway, so opening it with no
+  signal renders a screen that *says* so — the service worker would otherwise serve a
+  plausible-looking board that silently does nothing, which is the worst failure a room screen can
+  have. Both the join screen and the band say it plainly, and every action is withdrawn rather than
+  left to fail.
 - **The scorecard is not a destination.** It is a bottom sheet in `AppBar`, reachable from every
   screen mid-game. Do not add a scoreboard tile or nav entry; `/scoreboard` exists only as a
   deep-link and SEO page.

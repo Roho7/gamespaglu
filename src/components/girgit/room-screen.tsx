@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { colourwayVars } from "@/lib/colourways";
 import { roundColourway } from "@/lib/girgit/colourway";
+import { useOnline } from "@/lib/use-online";
 import type { useRoom } from "@/lib/girgit/use-room";
 import { MAX_CLUE_LENGTH, type RoomState } from "@shared/protocol";
 
@@ -32,6 +33,12 @@ export function RoomScreen({
   reconnecting: boolean;
 }) {
   const [clue, setClue] = useState("");
+  const online = useOnline();
+  // Offline or merely disconnected, the effect is the same: this phone is not
+  // talking to the game. The service worker will happily serve this screen from
+  // cache, so without this it would look completely fine and do nothing —
+  // which is the worst failure a room screen can have.
+  const cutOff = !online || reconnecting;
   const round = state.round;
   const you = state.players.find((p) => p.id === state.you);
   const nameOf = (id: string | null) =>
@@ -230,7 +237,7 @@ export function RoomScreen({
                   </div>
                 ) : null}
 
-                {phase === "escape" ? (
+                {!cutOff && phase === "escape" ? (
                   <p className="mb-display-sm text-center text-lg">
                     {state.your?.isGirgit
                       ? "Caught. Tap the word to escape."
@@ -238,7 +245,7 @@ export function RoomScreen({
                   </p>
                 ) : null}
 
-                {phase === "reveal" ? (
+                {!cutOff && phase === "reveal" ? (
                   <div className="space-y-2 text-center">
                     <p className="mb-display-sm text-xl">
                       {round.outcome === "aborted"
@@ -279,7 +286,18 @@ export function RoomScreen({
 
         {/* The band. Exactly one action, at thumb height, never scrolled away. */}
         <div className="mb-band flex-col gap-1.5 px-4 py-3">
-          {phase === "lobby" || !round ? (
+          {cutOff ? (
+            <div className="text-center">
+              <p className="mb-display-sm text-base">
+                {online ? "Reconnecting…" : "No signal"}
+              </p>
+              <p className="mb-caps text-[0.55rem] opacity-70">
+                Your seat and your word are held. Nothing is lost.
+              </p>
+            </div>
+          ) : null}
+
+          {!cutOff && (phase === "lobby" || !round) ? (
             isHost ? (
               <Button
                 size="hero"
@@ -298,7 +316,7 @@ export function RoomScreen({
             )
           ) : null}
 
-          {phase === "clues" && round ? (
+          {!cutOff && phase === "clues" && round ? (
             yourClue ? (
               <p className="mb-caps text-center text-[0.6rem] opacity-80">
                 Waiting on {round.cluesTotal - round.cluesIn} of{" "}
@@ -327,7 +345,7 @@ export function RoomScreen({
             )
           ) : null}
 
-          {phase === "discuss" ? (
+          {!cutOff && phase === "discuss" ? (
             <Button
               size="hero"
               className="max-w-sm"
@@ -337,19 +355,19 @@ export function RoomScreen({
             </Button>
           ) : null}
 
-          {phase === "vote" && round ? (
+          {!cutOff && phase === "vote" && round ? (
             <p className="mb-caps text-center text-[0.6rem] opacity-80">
               {round.votesIn} of {round.cluesTotal} voted
             </p>
           ) : null}
 
-          {phase === "escape" ? (
+          {!cutOff && phase === "escape" ? (
             <p className="mb-caps text-center text-[0.6rem] opacity-80">
               {state.your?.isGirgit ? "Pick a word above" : "Hold your breath"}
             </p>
           ) : null}
 
-          {phase === "reveal" ? (
+          {!cutOff && phase === "reveal" ? (
             isHost ? (
               <Button
                 size="hero"

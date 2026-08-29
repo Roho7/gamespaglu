@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AppBar } from "@/components/app-bar";
 import { Panel } from "@/components/mb/ui";
+import { useOnline } from "@/lib/use-online";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MAX_NAME_LENGTH, ROOM_CODE_LENGTH, type Err } from "@shared/protocol";
@@ -27,7 +28,9 @@ export function JoinScreen({
 }) {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
+  const online = useOnline();
   const named = name.trim().length > 0;
+  const blocked = !online || busy;
 
   return (
     <main className="min-h-dvh px-4 pt-20 pb-10">
@@ -41,7 +44,18 @@ export function JoinScreen({
           </p>
         </div>
 
-        {error ? (
+        {/* Girgit is the one thing on this site that needs a connection.
+            Everything else works with no signal, so saying so plainly beats a
+            button that silently does nothing. */}
+        {!online ? (
+          <Panel className="space-y-1">
+            <p className="text-sm font-bold">No signal.</p>
+            <p className="text-[0.75rem] opacity-75">
+              Girgit needs a connection — it is the only game here that does.
+              The generators and the scoreboard still work offline.
+            </p>
+          </Panel>
+        ) : error ? (
           <Panel className="text-sm font-bold">{error.message}</Panel>
         ) : null}
 
@@ -59,7 +73,7 @@ export function JoinScreen({
         <Button
           size="hero"
           onClick={() => onCreate(name)}
-          disabled={!named || busy}
+          disabled={!named || blocked}
         >
           Start a room
         </Button>
@@ -88,7 +102,7 @@ export function JoinScreen({
           <Button
             variant="secondary"
             onClick={() => onJoin(name, code)}
-            disabled={!named || code.length !== ROOM_CODE_LENGTH || busy}
+            disabled={!named || code.length !== ROOM_CODE_LENGTH || blocked}
           >
             Join
           </Button>

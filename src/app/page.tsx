@@ -32,22 +32,26 @@ export default function Home() {
           <HeroRail />
         </section>
 
-        {/* 2 — what's coming */}
+        {/* 2 — Girgit. A LIVE game, so it wears the play-mode treatment: solid
+            accent and a real primary action. It sat here as a dashed "not built
+            yet" teaser for months; the two must never look alike. */}
         <section className="ground-navy flex h-full snap-start flex-col items-center justify-center gap-6 bg-[var(--ground)] px-6 text-center text-[var(--ground-ink)]">
-          <p className="mb-caps text-[0.6rem] opacity-55">More games</p>
+          <p className="mb-caps text-[0.6rem] opacity-55">Now with rooms</p>
           <h2 className="mb-display-sm text-3xl">
-            Rooms are next.
-            <span className="block opacity-50">Not built yet.</span>
+            Girgit
+            <span className="block text-xl opacity-60">
+              Everyone gets the word.
+            </span>
+            <span className="block text-xl opacity-60">
+              One of you doesn&apos;t.
+            </span>
           </h2>
           <p className="max-w-sm text-sm font-medium opacity-70">
-            Everyone joins with a code on their own phone, for Secret Hitler,
-            Spyfall and the other imposter games.
+            Four to ten of you, one code, one grid of sixteen words. Write a
+            clue, then work out who was bluffing.
           </p>
-          <Link
-            href="/how-to-play/secret-hitler"
-            className="mb-btn mb-btn-secondary text-base"
-          >
-            Read the plan
+          <Link href="/girgit" className="mb-btn mb-btn-primary text-base">
+            Play Girgit
           </Link>
           <Link
             href="/how-to-play"
