@@ -27,6 +27,23 @@ export const ROOM_CODE_ALPHABET = "BCDFGHJKLMNPQRSTVWXYZ";
 /** How long a room survives with nobody doing anything. */
 export const ROOM_TTL_MS = 2 * 60 * 60 * 1000;
 
+export const GRID_SIZE = 16;
+
+/**
+ * One or two words. Not one: plenty of the best clues are naturally two ("red
+ * carpet", "not real") and forcing a single word just produces hyphenation.
+ * The character cap is what stops it drifting into a sentence.
+ */
+export const MAX_CLUE_WORDS = 2;
+export const MAX_CLUE_LENGTH = 20;
+
+/** Girgit not caught. */
+export const SCORE_GIRGIT_ESCAPED = 2;
+/** Caught, but guessed the secret word. */
+export const SCORE_GIRGIT_GUESSED = 1;
+/** Caught and guessed wrong — every innocent scores. */
+export const SCORE_INNOCENT = 1;
+
 export type DeviceId = string;
 export type PlayerId = string;
 export type RoomCode = string;
@@ -36,7 +53,16 @@ export type GameId = "girgit";
  * M1 ships only the lobby. Round phases land in M3 — listed here so the client
  * switch is exhaustive from the start rather than growing a default case.
  */
-export type RoomPhase = "lobby";
+export type RoomPhase =
+  | "lobby"
+  /** Everyone types one clue. Reveal is simultaneous. */
+  | "clues"
+  /** No app surface at all. The grid and the clues sit there; people talk. */
+  | "discuss"
+  | "vote"
+  /** The caught Girgit gets one guess at the secret word. */
+  | "escape"
+  | "reveal";
 
 export type PublicPlayer = {
   id: PlayerId;
@@ -77,6 +103,12 @@ export type ErrorCode =
   | "NAME_TAKEN"
   | "NOT_IN_ROOM"
   | "NOT_HOST"
+  | "WRONG_PHASE"
+  | "NOT_PLAYING"
+  | "ALREADY_DONE"
+  | "BAD_CLUE"
+  | "SELF_VOTE"
+  | "NOT_ENOUGH_PLAYERS"
   | "PROTOCOL_MISMATCH"
   | "RATE_LIMITED"
   | "INTERNAL";
