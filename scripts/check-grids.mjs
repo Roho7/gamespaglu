@@ -36,6 +36,9 @@ for (const p of FLAT_POOLS) {
 }
 
 const grids = load("grids");
+const PACK_IDS = ["movies-tv", "people", "characters", "brands", "everyday"];
+/** A pack with fewer than this repeats itself within one sitting. */
+const MIN_GRIDS_PER_PACK = 3;
 let bad = 0;
 const fail = (m) => {
   console.log(`FAIL ${m}`);
@@ -48,6 +51,8 @@ let longest = { label: "", n: 0 };
 for (const g of grids) {
   if (seenGridIds.has(g.id)) fail(`duplicate grid id ${g.id}`);
   seenGridIds.add(g.id);
+
+  if (!PACK_IDS.includes(g.pack)) fail(`${g.id}: unknown pack "${g.pack}"`);
 
   if (g.cells.length !== GRID_SIZE) {
     fail(`${g.id}: ${g.cells.length} cells, expected ${GRID_SIZE}`);
@@ -79,9 +84,21 @@ for (const g of grids) {
 // A single grid is a single round. Too few and a session repeats itself.
 if (grids.length < 20) fail(`only ${grids.length} grids — a session will repeat`);
 
+// And that has to hold for whatever subset a room actually turns on.
+for (const pack of PACK_IDS) {
+  const n = grids.filter((g) => g.pack === pack).length;
+  if (n < MIN_GRIDS_PER_PACK) {
+    fail(`pack "${pack}" has ${n} grid(s) — a room picking only it would repeat`);
+  }
+}
+
+const perPack = PACK_IDS.map(
+  (p) => `${p}:${grids.filter((g) => g.pack === p).length}`,
+).join("  ");
 console.log(
   `\n${grids.length} grids · ${grids.length * GRID_SIZE} cells · longest "${longest.label}" (${longest.n})`,
 );
+console.log(perPack);
 if (bad) {
   console.log(`\n${bad} problem(s).`);
   process.exit(1);

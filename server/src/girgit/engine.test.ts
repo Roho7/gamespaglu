@@ -32,6 +32,7 @@ const CLOCK = () => 1_000_000;
 const GRID: Grid = {
   id: "test",
   theme: "Test",
+  pack: "everyday",
   cells: Array.from({ length: 16 }, (_, i) => `cell${i}`),
 };
 const P = ["a", "b", "c", "d"];

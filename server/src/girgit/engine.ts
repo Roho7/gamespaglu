@@ -28,6 +28,8 @@ export type Now = () => number;
 
 export type Grid = {
   id: string;
+  /** Which word pack it belongs to. Rooms choose which packs are in play. */
+  pack: string;
   /** Public — including to the Girgit. Without it they cannot bluff at all. */
   theme: string;
   /** Exactly GRID_SIZE entry ids. */

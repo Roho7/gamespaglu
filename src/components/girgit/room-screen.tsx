@@ -1,33 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppBar } from "@/components/app-bar";
 import { SideDrawer } from "@/components/game/settings-drawer";
 import { Deadline } from "@/components/girgit/deadline";
 import { GirgitGrid } from "@/components/girgit/grid";
-import { Roster } from "@/components/girgit/roster";
+import { PlayerTable } from "@/components/girgit/player-table";
 import { SecretHold } from "@/components/girgit/secret-hold";
+import { Toast } from "@/components/girgit/toast";
 import { Chip } from "@/components/mb/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { colourwayVars } from "@/lib/colourways";
 import { roundColourway } from "@/lib/girgit/colourway";
-import { useOnline } from "@/lib/use-online";
 import type { useRoom } from "@/lib/girgit/use-room";
+import { useOnline } from "@/lib/use-online";
 import {
   CLUE_SECONDS_OPTIONS,
   MAX_CLUE_LENGTH,
-  type Err,
+  PACKS,
   type RoomState,
 } from "@shared/protocol";
 
 /**
- * The play surface. One label, one accent, one big action in the band.
+ * The play surface. One label, one accent, one action in the band.
  *
- * Rule 7 is doing most of the work here: everything that is not the current
- * decision — the rules, aborting, leaving — lives in a drawer, so each phase
- * shows the grid, at most one input, and the action.
+ * The header is phase-driven, not theme-driven. The theme is the thing every
+ * clue is judged against WHILE you are writing one, and near-irrelevant once
+ * the table is arguing — so it is the headline during clues and a caption after
+ * that, with the headline saying what to do or what just happened.
  */
 export function RoomScreen({
   state,
@@ -41,33 +43,76 @@ export function RoomScreen({
   reconnecting: boolean;
 }) {
   const [clue, setClue] = useState("");
-  // A rejected action used to fail in total silence here — you tapped, nothing
-  // happened, and there was no way to tell a bad clue from a broken game.
-  const [actionError, setActionError] = useState<Err | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const id = setTimeout(() => setToast(null), 2600);
+    return () => clearTimeout(id);
+  }, [toast]);
+
   const online = useOnline();
-  // Offline or merely disconnected, the effect is the same: this phone is not
-  // talking to the game. The service worker will happily serve this screen from
-  // cache, so without this it would look completely fine and do nothing —
-  // which is the worst failure a room screen can have.
   const cutOff = !online || reconnecting;
+
   const round = state.round;
+  const phase = state.phase;
   const you = state.players.find((p) => p.id === state.you);
+  const isHost = you?.isHost ?? false;
   const nameOf = (id: string | null) =>
     state.players.find((p) => p.id === id)?.name ?? "someone";
 
-  const colourway = roundColourway(state.code, round?.roundNo ?? 0);
-  // Your own clue is only in `clues` once everyone is in, so before the reveal
-  // the band has to fall back to the progress count.
-  // From the private half, so it is known the moment you act rather than only
-  // once every clue is in and the public list appears.
   const hasClued = state.your?.hasClued ?? false;
   const hasVoted = state.your?.hasVoted ?? false;
+  const colourway = roundColourway(state.code, round?.roundNo ?? 0);
 
-  const phase = state.phase;
-  const isHost = you?.isHost ?? false;
+  const clueOf = (playerId: string) =>
+    round?.clues.find((c) => c.playerId === playerId)?.word ?? null;
+  const word = (i: number | null | undefined) =>
+    typeof i === "number" ? round?.cells[i] : null;
+
+  /**
+   * Headline and caption for the phase.
+   *
+   * The theme is deliberately never printed. Sixteen words that obviously
+   * belong together state their own category better than a label does, so the
+   * label only competed with the board directly beneath it — and it was
+   * shouting during the vote, where it is irrelevant. The headline says what to
+   * do or what just happened instead.
+   */
+  function headline(): { big: string; small: string } {
+    const small = round ? `Round ${round.roundNo}` : "";
+    switch (phase) {
+      case "clues":
+        return { big: "Write a clue without giving away the word", small };
+      case "discuss":
+        return { big: "Find the Girgit", small };
+      case "vote":
+        return { big: "Who is the Girgit?", small };
+      case "escape":
+        return {
+          big: state.your?.isGirgit
+            ? "Caught. Pick the word."
+            : `${nameOf(round?.accused ?? null)} is guessing`,
+          small,
+        };
+      case "reveal":
+        return {
+          big:
+            round?.outcome === "aborted"
+              ? "Round abandoned"
+              : `${nameOf(round?.girgitId ?? null)} was the Girgit`,
+          small,
+        };
+      default:
+        return { big: "", small };
+    }
+  }
+  const { big, small } = headline();
 
   return (
     <div style={colourwayVars(colourway)} className="flex min-h-dvh flex-col">
+      <Toast message={toast} />
+
       <div className="mb-label mb-label-bleed flex-1">
         <div className="mb-label-field relative flex min-h-0 flex-1 flex-col">
           <AppBar
@@ -87,7 +132,7 @@ export function RoomScreen({
                       3. Hold the button to check your word. Don&apos;t let your
                       neighbour see it.
                     </li>
-                    <li>4. Everyone types one clue. They all appear at once.</li>
+                    <li>4. Everyone writes one clue. They land on the table as they come.</li>
                     <li>5. Argue. Out loud. Then vote.</li>
                     <li>
                       6. Catch the Girgit and they get one guess at the word to
@@ -95,30 +140,48 @@ export function RoomScreen({
                     </li>
                   </ol>
                   <Link
-                    href="/how-to-play"
+                    href="/how-to-play/girgit"
                     className="block text-sm font-bold underline decoration-2"
                   >
-                    All the guides →
+                    Full rules →
                   </Link>
                 </SideDrawer>
 
                 <SideDrawer label="Room" icon="⚙" title={`Room ${state.code}`}>
                   <div className="space-y-2">
-                    <p className="mb-caps text-[0.6rem] opacity-60">Players</p>
-                    <ul className="space-y-1 text-sm font-semibold">
-                      {state.players.map((p) => (
-                        <li
-                          key={p.id}
-                          className={p.connected ? "" : "opacity-50"}
-                        >
-                          {p.name}
-                          {p.id === state.you ? " (you)" : ""}
-                          {p.isHost ? " · host" : ""}
-                          {p.connected ? "" : " · away"}
-                          <span className="opacity-60"> — {p.score}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <p className="mb-caps text-[0.6rem] opacity-60">Word packs</p>
+                    <div className="flex flex-wrap gap-2">
+                      {PACKS.map((pk) => {
+                        const on = state.packs.includes(pk.id);
+                        return (
+                          <Chip
+                            key={pk.id}
+                            active={on}
+                            disabled={!isHost}
+                            onClick={async () => {
+                              const next = on
+                                ? state.packs.filter((p) => p !== pk.id)
+                                : [...state.packs, pk.id];
+                              // Never allow zero — an empty selection is an
+                              // empty deck, and the server refuses it anyway.
+                              if (next.length === 0) {
+                                setToast("Keep at least one pack on.");
+                                return;
+                              }
+                              const r = await act.setPacks(next);
+                              setToast(r.ok ? `${pk.label} ${on ? "off" : "on"}` : r.error.message);
+                            }}
+                          >
+                            {pk.label}
+                          </Chip>
+                        );
+                      })}
+                    </div>
+                    <p className="text-[0.7rem] opacity-70">
+                      {isHost
+                        ? "Applies to the next deal — this round's grid is already out."
+                        : "The host picks these."}
+                    </p>
                   </div>
 
                   <div className="space-y-2">
@@ -128,12 +191,10 @@ export function RoomScreen({
                         <Chip
                           key={n}
                           active={state.clueSeconds === n}
-                          // Rule 4: a chip a non-host can tap and have nothing
-                          // happen is worse than one they cannot tap.
                           disabled={!isHost}
                           onClick={async () => {
                             const r = await act.setClueSeconds(n);
-                            if (!r.ok) setActionError(r.error);
+                            setToast(r.ok ? `Clue timer: ${n}s` : r.error.message);
                           }}
                         >
                           {n}s
@@ -142,7 +203,7 @@ export function RoomScreen({
                     </div>
                     <p className="text-[0.7rem] opacity-70">
                       {isHost
-                        ? "Applies to the round already running. Only clues are timed — the vote and the guess are not."
+                        ? "Applies to the round already running. Only clues are timed."
                         : "The host sets this."}
                     </p>
                   </div>
@@ -154,12 +215,11 @@ export function RoomScreen({
                         size="sm"
                         onClick={() => act.abortRound()}
                       >
-                        Abort this round
+                        End this round
                       </Button>
                       <p className="text-[0.7rem] opacity-70">
-                        For when somebody has actually gone home. The vote and
-                        the guess have no clock, so this is what unsticks a round
-                        nobody can finish. Nobody scores; deal again.
+                        The vote and the guess have no clock, so this is what
+                        unsticks a round nobody can finish. Nobody scores.
                       </p>
                     </div>
                   ) : null}
@@ -172,8 +232,6 @@ export function RoomScreen({
             }
           />
 
-          {/* flex-col so the lobby can actually centre itself; h-full alone
-              does not resolve inside a flex-1 scroll container. */}
           <div className="relative flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pt-16 pb-3 sm:px-8">
             {phase === "lobby" || !round ? (
               <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-3 text-center">
@@ -199,47 +257,30 @@ export function RoomScreen({
                 </ul>
               </div>
             ) : (
-              // Centred and capped. On a wide screen the grid used to stretch
-              // edge to edge with the clues stranded in the corners; the table
-              // is meant to have a centrepiece.
               <div className="mx-auto my-auto w-full max-w-md space-y-4">
-                {/* The round call-out. It was a 10px caption; it is the one
-                    piece of context every clue is judged against. */}
                 <header className="space-y-0.5 text-center">
                   <p className="mb-caps text-[0.55rem] opacity-60">
-                    Round {round.roundNo}
+                    {small}
                     {reconnecting ? " · reconnecting" : ""}
                   </p>
-                  <h2 className="mb-display-sm text-2xl">{round.theme}</h2>
+                  <h2 className="mb-display-sm text-2xl">{big}</h2>
                 </header>
 
-                {/* The vote is the one screen the grid comes off, so ten names
-                    stay above the fold instead of below it. */}
+                {/* The vote is the one phase the board comes off: the decision
+                    is about people, and ten names must stay above the fold. */}
                 {phase !== "vote" ? (
                   <GirgitGrid
                     cells={round.cells}
                     markIndex={round.secretIndex}
+                    guessIndex={round.escapeGuess}
                     onPick={
                       phase === "escape" && state.your?.isGirgit
-                        ? (i) => act.escapeGuess(i)
+                        ? (i) => {
+                            setToast(`Locked in: ${round.cells[i]}`);
+                            void act.escapeGuess(i);
+                          }
                         : undefined
                     }
-                  />
-                ) : null}
-
-                {phase === "clues" ? (
-                  <Roster
-                    players={state.players}
-                    doneIds={round.cluedBy}
-                    youId={state.you}
-                  />
-                ) : null}
-
-                {phase === "vote" ? (
-                  <Roster
-                    players={state.players}
-                    doneIds={round.votedBy}
-                    youId={state.you}
                   />
                 ) : null}
 
@@ -254,86 +295,75 @@ export function RoomScreen({
                   />
                 ) : null}
 
-                {round.clues ? (
-                  // The thing everybody is actually looking at. Laid out like
-                  // cards on a table rather than a list of rows.
-                  <ul className="grid grid-cols-2 gap-2">
-                    {round.clues.map((c) => (
-                      <li
-                        key={c.playerId}
-                        className="flex flex-col items-center justify-center gap-0.5 rounded-[var(--radius-md)] border-[length:var(--rule-thin)] border-[color:var(--frame)] px-2 py-3 text-center"
-                      >
-                        <span className="mb-display-sm text-lg leading-tight break-words">
-                          {c.word}
+                <PlayerTable
+                  players={state.players}
+                  youId={state.you}
+                  dimIds={round.skipped}
+                  onSelect={
+                    phase === "vote" && !hasVoted
+                      ? (id) => {
+                          setToast(`Voted for ${nameOf(id)}`);
+                          void act.castVote(id);
+                        }
+                      : undefined
+                  }
+                  disabledIds={phase === "vote" ? [state.you] : []}
+                  rowsRight={(p) => {
+                    const clueWord = clueOf(p.id);
+                    if (phase === "vote") {
+                      const n = round.voteCounts[p.id] ?? 0;
+                      return (
+                        <span className="flex items-baseline justify-end gap-3">
+                          {/* The clue stays on screen: it is the entire basis
+                              for the vote, and hiding it to make room for a
+                              tally made the decision guesswork. */}
+                          <span className="truncate text-base font-extrabold">
+                            {clueWord ?? "—"}
+                          </span>
+                          {round.votedBy.includes(p.id) ? (
+                            <span className="mb-caps text-[0.5rem] opacity-55">
+                              voted
+                            </span>
+                          ) : null}
+                          <span className="mb-display-sm w-5 text-lg tabular-nums">
+                            {n}
+                          </span>
                         </span>
-                        <span className="mb-caps text-[0.5rem] opacity-70">
-                          {nameOf(c.playerId)}
-                        </span>
-                      </li>
-                    ))}
-                    {round.skipped.map((id) => (
-                      <li
-                        key={id}
-                        className="flex flex-col items-center justify-center gap-0.5 rounded-[var(--radius-md)] border-[length:var(--rule-thin)] border-current/30 px-2 py-3 text-center opacity-50"
-                      >
-                        <span className="mb-display-sm text-lg leading-tight">—</span>
-                        <span className="mb-caps text-[0.5rem]">
-                          {nameOf(id)} · timed out
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
+                      );
+                    }
+                    const w = clueWord;
+                    if (w) return <span className="text-base font-extrabold">{w}</span>;
+                    if (round.skipped.includes(p.id)) {
+                      return (
+                        <span className="mb-caps text-[0.5rem]">timed out</span>
+                      );
+                    }
+                    return <span className="opacity-40">…</span>;
+                  }}
+                />
 
-                {phase === "vote" ? (
-                  <div className="space-y-2">
-                    <p className="mb-caps text-center text-[0.6rem] opacity-70">
-                      {hasVoted ? "Locked in — waiting" : "Who is the Girgit?"}
-                    </p>
-                    <div className="grid grid-cols-2 gap-2">
-                      {state.players
-                        .filter((p) => p.id !== state.you)
-                        .map((p) => (
-                          <Button
-                            key={p.id}
-                            variant="secondary"
-                            onClick={async () => {
-                              const r = await act.castVote(p.id);
-                              if (!r.ok) setActionError(r.error);
-                            }}
-                            disabled={hasVoted}
-                          >
-                            {p.name}
-                          </Button>
-                        ))}
-                    </div>
-                  </div>
-                ) : null}
-
-                {!cutOff && phase === "escape" ? (
-                  <p className="mb-display-sm text-center text-lg">
-                    {state.your?.isGirgit
-                      ? "Caught. Tap the word to escape."
-                      : `${nameOf(round.accused)} is guessing…`}
-                  </p>
-                ) : null}
-
-                {!cutOff && phase === "reveal" ? (
+                {phase === "reveal" && round.outcome !== "aborted" ? (
                   <div className="space-y-2 text-center">
-                    <p className="mb-display-sm text-xl">
-                      {round.outcome === "aborted"
-                        ? "Round aborted."
-                        : `${nameOf(round.girgitId)} was the Girgit.`}
-                    </p>
-                    {round.outcome && round.outcome !== "aborted" ? (
-                      <p className="mb-caps text-[0.6rem] opacity-80">
-                        {round.outcome === "girgit-escaped"
-                          ? "Got away with it · +2"
-                          : round.outcome === "girgit-guessed"
-                            ? "Caught, but guessed the word · +1"
-                            : "Caught cold · +1 to everyone else"}
+                    {/* The whole round hinges on this comparison, so it is
+                        stated rather than implied by two highlighted cells. */}
+                    {round.escapeGuess !== null ? (
+                      <p className="mb-display-sm text-lg">
+                        {nameOf(round.girgitId)} guessed “{word(round.escapeGuess)}”.
+                        <br />
+                        The word was “{word(round.secretIndex)}”.
                       </p>
-                    ) : null}
+                    ) : (
+                      <p className="mb-display-sm text-lg">
+                        The word was “{word(round.secretIndex)}”.
+                      </p>
+                    )}
+                    <p className="mb-caps text-[0.6rem] opacity-80">
+                      {round.outcome === "girgit-escaped"
+                        ? "Got away with it · +2"
+                        : round.outcome === "girgit-guessed"
+                          ? "Caught, but guessed right · +1"
+                          : "Caught cold · +1 to everyone else"}
+                    </p>
                     {round.votes ? (
                       <ul className="mb-caps space-y-0.5 text-[0.55rem] opacity-70">
                         {round.votes.map((v) => (
@@ -357,7 +387,6 @@ export function RoomScreen({
           </div>
         </div>
 
-        {/* The band. Exactly one action, at thumb height, never scrolled away. */}
         <div className="mb-band flex-col gap-2 px-4 py-3">
           {!cutOff && round?.deadlineAt ? (
             <Deadline
@@ -365,10 +394,6 @@ export function RoomScreen({
               totalSeconds={state.clueSeconds}
               label="Clues close in"
             />
-          ) : null}
-
-          {actionError ? (
-            <p className="text-center text-xs font-bold">{actionError.message}</p>
           ) : null}
 
           {cutOff ? (
@@ -422,9 +447,9 @@ export function RoomScreen({
                     const r = await act.submitClue(clue);
                     if (r.ok) {
                       setClue("");
-                      setActionError(null);
+                      setToast("Clue in");
                     } else {
-                      setActionError(r.error);
+                      setToast(r.error.message);
                     }
                   }}
                   disabled={!clue.trim()}
@@ -436,11 +461,7 @@ export function RoomScreen({
           ) : null}
 
           {!cutOff && phase === "discuss" ? (
-            <Button
-              size="hero"
-              className="max-w-sm"
-              onClick={() => act.callVote()}
-            >
+            <Button size="hero" className="max-w-sm" onClick={() => act.callVote()}>
               Call the vote
             </Button>
           ) : null}
@@ -448,10 +469,10 @@ export function RoomScreen({
           {!cutOff && phase === "vote" && round ? (
             <div className="flex w-full max-w-sm items-center justify-between gap-3">
               <span className="mb-caps text-[0.6rem] opacity-80">
-                {round.votesIn} of {round.cluesTotal} voted
+                {hasVoted
+                  ? "Locked in"
+                  : `${round.votesIn} of ${round.cluesTotal} voted`}
               </span>
-              {/* Untimed phases cannot unstick themselves, so the escape hatch
-                  is on the surface rather than three taps into a drawer. */}
               {isHost ? (
                 <button
                   className="mb-caps text-[0.55rem] underline opacity-70"
@@ -481,11 +502,7 @@ export function RoomScreen({
 
           {!cutOff && phase === "reveal" ? (
             isHost ? (
-              <Button
-                size="hero"
-                className="max-w-sm"
-                onClick={() => act.startRound()}
-              >
+              <Button size="hero" className="max-w-sm" onClick={() => act.startRound()}>
                 Again
               </Button>
             ) : (

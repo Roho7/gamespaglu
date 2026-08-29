@@ -245,6 +245,7 @@ export type RoomSnapshot = {
     round_no: number;
     host_player_id: string | null;
     clue_seconds: number;
+    packs: string[];
   };
   players: PlayerRow[];
 };
@@ -260,7 +261,7 @@ export type RoomSnapshot = {
  */
 export async function getRoomSnapshot(code: RoomCode): Promise<RoomSnapshot> {
   const { rows } = await pool.query<RoomSnapshot["room"]>(
-    `select code, phase, round_no, host_player_id, clue_seconds
+    `select code, phase, round_no, host_player_id, clue_seconds, packs
        from gp.rooms where code = $1`,
     [code],
   );
@@ -297,6 +298,7 @@ export function roomStateFrom(
     minPlayers: MIN_PLAYERS,
     maxPlayers: MAX_PLAYERS,
     clueSeconds: room.clue_seconds,
+    packs: room.packs,
     round: round?.publicView ?? null,
     your: round?.yourView ?? null,
   };

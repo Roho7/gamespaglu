@@ -19,7 +19,8 @@
       "ladle",
       "peeler",
       "mixer"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "at-the-airport",
@@ -41,7 +42,8 @@
       "tarmac",
       "cockpit",
       "layover"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "weather",
@@ -63,7 +65,8 @@
       "lightning",
       "sleet",
       "drought"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-a-gym",
@@ -85,7 +88,8 @@
       "sauna",
       "cycle",
       "squat-rack"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "at-a-wedding",
@@ -107,7 +111,8 @@
       "registry",
       "speech",
       "dress-code"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-an-office",
@@ -129,7 +134,8 @@
       "payslip",
       "overtime",
       "appraisal"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-the-bathroom",
@@ -151,7 +157,8 @@
       "sponge",
       "scale",
       "cabinet"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "at-the-beach",
@@ -173,7 +180,8 @@
       "beach-ball",
       "cooler",
       "boardwalk"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-a-supermarket",
@@ -195,7 +203,8 @@
       "bargain-bin",
       "carrier-bag",
       "queue"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-a-hospital",
@@ -217,7 +226,8 @@
       "visiting-hours",
       "plaster-cast",
       "chart"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "at-school",
@@ -239,7 +249,8 @@
       "locker",
       "bell",
       "pencil-case"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-a-restaurant",
@@ -261,7 +272,8 @@
       "starter",
       "doggy-bag",
       "chef"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-a-car",
@@ -283,7 +295,8 @@
       "horn",
       "dashboard",
       "wiper"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-the-garden",
@@ -305,7 +318,8 @@
       "patio",
       "sprinkler",
       "rake"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "at-a-party",
@@ -327,7 +341,8 @@
       "sparkler",
       "doorbell",
       "leftovers"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-a-hotel",
@@ -349,7 +364,8 @@
       "elevator",
       "balcony",
       "late-fee"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "at-the-zoo",
@@ -371,7 +387,8 @@
       "picnic",
       "ticket",
       "trail"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "at-the-cinema",
@@ -393,7 +410,8 @@
       "spoiler",
       "recliner",
       "queue"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-the-bedroom",
@@ -415,7 +433,8 @@
       "nightstand",
       "rug",
       "ceiling-fan"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-a-toolbox",
@@ -437,7 +456,8 @@
       "clamp",
       "saw",
       "bolt"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "on-a-desk",
@@ -459,7 +479,8 @@
       "diary",
       "marker",
       "scissors"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "breakfast",
@@ -481,7 +502,8 @@
       "bagel",
       "yoghurt",
       "smoothie"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "winter",
@@ -503,7 +525,8 @@
       "blanket",
       "chapped-lips",
       "antifreeze"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "camping",
@@ -525,7 +548,8 @@
       "tent-peg",
       "rucksack",
       "stove"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "at-the-salon",
@@ -547,7 +571,8 @@
       "comb",
       "tip-jar",
       "magazine"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-a-bank",
@@ -569,7 +594,8 @@
       "branch",
       "cheque",
       "locker"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "at-a-train-station",
@@ -591,7 +617,8 @@
       "coach",
       "sleeper",
       "pantry-car"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "in-a-playground",
@@ -613,7 +640,8 @@
       "tunnel",
       "spring-rider",
       "netting"
-    ]
+    ],
+    "pack": "everyday"
   },
   {
     "id": "blockbuster-movies",
@@ -635,7 +663,8 @@
       "home-alone",
       "fight-club",
       "rocky"
-    ]
+    ],
+    "pack": "movies-tv"
   },
   {
     "id": "animated-movies",
@@ -657,7 +686,8 @@
       "spirited-away",
       "ponyo",
       "akira"
-    ]
+    ],
+    "pack": "movies-tv"
   },
   {
     "id": "tv-series",
@@ -679,7 +709,8 @@
       "narcos",
       "seinfeld",
       "lost"
-    ]
+    ],
+    "pack": "movies-tv"
   },
   {
     "id": "hollywood-actors",
@@ -701,7 +732,8 @@
       "matt-damon",
       "ben-affleck",
       "chris-evans"
-    ]
+    ],
+    "pack": "people"
   },
   {
     "id": "bollywood-actors",
@@ -723,7 +755,8 @@
       "kajol",
       "madhuri-dixit",
       "vidya-balan"
-    ]
+    ],
+    "pack": "people"
   },
   {
     "id": "musicians",
@@ -745,7 +778,8 @@
       "dua-lipa",
       "post-malone",
       "madonna"
-    ]
+    ],
+    "pack": "people"
   },
   {
     "id": "internet-famous",
@@ -767,7 +801,8 @@
       "bhuvan-bam",
       "carryminati",
       "kim-kardashian"
-    ]
+    ],
+    "pack": "people"
   },
   {
     "id": "big-companies",
@@ -789,7 +824,8 @@
       "coca-cola",
       "mcdonald-s",
       "ikea"
-    ]
+    ],
+    "pack": "brands"
   },
   {
     "id": "superheroes",
@@ -811,7 +847,8 @@
       "black-panther",
       "aquaman",
       "the-flash"
-    ]
+    ],
+    "pack": "characters"
   },
   {
     "id": "anime-characters",
@@ -833,7 +870,8 @@
       "denji",
       "makima",
       "nami"
-    ]
+    ],
+    "pack": "characters"
   },
   {
     "id": "cartoon-characters",
@@ -855,7 +893,8 @@
       "elsa",
       "simba",
       "minions"
-    ]
+    ],
+    "pack": "characters"
   },
   {
     "id": "sports-stars",
@@ -877,6 +916,145 @@
       "tom-brady",
       "lewis-hamilton",
       "pel"
+    ],
+    "pack": "people"
+  },
+  {
+    "id": "sci-fi-and-fantasy",
+    "theme": "Sci-fi and fantasy",
+    "pack": "movies-tv",
+    "cells": [
+      "star-wars",
+      "the-matrix",
+      "interstellar",
+      "dune",
+      "avatar",
+      "blade-runner",
+      "alien",
+      "inception",
+      "jurassic-park",
+      "back-to-the-future",
+      "arrival",
+      "the-martian",
+      "gravity",
+      "akira",
+      "godzilla",
+      "spirited-away"
+    ]
+  },
+  {
+    "id": "tech-and-internet",
+    "theme": "Tech and internet",
+    "pack": "brands",
+    "cells": [
+      "apple",
+      "google",
+      "amazon",
+      "microsoft",
+      "netflix",
+      "meta",
+      "tesla",
+      "nvidia",
+      "samsung",
+      "sony",
+      "nintendo",
+      "spotify",
+      "uber",
+      "tiktok",
+      "youtube",
+      "paypal"
+    ]
+  },
+  {
+    "id": "brands-everyone-knows",
+    "theme": "Brands everyone knows",
+    "pack": "brands",
+    "cells": [
+      "nike",
+      "adidas",
+      "puma",
+      "coca-cola",
+      "pepsi",
+      "mcdonald-s",
+      "kfc",
+      "starbucks",
+      "ikea",
+      "zara",
+      "rolex",
+      "ferrari",
+      "toyota",
+      "bmw",
+      "disney",
+      "lego"
+    ]
+  },
+  {
+    "id": "kids-tv",
+    "theme": "Kids' TV",
+    "pack": "characters",
+    "cells": [
+      "doraemon",
+      "shinchan",
+      "peppa-pig",
+      "ben-10",
+      "dora-the-explorer",
+      "bluey",
+      "tom-and-jerry",
+      "scooby-doo",
+      "chhota-bheem",
+      "motu-and-patlu",
+      "ninja-hattori",
+      "oswald",
+      "powerpuff-girls",
+      "johnny-bravo",
+      "popeye",
+      "pikachu"
+    ]
+  },
+  {
+    "id": "icons-and-founders",
+    "theme": "Icons and founders",
+    "pack": "people",
+    "cells": [
+      "elon-musk",
+      "bill-gates",
+      "steve-jobs",
+      "mark-zuckerberg",
+      "jeff-bezos",
+      "warren-buffett",
+      "sam-altman",
+      "tim-cook",
+      "ratan-tata",
+      "mukesh-ambani",
+      "sundar-pichai",
+      "satya-nadella",
+      "walt-disney",
+      "richard-branson",
+      "narayana-murthy",
+      "oprah-winfrey"
+    ]
+  },
+  {
+    "id": "legends",
+    "theme": "Legends",
+    "pack": "people",
+    "cells": [
+      "albert-einstein",
+      "isaac-newton",
+      "marie-curie",
+      "stephen-hawking",
+      "nikola-tesla",
+      "thomas-edison",
+      "charles-darwin",
+      "leonardo-da-vinci",
+      "galileo-galilei",
+      "alan-turing",
+      "ada-lovelace",
+      "cleopatra",
+      "nelson-mandela",
+      "mahatma-gandhi",
+      "bruce-lee",
+      "frida-kahlo"
     ]
   }
 ]

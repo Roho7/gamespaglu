@@ -46,6 +46,24 @@ export const MAX_CLUE_LENGTH = 20;
  * game that is the game. The cost is real and is why `round:abort` exists — a
  * locked phone during the vote stalls the round, and the host has to end it.
  */
+/**
+ * Word packs. A room picks which of these are in play, so a group can have a
+ * pop-culture night or keep it to things in a kitchen.
+ *
+ * Every pack must hold enough grids that a session does not repeat itself
+ * immediately — `check:grids` enforces a floor, because a pack of one is a
+ * setting that makes the game worse the moment anybody picks it.
+ */
+export const PACKS = [
+  { id: "movies-tv", label: "Movies & TV" },
+  { id: "people", label: "Famous people" },
+  { id: "characters", label: "Characters" },
+  { id: "brands", label: "Brands" },
+  { id: "everyday", label: "Everyday things" },
+] as const;
+export type PackId = (typeof PACKS)[number]["id"];
+export const ALL_PACKS: PackId[] = PACKS.map((p) => p.id);
+
 export const CLUE_SECONDS_OPTIONS = [30, 60] as const;
 export type ClueSeconds = (typeof CLUE_SECONDS_OPTIONS)[number];
 export const DEFAULT_CLUE_SECONDS: ClueSeconds = 60;
@@ -104,28 +122,37 @@ export type PublicRound = {
   roundNo: number;
   theme: string;
   cells: string[];
-  /** Progress only, until the last clue lands. */
   cluesIn: number;
   cluesTotal: number;
-  /** WHO has submitted — never what. Knowing who is waited on is not a leak. */
-  cluedBy: PlayerId[];
-  /** Same for the vote: who has locked in, never their target. */
+  /**
+   * Clues appear as they are written, not all at once at the end.
+   *
+   * This reverses the original design. Simultaneous reveal removed the
+   * going-last advantage the tabletop game has, which is a real edge for the
+   * Girgit — but playing it, the wait reads as the app being stuck, and a table
+   * that cannot see the clue board filling up has nothing to talk about. Live
+   * clues won on the strength of actually playing it.
+   */
+  clues: { playerId: PlayerId; word: string }[];
+  /** Who has locked a vote in. */
   votedBy: PlayerId[];
+  /** How many votes each player has received. Counts are public; targets are not. */
+  voteCounts: Record<PlayerId, number>;
   /** Epoch ms the current phase expires, or null when nothing is timed. */
   deadlineAt: number | null;
   /** Players who ran out of time and were skipped. */
   skipped: PlayerId[];
-  /** Null while collecting — reveal is simultaneous, by design. */
-  clues: { playerId: PlayerId; word: string }[] | null;
   voteOpen: boolean;
   votesIn: number;
   /** Hidden while casting, fully attributed once resolved. */
   votes: { voterId: PlayerId; targetId: PlayerId }[] | null;
   accused: PlayerId | null;
   outcome: Outcome | null;
-  /** Both null until the reveal. This is the secret. */
+  /** All three null until the reveal. This is the secret. */
   girgitId: PlayerId | null;
   secretIndex: number | null;
+  /** Which cell the caught Girgit picked, so the board can show both. */
+  escapeGuess: number | null;
 };
 
 /**
@@ -159,6 +186,8 @@ export type RoomState = {
   maxPlayers: number;
   /** How long the clue phase runs. A room setting, changeable mid-round. */
   clueSeconds: number;
+  /** Which word packs are in play. Never empty. */
+  packs: string[];
   round: PublicRound | null;
   your: YourRound | null;
 };
@@ -214,6 +243,8 @@ export type ClientToServer = {
    * cannot hand anybody extra time by resetting the clock.
    */
   "room:clueSeconds": (p: { seconds: number }, ack: Ack<{ ok: true }>) => void;
+  /** Host only. Applies to the next deal — the grid in play is already dealt. */
+  "room:packs": (p: { packs: string[] }, ack: Ack<{ ok: true }>) => void;
 
   /** Host only. Applies queued joins and leaves, then deals. */
   "round:start": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;

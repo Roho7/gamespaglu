@@ -146,6 +146,7 @@ export function useRoom() {
       (seconds: number) => call("room:clueSeconds", { seconds }),
       [call],
     ),
+    setPacks: useCallback((packs: string[]) => call("room:packs", { packs }), [call]),
     startRound: useCallback(() => call("round:start", {}), [call]),
     abortRound: useCallback(() => call("round:abort", {}), [call]),
     submitClue: useCallback((word: string) => call("clue:submit", { word }), [call]),

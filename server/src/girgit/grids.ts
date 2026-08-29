@@ -35,7 +35,7 @@ for (const list of [animals, objects, everyday] as string[][]) {
   for (const label of list) LABEL_BY_ID.set(slug(label), label);
 }
 
-type RawGrid = { id: string; theme: string; cells: string[] };
+type RawGrid = { id: string; theme: string; pack: string; cells: string[] };
 
 export const GRIDS: Grid[] = (gridsRaw as RawGrid[]).map((g) => {
   const cells = g.cells.map((id) => {
@@ -48,7 +48,7 @@ export const GRIDS: Grid[] = (gridsRaw as RawGrid[]).map((g) => {
   if (cells.length !== GRID_SIZE) {
     throw new Error(`Grid ${g.id} has ${cells.length} cells, expected ${GRID_SIZE}`);
   }
-  return { id: g.id, theme: g.theme, cells };
+  return { id: g.id, theme: g.theme, pack: g.pack, cells };
 });
 
 export const GRID_BY_ID = new Map(GRIDS.map((g) => [g.id, g]));

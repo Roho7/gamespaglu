@@ -38,6 +38,7 @@ import {
   yourRound,
 } from "./girgit/store";
 import {
+  ALL_PACKS,
   CLUE_SECONDS_OPTIONS,
   MAX_NAME_LENGTH,
   isDeviceId,
@@ -247,6 +248,29 @@ io.on("connection", (socket: Socket<ClientToServer, ServerToClient, Record<strin
       await pool.query(`update gp.rooms set clue_seconds = $2 where code = $1`, [code, n]);
       // Applies to the round already running, not just the next one.
       await transition(code, (st) => setClueSeconds(st, n)).catch(() => undefined);
+      await broadcastState(code);
+      return { ok: true as const };
+    }),
+  );
+
+  socket.on("room:packs", ({ packs }, ack) =>
+    handle(ack, async () => {
+      const { playerId, code } = seat();
+      const chosen = (Array.isArray(packs) ? packs : []).filter((p): p is string =>
+        ALL_PACKS.includes(p as (typeof ALL_PACKS)[number]),
+      );
+      // An empty selection is an empty deck. Refuse rather than deal nothing.
+      if (chosen.length === 0) {
+        throw new RoomError({ code: "BAD_SETTING", message: "Keep at least one pack on." });
+      }
+      const { rows } = await pool.query<{ host_player_id: string | null }>(
+        `select host_player_id from gp.rooms where code = $1`,
+        [code],
+      );
+      if (rows[0]?.host_player_id !== playerId) {
+        throw new RoomError({ code: "NOT_HOST", message: "Only the host picks packs." });
+      }
+      await pool.query(`update gp.rooms set packs = $2 where code = $1`, [code, chosen]);
       await broadcastState(code);
       return { ok: true as const };
     }),

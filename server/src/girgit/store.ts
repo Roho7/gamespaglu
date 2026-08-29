@@ -4,6 +4,7 @@ import { RoomError } from "../rooms";
 import { GRIDS } from "./grids";
 import { dealRound, type RoundState } from "./engine";
 import {
+  ALL_PACKS,
   DEFAULT_CLUE_SECONDS,
   MIN_PLAYERS,
   type PlayerId,
@@ -67,8 +68,10 @@ export async function startRound(code: string, hostPlayerId: PlayerId) {
       host_player_id: string | null;
       round_no: number;
       clue_seconds: number;
+      packs: string[];
     }>(
-      `select host_player_id, round_no, clue_seconds from gp.rooms where code = $1`,
+      `select host_player_id, round_no, clue_seconds, packs
+         from gp.rooms where code = $1`,
       [code],
     );
     if (host.rows[0]?.host_player_id !== hostPlayerId) {
@@ -100,11 +103,19 @@ export async function startRound(code: string, hostPlayerId: PlayerId) {
       [code],
     );
     const seen = new Set(used.map((r) => r.grid_id));
+    // Only the packs this room turned on. The DB constraint guarantees at least
+    // one, so `inPlay` can never be empty.
+    const enabled = new Set(host.rows[0]?.packs ?? ALL_PACKS);
+    const inPlay = GRIDS.filter((g) => enabled.has(g.pack));
     // Once the bag is empty it refills, minus the one just played, so the
     // reshuffle never immediately repeats.
-    const unseen = GRIDS.filter((g) => !seen.has(g.id));
-    const bag = unseen.length ? unseen : GRIDS.filter((g) => g.id !== previous?.gridId);
-    const grid = bag[Math.floor(Math.random() * bag.length)];
+    const unseen = inPlay.filter((g) => !seen.has(g.id));
+    const bag = unseen.length
+      ? unseen
+      : inPlay.filter((g) => g.id !== previous?.gridId);
+    const grid = (bag.length ? bag : inPlay)[
+      Math.floor(Math.random() * (bag.length ? bag.length : inPlay.length))
+    ];
 
     const roundNo = (host.rows[0]?.round_no ?? 0) + 1;
     const state = dealRound(
@@ -181,8 +192,11 @@ export async function currentRound(code: string): Promise<RoundState | null> {
 /** Everything the room may see. The secret appears only at the reveal. */
 export function publicRound(state: RoundState, roundNo: number): PublicRound {
   const revealed = state.phase === "reveal";
-  const cluesDone = state.phase !== "clues";
   const votesResolved = !state.voteOpen;
+
+  const voteCounts: Record<string, number> = {};
+  for (const p of state.players) voteCounts[p] = 0;
+  for (const target of Object.values(state.votes)) voteCounts[target] += 1;
 
   return {
     roundNo,
@@ -190,17 +204,17 @@ export function publicRound(state: RoundState, roundNo: number): PublicRound {
     cells: state.cells,
     cluesIn: Object.keys(state.clues).length,
     cluesTotal: state.players.length,
-    // Who has acted is public; what they said is not. Knowing the table is
-    // waiting on you is the whole point, and it leaks nothing.
-    cluedBy: state.players.filter((p) => state.clues[p]),
+    // Live, in submission order-independent player order, so the board fills up
+    // in front of the table instead of appearing all at once at the end.
+    clues: state.players
+      .filter((p) => state.clues[p])
+      .map((p) => ({ playerId: p, word: state.clues[p] })),
     votedBy: state.players.filter((p) => state.votes[p]),
+    // Counts, not targets: the table can watch the vote build without learning
+    // who put it there until it resolves.
+    voteCounts,
     deadlineAt: state.deadlineAt,
     skipped: state.skipped ?? [],
-    clues: cluesDone
-      ? state.players
-          .filter((p) => state.clues[p])
-          .map((p) => ({ playerId: p, word: state.clues[p] }))
-      : null,
     voteOpen: state.voteOpen,
     votesIn: Object.keys(state.votes).length,
     votes: votesResolved
@@ -210,6 +224,7 @@ export function publicRound(state: RoundState, roundNo: number): PublicRound {
     outcome: state.outcome,
     girgitId: revealed ? state.girgit : null,
     secretIndex: revealed ? state.secretIndex : null,
+    escapeGuess: revealed ? state.escapeGuess : null,
   };
 }
 

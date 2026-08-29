@@ -19,12 +19,15 @@ export function GirgitGrid({
   cells,
   onPick,
   markIndex,
+  guessIndex,
   disabled,
 }: {
   cells: string[];
   onPick?: (index: number) => void;
-  /** Reveal only. */
+  /** The secret. Reveal only. */
   markIndex?: number | null;
+  /** What the caught Girgit picked. Reveal only, and only when they were wrong. */
+  guessIndex?: number | null;
   disabled?: boolean;
 }) {
   const pickable = Boolean(onPick) && !disabled;
@@ -33,6 +36,9 @@ export function GirgitGrid({
     <div className="grid grid-cols-4 gap-1.5">
       {cells.map((word, i) => {
         const marked = markIndex === i;
+        // Shown distinctly from the answer: the round hinges on the gap between
+        // what they guessed and what it was, so the board has to show both.
+        const guessed = guessIndex === i && guessIndex !== markIndex;
         return (
           <button
             key={`${word}-${i}`}
@@ -48,9 +54,11 @@ export function GirgitGrid({
               "border-[length:var(--rule-thin)] border-[color:var(--frame)] px-1 py-1",
               "text-center text-[0.62rem] leading-[1.15] font-bold tracking-[0.02em] uppercase",
               "hyphens-auto transition-transform",
-              marked
-                ? "bg-[var(--highlight)] text-[var(--shadow-text,var(--shadow-ink))]"
-                : "bg-transparent text-[var(--ink-on-field)]",
+              marked &&
+                "bg-[var(--highlight)] text-[var(--shadow-text,var(--shadow-ink))]",
+              guessed &&
+                "border-dashed bg-[var(--band)] text-[var(--band-ink)] line-through",
+              !marked && !guessed && "bg-transparent text-[var(--ink-on-field)]",
               pickable && "active:translate-y-[2px] active:scale-[0.98]",
               !pickable && "cursor-default",
             )}
