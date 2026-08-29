@@ -7,7 +7,6 @@ import {
   ROOM_CODE_LENGTH,
   ROOM_TTL_MS,
   type Err,
-  type PublicPlayer,
   type RoomCode,
   type RoomPhase,
   type RoomState,
@@ -239,42 +238,53 @@ async function reassignHostIfNeeded(c: PoolClient, code: RoomCode) {
   if (!next[0]) await c.query(`delete from gp.rooms where code = $1`, [code]);
 }
 
-export async function getRoomState(
-  code: RoomCode,
-  you: string,
-  /** Injected so this module keeps knowing nothing about any particular game. */
-  round?: { publicView: RoomState["round"]; yourView: RoomState["your"] },
-): Promise<RoomState> {
-  const { rows } = await pool.query<{
-    code: string;
-    game: string;
-    phase: RoomPhase;
-    round_no: number;
-    host_player_id: string | null;
-  }>(
-    `select code, game, phase, round_no, host_player_id from gp.rooms where code = $1`,
+export type RoomSnapshot = {
+  room: { code: string; phase: RoomPhase; round_no: number; host_player_id: string | null };
+  players: PlayerRow[];
+};
+
+/**
+ * Read the room and its roster ONCE.
+ *
+ * This used to be per recipient, inside the broadcast loop — two queries times
+ * however many people were in the room. At eight players that is sixteen round
+ * trips to build one broadcast, and it is invisible on a local database where a
+ * round trip is under a millisecond. Against a real one it is most of the
+ * latency of every single tap.
+ */
+export async function getRoomSnapshot(code: RoomCode): Promise<RoomSnapshot> {
+  const { rows } = await pool.query<RoomSnapshot["room"]>(
+    `select code, phase, round_no, host_player_id from gp.rooms where code = $1`,
     [code],
   );
   if (rows.length === 0) fail("ROOM_NOT_FOUND", "That room is gone.");
-  const room = rows[0];
-  const players = await playersOf(pool, code);
+  return { room: rows[0], players: await playersOf(pool, code) };
+}
 
-  const publicPlayers: PublicPlayer[] = players.map((p) => ({
-    id: p.id,
-    name: p.name,
-    seat: p.seat,
-    connected: p.connected,
-    pendingLeave: p.pending_leave,
-    isHost: p.id === room.host_player_id,
-    score: p.score,
-  }));
-
+/**
+ * Pure. The only part that differs per recipient is `you` and the private half
+ * of the round, so the expensive part is shared and this is just shaping.
+ */
+export function roomStateFrom(
+  snapshot: RoomSnapshot,
+  you: string,
+  round?: { publicView: RoomState["round"]; yourView: RoomState["your"] },
+): RoomState {
+  const { room, players } = snapshot;
   return {
     code: room.code,
     game: "girgit",
     phase: room.phase,
     roundNo: room.round_no,
-    players: publicPlayers,
+    players: players.map((p) => ({
+      id: p.id,
+      name: p.name,
+      seat: p.seat,
+      connected: p.connected,
+      pendingLeave: p.pending_leave,
+      isHost: p.id === room.host_player_id,
+      score: p.score,
+    })),
     hostId: room.host_player_id ?? "",
     you,
     minPlayers: MIN_PLAYERS,

@@ -8,12 +8,13 @@ import { ping, pool } from "./db";
 import {
   RoomError,
   createRoom,
-  getRoomState,
+  getRoomSnapshot,
   joinRoom,
   kickPlayer,
   leaveRoom,
   reapExpiredRooms,
   resumeRoom,
+  roomStateFrom,
   setConnected,
 } from "./rooms";
 import {
@@ -77,32 +78,33 @@ const io = new Server<ClientToServer, ServerToClient, Record<string, never>, Soc
  */
 async function broadcastState(code: string) {
   const sockets = await io.in(code).fetchSockets();
-  const round = await currentRound(code);
-  const roundNo = round ? (await getRoundNo(code)) : 0;
+  try {
+    // Everything expensive happens once, outside the loop. Only the shaping is
+    // per recipient — which is the whole point: the payload differs by exactly
+    // one field and one nested object.
+    const [snapshot, round] = await Promise.all([
+      getRoomSnapshot(code),
+      currentRound(code),
+    ]);
+    const publicView = round ? publicRound(round, snapshot.room.round_no) : null;
 
-  for (const s of sockets) {
-    const you = s.data.playerId;
-    if (!you) continue;
-    try {
+    for (const s of sockets) {
+      const you = s.data.playerId;
+      if (!you) continue;
       // The per-socket half: innocents get secretIndex, the Girgit gets null.
-      // Everything else in the payload is identical for everyone.
-      const view = round
-        ? { publicView: publicRound(round, roundNo), yourView: yourRound(round, you) }
-        : undefined;
-      s.emit("room:state", await getRoomState(code, you, view));
-    } catch (err) {
-      if (err instanceof RoomError) s.emit("room:closed", err.err);
-      else throw err;
+      const view =
+        round && publicView
+          ? { publicView, yourView: yourRound(round, you) }
+          : undefined;
+      s.emit("room:state", roomStateFrom(snapshot, you, view));
     }
+  } catch (err) {
+    if (err instanceof RoomError) {
+      for (const s of sockets) s.emit("room:closed", err.err);
+      return;
+    }
+    throw err;
   }
-}
-
-async function getRoundNo(code: string): Promise<number> {
-  const { rows } = await pool.query<{ round_no: number }>(
-    `select round_no from gp.rooms where code = $1`,
-    [code],
-  );
-  return rows[0]?.round_no ?? 0;
 }
 
 const INTERNAL: Err = { code: "INTERNAL", message: "Something broke on our side." };

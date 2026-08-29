@@ -1,4 +1,11 @@
 app = 'gamespaglu-server'
+# Singapore, matching the officepaglu backend and closest to Indian players.
+#
+# Trade-off, recorded because it is the first thing to look at if play feels
+# sluggish: Supabase is in ap-southeast-2 (Sydney), so every player action pays
+# a ~90ms hop per query, and an action runs several sequential queries inside
+# one transaction. Moving this to 'syd' would cut that at the cost of ~70ms more
+# socket latency to India. That is the lever.
 primary_region = 'sin'
 
 [build]
@@ -15,7 +22,6 @@ primary_region = 'sin'
   # process holds live game rooms rather than serving stateless requests.
   auto_stop_machines = 'off'
   auto_start_machines = true
-  min_machines_running = 1
 
   [[services.ports]]
     port = 80

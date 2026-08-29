@@ -15,7 +15,7 @@ do $$
 begin
   if not exists (select 1 from pg_roles where rolname = 'gp_app') then
     -- Replace before running. Put the same value in the server's DATABASE_URL.
-    create role gp_app login password 'CHANGE_ME_BEFORE_RUNNING';
+    create role gp_app login password '';
   end if;
 end
 $$;

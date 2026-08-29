@@ -204,6 +204,11 @@ consistent.
 
 ## Layout rules
 
+- **Every new `gp` table needs an RLS policy, not just a grant.** Supabase enables RLS on new
+  tables, and RLS with no policy denies the owner's role everything. It hides well: RLS *filters*
+  selects rather than erroring, so `select count(*)` returns 0 and looks like an empty table. This
+  shipped to production once. Prove access with a **write**, never a read — and add the policy in
+  the same migration as the table (`server/migrations/003_rls.sql` is the pattern).
 - **Girgit is the only route that needs a network.** It is precached anyway, so opening it with no
   signal renders a screen that *says* so — the service worker would otherwise serve a
   plausible-looking board that silently does nothing, which is the worst failure a room screen can
