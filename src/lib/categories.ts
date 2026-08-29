@@ -15,8 +15,6 @@ export type CategoryMeta = {
   seoDescription: string;
   /** Does the country picker apply? */
   hasRegionFilter: boolean;
-  /** Do the Indian-language sub-chips apply? Only film data carries a language. */
-  hasLanguageFilter: boolean;
   /** Do the kind-of-famous chips and the era toggle apply? */
   hasTypeFilter: boolean;
   hasRangeFilter: boolean;
@@ -35,7 +33,6 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     seoDescription:
       "Pick a random famous name — actors, cricketers, singers, leaders, YouTubers, cartoon characters, anime characters and superheroes. Filter by country, kind and era. Free and offline.",
     hasRegionFilter: true,
-    hasLanguageFilter: true,
     hasTypeFilter: true,
     hasRangeFilter: false,
     blurb:
@@ -50,13 +47,12 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     seoSlug: "random-movie-generator",
     seoTitle: "Random Movie Generator",
     seoDescription:
-      "Get a random movie — Bollywood, Tamil, Telugu, Malayalam, Kannada, Hollywood, Korean or Japanese. Filter by country and language. Free and offline.",
+      "Get a random movie — Bollywood, Hollywood, Korean or Japanese. Titles the whole room knows. Filter by country. Free and offline.",
     hasRegionFilter: true,
-    hasLanguageFilter: true,
     hasTypeFilter: false,
     hasRangeFilter: false,
     blurb:
-      "Bollywood to Hollywood, with Tamil, Telugu, Malayalam and Kannada as their own switches. Titles everyone knows, not festival deep cuts.",
+      "Bollywood to Hollywood, Korea to Japan. Titles everyone in the room knows, not festival deep cuts.",
   },
   place: {
     id: "place",
@@ -69,7 +65,6 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     seoDescription:
       "Random famous places — landmarks, cities and countries. Filter by region, including a strong Indian list. Free, no signup, works offline.",
     hasRegionFilter: true,
-    hasLanguageFilter: false,
     hasTypeFilter: false,
     hasRangeFilter: false,
     blurb:
@@ -86,7 +81,6 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     seoDescription:
       "Draw a random animal from a curated list of creatures everyone can name. Free, no signup, works offline. Great for charades and Who Am I?",
     hasRegionFilter: false,
-    hasLanguageFilter: false,
     hasTypeFilter: false,
     hasRangeFilter: false,
     blurb:
@@ -103,7 +97,6 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     seoDescription:
       "Random everyday objects — from toothbrush to pressure cooker. A curated, desi-inclusive list. Free, no signup, works offline.",
     hasRegionFilter: false,
-    hasLanguageFilter: false,
     hasTypeFilter: false,
     hasRangeFilter: false,
     blurb:
@@ -120,7 +113,6 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     seoDescription:
       "A fast random number generator with 1–10, 1–50, 1–100 and 1–1000 presets plus any custom range. No repeats until the range is used up. Free and offline.",
     hasRegionFilter: false,
-    hasLanguageFilter: false,
     hasTypeFilter: false,
     hasRangeFilter: true,
     blurb:

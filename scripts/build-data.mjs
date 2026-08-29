@@ -47,7 +47,6 @@ async function movies() {
         out.push({
           label: m.title,
           countries: [country],
-          languages: LANGS[lang] ? [lang] : undefined,
           year: m.release_date ? Number(m.release_date.slice(0, 4)) : undefined,
           _votes: m.vote_count,
         });

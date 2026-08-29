@@ -1,14 +1,12 @@
 import { drawIndex } from "./shuffle-bag";
 import { ENTRIES } from "./entries";
 import { CATEGORIES } from "./categories";
-import { ALL_LANGUAGES } from "./countries";
 import { ALL_TYPES } from "./celeb-types";
 import type {
   CategoryId,
   CountryKey,
   Entry,
   Filters,
-  LanguageKey,
   TypeKey,
 } from "./types";
 
@@ -34,12 +32,15 @@ export function filterPool(
   const countries = filters.countries?.length
     ? filters.countries
     : (["worldwide"] as CountryKey[]);
-  const languages = filters.languages?.length ? filters.languages : ALL_LANGUAGES;
 
   const types = filters.types?.length ? filters.types : ALL_TYPES;
   const era = filters.era ?? "both";
 
+  const spicy = filters.spicy ?? false;
+
   return all.filter((e) => {
+    // Notoriety is opt-in, so it is checked before anything else.
+    if (e.spicy && !spicy) return false;
     const countryHit = e.countries.some((c) => countries.includes(c));
     if (!countryHit) return false;
 
@@ -51,11 +52,6 @@ export function filterPool(
     // whether Batman or Sachin is classic or modern.
     if (era !== "both" && e.era && e.era !== "evergreen" && e.era !== era) {
       return false;
-    }
-    // Language chips only gate entries that carry a language (film titles,
-    // film actors). Cricketers and politicians are not language-specific.
-    if (e.languages?.length) {
-      return e.languages.some((l) => languages.includes(l as LanguageKey));
     }
     return true;
   });
@@ -73,9 +69,9 @@ export function poolSignature(
   // filters set on other categories.
   if (!CATEGORIES[category].hasRegionFilter) return `${category}:all`;
   const c = [...(filters.countries ?? [])].sort().join(",");
-  const l = [...(filters.languages ?? [])].sort().join(",");
   const t = [...(filters.types ?? [])].sort().join(",");
-  return `${category}:${c}|${l}|${t}|${filters.era ?? "both"}`;
+  const s = filters.spicy ? "spicy" : "clean";
+  return `${category}:${c}|${t}|${filters.era ?? "both"}|${s}`;
 }
 
 export type DrawResult = {

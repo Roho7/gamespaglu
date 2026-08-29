@@ -4,7 +4,6 @@ export const CELEB_TYPES: { key: TypeKey; label: string }[] = [
   { key: "film", label: "Film & TV" },
   { key: "music", label: "Music" },
   { key: "sport", label: "Sport" },
-  { key: "politics", label: "Leaders" },
   { key: "icon", label: "Icons" },
   { key: "internet", label: "Internet" },
   { key: "cartoon", label: "Cartoon" },

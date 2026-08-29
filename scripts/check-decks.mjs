@@ -9,6 +9,9 @@
  * Generate button simply does nothing. Animals and objects shipped broken
  * exactly that way (all tagged "worldwide" while the default filter was
  * India+USA), and "Worldwide" was offered on movies where no entry carries it.
+ *
+ * The default is now every country, so "defaults" below is the whole deck. The
+ * per-country pass is what actually earns its keep.
  */
 import { readFileSync } from "node:fs";
 
@@ -22,29 +25,29 @@ const DATA = {
 };
 const HAS_REGION = { celebrity: true, movie: true, place: true, animal: false, object: false };
 const HAS_TYPES = { celebrity: true };
-const ALL_LANGS = ["hi", "ta", "te", "ml", "kn"];
 const ERAS = ["both", "classic", "modern"];
 
 const uniq = (xs) => [...new Set(xs)];
+// eslint-disable-next-line no-unused-vars
 const availableCountries = (cat) => uniq(DATA[cat].flatMap((e) => e.countries));
-const availableLanguages = (cat) => uniq(DATA[cat].flatMap((e) => e.languages ?? []));
 // Mirrors src/lib/entries.ts: a type chip is only offered when it has entries
 // under the other active filters.
-const availableTypes = (cat, era = "both") =>
+const availableTypes = (cat, era = "both", spicy = false) =>
   uniq(
     DATA[cat]
+      .filter((e) => spicy || !e.spicy)
       .filter((e) => era === "both" || !e.era || e.era === "evergreen" || e.era === era)
       .flatMap((e) => e.types ?? []),
   );
 
-function filterPool(cat, { countries, languages = ALL_LANGS, types, era = "both" } = {}) {
+function filterPool(cat, { countries, types, era = "both", spicy = false } = {}) {
   const all = DATA[cat];
   if (!HAS_REGION[cat]) return all;
-  const cs = countries ?? ["in", "us"];
+  const cs = countries ?? availableCountries(cat);
   const ts = types ?? availableTypes(cat);
   return all.filter((e) => {
+    if (e.spicy && !spicy) return false;
     if (!e.countries.some((c) => cs.includes(c))) return false;
-    if (e.languages?.length && !e.languages.some((l) => languages.includes(l))) return false;
     if (e.types?.length && !e.types.some((t) => ts.includes(t))) return false;
     if (era !== "both" && e.era && e.era !== "evergreen" && e.era !== era) return false;
     return true;
@@ -52,6 +55,26 @@ function filterPool(cat, { countries, languages = ALL_LANGS, types, era = "both"
 }
 
 let bad = 0;
+// "Leaders" was folded into "Icons". A stray `politics` type would be filtered
+// against a chip that no longer exists, i.e. an entry nobody can ever draw.
+for (const [cat, rows] of Object.entries(DATA)) {
+  const stray = rows.filter((e) => (e.types ?? []).includes("politics"));
+  if (stray.length) {
+    console.log(`FAIL ${cat}: ${stray.length} entries still typed \`politics\``);
+    bad++;
+  }
+}
+// The language axis is gone (CLAUDE.md, "popularity over locality"). A stray
+// `languages` key in the data would be silently ignored by the app, so fail
+// loudly instead of letting it rot.
+for (const [cat, rows] of Object.entries(DATA)) {
+  const stray = rows.filter((e) => e.languages);
+  if (stray.length) {
+    console.log(`FAIL ${cat}: ${stray.length} entries still carry \`languages\``);
+    bad++;
+  }
+}
+
 const fail = (msg) => {
   console.log(`FAIL ${msg}`);
   bad++;
@@ -70,21 +93,20 @@ for (const cat of Object.keys(HAS_REGION).filter((c) => HAS_REGION[c])) {
     const n = filterPool(cat, { countries: [c] }).length;
     if (n === 0) fail(`${cat}/${c}`);
   }
-  for (const l of availableLanguages(cat)) {
-    const n = filterPool(cat, { countries: ["in"], languages: [l] }).length;
-    if (n === 0) fail(`${cat}/india+${l}`);
-  }
 }
 
 console.log("-- every type, alone, in every era --");
 for (const cat of Object.keys(HAS_TYPES)) {
   for (const era of ERAS) {
     // Only combinations the UI can actually produce: a chip that isn't offered
-    // under this era can't be selected under it.
-    for (const t of availableTypes(cat, era)) {
-      const n = filterPool(cat, { types: [t], era }).length;
-      if (n === 0) fail(`${cat}/${t}/${era} (default countries)`);
-      else if (n < 5) console.log(`thin ${cat}/${t}/${era} -> ${n}`);
+    // under this era (or on this side of the spicy switch) can't be selected.
+    for (const spicy of [false, true]) {
+      for (const t of availableTypes(cat, era, spicy)) {
+        const n = filterPool(cat, { types: [t], era, spicy }).length;
+        const tag = `${cat}/${t}/${era}/${spicy ? "spicy" : "clean"}`;
+        if (n === 0) fail(`${tag} (default countries)`);
+        else if (n < 5) console.log(`thin ${tag} -> ${n}`);
+      }
     }
   }
   console.log(

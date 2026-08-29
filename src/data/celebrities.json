@@ -1,328 +1,4574 @@
 [
-{"label": "Shah Rukh Khan", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "evergreen"},
-{"label": "Amitabh Bachchan", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "evergreen"},
-{"label": "Salman Khan", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "evergreen"},
-{"label": "Aamir Khan", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "evergreen"},
-{"label": "Akshay Kumar", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Hrithik Roshan", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Ranbir Kapoor", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Ranveer Singh", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Ajay Devgn", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "evergreen"},
-{"label": "Saif Ali Khan", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Nawazuddin Siddiqui", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Pankaj Tripathi", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Irrfan Khan", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Deepika Padukone", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Priyanka Chopra", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Alia Bhatt", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Kareena Kapoor", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Katrina Kaif", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Kajol", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "evergreen"},
-{"label": "Madhuri Dixit", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "classic"},
-{"label": "Aishwarya Rai", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "evergreen"},
-{"label": "Anushka Sharma", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Vidya Balan", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Rani Mukerji", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "classic"},
-{"label": "Ayushmann Khurrana", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Rajkummar Rao", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Vicky Kaushal", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Rekha", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "classic"},
-{"label": "Dharmendra", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "classic"},
-{"label": "Rajesh Khanna", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "classic"},
-{"label": "Hema Malini", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "classic"},
-{"label": "Sridevi", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "classic"},
-{"label": "Govinda", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "classic"},
-{"label": "Rajinikanth", "countries": ["in"], "languages": ["ta"], "types": ["film"], "era": "evergreen"},
-{"label": "Kamal Haasan", "countries": ["in"], "languages": ["ta"], "types": ["film"], "era": "evergreen"},
-{"label": "Vijay", "countries": ["in"], "languages": ["ta"], "types": ["film"], "era": "modern"},
-{"label": "Ajith Kumar", "countries": ["in"], "languages": ["ta"], "types": ["film"], "era": "modern"},
-{"label": "Suriya", "countries": ["in"], "languages": ["ta"], "types": ["film"], "era": "modern"},
-{"label": "Dhanush", "countries": ["in"], "languages": ["ta"], "types": ["film"], "era": "modern"},
-{"label": "Nayanthara", "countries": ["in"], "languages": ["ta"], "types": ["film"], "era": "modern"},
-{"label": "Trisha", "countries": ["in"], "languages": ["ta"], "types": ["film"], "era": "modern"},
-{"label": "Prabhas", "countries": ["in"], "languages": ["te"], "types": ["film"], "era": "modern"},
-{"label": "Allu Arjun", "countries": ["in"], "languages": ["te"], "types": ["film"], "era": "modern"},
-{"label": "Jr NTR", "countries": ["in"], "languages": ["te"], "types": ["film"], "era": "modern"},
-{"label": "Ram Charan", "countries": ["in"], "languages": ["te"], "types": ["film"], "era": "modern"},
-{"label": "Mahesh Babu", "countries": ["in"], "languages": ["te"], "types": ["film"], "era": "modern"},
-{"label": "Chiranjeevi", "countries": ["in"], "languages": ["te"], "types": ["film"], "era": "evergreen"},
-{"label": "Samantha Ruth Prabhu", "countries": ["in"], "languages": ["te"], "types": ["film"], "era": "modern"},
-{"label": "Rashmika Mandanna", "countries": ["in"], "languages": ["te"], "types": ["film"], "era": "modern"},
-{"label": "Mohanlal", "countries": ["in"], "languages": ["ml"], "types": ["film"], "era": "evergreen"},
-{"label": "Mammootty", "countries": ["in"], "languages": ["ml"], "types": ["film"], "era": "evergreen"},
-{"label": "Fahadh Faasil", "countries": ["in"], "languages": ["ml"], "types": ["film"], "era": "modern"},
-{"label": "Dulquer Salmaan", "countries": ["in"], "languages": ["ml"], "types": ["film"], "era": "modern"},
-{"label": "Tovino Thomas", "countries": ["in"], "languages": ["ml"], "types": ["film"], "era": "modern"},
-{"label": "Yash", "countries": ["in"], "languages": ["kn"], "types": ["film"], "era": "modern"},
-{"label": "Puneeth Rajkumar", "countries": ["in"], "languages": ["kn"], "types": ["film"], "era": "modern"},
-{"label": "Rishab Shetty", "countries": ["in"], "languages": ["kn"], "types": ["film"], "era": "modern"},
-{"label": "Kapil Sharma", "countries": ["in"], "languages": ["hi"], "types": ["film"], "era": "modern"},
-{"label": "Sachin Tendulkar", "countries": ["in"], "types": ["sport"], "era": "evergreen"},
-{"label": "Virat Kohli", "countries": ["in"], "types": ["sport"], "era": "modern"},
-{"label": "MS Dhoni", "countries": ["in"], "types": ["sport"], "era": "evergreen"},
-{"label": "Rohit Sharma", "countries": ["in"], "types": ["sport"], "era": "modern"},
-{"label": "Kapil Dev", "countries": ["in"], "types": ["sport"], "era": "classic"},
-{"label": "Sourav Ganguly", "countries": ["in"], "types": ["sport"], "era": "classic"},
-{"label": "Rahul Dravid", "countries": ["in"], "types": ["sport"], "era": "classic"},
-{"label": "Yuvraj Singh", "countries": ["in"], "types": ["sport"], "era": "classic"},
-{"label": "Jasprit Bumrah", "countries": ["in"], "types": ["sport"], "era": "modern"},
-{"label": "Harmanpreet Kaur", "countries": ["in"], "types": ["sport"], "era": "modern"},
-{"label": "Mithali Raj", "countries": ["in"], "types": ["sport"], "era": "classic"},
-{"label": "PV Sindhu", "countries": ["in"], "types": ["sport"], "era": "modern"},
-{"label": "Saina Nehwal", "countries": ["in"], "types": ["sport"], "era": "modern"},
-{"label": "Neeraj Chopra", "countries": ["in"], "types": ["sport"], "era": "modern"},
-{"label": "Mary Kom", "countries": ["in"], "types": ["sport"], "era": "modern"},
-{"label": "Milkha Singh", "countries": ["in"], "types": ["sport"], "era": "classic"},
-{"label": "Vishwanathan Anand", "countries": ["in"], "types": ["sport"], "era": "evergreen"},
-{"label": "Lata Mangeshkar", "countries": ["in"], "types": ["music"], "era": "classic"},
-{"label": "AR Rahman", "countries": ["in"], "types": ["music"], "era": "evergreen"},
-{"label": "Arijit Singh", "countries": ["in"], "types": ["music"], "era": "modern"},
-{"label": "Kishore Kumar", "countries": ["in"], "types": ["music"], "era": "classic"},
-{"label": "Sonu Nigam", "countries": ["in"], "types": ["music"], "era": "classic"},
-{"label": "Shreya Ghoshal", "countries": ["in"], "types": ["music"], "era": "modern"},
-{"label": "Diljit Dosanjh", "countries": ["in"], "types": ["music"], "era": "modern"},
-{"label": "Ravi Shankar", "countries": ["in"], "types": ["music"], "era": "classic"},
-{"label": "Badshah", "countries": ["in"], "types": ["music"], "era": "modern"},
-{"label": "Honey Singh", "countries": ["in"], "types": ["music"], "era": "modern"},
-{"label": "Neha Kakkar", "countries": ["in"], "types": ["music"], "era": "modern"},
-{"label": "AP Dhillon", "countries": ["in"], "types": ["music"], "era": "modern"},
-{"label": "Karan Aujla", "countries": ["in"], "types": ["music"], "era": "modern"},
-{"label": "Mahatma Gandhi", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "Jawaharlal Nehru", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "BR Ambedkar", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "Indira Gandhi", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "APJ Abdul Kalam", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "Narendra Modi", "countries": ["in"], "types": ["politics"], "era": "modern"},
-{"label": "Bhagat Singh", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "Subhas Chandra Bose", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "Chhatrapati Shivaji", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "Rani Lakshmibai", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "Akbar", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "Ashoka", "countries": ["in"], "types": ["politics"], "era": "classic"},
-{"label": "Ratan Tata", "countries": ["in"], "types": ["icon"], "era": "evergreen"},
-{"label": "Mukesh Ambani", "countries": ["in"], "types": ["icon"], "era": "modern"},
-{"label": "Mother Teresa", "countries": ["in"], "types": ["icon"], "era": "classic"},
-{"label": "Chanakya", "countries": ["in"], "types": ["icon"], "era": "classic"},
-{"label": "Aryabhata", "countries": ["in"], "types": ["icon"], "era": "classic"},
-{"label": "Bhuvan Bam", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "CarryMinati", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Ashish Chanchlani", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Technical Guruji", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Dhruv Rathee", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Prajakta Koli", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Kusha Kapila", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Tanmay Bhat", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Samay Raina", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Ranveer Allahbadia", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Sandeep Maheshwari", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Total Gaming", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Triggered Insaan", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Uorfi Javed", "countries": ["in"], "types": ["internet"], "era": "modern"},
-{"label": "Tom Cruise", "countries": ["us"], "types": ["film"], "era": "evergreen"},
-{"label": "Leonardo DiCaprio", "countries": ["us"], "types": ["film"], "era": "modern"},
-{"label": "Brad Pitt", "countries": ["us"], "types": ["film"], "era": "modern"},
-{"label": "Johnny Depp", "countries": ["us"], "types": ["film"], "era": "modern"},
-{"label": "Will Smith", "countries": ["us"], "types": ["film"], "era": "modern"},
-{"label": "Dwayne Johnson", "countries": ["us"], "types": ["film"], "era": "modern"},
-{"label": "Robert Downey Jr.", "countries": ["us"], "types": ["film"], "era": "modern"},
-{"label": "Scarlett Johansson", "countries": ["us"], "types": ["film"], "era": "modern"},
-{"label": "Angelina Jolie", "countries": ["us"], "types": ["film"], "era": "modern"},
-{"label": "Jennifer Lawrence", "countries": ["us"], "types": ["film"], "era": "modern"},
-{"label": "Meryl Streep", "countries": ["us"], "types": ["film"], "era": "evergreen"},
-{"label": "Denzel Washington", "countries": ["us"], "types": ["film"], "era": "evergreen"},
-{"label": "Morgan Freeman", "countries": ["us"], "types": ["film"], "era": "evergreen"},
-{"label": "Samuel L. Jackson", "countries": ["us"], "types": ["film"], "era": "evergreen"},
-{"label": "Tom Hanks", "countries": ["us"], "types": ["film"], "era": "evergreen"},
-{"label": "Keanu Reeves", "countries": ["us"], "types": ["film"], "era": "evergreen"},
-{"label": "Julia Roberts", "countries": ["us"], "types": ["film"], "era": "classic"},
-{"label": "Marilyn Monroe", "countries": ["us"], "types": ["film"], "era": "classic"},
-{"label": "Michael Jackson", "countries": ["us"], "types": ["music"], "era": "classic"},
-{"label": "Beyoncé", "countries": ["us"], "types": ["music"], "era": "modern"},
-{"label": "Taylor Swift", "countries": ["us"], "types": ["music"], "era": "modern"},
-{"label": "Eminem", "countries": ["us"], "types": ["music"], "era": "evergreen"},
-{"label": "Rihanna", "countries": ["us"], "types": ["music"], "era": "modern"},
-{"label": "Lady Gaga", "countries": ["us"], "types": ["music"], "era": "modern"},
-{"label": "Snoop Dogg", "countries": ["us"], "types": ["music"], "era": "evergreen"},
-{"label": "Elvis Presley", "countries": ["us"], "types": ["music"], "era": "classic"},
-{"label": "Drake", "countries": ["us"], "types": ["music"], "era": "modern"},
-{"label": "Billie Eilish", "countries": ["us"], "types": ["music"], "era": "modern"},
-{"label": "The Weeknd", "countries": ["us"], "types": ["music"], "era": "modern"},
-{"label": "Oprah Winfrey", "countries": ["us"], "types": ["icon"], "era": "evergreen"},
-{"label": "Michael Jordan", "countries": ["us"], "types": ["sport"], "era": "classic"},
-{"label": "LeBron James", "countries": ["us"], "types": ["sport"], "era": "modern"},
-{"label": "Serena Williams", "countries": ["us"], "types": ["sport"], "era": "modern"},
-{"label": "Muhammad Ali", "countries": ["us"], "types": ["sport"], "era": "classic"},
-{"label": "Elon Musk", "countries": ["us"], "types": ["icon"], "era": "modern"},
-{"label": "Bill Gates", "countries": ["us"], "types": ["icon"], "era": "evergreen"},
-{"label": "Steve Jobs", "countries": ["us"], "types": ["icon"], "era": "classic"},
-{"label": "Barack Obama", "countries": ["us"], "types": ["politics"], "era": "modern"},
-{"label": "Donald Trump", "countries": ["us"], "types": ["politics"], "era": "modern"},
-{"label": "Abraham Lincoln", "countries": ["us"], "types": ["politics"], "era": "classic"},
-{"label": "MrBeast", "countries": ["us"], "types": ["internet"], "era": "modern"},
-{"label": "PewDiePie", "countries": ["us"], "types": ["internet"], "era": "modern"},
-{"label": "Kim Kardashian", "countries": ["us"], "types": ["internet"], "era": "modern"},
-{"label": "Logan Paul", "countries": ["us"], "types": ["internet"], "era": "modern"},
-{"label": "IShowSpeed", "countries": ["us"], "types": ["internet"], "era": "modern"},
-{"label": "Kylie Jenner", "countries": ["us"], "types": ["internet"], "era": "modern"},
-{"label": "Joe Rogan", "countries": ["us"], "types": ["internet"], "era": "modern"},
-{"label": "Daniel Radcliffe", "countries": ["gb"], "types": ["film"], "era": "modern"},
-{"label": "Emma Watson", "countries": ["gb"], "types": ["film"], "era": "modern"},
-{"label": "Benedict Cumberbatch", "countries": ["gb"], "types": ["film"], "era": "modern"},
-{"label": "Tom Holland", "countries": ["gb"], "types": ["film"], "era": "modern"},
-{"label": "Idris Elba", "countries": ["gb"], "types": ["film"], "era": "modern"},
-{"label": "Mr Bean (Rowan Atkinson)", "countries": ["gb"], "types": ["film"], "era": "evergreen"},
-{"label": "Charlie Chaplin", "countries": ["gb"], "types": ["film"], "era": "classic"},
-{"label": "Adele", "countries": ["gb"], "types": ["music"], "era": "modern"},
-{"label": "Ed Sheeran", "countries": ["gb"], "types": ["music"], "era": "modern"},
-{"label": "Freddie Mercury", "countries": ["gb"], "types": ["music"], "era": "classic"},
-{"label": "David Beckham", "countries": ["gb"], "types": ["sport"], "era": "evergreen"},
-{"label": "Queen Elizabeth II", "countries": ["gb"], "types": ["icon"], "era": "classic"},
-{"label": "Winston Churchill", "countries": ["gb"], "types": ["politics"], "era": "classic"},
-{"label": "Isaac Newton", "countries": ["gb"], "types": ["icon"], "era": "classic"},
-{"label": "William Shakespeare", "countries": ["gb"], "types": ["icon"], "era": "classic"},
-{"label": "Bong Joon-ho", "countries": ["kr"], "types": ["film"], "era": "modern"},
-{"label": "Song Joong-ki", "countries": ["kr"], "types": ["film"], "era": "modern"},
-{"label": "Lee Min-ho", "countries": ["kr"], "types": ["film"], "era": "modern"},
-{"label": "Jungkook (BTS)", "countries": ["kr"], "types": ["music"], "era": "modern"},
-{"label": "RM (BTS)", "countries": ["kr"], "types": ["music"], "era": "modern"},
-{"label": "Jennie (BLACKPINK)", "countries": ["kr"], "types": ["music"], "era": "modern"},
-{"label": "Lisa (BLACKPINK)", "countries": ["kr"], "types": ["music"], "era": "modern"},
-{"label": "Psy", "countries": ["kr"], "types": ["music"], "era": "modern"},
-{"label": "Hayao Miyazaki", "countries": ["jp"], "types": ["film"], "era": "evergreen"},
-{"label": "Akira Kurosawa", "countries": ["jp"], "types": ["film"], "era": "classic"},
-{"label": "Shigeru Miyamoto", "countries": ["jp"], "types": ["icon"], "era": "evergreen"},
-{"label": "Naomi Osaka", "countries": ["jp"], "types": ["sport"], "era": "modern"},
-{"label": "Shohei Ohtani", "countries": ["jp"], "types": ["sport"], "era": "modern"},
-{"label": "Marie Kondo", "countries": ["jp"], "types": ["internet"], "era": "modern"},
-{"label": "Albert Einstein", "countries": ["worldwide"], "types": ["icon"], "era": "classic"},
-{"label": "Cristiano Ronaldo", "countries": ["worldwide"], "types": ["sport"], "era": "modern"},
-{"label": "Lionel Messi", "countries": ["worldwide"], "types": ["sport"], "era": "modern"},
-{"label": "Nelson Mandela", "countries": ["worldwide"], "types": ["politics"], "era": "classic"},
-{"label": "Cleopatra", "countries": ["worldwide"], "types": ["icon"], "era": "classic"},
-{"label": "Leonardo da Vinci", "countries": ["worldwide"], "types": ["icon"], "era": "classic"},
-{"label": "Pablo Picasso", "countries": ["worldwide"], "types": ["icon"], "era": "classic"},
-{"label": "Usain Bolt", "countries": ["worldwide"], "types": ["sport"], "era": "modern"},
-{"label": "Roger Federer", "countries": ["worldwide"], "types": ["sport"], "era": "evergreen"},
-{"label": "Diego Maradona", "countries": ["worldwide"], "types": ["sport"], "era": "classic"},
-{"label": "Pope Francis", "countries": ["worldwide"], "types": ["icon"], "era": "modern"},
-{"label": "Shakira", "countries": ["worldwide"], "types": ["music"], "era": "modern"},
-{"label": "Napoleon Bonaparte", "countries": ["worldwide"], "types": ["politics"], "era": "classic"},
-{"label": "Che Guevara", "countries": ["worldwide"], "types": ["politics"], "era": "classic"},
-{"label": "Bruce Lee", "countries": ["worldwide"], "types": ["film"], "era": "classic"},
-{"label": "Jackie Chan", "countries": ["worldwide"], "types": ["film"], "era": "evergreen"},
-{"label": "Marie Curie", "countries": ["worldwide"], "types": ["icon"], "era": "classic"},
-{"label": "Stephen Hawking", "countries": ["worldwide"], "types": ["icon"], "era": "classic"},
-{"label": "Khaby Lame", "countries": ["worldwide"], "types": ["internet"], "era": "modern"},
-{"label": "Doraemon", "countries": ["in", "jp"], "types": ["cartoon"], "era": "evergreen"},
-{"label": "Nobita", "countries": ["in", "jp"], "types": ["cartoon"], "era": "modern"},
-{"label": "Shinchan", "countries": ["in", "jp"], "types": ["cartoon"], "era": "evergreen"},
-{"label": "Ninja Hattori", "countries": ["in", "jp"], "types": ["cartoon"], "era": "evergreen"},
-{"label": "Perman", "countries": ["in", "jp"], "types": ["cartoon"], "era": "modern"},
-{"label": "Kiteretsu", "countries": ["in", "jp"], "types": ["cartoon"], "era": "modern"},
-{"label": "Chhota Bheem", "countries": ["in"], "types": ["cartoon"], "era": "modern"},
-{"label": "Motu and Patlu", "countries": ["in"], "types": ["cartoon"], "era": "modern"},
-{"label": "Chutki", "countries": ["in"], "types": ["cartoon"], "era": "modern"},
-{"label": "Little Singham", "countries": ["in"], "types": ["cartoon"], "era": "modern"},
-{"label": "Mickey Mouse", "countries": ["in", "us"], "types": ["cartoon"], "era": "evergreen"},
-{"label": "Donald Duck", "countries": ["in", "us"], "types": ["cartoon"], "era": "classic"},
-{"label": "Tom and Jerry", "countries": ["in", "us"], "types": ["cartoon"], "era": "evergreen"},
-{"label": "Scooby-Doo", "countries": ["in", "us"], "types": ["cartoon"], "era": "evergreen"},
-{"label": "Popeye", "countries": ["in", "us"], "types": ["cartoon"], "era": "classic"},
-{"label": "Bugs Bunny", "countries": ["in", "us"], "types": ["cartoon"], "era": "classic"},
-{"label": "SpongeBob SquarePants", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Homer Simpson", "countries": ["us"], "types": ["cartoon"], "era": "evergreen"},
-{"label": "Bart Simpson", "countries": ["us"], "types": ["cartoon"], "era": "evergreen"},
-{"label": "Peppa Pig", "countries": ["in", "gb"], "types": ["cartoon"], "era": "modern"},
-{"label": "Thomas the Tank Engine", "countries": ["in", "gb"], "types": ["cartoon"], "era": "evergreen"},
-{"label": "Oswald", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Dora the Explorer", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Ben 10", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Johnny Bravo", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Dexter", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Powerpuff Girls", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Courage the Cowardly Dog", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Pink Panther", "countries": ["in", "us"], "types": ["cartoon"], "era": "classic"},
-{"label": "Woody Woodpecker", "countries": ["in", "us"], "types": ["cartoon"], "era": "classic"},
-{"label": "Richie Rich", "countries": ["in", "us"], "types": ["cartoon"], "era": "classic"},
-{"label": "Chacha Chaudhary", "countries": ["in"], "types": ["cartoon"], "era": "classic"},
-{"label": "Shaun the Sheep", "countries": ["in", "gb"], "types": ["cartoon"], "era": "modern"},
-{"label": "Mr Bean (cartoon)", "countries": ["in", "gb"], "types": ["cartoon"], "era": "modern"},
-{"label": "Kung Fu Panda", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Shrek", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Elsa", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Simba", "countries": ["in", "us"], "types": ["cartoon"], "era": "evergreen"},
-{"label": "Winnie the Pooh", "countries": ["in", "us"], "types": ["cartoon"], "era": "classic"},
-{"label": "Minions", "countries": ["in", "us"], "types": ["cartoon"], "era": "modern"},
-{"label": "Goku", "countries": ["in", "jp"], "types": ["anime"], "era": "evergreen"},
-{"label": "Vegeta", "countries": ["in", "jp"], "types": ["anime"], "era": "evergreen"},
-{"label": "Naruto", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Sasuke", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Kakashi", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Itachi", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Monkey D. Luffy", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Zoro", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Pikachu", "countries": ["in", "jp"], "types": ["anime"], "era": "evergreen"},
-{"label": "Ash Ketchum", "countries": ["in", "jp"], "types": ["anime"], "era": "evergreen"},
-{"label": "Light Yagami", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "L (Death Note)", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Eren Yeager", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Levi Ackerman", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Tanjiro", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Nezuko", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Gojo Satoru", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Saitama", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Ichigo Kurosaki", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Edward Elric", "countries": ["in", "jp"], "types": ["anime"], "era": "modern"},
-{"label": "Sailor Moon", "countries": ["in", "jp"], "types": ["anime"], "era": "classic"},
-{"label": "Astro Boy", "countries": ["jp"], "types": ["anime"], "era": "classic"},
-{"label": "Totoro", "countries": ["in", "jp"], "types": ["anime"], "era": "evergreen"},
-{"label": "Inuyasha", "countries": ["in", "jp"], "types": ["anime"], "era": "classic"},
-{"label": "Batman", "countries": ["in", "us"], "types": ["superhero"], "era": "evergreen"},
-{"label": "Superman", "countries": ["in", "us"], "types": ["superhero"], "era": "evergreen"},
-{"label": "Spider-Man", "countries": ["in", "us"], "types": ["superhero"], "era": "evergreen"},
-{"label": "Iron Man", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Captain America", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Thor", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Hulk", "countries": ["in", "us"], "types": ["superhero"], "era": "evergreen"},
-{"label": "Black Widow", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Wonder Woman", "countries": ["in", "us"], "types": ["superhero"], "era": "evergreen"},
-{"label": "The Joker", "countries": ["in", "us"], "types": ["superhero"], "era": "evergreen"},
-{"label": "Thanos", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Deadpool", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Wolverine", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Black Panther", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Doctor Strange", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Aquaman", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "The Flash", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Captain Marvel", "countries": ["in", "us"], "types": ["superhero"], "era": "modern"},
-{"label": "Shaktimaan", "countries": ["in"], "types": ["superhero"], "era": "evergreen"},
-{"label": "Krrish", "countries": ["in"], "types": ["superhero"], "era": "modern"},
-{"label": "Nagraj", "countries": ["in"], "types": ["superhero"], "era": "classic"},
-{"label": "Super Commando Dhruva", "countries": ["in"], "types": ["superhero"], "era": "classic"},
-{"label": "Doga", "countries": ["in"], "types": ["superhero"], "era": "classic"},
-{"label": "Ra.One", "countries": ["in"], "types": ["superhero"], "era": "modern"},
-{"label": "Rahul Gandhi", "countries": ["in"], "types": ["politics"], "era": "modern"},
-{"label": "Arvind Kejriwal", "countries": ["in"], "types": ["politics"], "era": "modern"},
-{"label": "Amit Shah", "countries": ["in"], "types": ["politics"], "era": "modern"},
-{"label": "Droupadi Murmu", "countries": ["in"], "types": ["politics"], "era": "modern"},
-{"label": "Joe Biden", "countries": ["us"], "types": ["politics"], "era": "modern"},
-{"label": "Kamala Harris", "countries": ["us"], "types": ["politics"], "era": "modern"},
-{"label": "Vladimir Putin", "countries": ["worldwide"], "types": ["politics"], "era": "modern"},
-{"label": "Volodymyr Zelenskyy", "countries": ["worldwide"], "types": ["politics"], "era": "modern"},
-{"label": "Sundar Pichai", "countries": ["in", "us"], "types": ["icon"], "era": "modern"},
-{"label": "Satya Nadella", "countries": ["in", "us"], "types": ["icon"], "era": "modern"},
-{"label": "Narayana Murthy", "countries": ["in"], "types": ["icon"], "era": "modern"},
-{"label": "Dhirubhai Ambani", "countries": ["in"], "types": ["icon"], "era": "classic"},
-{"label": "JRD Tata", "countries": ["in"], "types": ["icon"], "era": "classic"},
-{"label": "CV Raman", "countries": ["in"], "types": ["icon"], "era": "classic"},
-{"label": "Srinivasa Ramanujan", "countries": ["in"], "types": ["icon"], "era": "classic"},
-{"label": "Homi Bhabha", "countries": ["in"], "types": ["icon"], "era": "classic"},
-{"label": "Kalpana Chawla", "countries": ["in"], "types": ["icon"], "era": "classic"},
-{"label": "Sunita Williams", "countries": ["in", "us"], "types": ["icon"], "era": "modern"},
-{"label": "Mark Zuckerberg", "countries": ["us"], "types": ["icon"], "era": "modern"},
-{"label": "Jeff Bezos", "countries": ["us"], "types": ["icon"], "era": "modern"},
-{"label": "Warren Buffett", "countries": ["us"], "types": ["icon"], "era": "evergreen"},
-{"label": "Nikola Tesla", "countries": ["worldwide"], "types": ["icon"], "era": "classic"},
-{"label": "Thomas Edison", "countries": ["worldwide"], "types": ["icon"], "era": "classic"},
-{"label": "Charles Darwin", "countries": ["worldwide"], "types": ["icon"], "era": "classic"}
+  {
+    "label": "Shah Rukh Khan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Amitabh Bachchan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Salman Khan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Aamir Khan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Akshay Kumar",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Hrithik Roshan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ranbir Kapoor",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ranveer Singh",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ajay Devgn",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Saif Ali Khan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Nawazuddin Siddiqui",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Pankaj Tripathi",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Irrfan Khan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Deepika Padukone",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Priyanka Chopra",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Alia Bhatt",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kareena Kapoor",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Katrina Kaif",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kajol",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Madhuri Dixit",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Aishwarya Rai",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Anushka Sharma",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Vidya Balan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Rani Mukerji",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Ayushmann Khurrana",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Rajkummar Rao",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Vicky Kaushal",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Rekha",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Dharmendra",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Rajesh Khanna",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Hema Malini",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Sridevi",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Govinda",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Kapil Sharma",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Sachin Tendulkar",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Virat Kohli",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "MS Dhoni",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Rohit Sharma",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kapil Dev",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Sourav Ganguly",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Rahul Dravid",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Yuvraj Singh",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Jasprit Bumrah",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Harmanpreet Kaur",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mithali Raj",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "PV Sindhu",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Saina Nehwal",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Neeraj Chopra",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mary Kom",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Milkha Singh",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Vishwanathan Anand",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Lata Mangeshkar",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "AR Rahman",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Arijit Singh",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kishore Kumar",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Sonu Nigam",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Shreya Ghoshal",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Diljit Dosanjh",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ravi Shankar",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Badshah",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Honey Singh",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Neha Kakkar",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "AP Dhillon",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Karan Aujla",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mahatma Gandhi",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Jawaharlal Nehru",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "BR Ambedkar",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Indira Gandhi",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "APJ Abdul Kalam",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Narendra Modi",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Bhagat Singh",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Subhas Chandra Bose",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Chhatrapati Shivaji",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Rani Lakshmibai",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Akbar",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Ashoka",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Ratan Tata",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Mukesh Ambani",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mother Teresa",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Chanakya",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Aryabhata",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Bhuvan Bam",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "CarryMinati",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ashish Chanchlani",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Technical Guruji",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dhruv Rathee",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Prajakta Koli",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kusha Kapila",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Tanmay Bhat",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Samay Raina",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ranveer Allahbadia",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Sandeep Maheshwari",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Total Gaming",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Triggered Insaan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Uorfi Javed",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Tom Cruise",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Leonardo DiCaprio",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Brad Pitt",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Johnny Depp",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Will Smith",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dwayne Johnson",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Robert Downey Jr.",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Scarlett Johansson",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Angelina Jolie",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Jennifer Lawrence",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Meryl Streep",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Denzel Washington",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Morgan Freeman",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Samuel L. Jackson",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Tom Hanks",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Keanu Reeves",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Julia Roberts",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Marilyn Monroe",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Michael Jackson",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Beyoncé",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Taylor Swift",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Eminem",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Rihanna",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Lady Gaga",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Snoop Dogg",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Elvis Presley",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Drake",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Billie Eilish",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "The Weeknd",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Oprah Winfrey",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Michael Jordan",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "LeBron James",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Serena Williams",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Muhammad Ali",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Elon Musk",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Bill Gates",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Steve Jobs",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Barack Obama",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Donald Trump",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Abraham Lincoln",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "MrBeast",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "PewDiePie",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kim Kardashian",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Logan Paul",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "IShowSpeed",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kylie Jenner",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Joe Rogan",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Daniel Radcliffe",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Emma Watson",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Benedict Cumberbatch",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Tom Holland",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Idris Elba",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mr Bean (Rowan Atkinson)",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Charlie Chaplin",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Adele",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ed Sheeran",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Freddie Mercury",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "David Beckham",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Queen Elizabeth II",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Winston Churchill",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Isaac Newton",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "William Shakespeare",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Bong Joon-ho",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Song Joong-ki",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Lee Min-ho",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Jungkook (BTS)",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "RM (BTS)",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Jennie (BLACKPINK)",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Lisa (BLACKPINK)",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Psy",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Hayao Miyazaki",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Akira Kurosawa",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Shigeru Miyamoto",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Naomi Osaka",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Shohei Ohtani",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Marie Kondo",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Albert Einstein",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Cristiano Ronaldo",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Lionel Messi",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Nelson Mandela",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Cleopatra",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Leonardo da Vinci",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Pablo Picasso",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Usain Bolt",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Roger Federer",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Diego Maradona",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Pope Francis",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Shakira",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Napoleon Bonaparte",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Che Guevara",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Bruce Lee",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Jackie Chan",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Marie Curie",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Stephen Hawking",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Khaby Lame",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Doraemon",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Nobita",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Shinchan",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Ninja Hattori",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Perman",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kiteretsu",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Chhota Bheem",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Motu and Patlu",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Chutki",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Little Singham",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mickey Mouse",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Donald Duck",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Tom and Jerry",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Scooby-Doo",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Popeye",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Bugs Bunny",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "SpongeBob SquarePants",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Homer Simpson",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Bart Simpson",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Peppa Pig",
+    "countries": [
+      "in",
+      "gb"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Thomas the Tank Engine",
+    "countries": [
+      "in",
+      "gb"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Oswald",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dora the Explorer",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ben 10",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Johnny Bravo",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dexter",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Powerpuff Girls",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Courage the Cowardly Dog",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Pink Panther",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Woody Woodpecker",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Richie Rich",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Chacha Chaudhary",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Shaun the Sheep",
+    "countries": [
+      "in",
+      "gb"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mr Bean (cartoon)",
+    "countries": [
+      "in",
+      "gb"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kung Fu Panda",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Shrek",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Elsa",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Simba",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Winnie the Pooh",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Minions",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Goku",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Vegeta",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Naruto",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Sasuke",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kakashi",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Itachi",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Monkey D. Luffy",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Zoro",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Pikachu",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Ash Ketchum",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Light Yagami",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "L (Death Note)",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Eren Yeager",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Levi Ackerman",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Tanjiro",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Nezuko",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Gojo Satoru",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Saitama",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ichigo Kurosaki",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Edward Elric",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Sailor Moon",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Astro Boy",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Totoro",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Inuyasha",
+    "countries": [
+      "in",
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Batman",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Superman",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Spider-Man",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Iron Man",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Captain America",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Thor",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Hulk",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Black Widow",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Wonder Woman",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "The Joker",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Thanos",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Deadpool",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Wolverine",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Black Panther",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Doctor Strange",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Aquaman",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "The Flash",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Captain Marvel",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Shaktimaan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Krrish",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Nagraj",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Super Commando Dhruva",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Doga",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Ra.One",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Rahul Gandhi",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Arvind Kejriwal",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Amit Shah",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Droupadi Murmu",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Joe Biden",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kamala Harris",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Vladimir Putin",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Volodymyr Zelenskyy",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Sundar Pichai",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Satya Nadella",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Narayana Murthy",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dhirubhai Ambani",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "JRD Tata",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "CV Raman",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Srinivasa Ramanujan",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Homi Bhabha",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Kalpana Chawla",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Sunita Williams",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mark Zuckerberg",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Jeff Bezos",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Warren Buffett",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Nikola Tesla",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Thomas Edison",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Charles Darwin",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Al Pacino",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Robert De Niro",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Anthony Hopkins",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Harrison Ford",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Arnold Schwarzenegger",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Sylvester Stallone",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Clint Eastwood",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Audrey Hepburn",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Sean Connery",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Michael Caine",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Jim Carrey",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Eddie Murphy",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Adam Sandler",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Sandra Bullock",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Nicole Kidman",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Natalie Portman",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Anne Hathaway",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Emma Stone",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Margot Robbie",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Zendaya",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Timothée Chalamet",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ryan Gosling",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ryan Reynolds",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Hugh Jackman",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Christian Bale",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Chris Hemsworth",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Chris Evans",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Matt Damon",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Ben Affleck",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Daniel Craig",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kate Winslet",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Hugh Grant",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Ian McKellen",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Judi Dench",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Florence Pugh",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Henry Cavill",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Steven Spielberg",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Christopher Nolan",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Quentin Tarantino",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Martin Scorsese",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Alfred Hitchcock",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Jet Li",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Ken Watanabe",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Takeshi Kitano",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Toshiro Mifune",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Lee Jung-jae",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Gong Yoo",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Park Seo-joon",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ma Dong-seok",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "KSI",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Marques Brownlee",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Casey Neistat",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Markiplier",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Jacksepticeye",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ninja",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dream",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Charli D'Amelio",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mark Rober",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dude Perfect",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Emma Chamberlain",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Lilly Singh",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Sidemen",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Jake Paul",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ariana Grande",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Bruno Mars",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Justin Bieber",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dua Lipa",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Bad Bunny",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Post Malone",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kendrick Lamar",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Olivia Rodrigo",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Harry Styles",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "The Beatles",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Bob Marley",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Bob Dylan",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Madonna",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Whitney Houston",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Frank Sinatra",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "IU",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "V (BTS)",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Jimin (BTS)",
+    "countries": [
+      "kr"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Neymar",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kylian Mbappé",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Erling Haaland",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kobe Bryant",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Stephen Curry",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Tiger Woods",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Rafael Nadal",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Novak Djokovic",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Tom Brady",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Simone Biles",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Michael Phelps",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Lewis Hamilton",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Max Verstappen",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Pelé",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Sam Altman",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Tim Cook",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Richard Branson",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Walt Disney",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Stan Lee",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Neil Armstrong",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Alan Turing",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Ada Lovelace",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Frida Kahlo",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Vincent van Gogh",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Ludwig van Beethoven",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Wolfgang Amadeus Mozart",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Malala Yousafzai",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Greta Thunberg",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dalai Lama",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Galileo Galilei",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Rick Sanchez",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Patrick Star",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Squidward",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Phineas and Ferb",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Timmy Turner",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Aang",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Bluey",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Gumball",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Anya Forger",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Denji",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Killua Zoldyck",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Yuji Itadori",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Makima",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "All Might",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Izuku Midoriya",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Hinata Hyuga",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Shanks",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Sanji",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Nami",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Zenitsu",
+    "countries": [
+      "jp"
+    ],
+    "types": [
+      "anime"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Jeffrey Epstein",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Sean \"Diddy\" Combs",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Harvey Weinstein",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Andrew Tate",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "internet"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Elizabeth Holmes",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Sam Bankman-Fried",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Bernie Madoff",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Martin Shkreli",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Ghislaine Maxwell",
+    "countries": [
+      "gb"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "R. Kelly",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Vijay Mallya",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Nirav Modi",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Lalit Modi",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Anna Delvey",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern",
+    "spicy": true
+  },
+  {
+    "label": "Lance Armstrong",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "sport"
+    ],
+    "era": "modern",
+    "spicy": true
+  }
 ]

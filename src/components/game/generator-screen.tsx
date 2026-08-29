@@ -9,6 +9,7 @@ import {
   EraPicker,
   RangePicker,
   RegionPicker,
+  SpicyToggle,
   TypePicker,
 } from "@/components/game/filters";
 import { Sticker } from "@/components/mb/sticker";
@@ -18,11 +19,7 @@ import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/lib/categories";
 import { colourwayById, colourwayVars } from "@/lib/colourways";
 import { clampRange } from "@/lib/draw";
-import {
-  availableCountries,
-  availableLanguages,
-  availableTypes,
-} from "@/lib/entries";
+import { availableCountries, availableTypes, hasSpicy } from "@/lib/entries";
 import { useGenerator } from "@/lib/use-generator";
 import { useWakeLock } from "@/lib/use-wake-lock";
 import type { CategoryId } from "@/lib/types";
@@ -113,8 +110,8 @@ export function GeneratorScreen({
                         onTypes={(types) => g.savePrefs({ types })}
                         available={availableTypes(cat, {
                           countries: g.prefs.countries,
-                          languages: g.prefs.languages,
                           era: g.prefs.era,
+                          spicy: g.prefs.spicy,
                         })}
                       />
                     </div>
@@ -137,13 +134,19 @@ export function GeneratorScreen({
                       </p>
                       <RegionPicker
                         countries={g.prefs.countries}
-                        languages={g.prefs.languages}
                         onCountries={(countries) => g.savePrefs({ countries })}
-                        onLanguages={(languages) => g.savePrefs({ languages })}
                         poolSize={g.poolSize}
-                        showLanguages={meta.hasLanguageFilter}
                         availableCountries={availableCountries(cat)}
-                        availableLanguages={availableLanguages(cat)}
+                      />
+                    </div>
+                  ) : null}
+
+                  {g.hydrated && hasSpicy(cat) ? (
+                    <div className="space-y-3">
+                      <p className="mb-caps text-[0.6rem] opacity-60">Spicy</p>
+                      <SpicyToggle
+                        spicy={g.prefs.spicy}
+                        onSpicy={(spicy) => g.savePrefs({ spicy })}
                       />
                     </div>
                   ) : null}

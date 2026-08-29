@@ -1,4 +1,4 @@
-import type { CountryKey, LanguageKey } from "./types";
+import type { CountryKey } from "./types";
 
 export const COUNTRIES: { key: CountryKey; flag: string; label: string }[] = [
   { key: "in", flag: "🇮🇳", label: "India" },
@@ -9,13 +9,10 @@ export const COUNTRIES: { key: CountryKey; flag: string; label: string }[] = [
   { key: "worldwide", flag: "🌍", label: "Worldwide" },
 ];
 
-export const LANGUAGES: { key: LanguageKey; label: string }[] = [
-  { key: "hi", label: "Hindi" },
-  { key: "ta", label: "Tamil" },
-  { key: "te", label: "Telugu" },
-  { key: "ml", label: "Malayalam" },
-  { key: "kn", label: "Kannada" },
-];
-
-export const ALL_LANGUAGES: LanguageKey[] = LANGUAGES.map((l) => l.key);
-export const DEFAULT_COUNTRIES: CountryKey[] = ["in", "us"];
+/**
+ * Everything, on purpose. The old default was India+USA, which quietly made the
+ * site a regional product and — worse — was the saved value that filtered the
+ * animal and object decks to zero. Starting from the whole deck is both the
+ * honest default and the safe one.
+ */
+export const DEFAULT_COUNTRIES: CountryKey[] = COUNTRIES.map((c) => c.key);

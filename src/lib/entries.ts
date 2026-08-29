@@ -9,15 +9,14 @@ import type {
   Entry,
   Era,
   EraFilter,
-  LanguageKey,
   TypeKey,
 } from "./types";
 
 type RawObjectEntry = {
   label: string;
   countries: string[];
-  languages?: string[];
   year?: number;
+  spicy?: boolean;
   types?: string[];
   era?: string;
   tags?: string[];
@@ -44,10 +43,10 @@ function fromObjects(rows: RawObjectEntry[]): Entry[] {
     id: slug(r.label),
     label: r.label,
     countries: r.countries as CountryKey[],
-    languages: r.languages as LanguageKey[] | undefined,
     year: r.year,
     types: r.types as TypeKey[] | undefined,
     era: r.era as Era | undefined,
+    spicy: r.spicy,
     tags: r.tags,
   }));
 }
@@ -74,16 +73,6 @@ export function availableCountries(
   return [...seen];
 }
 
-export function availableLanguages(
-  category: Exclude<CategoryId, "number">,
-): LanguageKey[] {
-  const seen = new Set<LanguageKey>();
-  for (const e of ENTRIES[category]) {
-    for (const l of e.languages ?? []) seen.add(l);
-  }
-  return [...seen];
-}
-
 /**
  * Which type chips are worth offering *given the other active filters*.
  *
@@ -93,22 +82,15 @@ export function availableLanguages(
  */
 export function availableTypes(
   category: Exclude<CategoryId, "number">,
-  filters?: { countries?: CountryKey[]; languages?: LanguageKey[]; era?: EraFilter },
+  filters?: { countries?: CountryKey[]; era?: EraFilter; spicy?: boolean },
 ): TypeKey[] {
   const countries = filters?.countries;
-  const languages = filters?.languages;
   const era = filters?.era ?? "both";
 
   const seen = new Set<TypeKey>();
   for (const entry of ENTRIES[category]) {
+    if (entry.spicy && !filters?.spicy) continue;
     if (countries?.length && !entry.countries.some((c) => countries.includes(c))) {
-      continue;
-    }
-    if (
-      languages?.length &&
-      entry.languages?.length &&
-      !entry.languages.some((l) => languages.includes(l))
-    ) {
       continue;
     }
     if (era !== "both" && entry.era && entry.era !== "evergreen" && entry.era !== era) {
@@ -117,6 +99,14 @@ export function availableTypes(
     for (const t of entry.types ?? []) seen.add(t);
   }
   return [...seen];
+}
+
+/**
+ * Is the spicy switch worth rendering at all? Derived from the data, never
+ * hardcoded — a toggle with nothing behind it is a control that does nothing.
+ */
+export function hasSpicy(category: Exclude<CategoryId, "number">): boolean {
+  return ENTRIES[category].some((e) => e.spicy);
 }
 
 export function poolSizes() {

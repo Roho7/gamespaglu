@@ -28,7 +28,7 @@ export default function Page() {
         <p>
           A separate era toggle switches between classic and modern, so you can
           have a round of Gandhi and Marilyn Monroe or a round of MrBeast and
-          Drake. Countries and Indian film languages filter on top of that.
+          Drake. Filter by country, kind of famous and era.
         </p>
         <p>
           Every name is hand-checked to be someone a room will actually

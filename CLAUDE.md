@@ -1,9 +1,16 @@
 # Games Paglu — working notes for Claude
 
 `gamespaglu.com`. Phone-as-aid for games played **in person**. Sibling of officepaglu.com.
-Full spec: `Cards/Games Paglu Spec.md` in the Obsidian vault (`~/Documents/MAIN/OBSIDIAN/OB_BRAIN/`).
+Specs in the Obsidian vault (`~/Documents/MAIN/OBSIDIAN/OB_BRAIN/`): `Cards/Games Paglu Spec.md`,
+and `Cards/Girgit Spec.md` for the room-based game (which overrides the parent's §11).
 
-Next.js (App Router) · TypeScript · Tailwind v4 · shadcn/ui · no backend · no accounts · offline-first.
+Next.js (App Router) · TypeScript · Tailwind v4 · shadcn/ui · no accounts · **offline-first, except rooms**.
+
+Rooms (Girgit onward) add a Socket.IO server on Fly (`server/`) and Postgres in the shared
+officepaglu Supabase project, in a `gp` schema behind a scoped `gp_app` role. Everything else on the
+site stays backendless and offline-first. A room screen with no signal must **say so** — the service
+worker precaches, so the failure mode is a plausible-looking frozen board, which is worse than an
+error.
 
 ```bash
 npm run dev
@@ -207,6 +214,22 @@ consistent.
 
 ## Content and data rules
 
+- **Popularity over locality.** Content is curated for how widely recognised something is, not where
+  it is from. A name earns its place because the whole room knows it — that is what makes a round
+  work, and it is what keeps the site from being a regional in-joke. The Indian-language filter axis
+  is **removed**; `worldwide` is the default. Globally-recognised titles (Baahubali, RRR) are
+  **retagged**, not deleted — the problem was never that they are Telugu, it was that the filter
+  offered a regional axis nobody wants. Kill the axis, keep the famous names.
+- **One curated set, many games.** `Entry` is deliberately wide and every entry has a stable slug
+  `id`. Girgit grids reference those ids rather than repeating strings, so there is exactly one fame
+  bar and `check:grids` fails on a dangling id. Data lives in `shared/data/` because the socket
+  server reads it too.
+- **Notoriety is its own axis, not a type.** `Entry.spicy` marks people famous *for a crime or a
+  scandal* — Diddy is still Music, Epstein is still an Icon. It is excluded unless the player
+  switches it on, because a round about sex trafficking said out loud in a room ends the game. The
+  switch is only rendered where the data actually has spicy entries (`hasSpicy`), and the line is
+  "famous **for** the crime", not "politically divisive" — that keeps it a factual test rather than
+  an editorial one. Girgit grids never draw spicy entries.
 - **An unrecognisable name kills a round harder than a repeat does.** Curate for fame, not volume.
   Anything pulled by `scripts/build-data.mjs` lands in `*.candidates.json` and needs a human pass
   before it reaches `src/data/*.json`.

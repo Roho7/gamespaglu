@@ -2,41 +2,27 @@
 
 import { Chip } from "@/components/mb/ui";
 import { Input } from "@/components/ui/input";
-import { COUNTRIES, LANGUAGES } from "@/lib/countries";
+import { COUNTRIES } from "@/lib/countries";
 import { CELEB_TYPES, ERAS } from "@/lib/celeb-types";
-import type { CountryKey, EraFilter, LanguageKey, TypeKey } from "@/lib/types";
+import type { CountryKey, EraFilter, TypeKey } from "@/lib/types";
 
 export function RegionPicker({
   countries,
-  languages,
   onCountries,
-  onLanguages,
   poolSize,
-  showLanguages,
   availableCountries,
-  availableLanguages,
 }: {
   countries: CountryKey[];
-  languages: LanguageKey[];
   onCountries: (v: CountryKey[]) => void;
-  onLanguages: (v: LanguageKey[]) => void;
   poolSize: number;
-  showLanguages: boolean;
   /** Only chips backed by real entries are offered. */
   availableCountries: CountryKey[];
-  availableLanguages: LanguageKey[];
 }) {
   const toggleCountry = (key: CountryKey) => {
     const on = countries.includes(key);
     // Never allow zero selected — an empty pool is a dead end, not a state.
     if (on && countries.length === 1) return;
     onCountries(on ? countries.filter((c) => c !== key) : [...countries, key]);
-  };
-
-  const toggleLanguage = (key: LanguageKey) => {
-    const on = languages.includes(key);
-    if (on && languages.length === 1) return;
-    onLanguages(on ? languages.filter((l) => l !== key) : [...languages, key]);
   };
 
   return (
@@ -54,27 +40,31 @@ export function RegionPicker({
         ))}
       </div>
 
-      {showLanguages && countries.includes("in") ? (
-        <div className="space-y-2">
-          <p className="mb-caps text-[0.6rem] opacity-60">
-            Indian languages
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {LANGUAGES.filter((l) => availableLanguages.includes(l.key)).map((l) => (
-              <Chip
-                key={l.key}
-                active={languages.includes(l.key)}
-                onClick={() => toggleLanguage(l.key)}
-              >
-                {l.label}
-              </Chip>
-            ))}
-          </div>
-        </div>
-      ) : null}
-
       <p className="mb-caps text-[0.6rem] opacity-60">
         {poolSize} in the deck
+      </p>
+    </div>
+  );
+}
+
+/**
+ * Notoriety, opt-in. A switch rather than a chip in the type row, because it is
+ * a different axis — see Entry.spicy.
+ */
+export function SpicyToggle({
+  spicy,
+  onSpicy,
+}: {
+  spicy: boolean;
+  onSpicy: (v: boolean) => void;
+}) {
+  return (
+    <div className="space-y-2">
+      <Chip active={spicy} onClick={() => onSpicy(!spicy)}>
+        {spicy ? "Spicy on" : "Spicy off"}
+      </Chip>
+      <p className="text-[0.7rem] opacity-70">
+        Adds people famous for crime and scandal. Off unless you want it.
       </p>
     </div>
   );
