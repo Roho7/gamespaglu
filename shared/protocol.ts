@@ -81,6 +81,43 @@ export type PublicPlayer = {
   score: number;
 };
 
+export type Outcome =
+  | "girgit-escaped"
+  | "girgit-guessed"
+  | "girgit-caught"
+  | "aborted";
+
+/** What everyone in the room may see. Never carries the secret mid-round. */
+export type PublicRound = {
+  roundNo: number;
+  theme: string;
+  cells: string[];
+  /** Progress only, until the last clue lands. */
+  cluesIn: number;
+  cluesTotal: number;
+  /** Null while collecting — reveal is simultaneous, by design. */
+  clues: { playerId: PlayerId; word: string }[] | null;
+  voteOpen: boolean;
+  votesIn: number;
+  /** Hidden while casting, fully attributed once resolved. */
+  votes: { voterId: PlayerId; targetId: PlayerId }[] | null;
+  accused: PlayerId | null;
+  outcome: Outcome | null;
+  /** Both null until the reveal. This is the secret. */
+  girgitId: PlayerId | null;
+  secretIndex: number | null;
+};
+
+/**
+ * The per-socket half. This is the entire reason this is a socket server and
+ * not Supabase Realtime, whose broadcast is all-or-nothing to a channel.
+ */
+export type YourRound = {
+  isGirgit: boolean;
+  /** Null for the Girgit. Not omitted — the shape is identical either way. */
+  secretIndex: number | null;
+};
+
 export type RoomState = {
   code: RoomCode;
   game: GameId;
@@ -92,6 +129,8 @@ export type RoomState = {
   you: PlayerId;
   minPlayers: number;
   maxPlayers: number;
+  round: PublicRound | null;
+  your: YourRound | null;
 };
 
 export type ErrorCode =
@@ -137,6 +176,19 @@ export type ClientToServer = {
   "room:leave": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;
   /** Host only. The escape hatch for someone who has actually gone home. */
   "room:kick": (p: { playerId: PlayerId }, ack: Ack<{ ok: true }>) => void;
+
+  /** Host only. Applies queued joins and leaves, then deals. */
+  "round:start": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;
+  /**
+   * Host only. For when a player has genuinely gone home mid-round — rather
+   * than a timeout heuristic that cannot tell "left" from "in the bathroom".
+   */
+  "round:abort": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;
+  "clue:submit": (p: { word: string }, ack: Ack<{ ok: true }>) => void;
+  /** Any player. At a table somebody just says "okay, vote". */
+  "vote:call": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;
+  "vote:cast": (p: { targetId: PlayerId }, ack: Ack<{ ok: true }>) => void;
+  "escape:guess": (p: { cellIndex: number }, ack: Ack<{ ok: true }>) => void;
 };
 
 export type ServerToClient = {

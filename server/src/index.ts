@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import { Server, type Socket } from "socket.io";
 import { env } from "./env";
-import { ping } from "./db";
+import { ping, pool } from "./db";
 import {
   RoomError,
   createRoom,
@@ -16,6 +16,23 @@ import {
   resumeRoom,
   setConnected,
 } from "./rooms";
+import {
+  RuleError,
+  abortRound,
+  callVote,
+  castVote,
+  scoreRound,
+  submitClue,
+  submitEscape,
+} from "./girgit/engine";
+import {
+  applyScores,
+  currentRound,
+  publicRound,
+  startRound,
+  transition,
+  yourRound,
+} from "./girgit/store";
 import {
   MAX_NAME_LENGTH,
   isDeviceId,
@@ -60,16 +77,32 @@ const io = new Server<ClientToServer, ServerToClient, Record<string, never>, Soc
  */
 async function broadcastState(code: string) {
   const sockets = await io.in(code).fetchSockets();
+  const round = await currentRound(code);
+  const roundNo = round ? (await getRoundNo(code)) : 0;
+
   for (const s of sockets) {
     const you = s.data.playerId;
     if (!you) continue;
     try {
-      s.emit("room:state", await getRoomState(code, you));
+      // The per-socket half: innocents get secretIndex, the Girgit gets null.
+      // Everything else in the payload is identical for everyone.
+      const view = round
+        ? { publicView: publicRound(round, roundNo), yourView: yourRound(round, you) }
+        : undefined;
+      s.emit("room:state", await getRoomState(code, you, view));
     } catch (err) {
       if (err instanceof RoomError) s.emit("room:closed", err.err);
       else throw err;
     }
   }
+}
+
+async function getRoundNo(code: string): Promise<number> {
+  const { rows } = await pool.query<{ round_no: number }>(
+    `select round_no from gp.rooms where code = $1`,
+    [code],
+  );
+  return rows[0]?.round_no ?? 0;
 }
 
 const INTERNAL: Err = { code: "INTERNAL", message: "Something broke on our side." };
@@ -80,6 +113,11 @@ function handle<T>(ack: Ack<T>, fn: () => Promise<T>) {
     (data) => ack({ ok: true, data }),
     (err) => {
       if (err instanceof RoomError) return ack({ ok: false, error: err.err });
+      // The engine throws its own type; a rule rejection is a normal outcome,
+      // not a server fault, and must read as one to the player.
+      if (err instanceof RuleError) {
+        return ack({ ok: false, error: { code: err.code, message: err.message } });
+      }
       console.error("[socket]", err);
       return ack({ ok: false, error: INTERNAL });
     },
@@ -172,6 +210,81 @@ io.on("connection", (socket: Socket<ClientToServer, ServerToClient, Record<strin
         throw new RoomError({ code: "NOT_IN_ROOM", message: "You are not in a room." });
       }
       const code = await kickPlayer(playerId, String(target));
+      await broadcastState(code);
+      return { ok: true as const };
+    }),
+  );
+
+  /** Every game action is the same shape: locate the seat, transition, broadcast. */
+  const seat = () => {
+    const { playerId, code } = socket.data;
+    if (!playerId || !code) {
+      throw new RoomError({ code: "NOT_IN_ROOM", message: "You are not in a room." });
+    }
+    return { playerId, code };
+  };
+
+  socket.on("round:start", (_p, ack) =>
+    handle(ack, async () => {
+      const { playerId, code } = seat();
+      await startRound(code, playerId);
+      await broadcastState(code);
+      return { ok: true as const };
+    }),
+  );
+
+  socket.on("round:abort", (_p, ack) =>
+    handle(ack, async () => {
+      const { playerId, code } = seat();
+      const { rows } = await pool.query<{ host_player_id: string | null }>(
+        `select host_player_id from gp.rooms where code = $1`,
+        [code],
+      );
+      if (rows[0]?.host_player_id !== playerId) {
+        throw new RoomError({ code: "NOT_HOST", message: "Only the host can abort." });
+      }
+      await transition(code, abortRound);
+      await broadcastState(code);
+      return { ok: true as const };
+    }),
+  );
+
+  socket.on("clue:submit", ({ word }, ack) =>
+    handle(ack, async () => {
+      const { playerId, code } = seat();
+      await transition(code, (s) => submitClue(s, playerId, String(word ?? "")));
+      await broadcastState(code);
+      return { ok: true as const };
+    }),
+  );
+
+  socket.on("vote:call", (_p, ack) =>
+    handle(ack, async () => {
+      const { playerId, code } = seat();
+      await transition(code, (s) => callVote(s, playerId));
+      await broadcastState(code);
+      return { ok: true as const };
+    }),
+  );
+
+  socket.on("vote:cast", ({ targetId }, ack) =>
+    handle(ack, async () => {
+      const { playerId, code } = seat();
+      const next = await transition(code, (s) => castVote(s, playerId, String(targetId)));
+      // The vote can resolve straight to the reveal when nobody is caught.
+      if (next.outcome) await applyScores(code, scoreRound(next));
+      await broadcastState(code);
+      return { ok: true as const };
+    }),
+  );
+
+  socket.on("escape:guess", ({ cellIndex }, ack) =>
+    handle(ack, async () => {
+      const { playerId, code } = seat();
+      const next = await transition(code, (s) =>
+        submitEscape(s, playerId, Number(cellIndex)),
+      );
+      if (next.outcome) await applyScores(code, scoreRound(next));
       await broadcastState(code);
       return { ok: true as const };
     }),

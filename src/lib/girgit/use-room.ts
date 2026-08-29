@@ -133,6 +133,18 @@ export function useRoom() {
     [call],
   );
 
+  const act = {
+    startRound: useCallback(() => call("round:start", {}), [call]),
+    abortRound: useCallback(() => call("round:abort", {}), [call]),
+    submitClue: useCallback((word: string) => call("clue:submit", { word }), [call]),
+    callVote: useCallback(() => call("vote:call", {}), [call]),
+    castVote: useCallback((targetId: string) => call("vote:cast", { targetId }), [call]),
+    escapeGuess: useCallback(
+      (cellIndex: number) => call("escape:guess", { cellIndex }),
+      [call],
+    ),
+  };
+
   /**
    * Resume runs on every connect, not just the first: a reload, a phone waking
    * from lock, and a server redeploy all land here, and all three must restore
@@ -166,5 +178,5 @@ export function useRoom() {
     };
   }, [hydrated, lastCode, socket, setLastCode]);
 
-  return { state, status, error, create, join, leave, kick, lastCode };
+  return { state, status, error, create, join, leave, kick, lastCode, act };
 }

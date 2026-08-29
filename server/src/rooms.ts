@@ -239,7 +239,12 @@ async function reassignHostIfNeeded(c: PoolClient, code: RoomCode) {
   if (!next[0]) await c.query(`delete from gp.rooms where code = $1`, [code]);
 }
 
-export async function getRoomState(code: RoomCode, you: string): Promise<RoomState> {
+export async function getRoomState(
+  code: RoomCode,
+  you: string,
+  /** Injected so this module keeps knowing nothing about any particular game. */
+  round?: { publicView: RoomState["round"]; yourView: RoomState["your"] },
+): Promise<RoomState> {
   const { rows } = await pool.query<{
     code: string;
     game: string;
@@ -274,6 +279,8 @@ export async function getRoomState(code: RoomCode, you: string): Promise<RoomSta
     you,
     minPlayers: MIN_PLAYERS,
     maxPlayers: MAX_PLAYERS,
+    round: round?.publicView ?? null,
+    your: round?.yourView ?? null,
   };
 }
 
