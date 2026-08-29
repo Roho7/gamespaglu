@@ -11,3 +11,7 @@ npm-debug.log*
 next-env.d.ts
 tsconfig.tsbuildinfo
 src/data/*.candidates.json
+
+# server build output and deps
+server/dist
+server/node_modules
