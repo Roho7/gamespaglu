@@ -1,0 +1,338 @@
+[
+  {
+    "label": "Apple",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Google",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Amazon",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Microsoft",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Netflix",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Meta",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Tesla",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Nvidia",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Samsung",
+    "countries": [
+      "kr"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Sony",
+    "countries": [
+      "jp"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Nintendo",
+    "countries": [
+      "jp"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Spotify",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Uber",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Airbnb",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "TikTok",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "YouTube",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Instagram",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "WhatsApp",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Nike",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Adidas",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Puma",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Coca-Cola",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Pepsi",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "McDonald's",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "KFC",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Starbucks",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Domino's",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Subway",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "IKEA",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Zara",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "H&M",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Rolex",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Ferrari",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Toyota",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "BMW",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Mercedes",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Boeing",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Shell",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Visa",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "PayPal",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Disney",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Lego",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Gucci",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Reliance",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Tata",
+    "countries": [
+      "in"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Infosys",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Zomato",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Paytm",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  }
+]

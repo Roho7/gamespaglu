@@ -10,7 +10,7 @@ npm-debug.log*
 .vercel
 next-env.d.ts
 tsconfig.tsbuildinfo
-src/data/*.candidates.json
+shared/data/*.candidates.json
 
 # server build output and deps
 server/dist

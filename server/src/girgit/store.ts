@@ -86,10 +86,20 @@ export async function startRound(code: string, hostPlayerId: PlayerId) {
       });
     }
 
-    // Never the same grid twice running. Proper without-replacement draws are
-    // M5's job, alongside the real deck.
-    const pool_ = GRIDS.filter((g) => g.id !== previous?.gridId);
-    const grid = pool_[Math.floor(Math.random() * pool_.length)];
+    // Without replacement across the whole session, not merely "not the same
+    // as last time". A repeat inside one sitting is read as a bug — it is the
+    // reason src/lib/shuffle-bag.ts exists on the other game — and the history
+    // is already in the rounds table, so no extra state is needed.
+    const { rows: used } = await c.query<{ grid_id: string }>(
+      `select distinct state->>'gridId' as grid_id from gp.rounds where room_code = $1`,
+      [code],
+    );
+    const seen = new Set(used.map((r) => r.grid_id));
+    // Once the bag is empty it refills, minus the one just played, so the
+    // reshuffle never immediately repeats.
+    const unseen = GRIDS.filter((g) => !seen.has(g.id));
+    const bag = unseen.length ? unseen : GRIDS.filter((g) => g.id !== previous?.gridId);
+    const grid = bag[Math.floor(Math.random() * bag.length)];
 
     const roundNo = (host.rows[0]?.round_no ?? 0) + 1;
     const state = dealRound(players.map((p) => p.id), grid, Math.random);

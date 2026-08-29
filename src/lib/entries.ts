@@ -1,8 +1,8 @@
-import animalsRaw from "@/data/animals.json";
-import objectsRaw from "@/data/objects.json";
-import placesRaw from "@/data/places.json";
-import moviesRaw from "@/data/movies.json";
-import celebritiesRaw from "@/data/celebrities.json";
+import animalsRaw from "@shared/data/animals.json";
+import objectsRaw from "@shared/data/objects.json";
+import placesRaw from "@shared/data/places.json";
+import moviesRaw from "@shared/data/movies.json";
+import celebritiesRaw from "@shared/data/celebrities.json";
 import type {
   CategoryId,
   CountryKey,

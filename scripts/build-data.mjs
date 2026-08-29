@@ -5,10 +5,10 @@
  *   TMDB_API_KEY=... node scripts/build-data.mjs movies
  *   node scripts/build-data.mjs celebrities            (Wikidata, no key)
  *
- * Output goes to src/data/<bucket>.candidates.json — NOT straight into the
+ * Output goes to shared/data/<bucket>.candidates.json — NOT straight into the
  * shipped list. The human review pass is the step that makes this product
  * good: cut anyone the room won't recognise, then merge into
- * src/data/<bucket>.json yourself.
+ * shared/data/<bucket>.json yourself.
  */
 import { writeFileSync } from "node:fs";
 
@@ -104,8 +104,8 @@ const seen = new Map();
 for (const r of rows) if (!seen.has(r.label)) seen.set(r.label, r);
 const result = [...seen.values()];
 
-const path = `src/data/${BUCKET}.candidates.json`;
+const path = `shared/data/${BUCKET}.candidates.json`;
 writeFileSync(path, JSON.stringify(result, null, 1));
 console.log(
-  `${result.length} candidates → ${path}\nReview by hand before merging into src/data/${BUCKET}.json.`,
+  `${result.length} candidates → ${path}\nReview by hand before merging into shared/data/${BUCKET}.json.`,
 );

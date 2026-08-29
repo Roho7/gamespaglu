@@ -1,4 +1,4 @@
-import manifest from "@/data/stickers.json";
+import manifest from "@shared/data/stickers.json";
 import type { CategoryId } from "./types";
 
 /**

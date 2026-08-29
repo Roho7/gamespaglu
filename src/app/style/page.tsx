@@ -25,11 +25,28 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+/**
+ * The worst case on purpose: the longest labels in the real deck.
+ * A style guide that shows comfortable content proves nothing about the
+ * cell that actually breaks.
+ */
 const DEMO_CELLS = [
-  "Boarding pass", "Lounge", "Layover", "Duty free",
-  "Cockpit", "Departures", "Trolley", "Tarmac",
-  "Security", "Check-in", "Window seat", "Runway",
-  "Passport", "Customs", "Baggage belt", "Gate",
+  "Cristiano Ronaldo",
+  "Lionel Messi",
+  "Usain Bolt",
+  "Roger Federer",
+  "Serena Williams",
+  "Michael Jordan",
+  "LeBron James",
+  "Muhammad Ali",
+  "David Beckham",
+  "Neymar",
+  "Kobe Bryant",
+  "Tiger Woods",
+  "Rafael Nadal",
+  "Tom Brady",
+  "Lewis Hamilton",
+  "Pelé",
 ];
 
 function Row({ title, children }: { title: string; children: React.ReactNode }) {

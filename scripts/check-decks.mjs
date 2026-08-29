@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * Deck sanity check — run after touching src/data or the filter logic.
+ * Deck sanity check — run after touching shared/data or the filter logic.
  *
  *   node scripts/check-decks.mjs
  *
@@ -15,7 +15,7 @@
  */
 import { readFileSync } from "node:fs";
 
-const load = (f) => JSON.parse(readFileSync(`src/data/${f}.json`, "utf8"));
+const load = (f) => JSON.parse(readFileSync(`shared/data/${f}.json`, "utf8"));
 const DATA = {
   animal: load("animals").map((l) => ({ label: l, countries: ["worldwide"] })),
   object: load("objects").map((l) => ({ label: l, countries: ["worldwide"] })),

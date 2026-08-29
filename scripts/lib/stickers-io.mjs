@@ -17,7 +17,7 @@ import {
 import { join } from "node:path";
 
 export const STICKER_DIR = "public/stickers";
-export const MANIFEST = "src/data/stickers.json";
+export const MANIFEST = "shared/data/stickers.json";
 export const SW = "public/sw.js";
 export const MAX_BYTES = 200_000;
 

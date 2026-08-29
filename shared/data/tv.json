@@ -1,0 +1,338 @@
+[
+  {
+    "label": "Friends",
+    "countries": [
+      "us"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Breaking Bad",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Game of Thrones",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Stranger Things",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "The Office",
+    "countries": [
+      "us"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "The Simpsons",
+    "countries": [
+      "us"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Sherlock",
+    "countries": [
+      "gb"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Squid Game",
+    "countries": [
+      "kr"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Money Heist",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Peaky Blinders",
+    "countries": [
+      "gb"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Black Mirror",
+    "countries": [
+      "gb"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "The Crown",
+    "countries": [
+      "gb"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Wednesday",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "The Last of Us",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ted Lasso",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Succession",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dark",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Narcos",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Chernobyl",
+    "countries": [
+      "gb"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mr. Robot",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Westworld",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Lost",
+    "countries": [
+      "us"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Seinfeld",
+    "countries": [
+      "us"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Doctor Who",
+    "countries": [
+      "gb"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Mad Men",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "The Wire",
+    "countries": [
+      "us"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Fleabag",
+    "countries": [
+      "gb"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "The Boys",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Loki",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Bridgerton",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Emily in Paris",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Modern Family",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "How I Met Your Mother",
+    "countries": [
+      "us"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "The Big Bang Theory",
+    "countries": [
+      "us"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Sacred Games",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Panchayat",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mirzapur",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Scam 1992",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Kota Factory",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Delhi Crime",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Family Man",
+    "countries": [
+      "in"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "CID",
+    "countries": [
+      "in"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Shark Tank",
+    "countries": [
+      "us"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "MasterChef",
+    "countries": [
+      "worldwide"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Top Gear",
+    "countries": [
+      "gb"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Pokemon",
+    "countries": [
+      "jp"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Baywatch",
+    "countries": [
+      "us"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Downton Abbey",
+    "countries": [
+      "gb"
+    ],
+    "era": "modern"
+  }
+]
