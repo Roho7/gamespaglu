@@ -4,6 +4,7 @@ import { RoomError } from "../rooms";
 import { GRIDS } from "./grids";
 import { dealRound, type RoundState } from "./engine";
 import {
+  DEFAULT_CLUE_SECONDS,
   MIN_PLAYERS,
   type PlayerId,
   type PublicRound,
@@ -62,8 +63,12 @@ export async function saveRound(c: PoolClient, code: string, roundNo: number, st
  */
 export async function startRound(code: string, hostPlayerId: PlayerId) {
   return withRoundLock(code, async (c, previous) => {
-    const host = await c.query<{ host_player_id: string | null; round_no: number }>(
-      `select host_player_id, round_no from gp.rooms where code = $1`,
+    const host = await c.query<{
+      host_player_id: string | null;
+      round_no: number;
+      clue_seconds: number;
+    }>(
+      `select host_player_id, round_no, clue_seconds from gp.rooms where code = $1`,
       [code],
     );
     if (host.rows[0]?.host_player_id !== hostPlayerId) {
@@ -102,7 +107,13 @@ export async function startRound(code: string, hostPlayerId: PlayerId) {
     const grid = bag[Math.floor(Math.random() * bag.length)];
 
     const roundNo = (host.rows[0]?.round_no ?? 0) + 1;
-    const state = dealRound(players.map((p) => p.id), grid, Math.random, Date.now);
+    const state = dealRound(
+      players.map((p) => p.id),
+      grid,
+      Math.random,
+      Date.now,
+      host.rows[0]?.clue_seconds ?? DEFAULT_CLUE_SECONDS,
+    );
     await saveRound(c, code, roundNo, state);
     return state;
   });

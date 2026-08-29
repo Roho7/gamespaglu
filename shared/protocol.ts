@@ -39,21 +39,16 @@ export const MAX_CLUE_LENGTH = 20;
 
 /** Girgit not caught. */
 /**
- * Phase deadlines.
+ * Only the clue phase is timed, and the room chooses how long.
  *
- * Added after the first real game: two players locked their phones during the
- * vote and the round could never resolve, because advancing required everybody
- * to act. A seat is held forever (disconnect is not departure) but a PHASE
- * cannot wait forever, and the difference matters.
+ * The vote and the escape guess are deliberately untimed: they are moments the
+ * table is already talking through, and a clock on them rushes the part of the
+ * game that is the game. The cost is real and is why `round:abort` exists — a
+ * locked phone during the vote stalls the round, and the host has to end it.
  */
-export const CLUE_SECONDS = 75;
-export const VOTE_SECONDS = 45;
-/**
- * The caught Girgit's one guess. Timed for the same reason as the others: if
- * their phone is locked, the whole table is stuck watching "is guessing…"
- * forever with no way out but the host aborting.
- */
-export const ESCAPE_SECONDS = 30;
+export const CLUE_SECONDS_OPTIONS = [30, 60] as const;
+export type ClueSeconds = (typeof CLUE_SECONDS_OPTIONS)[number];
+export const DEFAULT_CLUE_SECONDS: ClueSeconds = 60;
 
 export const SCORE_GIRGIT_ESCAPED = 2;
 /** Caught, but guessed the secret word. */
@@ -162,6 +157,8 @@ export type RoomState = {
   you: PlayerId;
   minPlayers: number;
   maxPlayers: number;
+  /** How long the clue phase runs. A room setting, changeable mid-round. */
+  clueSeconds: number;
   round: PublicRound | null;
   your: YourRound | null;
 };
@@ -181,6 +178,7 @@ export type ErrorCode =
   | "BAD_CLUE"
   | "SELF_VOTE"
   | "NOT_ENOUGH_PLAYERS"
+  | "BAD_SETTING"
   | "PROTOCOL_MISMATCH"
   | "RATE_LIMITED"
   | "INTERNAL";
@@ -209,6 +207,13 @@ export type ClientToServer = {
   "room:leave": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;
   /** Host only. The escape hatch for someone who has actually gone home. */
   "room:kick": (p: { playerId: PlayerId }, ack: Ack<{ ok: true }>) => void;
+
+  /**
+   * Host only. Takes effect immediately, including mid-clue: the deadline is
+   * recomputed from when the clue phase started, not from now, so shortening it
+   * cannot hand anybody extra time by resetting the clock.
+   */
+  "room:clueSeconds": (p: { seconds: number }, ack: Ack<{ ok: true }>) => void;
 
   /** Host only. Applies queued joins and leaves, then deals. */
   "round:start": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;

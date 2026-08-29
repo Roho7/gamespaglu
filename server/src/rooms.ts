@@ -239,7 +239,13 @@ async function reassignHostIfNeeded(c: PoolClient, code: RoomCode) {
 }
 
 export type RoomSnapshot = {
-  room: { code: string; phase: RoomPhase; round_no: number; host_player_id: string | null };
+  room: {
+    code: string;
+    phase: RoomPhase;
+    round_no: number;
+    host_player_id: string | null;
+    clue_seconds: number;
+  };
   players: PlayerRow[];
 };
 
@@ -254,7 +260,8 @@ export type RoomSnapshot = {
  */
 export async function getRoomSnapshot(code: RoomCode): Promise<RoomSnapshot> {
   const { rows } = await pool.query<RoomSnapshot["room"]>(
-    `select code, phase, round_no, host_player_id from gp.rooms where code = $1`,
+    `select code, phase, round_no, host_player_id, clue_seconds
+       from gp.rooms where code = $1`,
     [code],
   );
   if (rows.length === 0) fail("ROOM_NOT_FOUND", "That room is gone.");
@@ -289,6 +296,7 @@ export function roomStateFrom(
     you,
     minPlayers: MIN_PLAYERS,
     maxPlayers: MAX_PLAYERS,
+    clueSeconds: room.clue_seconds,
     round: round?.publicView ?? null,
     your: round?.yourView ?? null,
   };

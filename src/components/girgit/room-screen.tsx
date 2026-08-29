@@ -8,6 +8,7 @@ import { Deadline } from "@/components/girgit/deadline";
 import { GirgitGrid } from "@/components/girgit/grid";
 import { Roster } from "@/components/girgit/roster";
 import { SecretHold } from "@/components/girgit/secret-hold";
+import { Chip } from "@/components/mb/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { colourwayVars } from "@/lib/colourways";
@@ -15,10 +16,8 @@ import { roundColourway } from "@/lib/girgit/colourway";
 import { useOnline } from "@/lib/use-online";
 import type { useRoom } from "@/lib/girgit/use-room";
 import {
-  CLUE_SECONDS,
-  ESCAPE_SECONDS,
+  CLUE_SECONDS_OPTIONS,
   MAX_CLUE_LENGTH,
-  VOTE_SECONDS,
   type Err,
   type RoomState,
 } from "@shared/protocol";
@@ -122,6 +121,32 @@ export function RoomScreen({
                     </ul>
                   </div>
 
+                  <div className="space-y-2">
+                    <p className="mb-caps text-[0.6rem] opacity-60">Clue timer</p>
+                    <div className="flex flex-wrap gap-2">
+                      {CLUE_SECONDS_OPTIONS.map((n) => (
+                        <Chip
+                          key={n}
+                          active={state.clueSeconds === n}
+                          // Rule 4: a chip a non-host can tap and have nothing
+                          // happen is worse than one they cannot tap.
+                          disabled={!isHost}
+                          onClick={async () => {
+                            const r = await act.setClueSeconds(n);
+                            if (!r.ok) setActionError(r.error);
+                          }}
+                        >
+                          {n}s
+                        </Chip>
+                      ))}
+                    </div>
+                    <p className="text-[0.7rem] opacity-70">
+                      {isHost
+                        ? "Applies to the round already running. Only clues are timed — the vote and the guess are not."
+                        : "The host sets this."}
+                    </p>
+                  </div>
+
                   {isHost && phase !== "lobby" && phase !== "reveal" ? (
                     <div className="space-y-1.5">
                       <Button
@@ -132,8 +157,9 @@ export function RoomScreen({
                         Abort this round
                       </Button>
                       <p className="text-[0.7rem] opacity-70">
-                        For when somebody has actually gone home. Nobody scores;
-                        deal again.
+                        For when somebody has actually gone home. The vote and
+                        the guess have no clock, so this is what unsticks a round
+                        nobody can finish. Nobody scores; deal again.
                       </p>
                     </div>
                   ) : null}
@@ -336,20 +362,8 @@ export function RoomScreen({
           {!cutOff && round?.deadlineAt ? (
             <Deadline
               deadlineAt={round.deadlineAt}
-              totalSeconds={
-                phase === "clues"
-                  ? CLUE_SECONDS
-                  : phase === "vote"
-                    ? VOTE_SECONDS
-                    : ESCAPE_SECONDS
-              }
-              label={
-                phase === "clues"
-                  ? "Clues close in"
-                  : phase === "vote"
-                    ? "Vote closes in"
-                    : "Guess now"
-              }
+              totalSeconds={state.clueSeconds}
+              label="Clues close in"
             />
           ) : null}
 
@@ -432,15 +446,37 @@ export function RoomScreen({
           ) : null}
 
           {!cutOff && phase === "vote" && round ? (
-            <p className="mb-caps text-center text-[0.6rem] opacity-80">
-              {round.votesIn} of {round.cluesTotal} voted
-            </p>
+            <div className="flex w-full max-w-sm items-center justify-between gap-3">
+              <span className="mb-caps text-[0.6rem] opacity-80">
+                {round.votesIn} of {round.cluesTotal} voted
+              </span>
+              {/* Untimed phases cannot unstick themselves, so the escape hatch
+                  is on the surface rather than three taps into a drawer. */}
+              {isHost ? (
+                <button
+                  className="mb-caps text-[0.55rem] underline opacity-70"
+                  onClick={() => act.abortRound()}
+                >
+                  end round
+                </button>
+              ) : null}
+            </div>
           ) : null}
 
           {!cutOff && phase === "escape" ? (
-            <p className="mb-caps text-center text-[0.6rem] opacity-80">
-              {state.your?.isGirgit ? "Pick a word above" : "Hold your breath"}
-            </p>
+            <div className="flex w-full max-w-sm items-center justify-between gap-3">
+              <span className="mb-caps text-[0.6rem] opacity-80">
+                {state.your?.isGirgit ? "Pick a word above" : "Hold your breath"}
+              </span>
+              {isHost ? (
+                <button
+                  className="mb-caps text-[0.55rem] underline opacity-70"
+                  onClick={() => act.abortRound()}
+                >
+                  end round
+                </button>
+              ) : null}
+            </div>
           ) : null}
 
           {!cutOff && phase === "reveal" ? (

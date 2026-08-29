@@ -10,8 +10,6 @@
  * cannot replay is a rule you cannot test.
  */
 import {
-  CLUE_SECONDS,
-  ESCAPE_SECONDS,
   GRID_SIZE,
   MAX_CLUE_LENGTH,
   MAX_CLUE_WORDS,
@@ -19,7 +17,6 @@ import {
   SCORE_GIRGIT_ESCAPED,
   SCORE_GIRGIT_GUESSED,
   SCORE_INNOCENT,
-  VOTE_SECONDS,
   type ErrorCode,
   type PlayerId,
   type RoomPhase,
@@ -55,10 +52,16 @@ export type RoundState = {
   secretIndex: number;
   clues: Record<PlayerId, string>;
   /**
-   * Epoch ms this phase expires. A held seat is forever; a held PHASE is not.
-   * Two locked phones stalled a real round permanently before this existed.
+   * Epoch ms the CLUE phase expires. Only the clue phase is timed — see
+   * CLUE_SECONDS_OPTIONS for why the vote and the guess are not.
    */
   deadlineAt: number | null;
+  /**
+   * When clues opened. The deadline is derived from this rather than stored
+   * alone, so changing the room's timer mid-round recomputes from the start of
+   * the phase instead of restarting the clock.
+   */
+  cluesStartedAt: number;
   /** Ran out of time. Recorded so the reveal can say what happened. */
   skipped: PlayerId[];
   voteOpen: boolean;
@@ -97,6 +100,7 @@ export function dealRound(
   grid: Grid,
   rng: Rng,
   now: Now,
+  clueSeconds: number,
 ): RoundState {
   if (players.length < MIN_PLAYERS) {
     reject("NOT_ENOUGH_PLAYERS", `Girgit needs at least ${MIN_PLAYERS} players.`);
@@ -116,7 +120,8 @@ export function dealRound(
     cells: shuffle(grid.cells, rng),
     secretIndex: Math.floor(rng() * GRID_SIZE),
     clues: {},
-    deadlineAt: now() + CLUE_SECONDS * 1000,
+    cluesStartedAt: now(),
+    deadlineAt: now() + clueSeconds * 1000,
     skipped: [],
     voteOpen: false,
     votes: {},
@@ -204,33 +209,35 @@ export function expireClues(state: RoundState): RoundState {
   return { ...state, phase: "discuss", deadlineAt: null, skipped };
 }
 
+/**
+ * Change the room's clue timer, including mid-phase.
+ *
+ * Recomputed from when clues opened, never from now: restarting the clock on
+ * every change would let anyone extend the phase indefinitely, and shortening
+ * it should be able to end the phase immediately.
+ */
+export function setClueSeconds(state: RoundState, seconds: number): RoundState {
+  if (state.phase !== "clues") return state;
+  return { ...state, deadlineAt: state.cluesStartedAt + seconds * 1000 };
+}
+
 export const cluesOutstanding = (state: RoundState): number =>
   state.players.filter((p) => !state.clues[p]).length;
 
 // ------------------------------------------------------------------ vote ---
 
 /** Any player, not just the host — at a table somebody just says "okay, vote". */
-export function callVote(
-  state: RoundState,
-  playerId: PlayerId,
-  now: Now,
-): RoundState {
+export function callVote(state: RoundState, playerId: PlayerId): RoundState {
   if (state.phase !== "discuss") reject("WRONG_PHASE", "There is nothing to vote on yet.");
   if (!state.players.includes(playerId)) reject("NOT_PLAYING", "You are not in this round.");
-  return {
-    ...state,
-    phase: "vote",
-    voteOpen: true,
-    votes: {},
-    deadlineAt: now() + VOTE_SECONDS * 1000,
-  };
+  // Untimed on purpose. The table is talking; a clock here rushes the game.
+  return { ...state, phase: "vote", voteOpen: true, votes: {}, deadlineAt: null };
 }
 
 export function castVote(
   state: RoundState,
   voter: PlayerId,
   target: PlayerId,
-  now: Now,
 ): RoundState {
   if (state.phase !== "vote") reject("WRONG_PHASE", "The vote is not open.");
   if (!state.players.includes(voter)) reject("NOT_PLAYING", "You are not in this round.");
@@ -240,23 +247,9 @@ export function castVote(
 
   const votes = { ...state.votes, [voter]: target };
   if (state.players.some((p) => !votes[p])) return { ...state, votes };
-  return resolveVote({ ...state, votes }, now);
+  return resolveVote({ ...state, votes });
 }
 
-/** The vote timer ran out. Resolve on the votes actually cast. */
-export function expireVote(state: RoundState, now: Now): RoundState {
-  if (state.phase !== "vote") return state;
-  return resolveVote(state, now);
-}
-
-/**
- * The Girgit ran out of time to guess. Treated as a wrong guess: they were
- * caught, and not answering is not an escape.
- */
-export function expireEscape(state: RoundState): RoundState {
-  if (state.phase !== "escape") return state;
-  return { ...state, phase: "reveal", deadlineAt: null, outcome: "girgit-caught" };
-}
 
 export function tally(state: RoundState): Record<PlayerId, number> {
   const counts: Record<PlayerId, number> = {};
@@ -270,7 +263,7 @@ export function tally(state: RoundState): Record<PlayerId, number> {
  * again — it may loop, and that is fine: it is a verbal game and they will sort
  * it out. Forcing a resolution would decide the round on a coin toss.
  */
-export function resolveVote(state: RoundState, now: Now): RoundState {
+export function resolveVote(state: RoundState): RoundState {
   const counts = tally(state);
   const top = Math.max(0, ...Object.values(counts));
   const leaders = state.players.filter((p) => counts[p] === top);
@@ -284,13 +277,8 @@ export function resolveVote(state: RoundState, now: Now): RoundState {
   const accused = leaders[0];
   if (accused === state.girgit) {
     // Caught — but they get one shot at the word.
-    return {
-      ...state,
-      phase: "escape",
-      voteOpen: false,
-      accused,
-      deadlineAt: now() + ESCAPE_SECONDS * 1000,
-    };
+    // Also untimed: being caught and having to think is part of it.
+    return { ...state, phase: "escape", voteOpen: false, accused, deadlineAt: null };
   }
   return {
     ...state,

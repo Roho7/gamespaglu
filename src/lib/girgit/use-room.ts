@@ -142,6 +142,10 @@ export function useRoom() {
   );
 
   const act = {
+    setClueSeconds: useCallback(
+      (seconds: number) => call("room:clueSeconds", { seconds }),
+      [call],
+    ),
     startRound: useCallback(() => call("round:start", {}), [call]),
     abortRound: useCallback(() => call("round:abort", {}), [call]),
     submitClue: useCallback((word: string) => call("clue:submit", { word }), [call]),

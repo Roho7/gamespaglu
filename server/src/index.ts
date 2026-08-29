@@ -23,8 +23,7 @@ import {
   callVote,
   castVote,
   expireClues,
-  expireEscape,
-  expireVote,
+  setClueSeconds,
   scoreRound,
   submitClue,
   submitEscape,
@@ -39,6 +38,7 @@ import {
   yourRound,
 } from "./girgit/store";
 import {
+  CLUE_SECONDS_OPTIONS,
   MAX_NAME_LENGTH,
   isDeviceId,
   isRoomCode,
@@ -230,6 +230,28 @@ io.on("connection", (socket: Socket<ClientToServer, ServerToClient, Record<strin
     return { playerId, code };
   };
 
+  socket.on("room:clueSeconds", ({ seconds }, ack) =>
+    handle(ack, async () => {
+      const { playerId, code } = seat();
+      const n = Number(seconds);
+      if (!CLUE_SECONDS_OPTIONS.includes(n as (typeof CLUE_SECONDS_OPTIONS)[number])) {
+        throw new RoomError({ code: "BAD_SETTING", message: "Not a timer option." });
+      }
+      const { rows } = await pool.query<{ host_player_id: string | null }>(
+        `select host_player_id from gp.rooms where code = $1`,
+        [code],
+      );
+      if (rows[0]?.host_player_id !== playerId) {
+        throw new RoomError({ code: "NOT_HOST", message: "Only the host sets the timer." });
+      }
+      await pool.query(`update gp.rooms set clue_seconds = $2 where code = $1`, [code, n]);
+      // Applies to the round already running, not just the next one.
+      await transition(code, (st) => setClueSeconds(st, n)).catch(() => undefined);
+      await broadcastState(code);
+      return { ok: true as const };
+    }),
+  );
+
   socket.on("round:start", (_p, ack) =>
     handle(ack, async () => {
       const { playerId, code } = seat();
@@ -267,7 +289,7 @@ io.on("connection", (socket: Socket<ClientToServer, ServerToClient, Record<strin
   socket.on("vote:call", (_p, ack) =>
     handle(ack, async () => {
       const { playerId, code } = seat();
-      await transition(code, (s) => callVote(s, playerId, Date.now));
+      await transition(code, (s) => callVote(s, playerId));
       await broadcastState(code);
       return { ok: true as const };
     }),
@@ -276,7 +298,7 @@ io.on("connection", (socket: Socket<ClientToServer, ServerToClient, Record<strin
   socket.on("vote:cast", ({ targetId }, ack) =>
     handle(ack, async () => {
       const { playerId, code } = seat();
-      const next = await transition(code, (s) => castVote(s, playerId, String(targetId), Date.now));
+      const next = await transition(code, (s) => castVote(s, playerId, String(targetId)));
       // The vote can resolve straight to the reveal when nobody is caught.
       if (next.outcome) await applyScores(code, scoreRound(next));
       await broadcastState(code);
@@ -317,16 +339,8 @@ setInterval(() => {
   void (async () => {
     for (const code of await expiredRooms()) {
       try {
-        const next = await transition(code, (st) =>
-          st.phase === "clues"
-            ? expireClues(st)
-            : st.phase === "vote"
-              ? expireVote(st, Date.now)
-              : st.phase === "escape"
-                ? expireEscape(st)
-                : st,
-        );
-        if (next.outcome) await applyScores(code, scoreRound(next));
+        // Only clues expire. A stalled vote is ended by the host, not a clock.
+        await transition(code, (st) => (st.phase === "clues" ? expireClues(st) : st));
         await broadcastState(code);
       } catch (err) {
         console.error("[sweep]", code, err);
