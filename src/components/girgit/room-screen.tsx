@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { AppBar } from "@/components/app-bar";
 import { SideDrawer } from "@/components/game/settings-drawer";
+import { Deadline } from "@/components/girgit/deadline";
 import { GirgitGrid } from "@/components/girgit/grid";
+import { Roster } from "@/components/girgit/roster";
 import { SecretHold } from "@/components/girgit/secret-hold";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +14,14 @@ import { colourwayVars } from "@/lib/colourways";
 import { roundColourway } from "@/lib/girgit/colourway";
 import { useOnline } from "@/lib/use-online";
 import type { useRoom } from "@/lib/girgit/use-room";
-import { MAX_CLUE_LENGTH, type RoomState } from "@shared/protocol";
+import {
+  CLUE_SECONDS,
+  ESCAPE_SECONDS,
+  MAX_CLUE_LENGTH,
+  VOTE_SECONDS,
+  type Err,
+  type RoomState,
+} from "@shared/protocol";
 
 /**
  * The play surface. One label, one accent, one big action in the band.
@@ -33,6 +42,9 @@ export function RoomScreen({
   reconnecting: boolean;
 }) {
   const [clue, setClue] = useState("");
+  // A rejected action used to fail in total silence here — you tapped, nothing
+  // happened, and there was no way to tell a bad clue from a broken game.
+  const [actionError, setActionError] = useState<Err | null>(null);
   const online = useOnline();
   // Offline or merely disconnected, the effect is the same: this phone is not
   // talking to the game. The service worker will happily serve this screen from
@@ -47,8 +59,10 @@ export function RoomScreen({
   const colourway = roundColourway(state.code, round?.roundNo ?? 0);
   // Your own clue is only in `clues` once everyone is in, so before the reveal
   // the band has to fall back to the progress count.
-  const yourClue = round?.clues?.find((c) => c.playerId === state.you);
-  const youVoted = round?.votes?.some((v) => v.voterId === state.you) ?? false;
+  // From the private half, so it is known the moment you act rather than only
+  // once every clue is in and the public list appears.
+  const hasClued = state.your?.hasClued ?? false;
+  const hasVoted = state.your?.hasVoted ?? false;
 
   const phase = state.phase;
   const isHost = you?.isHost ?? false;
@@ -134,9 +148,9 @@ export function RoomScreen({
 
           {/* flex-col so the lobby can actually centre itself; h-full alone
               does not resolve inside a flex-1 scroll container. */}
-          <div className="relative flex min-h-0 flex-1 flex-col overflow-y-auto px-3 pt-16 pb-2">
+          <div className="relative flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pt-16 pb-3 sm:px-8">
             {phase === "lobby" || !round ? (
-              <div className="flex flex-1 flex-col items-center justify-center gap-3 text-center">
+              <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-3 text-center">
                 <p className="mb-caps text-[0.6rem] opacity-70">
                   Everyone taps Join and types this
                 </p>
@@ -159,18 +173,19 @@ export function RoomScreen({
                 </ul>
               </div>
             ) : (
-              // my-auto so a short phase sits centred rather than piled at the
-              // top with half a screen of field under it.
-              <div className="my-auto w-full space-y-3">
-                <div className="flex items-baseline justify-between">
-                  <p className="mb-caps text-[0.6rem] opacity-70">
-                    {round.theme}
-                  </p>
-                  <p className="mb-caps text-[0.55rem] opacity-50">
+              // Centred and capped. On a wide screen the grid used to stretch
+              // edge to edge with the clues stranded in the corners; the table
+              // is meant to have a centrepiece.
+              <div className="mx-auto my-auto w-full max-w-md space-y-4">
+                {/* The round call-out. It was a 10px caption; it is the one
+                    piece of context every clue is judged against. */}
+                <header className="space-y-0.5 text-center">
+                  <p className="mb-caps text-[0.55rem] opacity-60">
                     Round {round.roundNo}
                     {reconnecting ? " · reconnecting" : ""}
                   </p>
-                </div>
+                  <h2 className="mb-display-sm text-2xl">{round.theme}</h2>
+                </header>
 
                 {/* The vote is the one screen the grid comes off, so ten names
                     stay above the fold instead of below it. */}
@@ -186,6 +201,22 @@ export function RoomScreen({
                   />
                 ) : null}
 
+                {phase === "clues" ? (
+                  <Roster
+                    players={state.players}
+                    doneIds={round.cluedBy}
+                    youId={state.you}
+                  />
+                ) : null}
+
+                {phase === "vote" ? (
+                  <Roster
+                    players={state.players}
+                    doneIds={round.votedBy}
+                    youId={state.you}
+                  />
+                ) : null}
+
                 {phase === "clues" && state.your ? (
                   <SecretHold
                     isGirgit={state.your.isGirgit}
@@ -198,17 +229,30 @@ export function RoomScreen({
                 ) : null}
 
                 {round.clues ? (
-                  <ul className="space-y-1">
+                  // The thing everybody is actually looking at. Laid out like
+                  // cards on a table rather than a list of rows.
+                  <ul className="grid grid-cols-2 gap-2">
                     {round.clues.map((c) => (
                       <li
                         key={c.playerId}
-                        className="flex items-baseline justify-between gap-3 border-b-[var(--rule-thin)] border-current/25 pb-1"
+                        className="flex flex-col items-center justify-center gap-0.5 rounded-[var(--radius-md)] border-[length:var(--rule-thin)] border-[color:var(--frame)] px-2 py-3 text-center"
                       >
-                        <span className="text-base font-extrabold">
+                        <span className="mb-display-sm text-lg leading-tight break-words">
                           {c.word}
                         </span>
-                        <span className="mb-caps text-[0.55rem] opacity-70">
+                        <span className="mb-caps text-[0.5rem] opacity-70">
                           {nameOf(c.playerId)}
+                        </span>
+                      </li>
+                    ))}
+                    {round.skipped.map((id) => (
+                      <li
+                        key={id}
+                        className="flex flex-col items-center justify-center gap-0.5 rounded-[var(--radius-md)] border-[length:var(--rule-thin)] border-current/30 px-2 py-3 text-center opacity-50"
+                      >
+                        <span className="mb-display-sm text-lg leading-tight">—</span>
+                        <span className="mb-caps text-[0.5rem]">
+                          {nameOf(id)} · timed out
                         </span>
                       </li>
                     ))}
@@ -218,7 +262,7 @@ export function RoomScreen({
                 {phase === "vote" ? (
                   <div className="space-y-2">
                     <p className="mb-caps text-center text-[0.6rem] opacity-70">
-                      {youVoted ? "Locked in" : "Who is the Girgit?"}
+                      {hasVoted ? "Locked in — waiting" : "Who is the Girgit?"}
                     </p>
                     <div className="grid grid-cols-2 gap-2">
                       {state.players
@@ -227,8 +271,11 @@ export function RoomScreen({
                           <Button
                             key={p.id}
                             variant="secondary"
-                            onClick={() => act.castVote(p.id)}
-                            disabled={youVoted}
+                            onClick={async () => {
+                              const r = await act.castVote(p.id);
+                              if (!r.ok) setActionError(r.error);
+                            }}
+                            disabled={hasVoted}
                           >
                             {p.name}
                           </Button>
@@ -285,7 +332,31 @@ export function RoomScreen({
         </div>
 
         {/* The band. Exactly one action, at thumb height, never scrolled away. */}
-        <div className="mb-band flex-col gap-1.5 px-4 py-3">
+        <div className="mb-band flex-col gap-2 px-4 py-3">
+          {!cutOff && round?.deadlineAt ? (
+            <Deadline
+              deadlineAt={round.deadlineAt}
+              totalSeconds={
+                phase === "clues"
+                  ? CLUE_SECONDS
+                  : phase === "vote"
+                    ? VOTE_SECONDS
+                    : ESCAPE_SECONDS
+              }
+              label={
+                phase === "clues"
+                  ? "Clues close in"
+                  : phase === "vote"
+                    ? "Vote closes in"
+                    : "Guess now"
+              }
+            />
+          ) : null}
+
+          {actionError ? (
+            <p className="text-center text-xs font-bold">{actionError.message}</p>
+          ) : null}
+
           {cutOff ? (
             <div className="text-center">
               <p className="mb-display-sm text-base">
@@ -317,9 +388,9 @@ export function RoomScreen({
           ) : null}
 
           {!cutOff && phase === "clues" && round ? (
-            yourClue ? (
+            hasClued ? (
               <p className="mb-caps text-center text-[0.6rem] opacity-80">
-                Waiting on {round.cluesTotal - round.cluesIn} of{" "}
+                In. Waiting on {round.cluesTotal - round.cluesIn} of{" "}
                 {round.cluesTotal}
               </p>
             ) : (
@@ -335,7 +406,12 @@ export function RoomScreen({
                 <Button
                   onClick={async () => {
                     const r = await act.submitClue(clue);
-                    if (r.ok) setClue("");
+                    if (r.ok) {
+                      setClue("");
+                      setActionError(null);
+                    } else {
+                      setActionError(r.error);
+                    }
                   }}
                   disabled={!clue.trim()}
                 >

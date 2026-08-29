@@ -56,6 +56,10 @@ export function useRoom() {
   const [status, setStatus] = useState<RoomStatus>("idle");
   const [error, setError] = useState<Err | null>(null);
   const socketRef = useRef<GirgitSocket | null>(null);
+  // Mirrored into a ref so the resume effect can read the current status
+  // without depending on it — depending on it would tear the socket down and
+  // rebuild it every time the status changed.
+  const statusRef = useRef<RoomStatus>("idle");
 
   const socket = useCallback((): GirgitSocket => {
     if (socketRef.current) return socketRef.current;
@@ -71,6 +75,10 @@ export function useRoom() {
     socketRef.current = s;
     return s;
   }, [setLastCode]);
+
+  useEffect(() => {
+    statusRef.current = status;
+  }, [status]);
 
   useEffect(() => {
     return () => {
@@ -154,7 +162,10 @@ export function useRoom() {
     if (!hydrated || !lastCode) return;
     const s = socket();
     const resume = () => {
-      setStatus("connecting");
+      // Joining already put us in the room. Re-announcing "connecting" here
+      // flashed "Reconnecting…" across the band the instant anybody joined,
+      // which reads as a fault rather than a successful join.
+      if (statusRef.current !== "in-room") setStatus("connecting");
       s.emit(
         "room:resume",
         { deviceId: deviceId(), code: lastCode },
@@ -171,7 +182,8 @@ export function useRoom() {
         },
       );
     };
-    if (s.connected) resume();
+    if (s.connected && statusRef.current !== "in-room") resume();
+    // A genuine reconnect always resumes, whatever the status was.
     s.on("connect", resume);
     return () => {
       s.off("connect", resume);

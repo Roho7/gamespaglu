@@ -22,6 +22,9 @@ import {
   abortRound,
   callVote,
   castVote,
+  expireClues,
+  expireEscape,
+  expireVote,
   scoreRound,
   submitClue,
   submitEscape,
@@ -29,6 +32,7 @@ import {
 import {
   applyScores,
   currentRound,
+  expiredRooms,
   publicRound,
   startRound,
   transition,
@@ -263,7 +267,7 @@ io.on("connection", (socket: Socket<ClientToServer, ServerToClient, Record<strin
   socket.on("vote:call", (_p, ack) =>
     handle(ack, async () => {
       const { playerId, code } = seat();
-      await transition(code, (s) => callVote(s, playerId));
+      await transition(code, (s) => callVote(s, playerId, Date.now));
       await broadcastState(code);
       return { ok: true as const };
     }),
@@ -272,7 +276,7 @@ io.on("connection", (socket: Socket<ClientToServer, ServerToClient, Record<strin
   socket.on("vote:cast", ({ targetId }, ack) =>
     handle(ack, async () => {
       const { playerId, code } = seat();
-      const next = await transition(code, (s) => castVote(s, playerId, String(targetId)));
+      const next = await transition(code, (s) => castVote(s, playerId, String(targetId), Date.now));
       // The vote can resolve straight to the reveal when nobody is caught.
       if (next.outcome) await applyScores(code, scoreRound(next));
       await broadcastState(code);
@@ -300,6 +304,36 @@ io.on("connection", (socket: Socket<ClientToServer, ServerToClient, Record<strin
     await broadcastState(code).catch(() => {});
   });
 });
+
+/**
+ * Deadlines are enforced here rather than by a per-room setTimeout.
+ *
+ * A timer in memory dies with a redeploy and takes the round with it; the
+ * deadline lives in the round state, so a sweep finds anything overdue whatever
+ * happened in between. Two seconds is well inside what anyone notices.
+ */
+const SWEEP_INTERVAL_MS = 2000;
+setInterval(() => {
+  void (async () => {
+    for (const code of await expiredRooms()) {
+      try {
+        const next = await transition(code, (st) =>
+          st.phase === "clues"
+            ? expireClues(st)
+            : st.phase === "vote"
+              ? expireVote(st, Date.now)
+              : st.phase === "escape"
+                ? expireEscape(st)
+                : st,
+        );
+        if (next.outcome) await applyScores(code, scoreRound(next));
+        await broadcastState(code);
+      } catch (err) {
+        console.error("[sweep]", code, err);
+      }
+    }
+  })();
+}, SWEEP_INTERVAL_MS).unref();
 
 const REAP_INTERVAL_MS = 10 * 60 * 1000;
 setInterval(() => {

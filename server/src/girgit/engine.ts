@@ -10,6 +10,8 @@
  * cannot replay is a rule you cannot test.
  */
 import {
+  CLUE_SECONDS,
+  ESCAPE_SECONDS,
   GRID_SIZE,
   MAX_CLUE_LENGTH,
   MAX_CLUE_WORDS,
@@ -17,12 +19,15 @@ import {
   SCORE_GIRGIT_ESCAPED,
   SCORE_GIRGIT_GUESSED,
   SCORE_INNOCENT,
+  VOTE_SECONDS,
   type ErrorCode,
   type PlayerId,
   type RoomPhase,
 } from "../../../shared/protocol";
 
 export type Rng = () => number;
+/** Injected like the rng, and for the same reason: a rule with a hidden clock cannot be tested. */
+export type Now = () => number;
 
 export type Grid = {
   id: string;
@@ -49,6 +54,13 @@ export type RoundState = {
   cells: string[];
   secretIndex: number;
   clues: Record<PlayerId, string>;
+  /**
+   * Epoch ms this phase expires. A held seat is forever; a held PHASE is not.
+   * Two locked phones stalled a real round permanently before this existed.
+   */
+  deadlineAt: number | null;
+  /** Ran out of time. Recorded so the reveal can say what happened. */
+  skipped: PlayerId[];
   voteOpen: boolean;
   votes: Record<PlayerId, PlayerId>;
   accused: PlayerId | null;
@@ -80,7 +92,12 @@ export function shuffle<T>(xs: readonly T[], rng: Rng): T[] {
   return out;
 }
 
-export function dealRound(players: PlayerId[], grid: Grid, rng: Rng): RoundState {
+export function dealRound(
+  players: PlayerId[],
+  grid: Grid,
+  rng: Rng,
+  now: Now,
+): RoundState {
   if (players.length < MIN_PLAYERS) {
     reject("NOT_ENOUGH_PLAYERS", `Girgit needs at least ${MIN_PLAYERS} players.`);
   }
@@ -99,6 +116,8 @@ export function dealRound(players: PlayerId[], grid: Grid, rng: Rng): RoundState
     cells: shuffle(grid.cells, rng),
     secretIndex: Math.floor(rng() * GRID_SIZE),
     clues: {},
+    deadlineAt: now() + CLUE_SECONDS * 1000,
+    skipped: [],
     voteOpen: false,
     votes: {},
     accused: null,
@@ -170,7 +189,19 @@ export function submitClue(
   // Reveal is simultaneous: nothing is visible until the last clue lands, which
   // is what removes the going-last advantage the tabletop game has.
   const everyone = state.players.every((p) => clues[p]);
-  return { ...state, clues, phase: everyone ? "discuss" : "clues" };
+  return everyone
+    ? { ...state, clues, phase: "discuss", deadlineAt: null }
+    : { ...state, clues };
+}
+
+/**
+ * The clue timer ran out. Whoever did not answer is skipped rather than waited
+ * on — a locked phone must not be able to stall the table indefinitely.
+ */
+export function expireClues(state: RoundState): RoundState {
+  if (state.phase !== "clues") return state;
+  const skipped = state.players.filter((p) => !state.clues[p]);
+  return { ...state, phase: "discuss", deadlineAt: null, skipped };
 }
 
 export const cluesOutstanding = (state: RoundState): number =>
@@ -179,16 +210,27 @@ export const cluesOutstanding = (state: RoundState): number =>
 // ------------------------------------------------------------------ vote ---
 
 /** Any player, not just the host — at a table somebody just says "okay, vote". */
-export function callVote(state: RoundState, playerId: PlayerId): RoundState {
+export function callVote(
+  state: RoundState,
+  playerId: PlayerId,
+  now: Now,
+): RoundState {
   if (state.phase !== "discuss") reject("WRONG_PHASE", "There is nothing to vote on yet.");
   if (!state.players.includes(playerId)) reject("NOT_PLAYING", "You are not in this round.");
-  return { ...state, phase: "vote", voteOpen: true, votes: {} };
+  return {
+    ...state,
+    phase: "vote",
+    voteOpen: true,
+    votes: {},
+    deadlineAt: now() + VOTE_SECONDS * 1000,
+  };
 }
 
 export function castVote(
   state: RoundState,
   voter: PlayerId,
   target: PlayerId,
+  now: Now,
 ): RoundState {
   if (state.phase !== "vote") reject("WRONG_PHASE", "The vote is not open.");
   if (!state.players.includes(voter)) reject("NOT_PLAYING", "You are not in this round.");
@@ -198,7 +240,22 @@ export function castVote(
 
   const votes = { ...state.votes, [voter]: target };
   if (state.players.some((p) => !votes[p])) return { ...state, votes };
-  return resolveVote({ ...state, votes });
+  return resolveVote({ ...state, votes }, now);
+}
+
+/** The vote timer ran out. Resolve on the votes actually cast. */
+export function expireVote(state: RoundState, now: Now): RoundState {
+  if (state.phase !== "vote") return state;
+  return resolveVote(state, now);
+}
+
+/**
+ * The Girgit ran out of time to guess. Treated as a wrong guess: they were
+ * caught, and not answering is not an escape.
+ */
+export function expireEscape(state: RoundState): RoundState {
+  if (state.phase !== "escape") return state;
+  return { ...state, phase: "reveal", deadlineAt: null, outcome: "girgit-caught" };
 }
 
 export function tally(state: RoundState): Record<PlayerId, number> {
@@ -213,25 +270,34 @@ export function tally(state: RoundState): Record<PlayerId, number> {
  * again — it may loop, and that is fine: it is a verbal game and they will sort
  * it out. Forcing a resolution would decide the round on a coin toss.
  */
-export function resolveVote(state: RoundState): RoundState {
+export function resolveVote(state: RoundState, now: Now): RoundState {
   const counts = tally(state);
-  const top = Math.max(...Object.values(counts));
+  const top = Math.max(0, ...Object.values(counts));
   const leaders = state.players.filter((p) => counts[p] === top);
 
-  if (leaders.length !== 1) {
-    return { ...state, phase: "discuss", voteOpen: false, votes: {} };
+  // Nobody voted, or no single leader. Back to arguing — they will call it
+  // again. Deliberately not decided on a coin toss.
+  if (top === 0 || leaders.length !== 1) {
+    return { ...state, phase: "discuss", voteOpen: false, votes: {}, deadlineAt: null };
   }
 
   const accused = leaders[0];
   if (accused === state.girgit) {
     // Caught — but they get one shot at the word.
-    return { ...state, phase: "escape", voteOpen: false, accused };
+    return {
+      ...state,
+      phase: "escape",
+      voteOpen: false,
+      accused,
+      deadlineAt: now() + ESCAPE_SECONDS * 1000,
+    };
   }
   return {
     ...state,
     phase: "reveal",
     voteOpen: false,
     accused,
+    deadlineAt: null,
     outcome: "girgit-escaped",
   };
 }
@@ -252,6 +318,7 @@ export function submitEscape(
   return {
     ...state,
     phase: "reveal",
+    deadlineAt: null,
     escapeGuess: cellIndex,
     outcome: right ? "girgit-guessed" : "girgit-caught",
   };
@@ -259,7 +326,7 @@ export function submitEscape(
 
 /** Host escape hatch: somebody has genuinely gone home. No score, redeal. */
 export function abortRound(state: RoundState): RoundState {
-  return { ...state, phase: "reveal", outcome: "aborted" };
+  return { ...state, phase: "reveal", deadlineAt: null, outcome: "aborted" };
 }
 
 // ----------------------------------------------------------------- score ---

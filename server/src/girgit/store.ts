@@ -102,7 +102,7 @@ export async function startRound(code: string, hostPlayerId: PlayerId) {
     const grid = bag[Math.floor(Math.random() * bag.length)];
 
     const roundNo = (host.rows[0]?.round_no ?? 0) + 1;
-    const state = dealRound(players.map((p) => p.id), grid, Math.random);
+    const state = dealRound(players.map((p) => p.id), grid, Math.random, Date.now);
     await saveRound(c, code, roundNo, state);
     return state;
   });
@@ -138,6 +138,25 @@ export async function applyScores(code: string, delta: Record<PlayerId, number>)
   );
 }
 
+/**
+ * Rooms whose current phase is past its deadline. Cheap: one indexed scan over
+ * the latest round per room, and rooms are few.
+ */
+export async function expiredRooms(): Promise<string[]> {
+  const { rows } = await pool.query<{ room_code: string }>(
+    `select distinct on (room_code) room_code, state
+       from gp.rounds
+      order by room_code, round_no desc`,
+  );
+  const now = Date.now();
+  const out: string[] = [];
+  for (const r of rows as unknown as { room_code: string; state: RoundState }[]) {
+    const d = r.state?.deadlineAt;
+    if (typeof d === "number" && d <= now) out.push(r.room_code);
+  }
+  return out;
+}
+
 export async function currentRound(code: string): Promise<RoundState | null> {
   const { rows } = await pool.query<{ state: RoundState }>(
     `select state from gp.rounds where room_code = $1 order by round_no desc limit 1`,
@@ -160,6 +179,12 @@ export function publicRound(state: RoundState, roundNo: number): PublicRound {
     cells: state.cells,
     cluesIn: Object.keys(state.clues).length,
     cluesTotal: state.players.length,
+    // Who has acted is public; what they said is not. Knowing the table is
+    // waiting on you is the whole point, and it leaks nothing.
+    cluedBy: state.players.filter((p) => state.clues[p]),
+    votedBy: state.players.filter((p) => state.votes[p]),
+    deadlineAt: state.deadlineAt,
+    skipped: state.skipped ?? [],
     clues: cluesDone
       ? state.players
           .filter((p) => state.clues[p])
@@ -180,7 +205,12 @@ export function publicRound(state: RoundState, roundNo: number): PublicRound {
 /** The half that differs per recipient. */
 export function yourRound(state: RoundState, playerId: PlayerId): YourRound {
   const isGirgit = playerId === state.girgit;
-  return { isGirgit, secretIndex: isGirgit ? null : state.secretIndex };
+  return {
+    isGirgit,
+    secretIndex: isGirgit ? null : state.secretIndex,
+    hasClued: Boolean(state.clues[playerId]),
+    hasVoted: Boolean(state.votes[playerId]),
+  };
 }
 
 export const phaseOf = (state: RoundState | null): RoomPhase => state?.phase ?? "lobby";

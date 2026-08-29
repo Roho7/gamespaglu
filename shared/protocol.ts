@@ -38,6 +38,23 @@ export const MAX_CLUE_WORDS = 2;
 export const MAX_CLUE_LENGTH = 20;
 
 /** Girgit not caught. */
+/**
+ * Phase deadlines.
+ *
+ * Added after the first real game: two players locked their phones during the
+ * vote and the round could never resolve, because advancing required everybody
+ * to act. A seat is held forever (disconnect is not departure) but a PHASE
+ * cannot wait forever, and the difference matters.
+ */
+export const CLUE_SECONDS = 75;
+export const VOTE_SECONDS = 45;
+/**
+ * The caught Girgit's one guess. Timed for the same reason as the others: if
+ * their phone is locked, the whole table is stuck watching "is guessing…"
+ * forever with no way out but the host aborting.
+ */
+export const ESCAPE_SECONDS = 30;
+
 export const SCORE_GIRGIT_ESCAPED = 2;
 /** Caught, but guessed the secret word. */
 export const SCORE_GIRGIT_GUESSED = 1;
@@ -95,6 +112,14 @@ export type PublicRound = {
   /** Progress only, until the last clue lands. */
   cluesIn: number;
   cluesTotal: number;
+  /** WHO has submitted — never what. Knowing who is waited on is not a leak. */
+  cluedBy: PlayerId[];
+  /** Same for the vote: who has locked in, never their target. */
+  votedBy: PlayerId[];
+  /** Epoch ms the current phase expires, or null when nothing is timed. */
+  deadlineAt: number | null;
+  /** Players who ran out of time and were skipped. */
+  skipped: PlayerId[];
   /** Null while collecting — reveal is simultaneous, by design. */
   clues: { playerId: PlayerId; word: string }[] | null;
   voteOpen: boolean;
@@ -116,6 +141,14 @@ export type YourRound = {
   isGirgit: boolean;
   /** Null for the Girgit. Not omitted — the shape is identical either way. */
   secretIndex: number | null;
+  /**
+   * Your own action, echoed back. The public payload deliberately hides the
+   * clue words and the vote targets until the reveal, which meant the UI could
+   * not tell you whether your own tap had landed — the first thing real players
+   * complained about.
+   */
+  hasClued: boolean;
+  hasVoted: boolean;
 };
 
 export type RoomState = {
