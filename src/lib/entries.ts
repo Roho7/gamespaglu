@@ -65,11 +65,9 @@ export const ENTRIES: Record<Exclude<CategoryId, "number">, Entry[]> = {
  * picker produced an empty deck and a Generate button that silently did
  * nothing. Deriving it means the picker stays honest as the lists grow.
  */
-export function availableCountries(
-  category: Exclude<CategoryId, "number">,
-): CountryKey[] {
+export function availableCountries(category: CategoryId): CountryKey[] {
   const seen = new Set<CountryKey>();
-  for (const e of ENTRIES[category]) for (const c of e.countries) seen.add(c);
+  for (const e of poolOf(category)) for (const c of e.countries) seen.add(c);
   return [...seen];
 }
 
@@ -81,14 +79,14 @@ export function availableCountries(
  * Offering it produced an empty deck and a Generate button that did nothing.
  */
 export function availableTypes(
-  category: Exclude<CategoryId, "number">,
+  category: CategoryId,
   filters?: { countries?: CountryKey[]; era?: EraFilter; spicy?: boolean },
 ): TypeKey[] {
   const countries = filters?.countries;
   const era = filters?.era ?? "both";
 
   const seen = new Set<TypeKey>();
-  for (const entry of ENTRIES[category]) {
+  for (const entry of poolOf(category)) {
     if (entry.spicy && !filters?.spicy) continue;
     if (countries?.length && !entry.countries.some((c) => countries.includes(c))) {
       continue;
@@ -102,11 +100,27 @@ export function availableTypes(
 }
 
 /**
+ * Every lookup goes through here, and it is deliberately total over CategoryId.
+ *
+ * `number` has no deck — it is a range, not a list — so ENTRIES has no key for
+ * it. Callers reach these helpers through `category as Exclude<CategoryId,
+ * "number">`, and that cast is a promise the type system cannot keep: it made
+ * `category !== "number"` look like an impossible comparison, the guard was
+ * removed to satisfy it, and /who-am-i/number crashed on `undefined.some`.
+ *
+ * Narrowing at the boundary rather than asserting at the call site is what
+ * stops that recurring.
+ */
+function poolOf(category: CategoryId): Entry[] {
+  return category === "number" ? [] : ENTRIES[category];
+}
+
+/**
  * Is the spicy switch worth rendering at all? Derived from the data, never
  * hardcoded — a toggle with nothing behind it is a control that does nothing.
  */
-export function hasSpicy(category: Exclude<CategoryId, "number">): boolean {
-  return ENTRIES[category].some((e) => e.spicy);
+export function hasSpicy(category: CategoryId): boolean {
+  return poolOf(category).some((e) => e.spicy);
 }
 
 export function poolSizes() {

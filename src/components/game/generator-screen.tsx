@@ -54,7 +54,6 @@ export function GeneratorScreen({
 
   // Category colourway until the first draw, then a fresh one each time.
   const colourway = g.colourway ?? colourwayById(meta.colourway);
-  const cat = category as Exclude<CategoryId, "number">;
 
   return (
     <div
@@ -108,7 +107,7 @@ export function GeneratorScreen({
                       <TypePicker
                         types={g.prefs.types}
                         onTypes={(types) => g.savePrefs({ types })}
-                        available={availableTypes(cat, {
+                        available={availableTypes(category, {
                           countries: g.prefs.countries,
                           era: g.prefs.era,
                           spicy: g.prefs.spicy,
@@ -136,12 +135,12 @@ export function GeneratorScreen({
                         countries={g.prefs.countries}
                         onCountries={(countries) => g.savePrefs({ countries })}
                         poolSize={g.poolSize}
-                        availableCountries={availableCountries(cat)}
+                        availableCountries={availableCountries(category)}
                       />
                     </div>
                   ) : null}
 
-                  {g.hydrated && hasSpicy(cat) ? (
+                  {g.hydrated && hasSpicy(category) ? (
                     <div className="space-y-3">
                       <p className="mb-caps text-[0.6rem] opacity-60">Spicy</p>
                       <SpicyToggle

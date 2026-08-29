@@ -240,6 +240,13 @@ consistent.
   switch is only rendered where the data actually has spicy entries (`hasSpicy`), and the line is
   "famous **for** the crime", not "politically divisive" — that keeps it a factual test rather than
   an editorial one. Girgit grids never draw spicy entries.
+- **`number` has no deck, and the type system will lie to you about it.** `ENTRIES` has no `number`
+  key, so callers used to reach the entry helpers through
+  `category as Exclude<CategoryId, "number">`. That cast made `category !== "number"` look like an
+  impossible comparison, the guard was deleted to satisfy it, and `/who-am-i/number` crashed on
+  `undefined.some` — after hydration only, so prerendering and `tsc` both passed. The helpers are
+  now total over `CategoryId` and the cast is gone. **Exercise all six category pages *and* their
+  drawers in a browser**, not just the one you changed.
 - **An unrecognisable name kills a round harder than a repeat does.** Curate for fame, not volume.
   Anything pulled by `scripts/build-data.mjs` lands in `*.candidates.json` and needs a human pass
   before it reaches `src/data/*.json`.
