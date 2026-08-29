@@ -5,6 +5,8 @@ import { Label } from "@/components/mb/label";
 import { Marquee } from "@/components/mb/marquee";
 import { Chip, IconButton, Panel } from "@/components/mb/ui";
 import { CelebFilterDemo } from "@/components/game/celeb-filter-demo";
+import { GirgitGrid } from "@/components/girgit/grid";
+import { SecretHold } from "@/components/girgit/secret-hold";
 import { RotateHint } from "@/components/mb/rotate-hint";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +24,13 @@ export const metadata: Metadata = {
   title: "Style",
   robots: { index: false, follow: false },
 };
+
+const DEMO_CELLS = [
+  "Boarding pass", "Lounge", "Layover", "Duty free",
+  "Cockpit", "Departures", "Trolley", "Tarmac",
+  "Security", "Check-in", "Window seat", "Runway",
+  "Passport", "Customs", "Baggage belt", "Gate",
+];
 
 function Row({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -151,6 +160,53 @@ export default function StylePage() {
               </div>
             ))}
           </div>
+        </Row>
+
+        <Row title="Girgit — the grid. Never marks the secret">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Label colourway="indigo" className="h-auto">
+              <div className="space-y-2 p-1">
+                <p className="mb-caps text-[0.55rem] opacity-70">In play</p>
+                <GirgitGrid cells={DEMO_CELLS} />
+                <p className="text-[0.65rem] opacity-70">
+                  No cell is marked. A lit cell is readable by position from
+                  across a table without reading a word.
+                </p>
+              </div>
+            </Label>
+            <Label colourway="maroon" className="h-auto">
+              <div className="space-y-2 p-1">
+                <p className="mb-caps text-[0.55rem] opacity-70">
+                  At the reveal — the only time a cell is marked
+                </p>
+                <GirgitGrid cells={DEMO_CELLS} markIndex={5} />
+                <p className="text-[0.65rem] opacity-70">
+                  Highlight fill with shadow ink, because ink-on-field is a
+                  light cream that would vanish on it.
+                </p>
+              </div>
+            </Label>
+          </div>
+        </Row>
+
+        <Row title="Girgit — hold to reveal. Identical shape for both roles">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Label colourway="bottle" className="h-auto">
+              <div className="p-2">
+                <SecretHold word="Boarding pass" isGirgit={false} />
+              </div>
+            </Label>
+            <Label colourway="bottle" className="h-auto">
+              <div className="p-2">
+                <SecretHold word={null} isGirgit />
+              </div>
+            </Label>
+          </div>
+          <p className="text-sm opacity-75">
+            Hold either one. The word and the Girgit line land in the same fixed
+            slot, at the same size — so a neighbour watching someone press and
+            hold learns nothing from the shape of what appears.
+          </p>
         </Row>
 
         <Row title="Label — the play surface, with band">
