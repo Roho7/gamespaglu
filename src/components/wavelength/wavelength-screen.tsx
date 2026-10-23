@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, HelpCircle, X } from "lucide-react";
 import spectrums from "@shared/data/spectrums.json";
+import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { Chip, IconButton } from "@/components/ui/controls";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { StitchedPanel } from "@/components/stitch/stitched-panel";
@@ -51,9 +52,15 @@ function BandButton({
   className?: string;
 }) {
   return (
-    <button type="button" onClick={onClick} className={`mb-band-action py-10 ${className}`}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`mb-band-action py-10 ${className}`}
+    >
       <StitchBorder className="inset-3" />
-      <span className="mb-display-sm inline-flex items-center gap-2 text-4xl">{children}</span>
+      <span className="mb-display-sm inline-flex items-center gap-2 text-4xl">
+        {children}
+      </span>
     </button>
   );
 }
@@ -63,10 +70,16 @@ function Briefing({ mode, onMode }: { mode: Mode; onMode: (m: Mode) => void }) {
     <div className="flex min-h-0 flex-1 flex-col gap-2 p-1">
       <StitchedPanel title="How to play" className="flex-[3] basis-0">
         <ol className="space-y-2 text-base leading-snug font-medium">
-          <li>1. The Psychic holds to peek at the target. Nobody else looks.</li>
-          <li>2. They say one clue out loud for where it sits between the two ends.</li>
+          <li>
+            1. The Psychic presses and holds the dial to see the target. Nobody
+            else looks.
+          </li>
+          <li>
+            2. They say one clue out loud for where it sits between the two
+            ends.
+          </li>
           <li>3. Their team turns the dial to the clue and locks it in.</li>
-          <li>4. Reveal. Dead centre is 4 points, then 3, then 2.</li>
+          <li>4. Reveal. Dead centre is 4 points, then 2, then 1.</li>
         </ol>
         <nav className="mt-4">
           <Link href="/how-to-play/wavelength" className={LINK}>
@@ -80,7 +93,10 @@ function Briefing({ mode, onMode }: { mode: Mode; onMode: (m: Mode) => void }) {
             <Chip active={mode === "teams"} onClick={() => onMode("teams")}>
               Two teams
             </Chip>
-            <Chip active={mode === "together"} onClick={() => onMode("together")}>
+            <Chip
+              active={mode === "together"}
+              onClick={() => onMode("together")}
+            >
               All together
             </Chip>
           </div>
@@ -109,7 +125,8 @@ function ScoreStrip({ game, onQuit }: { game: Game; onQuit: () => void }) {
           ))
         ) : (
           <span>
-            Card {Math.min(game.cardsPlayed + 1, TOGETHER_CARDS)} of {TOGETHER_CARDS} · {game.scores.a} pts
+            Card {Math.min(game.cardsPlayed + 1, TOGETHER_CARDS)} of{" "}
+            {TOGETHER_CARDS} · {game.scores.a} pts
           </span>
         )}
       </p>
@@ -146,7 +163,10 @@ export function WavelengthScreen() {
   };
 
   const quit = () => {
-    if (phase.kind === "over" || window.confirm("End this game? The score resets.")) {
+    if (
+      phase.kind === "over" ||
+      window.confirm("End this game? The score resets.")
+    ) {
       act({ type: "reset" });
     }
   };
@@ -158,16 +178,21 @@ export function WavelengthScreen() {
   const active = TEAM_NAME[game.turn];
   const guesser = game.mode === "teams" ? active : "Everyone";
 
-  const dial = phase.kind === "guess" || phase.kind === "call" || phase.kind === "reveal" ? phase.dial : null;
+  const dial =
+    phase.kind === "guess" || phase.kind === "call" || phase.kind === "reveal"
+      ? phase.dial
+      : null;
   const target =
-    phase.kind === "reveal" || (phase.kind === "psychic" && peeking) ? (card?.target ?? null) : null;
+    phase.kind === "reveal" || (phase.kind === "psychic" && peeking)
+      ? (card?.target ?? null)
+      : null;
 
   const prompt = (() => {
     switch (phase.kind) {
       case "psychic":
         return game.mode === "teams"
-          ? `${active}: pick a Psychic. Everyone else, look away.`
-          : "Pick a Psychic. Everyone else, look away.";
+          ? `${active}: pick a Psychic. Give a clue. No peeking.`
+          : "Pick a Psychic. Give a clue. No Peeking";
       case "guess":
         return `${guesser}: turn the dial to the clue.`;
       case "call":
@@ -180,11 +205,28 @@ export function WavelengthScreen() {
   return (
     <div style={paletteVars(palette)} className="flex h-dvh flex-col">
       <div className="mb-label mb-label-bleed flex-1">
-        <div className="mb-label-field relative flex min-h-0 flex-1 flex-col">
+        <PaletteGrain
+          palette={palette}
+          tone="ink"
+          className="absolute inset-0"
+        />
+        <div
+          style={{
+            ...paletteVars({
+              ...palette,
+              base: palette.shadow,
+              shadow: palette.base,
+            }),
+            color: "var(--cw-shadow)",
+          }}
+          className="mb-label-field relative flex min-h-0 flex-1 flex-col"
+        >
           <h1 className="sr-only">Wavelength</h1>
-
           {phase.kind === "briefing" ? (
-            <Briefing mode={game.mode} onMode={(mode) => act({ type: "mode", mode })} />
+            <Briefing
+              mode={game.mode}
+              onMode={(mode) => act({ type: "mode", mode })}
+            />
           ) : (
             <>
               <ScoreStrip game={game} onQuit={quit} />
@@ -192,64 +234,92 @@ export function WavelengthScreen() {
                 <GameOver game={game} />
               ) : card ? (
                 <div className="flex min-h-0 flex-1 flex-col justify-center gap-4 px-4">
-                  <p className="mb-caps min-h-8 text-center text-[0.7rem]">{prompt}</p>
+                  <p className="mb-caps min-h-8 text-center text-[0.7rem]">
+                    {prompt}
+                  </p>
                   <WavelengthDial
                     dial={dial}
                     target={target}
                     label={`${card.spectrum.left} to ${card.spectrum.right}`}
+                    palette={palette}
+                    onHold={phase.kind === "psychic" ? setPeeking : undefined}
                     onMove={
                       phase.kind === "guess"
-                        ? (value) => setGame(reduce(game, { type: "move", dial: value }))
+                        ? (value) =>
+                          setGame(reduce(game, { type: "move", dial: value }))
                         : undefined
                     }
                   />
                   <div className="grid grid-cols-2 gap-4">
-                    <p className="mb-display-sm text-2xl leading-tight"><ArrowLeft className="inline size-[1em] align-[-0.125em]" strokeWidth={3} aria-hidden /> {card.spectrum.left}</p>
-                    <p className="mb-display-sm text-right text-2xl leading-tight">{card.spectrum.right} <ArrowRight className="inline size-[1em] align-[-0.125em]" strokeWidth={3} aria-hidden /></p>
+                    <p className="mb-display-sm text-2xl leading-tight">
+                      <ArrowLeft
+                        className="inline size-[1em] align-[-0.125em]"
+                        strokeWidth={3}
+                        aria-hidden
+                      />{" "}
+                      {card.spectrum.left}
+                    </p>
+                    <p className="mb-display-sm text-right text-2xl leading-tight">
+                      {card.spectrum.right}{" "}
+                      <ArrowRight
+                        className="inline size-[1em] align-[-0.125em]"
+                        strokeWidth={3}
+                        aria-hidden
+                      />
+                    </p>
                   </div>
                   <div className="flex min-h-24 flex-col items-center justify-center gap-2">
-                    {phase.kind === "psychic" ? (
-                      <>
-                        <button
-                          type="button"
-                          className="mb-btn mb-btn-secondary mb-no-dots w-full max-w-sm px-6 py-2.5 text-base select-none"
-                          onPointerDown={() => setPeeking(true)}
-                          onPointerUp={() => setPeeking(false)}
-                          onPointerCancel={() => setPeeking(false)}
-                          onPointerLeave={() => setPeeking(false)}
-                          onContextMenu={(e) => e.preventDefault()}
-                        >
-                          {peeking ? "Let go to hide" : "Psychic: hold to peek"}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => act({ type: "skip", card: deal() })}
-                          className={LINK}
-                        >
-                          Skip this card
-                        </button>
-                      </>
-                    ) : phase.kind === "reveal" ? (
+                    {phase.kind === "reveal" ? (
                       <RevealScore game={game} />
                     ) : null}
                   </div>
                 </div>
               ) : null}
+              {phase.kind === "psychic" ? (
+                <div className="flex justify-center pb-5">
+                  <button
+                    type="button"
+                    onClick={() => act({ type: "skip", card: deal() })}
+                    className={LINK}
+                  >
+                    Skip this card
+                  </button>
+                </div>
+              ) : null}
             </>
           )}
         </div>
-
-        <div className="flex">
+        <div className="relative flex">
           {phase.kind === "briefing" ? (
-            <BandButton onClick={() => act({ type: "start", card: deal() })}>Start</BandButton>
+            <BandButton onClick={() => act({ type: "start", card: deal() })}>
+              Start
+            </BandButton>
           ) : phase.kind === "psychic" ? (
-            <BandButton onClick={() => act({ type: "clue" })}>Got a clue</BandButton>
+            <BandButton onClick={() => act({ type: "clue" })}>
+              Let them guess
+            </BandButton>
           ) : phase.kind === "guess" ? (
-            <BandButton onClick={() => act({ type: "lock" })}>Lock it in</BandButton>
+            <BandButton onClick={() => act({ type: "lock" })}>
+              Lock it in
+            </BandButton>
           ) : phase.kind === "call" ? (
             <>
-              <BandButton onClick={() => act({ type: "call", side: "left" })}><ArrowLeft className="size-[1em] shrink-0" strokeWidth={3} aria-hidden /> Left</BandButton>
-              <BandButton onClick={() => act({ type: "call", side: "right" })}>Right <ArrowRight className="size-[1em] shrink-0" strokeWidth={3} aria-hidden /></BandButton>
+              <BandButton onClick={() => act({ type: "call", side: "left" })}>
+                <ArrowLeft
+                  className="size-[1em] shrink-0"
+                  strokeWidth={3}
+                  aria-hidden
+                />{" "}
+                Left
+              </BandButton>
+              <BandButton onClick={() => act({ type: "call", side: "right" })}>
+                Right{" "}
+                <ArrowRight
+                  className="size-[1em] shrink-0"
+                  strokeWidth={3}
+                  aria-hidden
+                />
+              </BandButton>
             </>
           ) : phase.kind === "reveal" ? (
             <BandButton onClick={() => act({ type: "next", card: deal() })}>
@@ -257,10 +327,16 @@ export function WavelengthScreen() {
             </BandButton>
           ) : (
             <>
-              <BandButton className="flex-[3]" onClick={() => act({ type: "start", card: deal() })}>
+              <BandButton
+                className="flex-[3]"
+                onClick={() => act({ type: "start", card: deal() })}
+              >
                 Play again
               </BandButton>
-              <BandButton className="flex-[2]" onClick={() => act({ type: "reset" })}>
+              <BandButton
+                className="flex-[2]"
+                onClick={() => act({ type: "reset" })}
+              >
                 Settings
               </BandButton>
             </>
@@ -274,7 +350,8 @@ export function WavelengthScreen() {
 function RevealScore({ game }: { game: Game }) {
   if (game.phase.kind !== "reveal") return null;
   const { points, call } = game.phase;
-  const who = game.mode === "teams" ? `${TEAM_NAME[game.turn]} scores` : "You score";
+  const who =
+    game.mode === "teams" ? `${TEAM_NAME[game.turn]} scores` : "You score";
   const caller = TEAM_NAME[otherTeam(game.turn)];
   const callLine =
     !call || points.active === 4
@@ -286,7 +363,7 @@ function RevealScore({ game }: { game: Game }) {
         {points.active ? `+${points.active}` : "Miss"}
       </p>
       <p className="mb-caps text-[0.7rem]">
-        {who} {points.active || "nothing"}
+        {who} {points.active || "0"} points
         {callLine}
       </p>
     </div>
@@ -298,7 +375,9 @@ function GameOver({ game }: { game: Game }) {
   return (
     <div className="animate-punch flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
       <p className="mb-caps text-[0.7rem]">
-        {top ? `${game.scores.a} – ${game.scores.b}` : `${game.scores.a} points from ${TOGETHER_CARDS} cards`}
+        {top
+          ? `${game.scores.a} – ${game.scores.b}`
+          : `${game.scores.a} points from ${TOGETHER_CARDS} cards`}
       </p>
       <h2 className="mb-display mb-shadow text-6xl leading-none">
         {top ? `${TEAM_NAME[top]} wins` : verdict(game.scores.a)}

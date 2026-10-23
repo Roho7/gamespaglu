@@ -9,7 +9,8 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE.url}/wavelength` },
   openGraph: {
     title: "Wavelength — on one phone",
-    description: "One clue, one hidden target, one dial. Two or more players around one phone.",
+    description:
+      "One clue, one hidden target, one dial. Two or more players around one phone.",
     url: `${SITE.url}/wavelength`,
   },
 };

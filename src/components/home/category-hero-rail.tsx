@@ -10,8 +10,7 @@ import { StitchBorder } from "@/components/stitch/stitch-border";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
 
 /**
- * The first screen: one full-bleed matchbox label per category, swiped
- * sideways. Each card carries its own palette, so the whole screen changes
+ * The Heads Up screen: one full-bleed label per category, swiped sideways. Each card carries its own palette, so the whole screen changes
  * colour as you swipe — that IS the wayfinding, which is why the
  * one-accent-per-screen rule is suspended here.
  *
@@ -113,9 +112,6 @@ export function CategoryHeroRail() {
           </button>
         ) : null}
 
-        <div className="absolute inset-x-0 bottom-36 flex justify-center">
-          <Chevron className="animate-bob size-5" />
-        </div>
       </div>
     </div>
   );

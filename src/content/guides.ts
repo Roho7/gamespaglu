@@ -275,7 +275,7 @@ export const GUIDES: Guide[] = [
     steps: [
       {
         title: "Pick a Psychic",
-        body: "One player takes the phone. Everyone else looks away. The Psychic holds the button to peek at where the target sits on the dial; letting go hides it again. If the card is hopeless, they can skip it before saying anything.",
+        body: "One player takes the phone. Everyone else looks away. The Psychic presses and holds the dial to see where the target sits; letting go hides it again. If the card is hopeless, they can skip it before saying anything.",
       },
       {
         title: "Say one clue",
@@ -291,7 +291,7 @@ export const GUIDES: Guide[] = [
       },
       {
         title: "Reveal and score",
-        body: "The target appears. Dead centre scores 4, the bands either side 3, the next ones out 2, anything else nothing. Pass the phone to the other team's Psychic for the next card.",
+        body: "The target appears. Dead centre scores 4, the bands either side 2, the next ones out 1, anything else nothing. Pass the phone to the other team's Psychic for the next card.",
       },
     ],
     variations: [

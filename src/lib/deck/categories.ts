@@ -31,7 +31,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     noun: "celebrity",
     emoji: "🕶️",
     palette: "cobalt",
-    background: "/backgrounds/celebrity-1.png",
+    background: "/backgrounds/celebrity-1.jpg",
     seoSlug: "random-celebrity-generator",
     seoTitle: "Random Celebrity Generator",
     seoDescription:
@@ -48,7 +48,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     noun: "movie",
     emoji: "🎬",
     palette: "neon",
-    background: "/backgrounds/movie-1.png",
+    background: "/backgrounds/movie-1.jpg",
     seoSlug: "random-movie-generator",
     seoTitle: "Random Movie Generator",
     seoDescription:
@@ -65,7 +65,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     noun: "place",
     emoji: "🗺️",
     palette: "jungle",
-    background: "/backgrounds/place-1.png",
+    background: "/backgrounds/place-1.jpg",
     seoSlug: "random-place-generator",
     seoTitle: "Random Place Generator",
     seoDescription:
@@ -82,7 +82,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     noun: "animal",
     emoji: "🐘",
     palette: "flamingo",
-    background: "/backgrounds/animal-1.png",
+    background: "/backgrounds/animal-1.jpg",
     seoSlug: "random-animal-generator",
     seoTitle: "Random Animal Generator",
     seoDescription:
@@ -98,7 +98,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     noun: "object",
     emoji: "🪑",
     palette: "tangerine",
-    background: "/backgrounds/object-1.png",
+    background: "/backgrounds/object-1.jpg",
     seoSlug: "random-object-generator",
     seoTitle: "Random Object Generator",
     seoDescription:
@@ -115,7 +115,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     noun: "number",
     emoji: "🔢",
     palette: "arcade",
-    background: "/backgrounds/numbers-1.png",
+    background: "/backgrounds/numbers-1.jpg",
     seoSlug: "random-number-generator",
     seoTitle: "Random Number Generator",
     seoDescription:

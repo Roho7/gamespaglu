@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { CategoryHeroRail } from "@/components/home/category-hero-rail";
+import { HomeGameCard } from "@/components/home/home-game-card";
 import { paletteById, paletteVars } from "@/lib/palettes";
 import { SITE } from "@/lib/site-config";
 
 /**
- * Four full-screen sections that snap vertically: the generators, the two
- * party games, and the Office Paglu banner. Swipe sideways inside the first.
+ * Four full-screen sections that snap vertically: Heads Up, Girgit,
+ * Wavelength, and the Office Paglu banner.
  *
  * The page owns the scroll container rather than the body, so the snap points
  * are reliable and the floating bar never scrolls away.
@@ -15,51 +15,36 @@ export default function Home() {
   return (
     <>
       <main className="h-dvh snap-y snap-mandatory overflow-x-hidden overflow-y-auto">
-        <section className="relative h-full snap-start">
-          <CategoryHeroRail />
-        </section>
+        <HomeGameCard
+          href="/headsup"
+          palette="tangerine"
+          title="Heads Up"
+          tagline="Phone on your forehead. Everyone knows but you."
+          image="/backgrounds/heads-up.jpg"
+        />
 
-        <section className="ground-navy flex h-full snap-start flex-col items-center justify-center gap-6 bg-[var(--ground)] px-6 text-center text-[var(--ground-ink)]">
-          <p className="mb-caps text-[0.6rem] opacity-55">Now with rooms</p>
-          <h2 className="mb-display-sm text-3xl">
-            Girgit
-            <span className="block text-xl opacity-60">
-              Everyone gets the word.
-            </span>
-            <span className="block text-xl opacity-60">
-              One of you doesn&apos;t.
-            </span>
-          </h2>
-          <p className="max-w-sm text-sm font-medium opacity-70">
-            Four to ten of you, one code, one grid of sixteen words. Write a
-            clue, then work out who was bluffing.
-          </p>
-          <Link href="/girgit" className="mb-btn mb-btn-primary text-base">
-            Play Girgit
-          </Link>
-        </section>
+        <HomeGameCard
+          href="/girgit"
+          palette="jungle"
+          title="Girgit"
+          tagline="Everyone gets the word. One of you doesn't."
+          image="/backgrounds/chameleon.jpg"
+        />
 
-        <section className="ground-navy flex h-full snap-start flex-col items-center justify-center gap-6 bg-[var(--ground)] px-6 text-center text-[var(--ground-ink)]">
-          <p className="mb-caps text-[0.6rem] opacity-55">One phone, no signal needed</p>
-          <h2 className="mb-display-sm text-3xl">
-            Wavelength
-            <span className="block text-xl opacity-60">One clue.</span>
-            <span className="block text-xl opacity-60">How close can your team get?</span>
-          </h2>
-          <p className="max-w-sm text-sm font-medium opacity-70">
-            Two to twelve of you around one phone. The Psychic sees a hidden
-            target, says one clue, and the team turns the dial.
-          </p>
-          <Link href="/wavelength" className="mb-btn mb-btn-primary text-base">
-            Play Wavelength
-          </Link>
+        <HomeGameCard
+          href="/wavelength"
+          palette="miami"
+          title="Wavelength"
+          tagline="One clue. How close can your team get?"
+          image="/backgrounds/wavelength.jpg"
+        >
           <Link
             href="/how-to-play"
-            className="mb-caps text-[0.6rem] underline decoration-2 opacity-55"
+            className="mb-caps relative mt-auto text-[0.6rem] underline decoration-2"
           >
-            How to play everything else
+            How to play
           </Link>
-        </section>
+        </HomeGameCard>
 
         <section
           style={paletteVars(paletteById("pillar"))}
@@ -82,7 +67,12 @@ export default function Home() {
               data-analytics="cross-promo-officepaglu"
               className="mb-btn mb-btn-primary w-full max-w-sm text-xl"
             >
-              Shop the tees <ArrowRight className="size-[1em] shrink-0" strokeWidth={3} aria-hidden />
+              Shop the tees{" "}
+              <ArrowRight
+                className="size-[1em] shrink-0"
+                strokeWidth={3}
+                aria-hidden
+              />
             </a>
           </div>
         </section>

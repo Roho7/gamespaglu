@@ -68,6 +68,10 @@ category palette, with the band below naming the game. Simple, clean, profession
 - **Components never name a colour.** Use `--cw-*` or the page tokens. `npm run check:tokens`
   enforces it; `npm run check:contrast` enforces the ink ratios.
 - **No dark mode.** The palettes are the theme.
+- **Wavelength inverts its field**: dark `ink` grain ground, light type, by swapping `base` and
+  `shadow` on `.mb-label-field`; the dial resets them for its light face. A swapped token needs
+  the colour set again in the same `style` object (`color: "var(--cw-shadow)"`), because children inherit the
+  computed colour, not the variable.
 - Page grounds are scoped classes (`.ground-navy`, default kraft). Anything on a ground (secondary
   buttons, panels, drawers) takes ink from `--ground-ink`, never a colourway.
 

@@ -6,6 +6,7 @@ import { Chip, IconButton, Panel } from "@/components/ui/controls";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
 import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
 import { WavelengthDial } from "@/components/wavelength/wavelength-dial";
+import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { RotatePhoneHint } from "@/components/generator/rotate-phone-hint";
 import { VineMarquee } from "@/components/stitch/vine-marquee";
 import { Button } from "@/components/ui/button";
@@ -110,8 +111,8 @@ export default function StylePage() {
             <p className="mb-display-sm text-2xl">Display small</p>
             <p className="mb-caps text-xs">Tracked small caps caption</p>
             <p className="text-base font-medium">
-              Body copy, Oswald regular. Readable at length, never set
-              in the highlight ink.
+              Body copy, Oswald regular. Readable at length, never set in the
+              highlight ink.
             </p>
           </div>
         </Row>
@@ -262,13 +263,13 @@ export default function StylePage() {
             hold learns nothing from the shape of what appears.
           </p>
         </Row>
-        <Row title="Wavelength — the dial. Covered, guessing, revealed">
+        <Row title="Wavelength — the dial. Covered, guessing, revealed, on grain">
           <div className="grid gap-4 sm:grid-cols-3">
             {(
               [
                 ["miami", null, null],
-                ["miami", 38, null],
-                ["miami", 38, 44],
+                ["lemon", 38, null],
+                ["cherry", 38, 44],
               ] as const
             ).map(([id, dial, target], i) => (
               <div
@@ -276,7 +277,17 @@ export default function StylePage() {
                 style={paletteVars(paletteById(id))}
                 className="mb-label p-4"
               >
-                <WavelengthDial dial={dial} target={target} label="Cold to Hot" />
+                <PaletteGrain
+                  palette={paletteById(id)}
+                  tone="field"
+                  className="absolute inset-0"
+                />
+                <WavelengthDial
+                  dial={dial}
+                  target={target}
+                  label="Cold to Hot"
+                  palette={paletteById(id)}
+                />
               </div>
             ))}
           </div>

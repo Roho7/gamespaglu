@@ -54,8 +54,8 @@ export const DIAL_START = 50;
 /** Scoring bands, centre out. `reach` is the distance from the target on a 0..100 dial. */
 export const BANDS = [
   { points: 4, reach: 2.5 },
-  { points: 3, reach: 7.5 },
-  { points: 2, reach: 12.5 },
+  { points: 2, reach: 7.5 },
+  { points: 1, reach: 12.5 },
 ] as const;
 
 export const NEW_GAME: Game = {
@@ -148,7 +148,10 @@ export function reduce(game: Game, action: Action): Game {
     case "lock":
       if (phase.kind !== "guess") return game;
       return game.mode === "teams"
-        ? { ...game, phase: { kind: "call", card: phase.card, dial: phase.dial } }
+        ? {
+            ...game,
+            phase: { kind: "call", card: phase.card, dial: phase.dial },
+          }
         : score(game, phase.card, phase.dial, null);
     case "call":
       return phase.kind === "call"
@@ -169,8 +172,8 @@ export function reduce(game: Game, action: Action): Game {
 
 /** Together mode's one-line verdict for a final total. */
 export function verdict(total: number): string {
-  if (total >= 24) return "Same wavelength";
-  if (total >= 18) return "Tuned in";
-  if (total >= 10) return "Some signal";
+  if (total >= 20) return "Same wavelength";
+  if (total >= 14) return "Tuned in";
+  if (total >= 8) return "Some signal";
   return "Static";
 }
