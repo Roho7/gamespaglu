@@ -94,9 +94,9 @@ export default function StylePage() {
                   {cw.id}
                 </p>
                 <div className="mt-3 flex gap-1.5">
-                  <span className="size-5 rounded-full border-[var(--rule-thin)] border-current bg-[var(--cw-secondary)]" />
-                  <span className="size-5 rounded-full border-[var(--rule-thin)] border-current bg-[var(--cw-primary)]" />
-                  <span className="size-5 rounded-full border-[var(--rule-thin)] border-current bg-[var(--cw-shadow)]" />
+                  <span className="size-5 rounded-full border-[length:var(--rule-thin)] border-current bg-[var(--cw-secondary)]" />
+                  <span className="size-5 rounded-full border-[length:var(--rule-thin)] border-current bg-[var(--cw-primary)]" />
+                  <span className="size-5 rounded-full border-[length:var(--rule-thin)] border-current bg-[var(--cw-shadow)]" />
                 </div>
               </div>
             ))}
@@ -109,7 +109,7 @@ export default function StylePage() {
             <p className="mb-display-sm text-2xl">Display small</p>
             <p className="mb-caps text-xs">Tracked small caps caption</p>
             <p className="text-base font-medium">
-              Body copy, Cabinet Grotesk regular. Readable at length, never set
+              Body copy, Oswald regular. Readable at length, never set
               in the highlight ink.
             </p>
           </div>
@@ -206,7 +206,7 @@ export default function StylePage() {
         <Row title="Girgit — the grid. Never marks the secret">
           <div className="grid gap-4 sm:grid-cols-2">
             <div
-              style={paletteVars(paletteById("dusk"))}
+              style={paletteVars(paletteById("neon"))}
               className="mb-label p-3"
             >
               <div className="space-y-2 p-1">
@@ -219,7 +219,7 @@ export default function StylePage() {
               </div>
             </div>
             <div
-              style={paletteVars(paletteById("clay"))}
+              style={paletteVars(paletteById("tangerine"))}
               className="mb-label p-3"
             >
               <div className="space-y-2 p-1">
@@ -239,7 +239,7 @@ export default function StylePage() {
         <Row title="Girgit — hold to reveal. Identical shape for both roles">
           <div className="grid gap-4 sm:grid-cols-2">
             <div
-              style={paletteVars(paletteById("moss"))}
+              style={paletteVars(paletteById("jungle"))}
               className="mb-label p-3"
             >
               <div className="p-2">
@@ -247,7 +247,7 @@ export default function StylePage() {
               </div>
             </div>
             <div
-              style={paletteVars(paletteById("moss"))}
+              style={paletteVars(paletteById("jungle"))}
               className="mb-label p-3"
             >
               <div className="p-2">

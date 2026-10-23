@@ -18,8 +18,8 @@
   --color-background: var(--ground);
   --color-foreground: var(--ground-ink);
   --font-sans: var(--font-body);
-  --font-display: var(--font-body);
-  --font-heading: var(--font-body);
+  --font-display: var(--font-poster);
+  --font-heading: var(--font-poster);
 
   --color-ground: var(--ground);
   --color-ground-ink: var(--ground-ink);
@@ -63,11 +63,11 @@
   --band-ink: #fff8e7;
   --shadow-ink: #17110c;
 
-  --cw-base: #e1ca96;
-  --cw-highlight: #aca885;
-  --cw-secondary: #918b76;
-  --cw-primary: #626c66;
-  --cw-shadow: #434a42;
+  --cw-base: #f2b23e;
+  --cw-highlight: #e88ba6;
+  --cw-secondary: #c2603a;
+  --cw-primary: #3b3631;
+  --cw-shadow: #1c1a18;
 
   --radius: 16px;
 
@@ -123,15 +123,19 @@
 
 @layer components {
   .mb-display {
-    font-weight: 800;
-    letter-spacing: -0.03em;
+    font-family: var(--font-poster), var(--font-body), sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0;
     line-height: 0.92;
     text-shadow: var(--shadow-offset) var(--shadow-offset) 0
       var(--cw-highlight, var(--shadow-ink));
   }
   .mb-display-sm {
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-family: var(--font-poster), var(--font-body), sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
     line-height: 1;
   }
   .mb-shadow {
@@ -253,23 +257,31 @@
     align-items: center;
     justify-content: center;
   }
-  .mb-band-link {
+  .mb-band-action {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: var(--cw-secondary);
+    color: var(--cw-highlight);
     font-weight: 800;
-    letter-spacing: -0.01em;
     user-select: none;
   }
-  .mb-band-link:focus-visible,
-  .mb-band-link:active {
-    background-color: var(--cw-base);
-    color: var(--cw-shadow);
-  }
-  .mb-band-link:focus-visible {
+  .mb-band-action:focus-visible,
+  .mb-band-action:active:not(:disabled) {
+    background-color: var(--cw-highlight);
+    color: var(--cw-secondary);
     outline: none;
   }
+  .mb-band-action:disabled {
+    opacity: 0.5;
+  }
   @media (hover: hover) {
-    .mb-band-link:hover {
-      background-color: var(--cw-base);
-      color: var(--cw-shadow);
+    .mb-band-action:hover:not(:disabled) {
+      background-color: var(--cw-highlight);
+      color: var(--cw-secondary);
     }
   }
 

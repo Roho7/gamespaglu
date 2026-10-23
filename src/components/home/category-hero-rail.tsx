@@ -66,18 +66,21 @@ export function CategoryHeroRail() {
                     className="absolute inset-0"
                   />
                 ) : null}
-                <div className="flex h-10 text-[var(--cw-shadow)] absolute inset-x-0 top-4">
+                <div className="flex h-10 text-[var(--cw-highlight)] absolute inset-x-0 top-0">
                   <VineMarquee />
+                </div>
+                <div className="flex h-10 text-[var(--cw-highlight)] absolute inset-x-0 bottom-0">
+                  <VineMarquee direction="right" />
                 </div>
               </div>
 
               <Link
                 href={`/who-am-i/${c.id}`}
-                className="mb-band mb-band-link relative p-10 text-2xl flex flex-col gap-2"
+                className="mb-band-action p-10"
               >
                 <StitchBorder className="inset-3" />
-                <span className="text-sm">Generate Random </span>
-                {c.label}
+                <span className="text-sm font-light">Generate Random </span>
+                <span className="mb-display-sm text-5xl">{c.label}</span>
               </Link>
             </div>
           );

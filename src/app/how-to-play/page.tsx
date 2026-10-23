@@ -26,7 +26,7 @@ export default function HowToPlayIndex() {
           {GUIDES.map((guide) => (
             <li key={guide.slug}>
               <Link href={`/how-to-play/${guide.slug}`} className="block">
-                <article className="overflow-hidden rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)]">
+                <article className="overflow-hidden rounded-[var(--radius-lg)] border-[length:var(--rule-thin)] border-current bg-[var(--ground-soft)]">
                   <div
                     className="mb-frame flex items-center gap-3 rounded-none border-x-0 border-t-0 p-4"
                     style={paletteVars(paletteById(guide.palette))}

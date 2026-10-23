@@ -137,12 +137,13 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
 
 ---
 
-## The design system — muted print
+## The design system — 80s poster
 
 ### Direction (redesign, Oct 2026)
 
-- **Muted, not matchbox.** Each category gets one soft five-ink ramp (peach to
-  charcoal, sage, rose, dusk, moss, clay, plum). No saturated spot inks.
+- **80s movie poster.** Each category gets one loud ink, a second pop ink and
+  near-black (pulp, neon, jungle, flamingo, tangerine, arcade). Saturated, not
+  pastel.
 - **The picture carries the screen.** Home cards are a full-bleed dithered photo
   in the category's palette, the vine marquee on top, and the band below. No
   centre title; the band names the game.
@@ -151,9 +152,9 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
 ### Colour
 
 - **A palette is five distinct inks**, in `src/lib/palettes.ts`:
-  `base` (paper), `highlight` (light accent, offset under dark type), `secondary`
-  (rules), `primary` (accents, display, vine, image ink), `shadow` (body text,
-  band). Categories pick one by typed `PaletteId`.
+  `base` (the loud ink: grounds, photo brights), `highlight` (pop ink: offset
+  under dark type, photo highlights), `secondary` (rules), `primary` (dark ink:
+  accents, display, vine, photo shadows), `shadow` (near-black: text, band). Categories pick one by typed `PaletteId`.
 - **Components never name a colour.** Use `--cw-base`, `--cw-highlight`,
   `--cw-secondary`, `--cw-primary`, `--cw-shadow`, or the page tokens.
   `npm run check:tokens` fails otherwise, and catches undefined tokens too.
@@ -232,9 +233,11 @@ consistent.
 - **The scorecard is not a destination.** It is a bottom sheet in `AppBar`, reachable from every
   screen mid-game. Do not add a scoreboard tile or nav entry; `/scoreboard` exists only as a
   deep-link and SEO page.
-- **Every screen renders `AppBar`.** That is what guarantees the scorecard is always one tap away —
-  by construction, not by remembering.
-- The home hero is a swipeable scroll-snap rail (`.rail`), one pastel card per category. Native
+- **Every screen renders `AppBar`, except the generator.** That is what keeps the scorecard one tap
+  away. The generator has no top bar and no drawer: it opens on a briefing, how to play above and
+  settings below in stitched panels, with links to the rules, scorecard and home. Generate starts a
+  round; during one the band is Regenerate (60%) and Settings (40%), which returns to the briefing.
+- The home hero is a swipeable scroll-snap rail (`.rail`), one card per category. Native
   scroll, no carousel library.
 
 ## Content and data rules

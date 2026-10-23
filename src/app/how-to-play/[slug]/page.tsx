@@ -122,7 +122,7 @@ export default async function GuidePage({
             {guide.steps.map((s, i) => (
               <li
                 key={s.title}
-                className="rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4"
+                className="rounded-[var(--radius-lg)] border-[length:var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4"
               >
                 <div className="flex items-baseline gap-3">
                   <span className="mb-frame [--dot-radius:9999px] shrink-0 rounded-full px-3 py-0.5 text-lg font-extrabold">
@@ -145,7 +145,7 @@ export default async function GuidePage({
               {guide.variations.map((v) => (
                 <li
                   key={v.title}
-                  className="border-l-[var(--rule)] border-current pl-4"
+                  className="border-l-[length:var(--rule)] border-current pl-4"
                 >
                   <h3 className="mb-display-sm text-lg">{v.title}</h3>
                   <p className="mt-1 text-sm leading-relaxed opacity-80">
@@ -187,7 +187,7 @@ export default async function GuidePage({
               {guide.faq.map((f) => (
                 <div
                   key={f.q}
-                  className="rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4"
+                  className="rounded-[var(--radius-lg)] border-[length:var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4"
                 >
                   <dt className="mb-display-sm text-base">{f.q}</dt>
                   <dd className="mt-2 text-sm leading-relaxed opacity-80">

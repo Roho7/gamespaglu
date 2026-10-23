@@ -2,6 +2,7 @@ import { drawIndex } from "@/lib/deck/shuffle-bag";
 import { ENTRIES } from "@/lib/deck/entries";
 import { CATEGORIES } from "@/lib/deck/categories";
 import { ALL_TYPES } from "@/lib/deck/celebrity-filters";
+import { entryImage, type EntryImage } from "@/lib/deck/entry-images";
 import type {
   CategoryId,
   CountryKey,
@@ -64,6 +65,7 @@ function poolSignature(category: CategoryId, filters: Filters): string {
 export type DrawResult = {
   label: string;
   sub?: string;
+  image?: EntryImage;
   /** How many draws remain before the deck reshuffles. */
   remaining: number;
   poolSize: number;
@@ -81,6 +83,7 @@ export function drawEntry(
   return {
     label: entry.label,
     sub: entry.year ? String(entry.year) : undefined,
+    image: entryImage(category, entry.id),
     remaining: 0,
     poolSize: pool.length,
   };

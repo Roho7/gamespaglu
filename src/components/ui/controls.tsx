@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * per concept and `npm run check:tokens` can guarantee no colour is named.
  */
 
-/** Filter chip. Selected = printed in the field ink; unselected = outline only. */
+/** Filter chip. Selected is filled with the dark ink; unselected is outlined. */
 export function Chip({
   active,
   children,
@@ -21,10 +21,10 @@ export function Chip({
       aria-pressed={active}
       {...props}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border-[var(--rule-thin)] px-3 py-1.5 text-sm font-bold transition-transform active:translate-y-[1px]",
+        "mb-display-sm inline-flex items-center gap-1.5 border-[length:var(--rule-thin)] border-[var(--cw-shadow)] px-3 pt-1.5 pb-1 text-xl transition-transform active:translate-y-[1px]",
         active
-          ? "border-current bg-[var(--cw-base)] text-[var(--cw-shadow)]"
-          : "border-current bg-transparent opacity-60",
+          ? "bg-[var(--cw-shadow)] text-[var(--cw-base)]"
+          : "bg-transparent text-[var(--cw-shadow)]",
         className,
       )}
     >
@@ -44,7 +44,7 @@ export function Panel({
   return (
     <div
       className={cn(
-        "rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4",
+        "rounded-[var(--radius-lg)] border-[length:var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4",
         className,
       )}
     >

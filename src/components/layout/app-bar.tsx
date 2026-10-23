@@ -38,7 +38,7 @@ export function AppBar({
     >
       {titleHidden && title ? <h1 className="sr-only">{title}</h1> : null}
 
-      <nav className="pointer-events-auto flex max-w-full items-stretch overflow-hidden rounded-full border-[var(--rule-thin)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)]">
+      <nav className="pointer-events-auto flex max-w-full items-stretch overflow-hidden rounded-full border-[length:var(--rule-thin)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)]">
         {back ? (
           <Link
             href={back}
@@ -50,13 +50,13 @@ export function AppBar({
         ) : null}
 
         {title && !titleHidden ? (
-          <span className="mb-caps flex items-center border-x-[var(--rule-thin)] border-[var(--ground-ink)] px-4 py-2 text-[0.65rem] whitespace-nowrap first:border-l-0">
+          <span className="mb-caps flex items-center border-x-[length:var(--rule-thin)] border-[var(--ground-ink)] px-4 py-2 text-[0.65rem] whitespace-nowrap first:border-l-0">
             {title}
           </span>
         ) : null}
 
         {extra ? (
-          <div className="flex items-stretch [&>*]:flex [&>*]:items-center [&>*]:border-r-[var(--rule-thin)] [&>*]:border-[var(--ground-ink)] [&>*]:px-3.5 [&>*]:py-2">
+          <div className="flex items-stretch [&>*]:flex [&>*]:items-center [&>*]:border-r-[length:var(--rule-thin)] [&>*]:border-[var(--ground-ink)] [&>*]:px-3.5 [&>*]:py-2">
             {extra}
           </div>
         ) : null}

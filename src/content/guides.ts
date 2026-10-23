@@ -38,7 +38,7 @@ export const GUIDES: Guide[] = [
     summary:
       "The phone-on-forehead guessing game. Everyone can see your name except you. Rules, question tactics and six ways to play it.",
     emoji: "🙈",
-    palette: "sage",
+    palette: "pulp",
     players: "3 or more",
     time: "As long as the room lasts",
     needs: "One phone per player",
@@ -129,7 +129,7 @@ export const GUIDES: Guide[] = [
     summary:
       "A score tracker for any game played in person — cards, carrom, board games, antakshari. Players or teams, tap to score, undo mistakes.",
     emoji: "🏆",
-    palette: "rose",
+    palette: "flamingo",
     players: "2 or more",
     time: "One session",
     needs: "One phone, passed around or left on the table",
@@ -174,7 +174,7 @@ export const GUIDES: Guide[] = [
     summary:
       "Sixteen words, one secret, and one player who has no idea which. Everyone writes one clue, then the table works out who was bluffing.",
     emoji: "\ud83e\udd8e",
-    palette: "moss",
+    palette: "jungle",
     players: "4 to 10",
     time: "About four minutes a round",
     needs: "A phone each, everyone in the same room",

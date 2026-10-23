@@ -148,7 +148,7 @@ export function Scoreboard() {
                 style={
                   leading ? paletteVars(paletteById("mustard")) : undefined
                 }
-                className={`flex items-stretch overflow-hidden rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current ${
+                className={`flex items-stretch overflow-hidden rounded-[var(--radius-lg)] border-[length:var(--rule-thin)] border-current ${
                   leading
                     ? "bg-[var(--cw-base)] text-[var(--cw-shadow)]"
                     : "bg-[var(--ground-soft)]"
@@ -158,7 +158,7 @@ export function Scoreboard() {
                   type="button"
                   aria-label={`Subtract ${step} from ${p.name}`}
                   onClick={() => bump(p.id, -step)}
-                  className="w-14 shrink-0 border-r-[var(--rule-thin)] border-current text-2xl font-extrabold active:translate-y-[1px]"
+                  className="w-14 shrink-0 border-r-[length:var(--rule-thin)] border-current text-2xl font-extrabold active:translate-y-[1px]"
                 >
                   −
                 </button>
@@ -199,7 +199,7 @@ export function Scoreboard() {
                   type="button"
                   aria-label={`Add ${step} to ${p.name}`}
                   onClick={() => bump(p.id, step)}
-                  className="w-14 shrink-0 border-l-[var(--rule-thin)] border-current text-2xl font-extrabold active:translate-y-[1px]"
+                  className="w-14 shrink-0 border-l-[length:var(--rule-thin)] border-current text-2xl font-extrabold active:translate-y-[1px]"
                 >
                   +
                 </button>

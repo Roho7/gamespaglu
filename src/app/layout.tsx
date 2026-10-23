@@ -1,19 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Bebas_Neue, Oswald } from "next/font/google";
 import { SITE } from "@/lib/site-config";
 import { ServiceWorkerRegistration } from "@/components/layout/service-worker-registration";
 import "./globals.css";
 
 /**
- * Cabinet Grotesk (Indian Type Foundry, Fontshare Free Font License) — one
- * variable file covering body and display. Softer and rounder than Archivo
- * Black, with a wide weight axis, so the heavy display cuts and the body text
- * come from the same family.
+ * Poster type: Bebas Neue for display, a condensed all-caps face, and Oswald
+ * for everything else. Self-hosted by next/font at build time, so the PWA
+ * never fetches a font at runtime.
  */
-const cabinet = localFont({
-  src: "./fonts/CabinetGrotesk-Variable.woff2",
+const poster = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-poster",
+  display: "swap",
+});
+
+const body = Oswald({
+  subsets: ["latin"],
   variable: "--font-body",
-  weight: "100 900",
   display: "swap",
 });
 
@@ -40,7 +45,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#e1ca96", // check-tokens-ignore: browser chrome needs a literal
+  themeColor: "#f2b23e", // check-tokens-ignore: browser chrome needs a literal
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -53,7 +58,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${cabinet.variable} h-full antialiased`}>
+    <html lang="en" className={`${poster.variable} ${body.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         {children}
         <ServiceWorkerRegistration />

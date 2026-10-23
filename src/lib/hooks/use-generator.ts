@@ -8,6 +8,7 @@ import { DEFAULT_COUNTRIES } from "@/lib/deck/countries";
 import { ALL_TYPES } from "@/lib/deck/celebrity-filters";
 import { primeAudio, revealHit, tick } from "@/lib/sound-and-haptics";
 import { type Palette, randomPalette } from "@/lib/palettes";
+import type { EntryImage } from "@/lib/deck/entry-images";
 import type {
   CategoryId,
   CountryKey,
@@ -88,6 +89,8 @@ export function useGenerator(
   const [label, setLabel] = useState<string | null>(null);
   const [sub, setSub] = useState<string | undefined>();
   const [palette, setPalette] = useState<Palette | null>(null);
+  const [image, setImage] = useState<EntryImage | null>(null);
+  const round = useRef(0);
   const lastColourwayId = useRef<string | undefined>(undefined);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -152,6 +155,18 @@ export function useGenerator(
     const result = pick();
     if (!result) return;
 
+    const thisRound = ++round.current;
+    setImage(null);
+    if (result.image) {
+      const photo = result.image;
+      const preload = new Image();
+      preload.crossOrigin = "anonymous";
+      preload.onload = () => {
+        if (round.current === thisRound) setImage(photo);
+      };
+      preload.src = photo.src;
+    }
+
     const next = randomPalette(lastColourwayId.current);
     lastColourwayId.current = next.id;
     setPalette(next);
@@ -188,6 +203,8 @@ export function useGenerator(
 
   const reset = useCallback(() => {
     clearTimers();
+    round.current++;
+    setImage(null);
     setPhase("idle");
     setLabel(null);
     setSub(undefined);
@@ -203,8 +220,11 @@ export function useGenerator(
     label,
     sub,
     palette,
+    image,
     poolSize,
     generate,
     reset,
   };
 }
+
+export type Generator = ReturnType<typeof useGenerator>;

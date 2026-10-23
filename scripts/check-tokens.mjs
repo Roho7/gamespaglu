@@ -24,6 +24,13 @@ const HEX = /#[0-9a-fA-F]{3,8}\b/;
 const TW_COLOUR =
   /\b(?:bg|text|border|from|via|to|ring|fill|stroke|decoration|outline|shadow)-(?:slate|gray|grey|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d{2,3})?\b/;
 
+/*
+ * Third guard: Tailwind reads an arbitrary var() with no type hint as a colour,
+ * so border-[var(--rule)] sets no width and the border never draws. Widths
+ * must say so: border-[length:var(--rule)].
+ */
+const UNTYPED_WIDTH = /\bborder(?:-[trblxy])?-\[var\(--(?:rule|rule-thin)\)\]/;
+
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
     const path = join(dir, name);
@@ -76,6 +83,13 @@ for (const root of ROOTS) {
           `${file}:${i + 1}  ${hex ? `raw colour ${hex[0]}` : `colour utility ${tw[0]}`}`,
         );
       }
+      const width = line.match(UNTYPED_WIDTH);
+      if (width) {
+        bad++;
+        console.log(
+          `${file}:${i + 1}  ${width[0]} sets no width; write border-[length:var(--…)]`,
+        );
+      }
       for (const [, token] of line.matchAll(/var\((--[a-z0-9-]+)/g)) {
         if (DEFINED.has(token)) continue;
         if (RUNTIME_PREFIXES.some((p) => token.startsWith(p))) continue;
@@ -90,7 +104,7 @@ for (const root of ROOTS) {
 
 console.log(
   bad === 0
-    ? "No raw colours and no undefined tokens in components."
+    ? "No raw colours, undefined tokens or untyped border widths in components."
     : `\n${bad} raw colour${bad === 1 ? "" : "s"} found. Use palette tokens (--cw-base, --cw-highlight, --cw-secondary, --cw-primary, --cw-shadow) or page tokens (--ground, --band).`,
 );
 process.exit(bad === 0 ? 0 : 1);

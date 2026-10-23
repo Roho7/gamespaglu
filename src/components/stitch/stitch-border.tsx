@@ -3,10 +3,10 @@ import { FLOWER } from "@/components/stitch/vine-tile";
 import { cn } from "@/lib/utils";
 
 /**
- * A cross-stitch frame for any positioned box: a smooth outer rule with a
- * flower stitched into each corner, so the pixel detail shows only on the
- * inside. Drawn in currentColor, so it follows the ink and hover states of
- * whatever it sits in.
+ * A cross-stitch frame for any positioned box: a flower stitched into each
+ * corner, joined by straight rules that stop one stitch short of each flower.
+ * Drawn in currentColor, so it follows the ink and hover states of whatever it
+ * sits in.
  */
 
 function mask(p: readonly string[]) {
@@ -32,13 +32,21 @@ const flowerStyle: CSSProperties = {
   height: FLOWER_SIZE,
 };
 
-const EDGE = "calc(var(--stitch) * -1)";
+const STITCH = "var(--stitch)";
+const CLEAR = `calc(var(--stitch) * ${FLOWER.length + 1})`;
 
 const CORNERS: CSSProperties[] = [
-  { top: EDGE, left: EDGE },
-  { top: EDGE, right: EDGE },
-  { bottom: EDGE, left: EDGE },
-  { bottom: EDGE, right: EDGE },
+  { top: 0, left: 0 },
+  { top: 0, right: 0 },
+  { bottom: 0, left: 0 },
+  { bottom: 0, right: 0 },
+];
+
+const RULES: CSSProperties[] = [
+  { top: 0, left: CLEAR, right: CLEAR, height: STITCH },
+  { bottom: 0, left: CLEAR, right: CLEAR, height: STITCH },
+  { left: 0, top: CLEAR, bottom: CLEAR, width: STITCH },
+  { right: 0, top: CLEAR, bottom: CLEAR, width: STITCH },
 ];
 
 export function StitchBorder({
@@ -53,11 +61,11 @@ export function StitchBorder({
     <div
       aria-hidden
       className={cn("pointer-events-none absolute", className)}
-      style={{
-        ["--stitch" as string]: `${stitch}px`,
-        border: "var(--stitch) solid currentColor",
-      }}
+      style={{ ["--stitch" as string]: `${stitch}px` }}
     >
+      {RULES.map((at, i) => (
+        <span key={i} className="absolute bg-current" style={at} />
+      ))}
       {CORNERS.map((at, i) => (
         <span key={i} className="absolute" style={{ ...flowerStyle, ...at }} />
       ))}

@@ -1,14 +1,15 @@
 /**
- * Five-ink palettes, one per category. Every palette is a ramp from light to
- * dark and every role is a different ink. Contrast between roles is proven by
- * `npm run check:contrast`.
+ * Five-ink palettes in the manner of an 80s movie poster. Each category owns
+ * one; the rest join the random draws in the generator and Girgit rounds. Each is
+ * one loud ink, a second pop ink, and near-black. Every role is a different
+ * ink, and contrast between roles is proven by `npm run check:contrast`.
  *
  * Roles:
- *   base       the paper: label grounds, dithered image backs
- *   highlight  the lightest accent: offset shadow under dark type, image light
+ *   base       the loud ink: label grounds, the bright tones of a photo
+ *   highlight  the pop ink: offset shadow under dark type, photo highlights
  *   secondary  rules and borders
- *   primary    accents and display type: marquee, vine, image ink
- *   shadow     the darkest ink: body text and the band
+ *   primary    dark ink: accents, display type, vine, photo shadows
+ *   shadow     near-black: body text and the band
  */
 export type Palette = {
   id: PaletteId;
@@ -22,58 +23,103 @@ export type Palette = {
 
 const PALETTE_DEFINITIONS = [
   {
-    id: "sage",
-    name: "Sage",
-    base: "#E1CA96",
-    highlight: "#ACA885",
-    secondary: "#918B76",
-    primary: "#626C66",
-    shadow: "#434A42",
+    id: "pulp",
+    name: "Pulp",
+    base: "#F2B23E",
+    highlight: "#E88BA6",
+    secondary: "#C2603A",
+    primary: "#3B3631",
+    shadow: "#1C1A18",
   },
   {
-    id: "rose",
-    name: "Rose",
-    base: "#EACBD2",
-    highlight: "#DFAEB4",
-    secondary: "#BC82A8",
-    primary: "#915F88",
-    shadow: "#5E4459",
+    id: "neon",
+    name: "Neon",
+    base: "#3FD9C6",
+    highlight: "#FF5FA2",
+    secondary: "#1F8A8C",
+    primary: "#1E2A4A",
+    shadow: "#0E1324",
   },
   {
-    id: "dusk",
-    name: "Dusk",
-    base: "#D6DCE4",
-    highlight: "#A9B6C6",
-    secondary: "#8797AB",
-    primary: "#5D6E85",
-    shadow: "#3A4657",
+    id: "jungle",
+    name: "Jungle",
+    base: "#BFE05A",
+    highlight: "#FFD23F",
+    secondary: "#4E9A3A",
+    primary: "#1F3B2A",
+    shadow: "#0F1D14",
   },
   {
-    id: "moss",
-    name: "Moss",
-    base: "#DCE3C8",
-    highlight: "#B4C29E",
-    secondary: "#93A47E",
-    primary: "#667A57",
-    shadow: "#41503A",
+    id: "flamingo",
+    name: "Flamingo",
+    base: "#FF8FB1",
+    highlight: "#FFD1A1",
+    secondary: "#C9336B",
+    primary: "#4A1E3A",
+    shadow: "#230E1C",
   },
   {
-    id: "clay",
-    name: "Clay",
-    base: "#EBD3C0",
-    highlight: "#D1AD93",
-    secondary: "#B88C70",
-    primary: "#8C5F48",
-    shadow: "#5A3C2E",
+    id: "tangerine",
+    name: "Tangerine",
+    base: "#FF7A2F",
+    highlight: "#FFD84D",
+    secondary: "#B8341A",
+    primary: "#3A1F14",
+    shadow: "#1C0F0A",
   },
   {
-    id: "plum",
-    name: "Plum",
-    base: "#DED3E3",
-    highlight: "#BBA9C6",
-    secondary: "#9C87AB",
-    primary: "#6F5A82",
-    shadow: "#463A55",
+    id: "arcade",
+    name: "Arcade",
+    base: "#B98CFF",
+    highlight: "#5CE1FF",
+    secondary: "#7A4FE0",
+    primary: "#22184A",
+    shadow: "#100B26",
+  },
+  {
+    id: "cherry",
+    name: "Cherry",
+    base: "#FF4D5E",
+    highlight: "#FFE3A3",
+    secondary: "#A81A2E",
+    primary: "#3D1218",
+    shadow: "#1A0709",
+  },
+  {
+    id: "miami",
+    name: "Miami",
+    base: "#5EC8FF",
+    highlight: "#FFE066",
+    secondary: "#1F7FC2",
+    primary: "#102A4C",
+    shadow: "#07142A",
+  },
+  {
+    id: "lemon",
+    name: "Lemon",
+    base: "#FFE14D",
+    highlight: "#FF6F91",
+    secondary: "#B58A00",
+    primary: "#2E2A12",
+    shadow: "#15130A",
+  },
+  {
+    id: "mint",
+    name: "Mint",
+    base: "#7CF2B0",
+    highlight: "#FF9E6D",
+    secondary: "#2EA36B",
+    primary: "#123A2B",
+    shadow: "#081C14",
+  },
+  {
+    id: "cobalt",
+    name: "Cobalt",
+    base: "#4F7BFF",
+    highlight: "#FFB547",
+    secondary: "#2A3FB0",
+    primary: "#141B47",
+    shadow: "#0A0D24",
   },
 ] as const;
 
