@@ -19,6 +19,16 @@ npx tsc --noEmit && npx eslint src --max-warnings=0 && npx next build
 
 ---
 
+## Where things live
+
+- `components/` by feature: `home`, `generator`, `girgit`, `scoreboard`; shared
+  chrome in `layout`; pixel motifs in `stitch`; drawn art in `artwork`;
+  primitives in `ui`.
+- `lib/deck` is the data and draw logic, `lib/hooks` every `use-*` hook, and
+  `lib/palettes.ts` the colour system. Import with `@/`, never relative paths.
+- Name files and exports for what they are (`CategoryHeroRail`,
+  `HoldToRevealSecret`), not for where they sit.
+
 ## Code style
 
 - **No inline comments.** Code says what it does; don't add `//`, `/* */` or JSX
@@ -140,10 +150,10 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
 
 ### Colour
 
-- **A palette is five distinct inks**, in `src/lib/colors/colourways.ts`:
+- **A palette is five distinct inks**, in `src/lib/palettes.ts`:
   `base` (paper), `highlight` (light accent, offset under dark type), `secondary`
   (rules), `primary` (accents, display, vine, image ink), `shadow` (body text,
-  band). Categories pick one by typed `ColourwayId`.
+  band). Categories pick one by typed `PaletteId`.
 - **Components never name a colour.** Use `--cw-base`, `--cw-highlight`,
   `--cw-secondary`, `--cw-primary`, `--cw-shadow`, or the page tokens.
   `npm run check:tokens` fails otherwise, and catches undefined tokens too.
@@ -174,13 +184,13 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
 | `.rail` | scroll-snap swipe rail |
 
 - **One marquee per screen, behind ARTWORK only — never behind type.** Ink on
-  highlight measures 1.1–2:1 in every colourway, so a word over the starburst is
+  highlight measures 1.1–2:1 in every palette, so a word over the starburst is
   effectively invisible and only the hard shadow was rescuing it. The marquee
   stamps the sticker or emblem; the drawn word and the countdown sit on the
   field, which is contrast-checked. Fill from `currentColor`
-  (`src/components/mb/marquee.tsx`).
+  (`src/components/artwork/starburst.tsx`).
 - **Emblems, not emoji, on a field.** Emoji are glossy modern artwork that
-  always read as pasted onto flat spot ink, and they can't take a colourway.
+  always read as pasted onto flat spot ink, and they can't take a palette.
 - **Stickers are curated by hand and served locally.** The set lives in
   `Cards/Gif Collection.md` in the vault; `npm run stickers` imports exactly
   what that note lists into `public/stickers`, rewrites the manifest and the
@@ -202,7 +212,7 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
 
 ### Enforcement
 
-`/style` renders every component, state and colourway on one page. **A new
+`/style` renders every component, state and palette on one page. **A new
 component does not exist until it appears there** — one screenshot of that route
 verifies the whole system, which is the only reason the rest of the site stays
 consistent.
@@ -254,10 +264,10 @@ consistent.
   drawers in a browser**, not just the one you changed.
 - **An unrecognisable name kills a round harder than a repeat does.** Curate for fame, not volume.
   Anything pulled by `scripts/build-data.mjs` lands in `*.candidates.json` and needs a human pass
-  before it reaches `src/data/*.json`.
-- Draws use the shuffle-bag in `src/lib/shuffle-bag.ts` — without replacement, keyed by category +
+  before it reaches `shared/data/*.json`.
+- Draws use the shuffle-bag in `src/lib/deck/shuffle-bag.ts` — without replacement, keyed by category +
   filter signature. Pure random visibly repeats and users read that as a bug.
-- The reveal (`src/components/fit-text.tsx`) breaks **only at spaces**. Splitting a word across
+- The reveal (`src/components/ui/fit-text.tsx`) breaks **only at spaces**. Splitting a word across
   lines is unreadable across a room, which is the one thing that screen exists to do.
 - **`absolute inset-0` resolves against the padding box**, so a parent's padding
   does not constrain it — the reveal ran edge-to-edge until the insets were made
@@ -268,8 +278,7 @@ consistent.
 
 ## Architecture rules (so rooms can land later without a rewrite)
 
-- Games are manifests in `src/lib/games.ts`. Add an entry; don't edit the home page.
-- Drawing logic in `src/lib/draw.ts` is pure TS with no React coupling, so a server can call it.
+- Drawing logic in `src/lib/deck/draw.ts` is pure TS with no React coupling, so a server can call it.
 - All state goes through `src/lib/state-adapter.ts`. v1 has only `local`; `remote` (Supabase
   Realtime) implements the same contract later.
 - Persistence is read via `usePersisted` / `useSyncExternalStore` — never copy localStorage into

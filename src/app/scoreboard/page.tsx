@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AppBar } from "@/components/app-bar";
+import { AppBar } from "@/components/layout/app-bar";
 import { Scoreboard } from "@/components/scoreboard/scoreboard";
 
 export const metadata: Metadata = {

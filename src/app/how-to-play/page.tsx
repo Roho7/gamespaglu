@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AppBar } from "@/components/app-bar";
-import { colourwayById, colourwayVars } from "@/lib/colors/colourways";
-import { CrossPromo } from "@/components/cross-promo";
+import { AppBar } from "@/components/layout/app-bar";
+import { paletteById, paletteVars } from "@/lib/palettes";
+import { CrossPromo } from "@/components/layout/cross-promo";
 import { GUIDES } from "@/content/guides";
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function HowToPlayIndex() {
                 <article className="overflow-hidden rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)]">
                   <div
                     className="mb-frame flex items-center gap-3 rounded-none border-x-0 border-t-0 p-4"
-                    style={colourwayVars(colourwayById(guide.colourway))}
+                    style={paletteVars(paletteById(guide.palette))}
                   >
                     <span className="text-3xl" aria-hidden>
                       {guide.emoji}

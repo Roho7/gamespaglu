@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppBar } from "@/components/app-bar";
-import { colourwayById, colourwayVars } from "@/lib/colors/colourways";
-import { CrossPromo } from "@/components/cross-promo";
-import { CATEGORIES } from "@/lib/categories";
+import { AppBar } from "@/components/layout/app-bar";
+import { paletteById, paletteVars } from "@/lib/palettes";
+import { CrossPromo } from "@/components/layout/cross-promo";
+import { CATEGORIES } from "@/lib/deck/categories";
 import { GUIDES, getGuide } from "@/content/guides";
-import { SITE } from "@/lib/site";
+import { SITE } from "@/lib/site-config";
 
 export function generateStaticParams() {
   return GUIDES.map((g) => ({ slug: g.slug }));
@@ -37,7 +37,7 @@ export default async function GuidePage({
   const guide = getGuide(slug);
   if (!guide) notFound();
 
-  const cw = colourwayById(guide.colourway);
+  const cw = paletteById(guide.palette);
 
   /**
    * Two separate entities, not one.
@@ -76,7 +76,7 @@ export default async function GuidePage({
   return (
     <main
       className="mx-auto w-full max-w-2xl flex-1 pt-20"
-      style={colourwayVars(cw)}
+      style={paletteVars(cw)}
     >
       <AppBar back="/how-to-play" title="How to play" />
 
@@ -120,7 +120,10 @@ export default async function GuidePage({
           </h2>
           <ol className="space-y-4">
             {guide.steps.map((s, i) => (
-              <li key={s.title} className="rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4">
+              <li
+                key={s.title}
+                className="rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4"
+              >
                 <div className="flex items-baseline gap-3">
                   <span className="mb-frame [--dot-radius:9999px] shrink-0 rounded-full px-3 py-0.5 text-lg font-extrabold">
                     {i + 1}
@@ -140,7 +143,10 @@ export default async function GuidePage({
             <h2 className="mb-display-sm text-2xl">Ways to play it</h2>
             <ul className="space-y-4">
               {guide.variations.map((v) => (
-                <li key={v.title} className="border-l-[var(--rule)] border-current pl-4">
+                <li
+                  key={v.title}
+                  className="border-l-[var(--rule)] border-current pl-4"
+                >
                   <h3 className="mb-display-sm text-lg">{v.title}</h3>
                   <p className="mt-1 text-sm leading-relaxed opacity-80">
                     {v.body}
@@ -162,7 +168,7 @@ export default async function GuidePage({
                     <Link
                       href={`/who-am-i/${id}`}
                       className="mb-frame [--dot-radius:calc(var(--radius-md)-var(--dot-inset))] flex items-center gap-2 rounded-[var(--radius-md)] p-3 text-sm font-bold"
-                      style={colourwayVars(colourwayById(c.colourway))}
+                      style={paletteVars(paletteById(c.palette))}
                     >
                       <span aria-hidden>{c.emoji}</span>
                       {c.label}
@@ -179,7 +185,10 @@ export default async function GuidePage({
             <h2 className="mb-display-sm text-2xl">Questions people ask</h2>
             <dl className="space-y-4">
               {guide.faq.map((f) => (
-                <div key={f.q} className="rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4">
+                <div
+                  key={f.q}
+                  className="rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4"
+                >
                   <dt className="mb-display-sm text-base">{f.q}</dt>
                   <dd className="mt-2 text-sm leading-relaxed opacity-80">
                     {f.a}

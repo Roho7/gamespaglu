@@ -5,13 +5,13 @@
 /* ===============================================================
    Games Paglu — Indian matchbox label system.
 
-   Everything is built from four colourway tokens plus a small set of
+   Everything is built from four palette tokens plus a small set of
    recipes. Components must never name a colour: no hex, no bg-red-500.
    `npm run check:tokens` fails the build if they do, and /style renders
-   every component in every colourway so drift is visible in one screenshot.
+   every component in every palette so drift is visible in one screenshot.
 
    There is deliberately no dark mode. A printed label doesn't have one,
-   and the colourways ARE the theme.
+   and the palettes ARE the theme.
    =============================================================== */
 
 @theme inline {
@@ -122,7 +122,6 @@
 }
 
 @layer components {
-
   .mb-display {
     font-weight: 800;
     letter-spacing: -0.03em;
@@ -177,7 +176,7 @@
       filter 90ms cubic-bezier(0.2, 0, 0, 1);
     user-select: none;
   }
-  
+
   .mb-btn:active:not(:disabled) {
     transform: translateY(2px) scale(0.99);
   }
@@ -360,29 +359,6 @@
   animation: mb-rotate-hint 2.4s ease-in-out infinite;
 }
 
-/* A stitch landing, at stop-motion frame rate: hidden, half-size for one
-   frame, then full. steps(1) holds each keyframe, so nothing tweens. The
-   delay counts out whole frames from the stitch's --step. */
-@keyframes mb-stitch {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-.animate-stitch {
-  --stitch-frame: 110ms;
-  animation: mb-stitch calc(var(--stitch-frame) * 2) steps(1, end) both;
-  animation-delay: calc(var(--stitch-frame) * var(--step));
-}
-
 .rail {
   display: flex;
   overflow-x: auto;
@@ -402,7 +378,6 @@
   .animate-punch,
   .animate-stamp,
   .animate-rotate-hint,
-  .animate-stitch,
   .animate-bob {
     animation: none;
   }

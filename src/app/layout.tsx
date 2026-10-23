@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { SITE } from "@/lib/site";
-import { PwaRegister } from "@/components/pwa-register";
+import { SITE } from "@/lib/site-config";
+import { ServiceWorkerRegistration } from "@/components/layout/service-worker-registration";
 import "./globals.css";
 
 /**
@@ -53,13 +53,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${cabinet.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${cabinet.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         {children}
-        <PwaRegister />
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );

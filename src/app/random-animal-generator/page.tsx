@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { GeneratorScreen } from "@/components/game/generator-screen";
-import { CATEGORIES } from "@/lib/categories";
+import { GeneratorScreen } from "@/components/generator/generator-screen";
+import { CATEGORIES } from "@/lib/deck/categories";
 
 const meta = CATEGORIES["animal"];
 
@@ -19,11 +19,11 @@ export default function Page() {
       heading={meta.seoTitle}
       about={
         <>
-        <p>
-          Creatures people can actually name, from dog and cow to platypus and
-          pangolin. Nothing out of a taxonomy textbook.
-        </p>
-      </>
+          <p>
+            Creatures people can actually name, from dog and cow to platypus and
+            pangolin. Nothing out of a taxonomy textbook.
+          </p>
+        </>
       }
     />
   );

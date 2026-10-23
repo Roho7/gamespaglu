@@ -2,10 +2,10 @@
 
 import { JoinScreen } from "@/components/girgit/join-screen";
 import { RoomScreen } from "@/components/girgit/room-screen";
-import { useRoom } from "@/lib/girgit/use-room";
+import { useGirgitRoom } from "@/lib/hooks/use-girgit-room";
 
 export function GirgitApp() {
-  const { state, status, error, create, join, leave, act } = useRoom();
+  const { state, status, error, create, join, leave, act } = useGirgitRoom();
 
   if (!state) {
     return (

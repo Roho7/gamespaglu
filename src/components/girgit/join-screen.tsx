@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { AppBar } from "@/components/app-bar";
-import { Panel } from "@/components/mb/ui";
-import { useOnline } from "@/lib/use-online";
+import { AppBar } from "@/components/layout/app-bar";
+import { Panel } from "@/components/ui/controls";
+import { useOnline } from "@/lib/hooks/use-online";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MAX_NAME_LENGTH, ROOM_CODE_LENGTH, type Err } from "@shared/protocol";
@@ -11,7 +11,7 @@ import { MAX_NAME_LENGTH, ROOM_CODE_LENGTH, type Err } from "@shared/protocol";
 /**
  * Getting in. Deliberately NOT a play surface — it is a form, and pretending
  * otherwise would be the mistake rule 1 warns about: two different kinds of
- * thing must not look the same. So it sits on plain kraft with no colourway,
+ * thing must not look the same. So it sits on plain kraft with no palette,
  * no band and no label, and the game's own treatment starts once you are in a
  * room.
  */

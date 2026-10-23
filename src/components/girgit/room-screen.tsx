@@ -2,19 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AppBar } from "@/components/app-bar";
-import { SideDrawer } from "@/components/game/settings-drawer";
-import { Deadline } from "@/components/girgit/deadline";
-import { GirgitGrid } from "@/components/girgit/grid";
+import { AppBar } from "@/components/layout/app-bar";
+import { SideDrawer } from "@/components/layout/side-drawer";
+import { PhaseCountdown } from "@/components/girgit/phase-countdown";
+import { GirgitGrid } from "@/components/girgit/girgit-grid";
 import { PlayerTable } from "@/components/girgit/player-table";
-import { SecretHold } from "@/components/girgit/secret-hold";
-import { Toast } from "@/components/girgit/toast";
-import { Chip } from "@/components/mb/ui";
+import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
+import { TapToast } from "@/components/girgit/tap-toast";
+import { Chip } from "@/components/ui/controls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { colourwayVars, roundColourway } from "@/lib/colors/colourways";
-import type { useRoom } from "@/lib/girgit/use-room";
-import { useOnline } from "@/lib/use-online";
+import { paletteVars, roundPalette } from "@/lib/palettes";
+import type { useGirgitRoom } from "@/lib/hooks/use-girgit-room";
+import { useOnline } from "@/lib/hooks/use-online";
 import {
   CLUE_SECONDS_OPTIONS,
   MAX_CLUE_LENGTH,
@@ -37,7 +37,7 @@ export function RoomScreen({
   reconnecting,
 }: {
   state: RoomState;
-  act: ReturnType<typeof useRoom>["act"];
+  act: ReturnType<typeof useGirgitRoom>["act"];
   leave: () => void;
   reconnecting: boolean;
 }) {
@@ -62,7 +62,7 @@ export function RoomScreen({
 
   const hasClued = state.your?.hasClued ?? false;
   const hasVoted = state.your?.hasVoted ?? false;
-  const colourway = roundColourway(state.code, round?.roundNo ?? 0);
+  const palette = roundPalette(state.code, round?.roundNo ?? 0);
 
   const clueOf = (playerId: string) =>
     round?.clues.find((c) => c.playerId === playerId)?.word ?? null;
@@ -109,8 +109,8 @@ export function RoomScreen({
   const { big, small } = headline();
 
   return (
-    <div style={colourwayVars(colourway)} className="flex min-h-dvh flex-col">
-      <Toast message={toast} />
+    <div style={paletteVars(palette)} className="flex min-h-dvh flex-col">
+      <TapToast message={toast} />
 
       <div className="mb-label mb-label-bleed flex-1">
         <div className="mb-label-field relative flex min-h-0 flex-1 flex-col">
@@ -131,7 +131,10 @@ export function RoomScreen({
                       3. Hold the button to check your word. Don&apos;t let your
                       neighbour see it.
                     </li>
-                    <li>4. Everyone writes one clue. They land on the table as they come.</li>
+                    <li>
+                      4. Everyone writes one clue. They land on the table as
+                      they come.
+                    </li>
                     <li>5. Argue. Out loud. Then vote.</li>
                     <li>
                       6. Catch the Girgit and they get one guess at the word to
@@ -148,7 +151,9 @@ export function RoomScreen({
 
                 <SideDrawer label="Room" icon="⚙" title={`Room ${state.code}`}>
                   <div className="space-y-2">
-                    <p className="mb-caps text-[0.6rem] opacity-60">Word packs</p>
+                    <p className="mb-caps text-[0.6rem] opacity-60">
+                      Word packs
+                    </p>
                     <div className="flex flex-wrap gap-2">
                       {PACKS.map((pk) => {
                         const on = state.packs.includes(pk.id);
@@ -166,7 +171,11 @@ export function RoomScreen({
                                 return;
                               }
                               const r = await act.setPacks(next);
-                              setToast(r.ok ? `${pk.label} ${on ? "off" : "on"}` : r.error.message);
+                              setToast(
+                                r.ok
+                                  ? `${pk.label} ${on ? "off" : "on"}`
+                                  : r.error.message,
+                              );
                             }}
                           >
                             {pk.label}
@@ -182,7 +191,9 @@ export function RoomScreen({
                   </div>
 
                   <div className="space-y-2">
-                    <p className="mb-caps text-[0.6rem] opacity-60">Clue timer</p>
+                    <p className="mb-caps text-[0.6rem] opacity-60">
+                      Clue timer
+                    </p>
                     <div className="flex flex-wrap gap-2">
                       {CLUE_SECONDS_OPTIONS.map((n) => (
                         <Chip
@@ -191,7 +202,9 @@ export function RoomScreen({
                           disabled={!isHost}
                           onClick={async () => {
                             const r = await act.setClueSeconds(n);
-                            setToast(r.ok ? `Clue timer: ${n}s` : r.error.message);
+                            setToast(
+                              r.ok ? `Clue timer: ${n}s` : r.error.message,
+                            );
                           }}
                         >
                           {n}s
@@ -271,16 +284,16 @@ export function RoomScreen({
                     onPick={
                       phase === "escape" && state.your?.isGirgit
                         ? (i) => {
-                          setToast(`Locked in: ${round.cells[i]}`);
-                          void act.escapeGuess(i);
-                        }
+                            setToast(`Locked in: ${round.cells[i]}`);
+                            void act.escapeGuess(i);
+                          }
                         : undefined
                     }
                   />
                 ) : null}
 
                 {phase === "clues" && state.your ? (
-                  <SecretHold
+                  <HoldToRevealSecret
                     isGirgit={state.your.isGirgit}
                     word={
                       state.your.secretIndex === null
@@ -297,9 +310,9 @@ export function RoomScreen({
                   onSelect={
                     phase === "vote" && !hasVoted
                       ? (id) => {
-                        setToast(`Voted for ${nameOf(id)}`);
-                        void act.castVote(id);
-                      }
+                          setToast(`Voted for ${nameOf(id)}`);
+                          void act.castVote(id);
+                        }
                       : undefined
                   }
                   disabledIds={phase === "vote" ? [state.you] : []}
@@ -324,7 +337,10 @@ export function RoomScreen({
                       );
                     }
                     const w = clueWord;
-                    if (w) return <span className="text-base font-extrabold">{w}</span>;
+                    if (w)
+                      return (
+                        <span className="text-base font-extrabold">{w}</span>
+                      );
                     if (round.skipped.includes(p.id)) {
                       return (
                         <span className="mb-caps text-[0.5rem]">timed out</span>
@@ -338,7 +354,8 @@ export function RoomScreen({
                   <div className="space-y-2 text-center">
                     {round.escapeGuess !== null ? (
                       <p className="mb-display-sm text-lg">
-                        {nameOf(round.girgitId)} guessed “{word(round.escapeGuess)}”.
+                        {nameOf(round.girgitId)} guessed “
+                        {word(round.escapeGuess)}”.
                         <br />
                         The word was “{word(round.secretIndex)}”.
                       </p>
@@ -379,7 +396,7 @@ export function RoomScreen({
 
         <div className="mb-band flex-col gap-2 px-4 py-3">
           {!cutOff && round?.deadlineAt ? (
-            <Deadline
+            <PhaseCountdown
               deadlineAt={round.deadlineAt}
               totalSeconds={state.clueSeconds}
               label="Clues close in"
@@ -451,7 +468,11 @@ export function RoomScreen({
           ) : null}
 
           {!cutOff && phase === "discuss" ? (
-            <Button size="hero" className="max-w-sm" onClick={() => act.callVote()}>
+            <Button
+              size="hero"
+              className="max-w-sm"
+              onClick={() => act.callVote()}
+            >
               Call the vote
             </Button>
           ) : null}
@@ -477,7 +498,9 @@ export function RoomScreen({
           {!cutOff && phase === "escape" ? (
             <div className="flex w-full max-w-sm items-center justify-between gap-3">
               <span className="mb-caps text-[0.6rem] opacity-80">
-                {state.your?.isGirgit ? "Pick a word above" : "Hold your breath"}
+                {state.your?.isGirgit
+                  ? "Pick a word above"
+                  : "Hold your breath"}
               </span>
               {isHost ? (
                 <button
@@ -492,7 +515,11 @@ export function RoomScreen({
 
           {!cutOff && phase === "reveal" ? (
             isHost ? (
-              <Button size="hero" className="max-w-sm" onClick={() => act.startRound()}>
+              <Button
+                size="hero"
+                className="max-w-sm"
+                onClick={() => act.startRound()}
+              >
                 Again
               </Button>
             ) : (

@@ -6,7 +6,7 @@
  */
 import { readFileSync } from "node:fs";
 
-const src = readFileSync("src/lib/colors/colourways.ts", "utf8");
+const src = readFileSync("src/lib/palettes.ts", "utf8");
 const blocks = [...src.matchAll(/\{\s*id:\s*"([^"]+)"[\s\S]*?\}/g)];
 
 const field = (b, key) => b.match(new RegExp(`${key}:\\s*"(#[0-9a-fA-F]{6})"`))?.[1];
@@ -72,6 +72,6 @@ for (const [name, fg, bg] of GROUNDS) {
 console.log(
   bad === 0
     ? "\nEvery colourway is readable at its declared roles."
-    : `\n${bad} contrast failure${bad === 1 ? "" : "s"} — adjust the ink in src/lib/colors/colourways.ts.`,
+    : `\n${bad} contrast failure${bad === 1 ? "" : "s"} — adjust the ink in src/lib/palettes.ts.`,
 );
 process.exit(bad === 0 ? 0 : 1);

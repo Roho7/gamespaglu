@@ -1,20 +1,17 @@
 import type { Metadata } from "next";
-import { AppBar } from "@/components/app-bar";
-import { Emblem } from "@/components/mb/emblems";
-import { Label } from "@/components/mb/label";
-import { Marquee } from "@/components/mb/marquee";
-import { Chip, IconButton, Panel } from "@/components/mb/ui";
-import { CelebFilterDemo } from "@/components/game/celeb-filter-demo";
-import { GirgitGrid } from "@/components/girgit/grid";
-import { SecretHold } from "@/components/girgit/secret-hold";
-import { RotateHint } from "@/components/mb/rotate-hint";
-import { VineBorder } from "@/components/mb/vine-border";
-import { VineMarquee } from "@/components/mb/vine-marquee";
+import { AppBar } from "@/components/layout/app-bar";
+import { CategoryEmblem } from "@/components/artwork/category-emblem";
+import { Starburst } from "@/components/artwork/starburst";
+import { Chip, IconButton, Panel } from "@/components/ui/controls";
+import { GirgitGrid } from "@/components/girgit/girgit-grid";
+import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
+import { RotatePhoneHint } from "@/components/generator/rotate-phone-hint";
+import { VineMarquee } from "@/components/stitch/vine-marquee";
 import { Button } from "@/components/ui/button";
-import { StitchBorder } from "@/components/game/stitch-border";
+import { StitchBorder } from "@/components/stitch/stitch-border";
 import { Input } from "@/components/ui/input";
-import { CATEGORY_LIST } from "@/lib/categories";
-import { COLOURWAYS, colourwayVars } from "@/lib/colors/colourways";
+import { CATEGORY_LIST } from "@/lib/deck/categories";
+import { PALETTES, paletteById, paletteVars } from "@/lib/palettes";
 
 /**
  * The living style guide, and the contract every screen is built against.
@@ -52,7 +49,13 @@ const DEMO_CELLS = [
   "Pelé",
 ];
 
-function Row({ title, children }: { title: string; children: React.ReactNode }) {
+function Row({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <section className="space-y-3">
       <h2 className="mb-caps text-[0.65rem] opacity-60">{title}</h2>
@@ -64,23 +67,26 @@ function Row({ title, children }: { title: string; children: React.ReactNode }) 
 export default function StylePage() {
   return (
     <>
-      <AppBar back="/" title={<span className="mb-display-sm text-lg">Style</span>} />
+      <AppBar
+        back="/"
+        title={<span className="mb-display-sm text-lg">Style</span>}
+      />
       <main className="mx-auto w-full max-w-3xl flex-1 space-y-10 px-4 pt-20 pb-16">
         <p className="text-sm font-medium opacity-75">
-          Muted print system. Every colour here comes from five palette tokens
-          — <code>--cw-base</code>, <code>--cw-highlight</code>,{" "}
+          Muted print system. Every colour here comes from five palette tokens —{" "}
+          <code>--cw-base</code>, <code>--cw-highlight</code>,{" "}
           <code>--cw-secondary</code>, <code>--cw-primary</code>,{" "}
           <code>--cw-shadow</code>. Components never name a colour;{" "}
           <code>npm run check:tokens</code> enforces it and{" "}
           <code>npm run check:contrast</code> proves each palette is readable.
         </p>
 
-        <Row title="Colourways">
+        <Row title="Palettes">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {COLOURWAYS.map((cw) => (
+            {PALETTES.map((cw) => (
               <div
                 key={cw.id}
-                style={colourwayVars(cw)}
+                style={paletteVars(cw)}
                 className="mb-frame rounded-[var(--radius-lg)] p-4"
               >
                 <p className="mb-display-sm text-lg">{cw.name}</p>
@@ -103,8 +109,8 @@ export default function StylePage() {
             <p className="mb-display-sm text-2xl">Display small</p>
             <p className="mb-caps text-xs">Tracked small caps caption</p>
             <p className="text-base font-medium">
-              Body copy, Cabinet Grotesk regular. Readable at length, never
-              set in the highlight ink.
+              Body copy, Cabinet Grotesk regular. Readable at length, never set
+              in the highlight ink.
             </p>
           </div>
         </Row>
@@ -138,12 +144,6 @@ export default function StylePage() {
           </div>
         </Row>
 
-        <Row title="Celebrity filters — type chips and era">
-          <Panel>
-            <CelebFilterDemo />
-          </Panel>
-        </Row>
-
         <Row title="Panels and frames">
           <div className="grid gap-3 sm:grid-cols-2">
             <Panel>
@@ -161,21 +161,8 @@ export default function StylePage() {
 
         <Row title="Marquee — one per screen, behind the hero only">
           <div className="mb-frame relative flex h-48 items-center justify-center rounded-[var(--radius-lg)]">
-            <Marquee className="absolute size-40 text-[var(--cw-primary)]" />
+            <Starburst className="absolute size-40 text-[var(--cw-primary)]" />
             <span className="mb-display relative text-4xl">Hero</span>
-          </div>
-        </Row>
-
-        <Row title="Vine border — stacks or chains, blooms on mount">
-          <div className="mb-frame flex items-start gap-4 rounded-[var(--radius-lg)] p-4 text-[var(--cw-primary)]">
-            <div className="w-8 shrink-0">
-              <VineBorder bloom />
-              <VineBorder bloom />
-            </div>
-            <div className="flex h-12 min-w-0 overflow-hidden">
-              <VineBorder orientation="horizontal" bloom />
-              <VineBorder orientation="horizontal" bloom />
-            </div>
           </div>
         </Row>
 
@@ -193,17 +180,23 @@ export default function StylePage() {
           </div>
         </Row>
 
+        <Row title="Rotate hint — sits in the band during a countdown">
+          <div className="mb-band rounded-[var(--radius-lg)] p-4">
+            <RotatePhoneHint />
+          </div>
+        </Row>
+
         <Row title="Emblems">
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
             {CATEGORY_LIST.map((c) => (
               <div
                 key={c.id}
-                style={colourwayVars({
-                  ...COLOURWAYS[0],
+                style={paletteVars({
+                  ...PALETTES[0],
                 })}
                 className="mb-frame [--dot-radius:calc(var(--radius-md)-var(--dot-inset))] flex flex-col items-center gap-2 rounded-[var(--radius-md)] p-3"
               >
-                <Emblem category={c.id} className="size-14" />
+                <CategoryEmblem category={c.id} className="size-14" />
                 <span className="mb-caps text-[0.5rem]">{c.label}</span>
               </div>
             ))}
@@ -212,7 +205,10 @@ export default function StylePage() {
 
         <Row title="Girgit — the grid. Never marks the secret">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Label colourway="indigo" className="h-auto">
+            <div
+              style={paletteVars(paletteById("dusk"))}
+              className="mb-label p-3"
+            >
               <div className="space-y-2 p-1">
                 <p className="mb-caps text-[0.55rem] opacity-70">In play</p>
                 <GirgitGrid cells={DEMO_CELLS} />
@@ -221,8 +217,11 @@ export default function StylePage() {
                   across a table without reading a word.
                 </p>
               </div>
-            </Label>
-            <Label colourway="maroon" className="h-auto">
+            </div>
+            <div
+              style={paletteVars(paletteById("clay"))}
+              className="mb-label p-3"
+            >
               <div className="space-y-2 p-1">
                 <p className="mb-caps text-[0.55rem] opacity-70">
                   At the reveal — the only time a cell is marked
@@ -233,55 +232,34 @@ export default function StylePage() {
                   light cream that would vanish on it.
                 </p>
               </div>
-            </Label>
+            </div>
           </div>
         </Row>
 
         <Row title="Girgit — hold to reveal. Identical shape for both roles">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Label colourway="bottle" className="h-auto">
+            <div
+              style={paletteVars(paletteById("moss"))}
+              className="mb-label p-3"
+            >
               <div className="p-2">
-                <SecretHold word="Boarding pass" isGirgit={false} />
+                <HoldToRevealSecret word="Boarding pass" isGirgit={false} />
               </div>
-            </Label>
-            <Label colourway="bottle" className="h-auto">
+            </div>
+            <div
+              style={paletteVars(paletteById("moss"))}
+              className="mb-label p-3"
+            >
               <div className="p-2">
-                <SecretHold word={null} isGirgit />
+                <HoldToRevealSecret word={null} isGirgit />
               </div>
-            </Label>
+            </div>
           </div>
           <p className="text-sm opacity-75">
             Hold either one. The word and the Girgit line land in the same fixed
             slot, at the same size — so a neighbour watching someone press and
             hold learns nothing from the shape of what appears.
           </p>
-        </Row>
-
-        <Row title="Label — the play surface, with band">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Label
-              colourway="pillar"
-              tilt="left"
-              className="h-72"
-              band={<Button size="hero" className="max-w-xs">Generate</Button>}
-            >
-              <div className="relative flex h-full flex-col items-center justify-center gap-2">
-                <Marquee className="absolute size-44 text-[var(--cw-primary)]" />
-                <span className="mb-display relative text-5xl">67</span>
-              </div>
-            </Label>
-            <Label
-              colourway="bottle"
-              tilt="right"
-              className="h-72"
-              band={<RotateHint />}
-            >
-              <div className="relative flex h-full items-center justify-center">
-                <Marquee className="absolute size-44 text-[var(--cw-primary)]" />
-                <Emblem category="animal" className="relative size-28" />
-              </div>
-            </Label>
-          </div>
         </Row>
       </main>
     </>

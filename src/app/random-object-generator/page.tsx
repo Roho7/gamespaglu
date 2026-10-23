@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { GeneratorScreen } from "@/components/game/generator-screen";
-import { CATEGORIES } from "@/lib/categories";
+import { GeneratorScreen } from "@/components/generator/generator-screen";
+import { CATEGORIES } from "@/lib/deck/categories";
 
 const meta = CATEGORIES["object"];
 
@@ -19,12 +19,12 @@ export default function Page() {
       heading={meta.seoTitle}
       about={
         <>
-        <p>
-          Everyday things you can point at — pressure cooker, ceiling fan,
-          cricket bat, safety pin. Ordinary objects are funnier than exotic ones
-          in a guessing game.
-        </p>
-      </>
+          <p>
+            Everyday things you can point at — pressure cooker, ceiling fan,
+            cricket bat, safety pin. Ordinary objects are funnier than exotic
+            ones in a guessing game.
+          </p>
+        </>
       }
     />
   );

@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { AppBar } from "@/components/app-bar";
-import { HeroRail } from "@/components/home/hero-rail";
-import { colourwayById, colourwayVars } from "@/lib/colors/colourways";
-import { SITE } from "@/lib/site";
+import { CategoryHeroRail } from "@/components/home/category-hero-rail";
+import { paletteById, paletteVars } from "@/lib/palettes";
+import { SITE } from "@/lib/site-config";
 
 /**
  * Three full-screen sections that snap vertically: the generators, what's
@@ -14,10 +13,9 @@ import { SITE } from "@/lib/site";
 export default function Home() {
   return (
     <>
-
       <main className="h-dvh snap-y snap-mandatory overflow-x-hidden overflow-y-auto">
         <section className="relative h-full snap-start">
-          <HeroRail />
+          <CategoryHeroRail />
         </section>
 
         <section className="ground-navy flex h-full snap-start flex-col items-center justify-center gap-6 bg-[var(--ground)] px-6 text-center text-[var(--ground-ink)]">
@@ -47,7 +45,7 @@ export default function Home() {
         </section>
 
         <section
-          style={colourwayVars(colourwayById("pillar"))}
+          style={paletteVars(paletteById("pillar"))}
           className="mb-label mb-label-bleed h-full snap-start"
         >
           <div className="mb-label-field mb-tilt relative flex min-h-0 flex-1 flex-col items-center justify-center gap-5 px-6 text-center">

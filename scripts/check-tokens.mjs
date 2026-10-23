@@ -14,7 +14,7 @@ import { join } from "node:path";
 
 const ROOTS = ["src/components", "src/app", "src/content"];
 const ALLOWED = new Set([
-  "src/lib/colors/colourways.ts",
+  "src/lib/palettes.ts",
   "src/app/globals.css",
   // Emblems reference token vars only; icons/manifest need literal brand hex.
   "src/app/manifest.ts",

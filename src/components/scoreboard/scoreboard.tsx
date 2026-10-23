@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { Chip, Panel } from "@/components/mb/ui";
+import { Chip, Panel } from "@/components/ui/controls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { colourwayById, colourwayVars } from "@/lib/colors/colourways";
-import { blip } from "@/lib/feedback";
-import { useHydrated, usePersisted } from "@/lib/use-persisted";
+import { paletteById, paletteVars } from "@/lib/palettes";
+import { blip } from "@/lib/sound-and-haptics";
+import { useHydrated, usePersisted } from "@/lib/hooks/use-persisted";
 
 type Player = { id: string; name: string; score: number };
 type Snapshot = { players: Player[] };
@@ -75,7 +75,10 @@ export function Scoreboard() {
     for (let i = 0; i < sorted.length; i++) {
       const p = sorted[i];
       const prev = out[i - 1];
-      out.push({ ...p, rank: prev && prev.score === p.score ? prev.rank : i + 1 });
+      out.push({
+        ...p,
+        rank: prev && prev.score === p.score ? prev.rank : i + 1,
+      });
     }
     return out;
   }, [players]);
@@ -98,7 +101,11 @@ export function Scoreboard() {
             placeholder="Add player or team"
             aria-label="Add player or team"
           />
-          <Button onClick={addPlayer} disabled={!name.trim()} className="shrink-0">
+          <Button
+            onClick={addPlayer}
+            disabled={!name.trim()}
+            className="shrink-0"
+          >
             Add
           </Button>
         </div>
@@ -107,11 +114,7 @@ export function Scoreboard() {
           <div className="flex items-center gap-2">
             <span className="mb-caps text-[0.6rem] opacity-60">Step</span>
             {STEPS.map((s) => (
-              <Chip
-                key={s}
-                active={step === s}
-                onClick={() => setStep(s)}
-              >
+              <Chip key={s} active={step === s} onClick={() => setStep(s)}>
                 {s}
               </Chip>
             ))}
@@ -143,12 +146,13 @@ export function Scoreboard() {
               <li
                 key={p.id}
                 style={
-                  leading ? colourwayVars(colourwayById("mustard")) : undefined
+                  leading ? paletteVars(paletteById("mustard")) : undefined
                 }
-                className={`flex items-stretch overflow-hidden rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current ${leading
+                className={`flex items-stretch overflow-hidden rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current ${
+                  leading
                     ? "bg-[var(--cw-base)] text-[var(--cw-shadow)]"
                     : "bg-[var(--ground-soft)]"
-                  }`}
+                }`}
               >
                 <button
                   type="button"
@@ -225,7 +229,7 @@ export function Scoreboard() {
       ) : null}
 
       {confirm ? (
-        <Panel className="space-y-3" >
+        <Panel className="space-y-3">
           <p className="mb-display-sm text-lg">
             {confirm === "reset"
               ? "Reset every score to zero? Names stay."

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * rule — with hierarchy carried entirely by palette (see .mb-btn-* recipes in
  * globals.css). That way the ladder still reads in greyscale.
  *
- * Colours come from colourway tokens only. Never add a colour class here.
+ * Colours come from palette tokens only. Never add a colour class here.
  */
 const buttonVariants = cva("mb-btn disabled:pointer-events-none", {
   variants: {

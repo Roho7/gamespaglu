@@ -11,7 +11,7 @@ export type StateAdapter = {
 
 const PREFIX = "gp:";
 
-export const localAdapter: StateAdapter = {
+export const store: StateAdapter = {
   get<T>(key: string, fallback: T): T {
     if (typeof window === "undefined") return fallback;
     try {
@@ -34,5 +34,3 @@ export const localAdapter: StateAdapter = {
     } catch {}
   },
 };
-
-export const store = localAdapter;

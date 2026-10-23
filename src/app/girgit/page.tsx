@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { GirgitApp } from "@/components/girgit/girgit-app";
-import { SITE } from "@/lib/site";
+import { SITE } from "@/lib/site-config";
 
 /**
  * Server wrapper so this route can carry metadata — the game itself is a client

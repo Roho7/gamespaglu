@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { GeneratorScreen } from "@/components/game/generator-screen";
-import { CATEGORIES } from "@/lib/categories";
+import { GeneratorScreen } from "@/components/generator/generator-screen";
+import { CATEGORIES } from "@/lib/deck/categories";
 
 const meta = CATEGORIES["number"];
 
@@ -19,17 +19,17 @@ export default function Page() {
       heading={meta.seoTitle}
       about={
         <>
-        <p>
-          Pick a preset or set any range you like. Numbers are drawn without
-          replacement, so inside a range of 1000 or fewer nothing repeats until
-          the whole range has come up.
-        </p>
-        <p>
-          Good for deciding who goes first, standing in for dice, raffles and
-          classroom turns — or the numbers version of Who Am I?, the one often
-          called Indian Poker.
-        </p>
-      </>
+          <p>
+            Pick a preset or set any range you like. Numbers are drawn without
+            replacement, so inside a range of 1000 or fewer nothing repeats
+            until the whole range has come up.
+          </p>
+          <p>
+            Good for deciding who goes first, standing in for dice, raffles and
+            classroom turns — or the numbers version of Who Am I?, the one often
+            called Indian Poker.
+          </p>
+        </>
       }
     />
   );

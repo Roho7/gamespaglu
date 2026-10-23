@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { GeneratorScreen } from "@/components/game/generator-screen";
-import { CATEGORIES, CATEGORY_ORDER, isCategoryId } from "@/lib/categories";
+import { GeneratorScreen } from "@/components/generator/generator-screen";
+import {
+  CATEGORIES,
+  CATEGORY_ORDER,
+  isCategoryId,
+} from "@/lib/deck/categories";
 
 export function generateStaticParams() {
   return CATEGORY_ORDER.map((category) => ({ category }));

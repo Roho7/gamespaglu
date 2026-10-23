@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { CATEGORY_LIST } from "@/lib/categories";
+import { CATEGORY_LIST } from "@/lib/deck/categories";
 import { GUIDES } from "@/content/guides";
-import { SITE } from "@/lib/site";
+import { SITE } from "@/lib/site-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [

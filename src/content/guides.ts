@@ -1,4 +1,5 @@
-import type { CategoryId } from "@/lib/types";
+import type { PaletteId } from "@/lib/palettes";
+import type { CategoryId } from "@/lib/deck/types";
 
 /**
  * The How to play section. This is where the words live now — the play screens
@@ -15,7 +16,7 @@ export type Guide = {
   /** Card + meta description. */
   summary: string;
   emoji: string;
-  colourway: string;
+  palette: PaletteId;
   players: string;
   time: string;
   needs: string;
@@ -37,7 +38,7 @@ export const GUIDES: Guide[] = [
     summary:
       "The phone-on-forehead guessing game. Everyone can see your name except you. Rules, question tactics and six ways to play it.",
     emoji: "🙈",
-    colourway: "pillar",
+    palette: "sage",
     players: "3 or more",
     time: "As long as the room lasts",
     needs: "One phone per player",
@@ -128,7 +129,7 @@ export const GUIDES: Guide[] = [
     summary:
       "A score tracker for any game played in person — cards, carrom, board games, antakshari. Players or teams, tap to score, undo mistakes.",
     emoji: "🏆",
-    colourway: "mustard",
+    palette: "rose",
     players: "2 or more",
     time: "One session",
     needs: "One phone, passed around or left on the table",
@@ -173,7 +174,7 @@ export const GUIDES: Guide[] = [
     summary:
       "Sixteen words, one secret, and one player who has no idea which. Everyone writes one clue, then the table works out who was bluffing.",
     emoji: "\ud83e\udd8e",
-    colourway: "bottle",
+    palette: "moss",
     players: "4 to 10",
     time: "About four minutes a round",
     needs: "A phone each, everyone in the same room",
@@ -254,9 +255,6 @@ export const GUIDES: Guide[] = [
     ],
   },
 ];
-
-export const LIVE_GUIDES = GUIDES.filter((g) => g.status === "live");
-
 export function getGuide(slug: string) {
   return GUIDES.find((g) => g.slug === slug);
 }
