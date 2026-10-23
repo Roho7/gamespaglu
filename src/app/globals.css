@@ -3,9 +3,9 @@
 @import "shadcn/tailwind.css";
 
 /* ===============================================================
-   Games Paglu — Indian matchbox label system.
+   Games Paglu — 80s poster print system.
 
-   Everything is built from four palette tokens plus a small set of
+   Everything is built from five palette tokens plus a small set of
    recipes. Components must never name a colour: no hex, no bg-red-500.
    `npm run check:tokens` fails the build if they do, and /style renders
    every component in every palette so drift is visible in one screenshot.
@@ -371,6 +371,22 @@
   animation: mb-rotate-hint 2.4s ease-in-out infinite;
 }
 
+@keyframes mb-wedge {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-wedge {
+  transform-box: view-box;
+  transform-origin: 50% 94%;
+  animation: mb-wedge 380ms cubic-bezier(0.2, 0.85, 0.15, 1) both;
+}
+
 .rail {
   display: flex;
   overflow-x: auto;
@@ -390,6 +406,7 @@
   .animate-punch,
   .animate-stamp,
   .animate-rotate-hint,
+  .animate-wedge,
   .animate-bob {
     animation: none;
   }

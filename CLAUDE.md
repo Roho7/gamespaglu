@@ -1,19 +1,18 @@
 # Games Paglu — working notes for Claude
 
 `gamespaglu.com`. Phone-as-aid for games played **in person**. Sibling of officepaglu.com.
-Specs in the Obsidian vault (`~/Documents/MAIN/OBSIDIAN/OB_BRAIN/`): `Cards/Games Paglu Spec.md`,
-and `Cards/Girgit Spec.md` for the room-based game (which overrides the parent's §11).
+Specs live in the Obsidian vault (`~/Documents/MAIN/OBSIDIAN/OB_BRAIN/Cards/`): `Games Paglu Spec.md`,
+plus one spec per game (`Girgit Spec.md`, `Wavelength Spec.md`), which override the parent spec.
 
 Next.js (App Router) · TypeScript · Tailwind v4 · shadcn/ui · no accounts · **offline-first, except rooms**.
 
-Rooms (Girgit onward) add a Socket.IO server on Fly (`server/`) and Postgres in the shared
-officepaglu Supabase project, in a `gp` schema behind a scoped `gp_app` role. Everything else on the
-site stays backendless and offline-first. A room screen with no signal must **say so** — the service
-worker precaches, so the failure mode is a plausible-looking frozen board, which is worse than an
-error.
+Rooms (Girgit) use a Socket.IO server on Fly (`server/`) and Postgres in the shared officepaglu
+Supabase project, in a `gp` schema behind a scoped `gp_app` role. Everything else is backendless and
+works with no signal.
 
 ```bash
 npm run dev
+npm run check
 npx tsc --noEmit && npx eslint src --max-warnings=0 && npx next build
 ```
 
@@ -21,276 +20,131 @@ npx tsc --noEmit && npx eslint src --max-warnings=0 && npx next build
 
 ## Where things live
 
-- `components/` by feature: `home`, `generator`, `girgit`, `scoreboard`; shared
-  chrome in `layout`; pixel motifs in `stitch`; drawn art in `artwork`;
-  primitives in `ui`.
-- `lib/deck` is the data and draw logic, `lib/hooks` every `use-*` hook, and
-  `lib/palettes.ts` the colour system. Import with `@/`, never relative paths.
-- Name files and exports for what they are (`CategoryHeroRail`,
-  `HoldToRevealSecret`), not for where they sit.
+- `components/` by feature (`home`, `generator`, `girgit`, `wavelength`, `scoreboard`), shared chrome in `layout`,
+  stitched motifs in `stitch`, drawn art in `artwork`, primitives in `ui`.
+- `lib/deck` is data and draw logic, `lib/wavelength` the Wavelength rules, `lib/hooks` every `use-*` hook, `lib/palettes.ts` the colour
+  system. `shared/` holds data and protocol the socket server also reads.
+- Import with `@/`, never relative paths. Name files and exports for what they are
+  (`CategoryHeroRail`, `HoldToRevealSecret`), not where they sit.
 
 ## Code style
 
-- **No inline comments.** Code says what it does; don't add `//`, `/* */` or JSX
-  `{/* */}` comments. Doc comments (`/** */`) on exported declarations and
-  tool directives (`eslint-disable`, `@ts-`, `check-tokens-ignore`) are the only
-  exceptions.
+- **No inline comments.** No `//`, `/* */` or JSX `{/* */}`. Only `/** */` doc comments on exported
+  declarations and tool directives (`eslint-disable`, `@ts-`, `check-tokens-ignore`).
+- **Icons come from `lucide-react`**, never text glyphs like `←` `→`. Size them `size-[1em]`; inside
+  running text add `inline align-[-0.125em]`, since Tailwind makes every `svg` a block.
 
-## UX rules — these were learned the hard way, do not relearn them
+## UX invariants
 
-These are not style preferences. Each one is a mistake that shipped in this repo and had to be
-undone. Treat them as invariants and check every screen against them before saying it's done.
+Check every screen against these before calling it done.
 
-### 1. Things that are different must LOOK different. Things that look the same must BE the same.
+1. **Look tells the truth.**
+   - Different kinds of thing look different; things that look the same are the same kind.
+   - Adjacency claims relatedness. Unrelated items go in separate regions.
+   - One entry point per destination per screen.
+   - No teasers. Nothing ships that points at a feature that doesn't exist.
+2. **Never render a control that does nothing.** Gate controls on a real capability flag
+   (`hasRangeFilter`, `hasSpicy`), and derive offered chips from the data (`availableCountries`).
+3. **An empty result is never silent.** If a pool filters to zero, the primary action is disabled
+   with an explanation. `npm run check:decks` exercises every category × filter and must pass.
+4. **Play surfaces are not forms.** One accent field, one huge primary action, at most three small
+   controls. Rules and prose live in `src/content/guides.ts` and `/how-to-play`; settings live in the
+   briefing or a drawer.
+5. **The primary action is reachable by a thumb without scrolling.** Stick it to the bottom.
+6. **Verify visually.** Screenshot at **375×812** and look at it. Exercise every category page and
+   every drawer, not only the one you changed.
 
-The worst offence so far: a "How to play" link (live navigation) sat next to a "Rooms coming later"
-link (a teaser for an unbuilt feature) — same size, same colour, same underline, side by side. They
-read as siblings. They have nothing to do with each other.
+## Design system — 80s poster
 
-Before placing two elements next to each other, ask: *are these the same kind of thing?*
-
-- Same kind, same weight → fine to group and match.
-- Different kind → they must differ in weight, colour, shape, or be separated entirely.
-
-This repo now has four deliberately distinct visual classes on the home screen. Keep them distinct:
-
-| Class | Looks like | Means |
-|---|---|---|
-| Play mode | Solid category accent, dark edge, hard shadow | Tap to play now |
-| Tool | Neutral `--paper` card, solid border, accent marker strip | A utility, not a game mode |
-| Not built | **Dashed** border, no shadow, reduced opacity, greyscale icon, label says so | Doesn't exist yet |
-| Offsite | Brand red `--hot` | Leaves the site |
-
-### 2. Adjacency and identical styling are both claims about relatedness
-
-Placing things side by side says "these belong together". Styling them identically says "these are
-peers". Don't make either claim accidentally. Put unrelated items in different regions, with real
-separation, and give them different weight.
-
-### 3. An empty deck is an invisible bug — check every category, not one
-
-Animals and objects shipped completely broken: every entry is tagged
-`worldwide`, the saved default filter is India+USA, so the pool filtered to zero
-and Generate silently did nothing. It looked perfect in a screenshot. I had only
-tested celebrity, movie and place.
-
-Two rules follow. **Exercise every category and every filter combination**, not a
-representative sample — `npm run check:decks` does this and must pass. And **an
-empty result must never be silent**: Generate is disabled with an explanation
-when the pool is zero, so the failure is visible instead of feeling broken.
-
-Filters have **two independent axes** for people: `types` (what kind of famous)
-and `era` (when). Don't collapse them — a "recent people" bucket would duplicate
-every domain. `era: "evergreen"` answers to both Classic and Modern, which is
-what stops arguments about whether Batman or Sachin is which.
-
-**Chips are derived from the *other* active filters, not just the data.** There
-are no classic internet personalities, so the Internet chip must vanish under
-Era: Classic — and a selection stranded by an era change is pruned in
-`savePrefs`, never left to empty the deck.
-
-For people and characters, `countries` means **"where this name is a household
-name"**, not country of origin: Doraemon is tagged `in` + `jp` because every
-Indian kid knows him. Movies still use origin.
-
-Offered filter chips are **derived from the data** (`availableCountries`,
-`availableLanguages`), never hardcoded — that is what stops a chip like
-"Worldwide" appearing on movies, where no entry carries it.
-
-### 4. Never render a control that does nothing
-
-The Indian-language chips originally appeared on the Place generator, where no entry carries a
-language. A control that has no effect is worse than no control: the user taps it, nothing happens,
-and they stop trusting the rest of the interface. Gate controls on a real capability flag
-(`hasLanguageFilter`, `hasRangeFilter`), never on a guess.
-
-### 5. Never show the same destination twice on one screen
-
-Home had a "?" icon linking to `/how-to-play` in the header *and* a "How to play" text link at the
-bottom. Two doors to one room is clutter pretending to be helpfulness. One entry point, properly
-labelled — a bare icon is a weak affordance for anything important.
-
-### 6. Unbuilt features must look unbuilt
-
-Never let a planned feature borrow the styling of a working one. Dashed border, muted, and say the
-words ("not built yet"). A user who taps something that isn't there loses trust immediately.
-
-### 7. Play surfaces are not forms
-
-The play screen is a wall of one accent, a huge Generate at thumb height, and at most three small
-controls. Everything else — settings, rules, explanations, links — goes in a drawer (gear for
-config, `?` for words). If you find yourself adding a heading, a paragraph or a filter row to a play
-surface, it belongs in a drawer or in `/how-to-play`.
-
-Prose belongs in `src/content/guides.ts`, not on a play screen.
-
-### 8. The primary action must be reachable by a thumb without scrolling
-
-Sticky it to the bottom if the content above can grow. A Generate button that falls below the fold
-once filters expand is a broken screen.
-
-### 9. Verify visually before claiming done
-
-Every UI change: run it, screenshot at **375×812**, in **both** colour schemes, and look at it. Four
-real defects in this repo — reveal text pinned to the top, words breaking mid-word, Generate below
-the fold, cream-on-yellow in dark mode — were all invisible in the code and obvious in a screenshot.
-
----
-
-## The design system — 80s poster
-
-### Direction (redesign, Oct 2026)
-
-- **80s movie poster.** Each category gets one loud ink, a second pop ink and
-  near-black (pulp, neon, jungle, flamingo, tangerine, arcade). Saturated, not
-  pastel.
-- **The picture carries the screen.** Home cards are a full-bleed dithered photo
-  in the category's palette, the vine marquee on top, and the band below. No
-  centre title; the band names the game.
-- Older matchbox rules below still apply where they don't contradict this.
+**Direction.** Saturated 80s movie-poster prints. Each screen is one loud ink, one pop ink and
+near-black. The picture carries the screen: home cards are full-bleed dithered photos in the
+category palette, with the band below naming the game. Simple, clean, professional, never cluttered.
 
 ### Colour
 
-- **A palette is five distinct inks**, in `src/lib/palettes.ts`:
-  `base` (the loud ink: grounds, photo brights), `highlight` (pop ink: offset
-  under dark type, photo highlights), `secondary` (rules), `primary` (dark ink:
-  accents, display, vine, photo shadows), `shadow` (near-black: text, band). Categories pick one by typed `PaletteId`.
-- **Components never name a colour.** Use `--cw-base`, `--cw-highlight`,
-  `--cw-secondary`, `--cw-primary`, `--cw-shadow`, or the page tokens.
-  `npm run check:tokens` fails otherwise, and catches undefined tokens too.
-- **`npm run check:contrast`** proves five distinct inks and shadow/base ≥4.5,
-  primary/base ≥3, secondary/base ≥2, highlight/shadow ≥3.
-- **There is no dark mode.** The palettes are the theme.
+- A palette is five inks in `src/lib/palettes.ts`, picked by typed `PaletteId`:
+  `base` (loud ink, grounds), `highlight` (pop ink, offset under dark type), `secondary` (rules),
+  `primary` (dark ink, accents and display), `shadow` (near-black, text and band).
+- **Components never name a colour.** Use `--cw-*` or the page tokens. `npm run check:tokens`
+  enforces it; `npm run check:contrast` enforces the ink ratios.
+- **No dark mode.** The palettes are the theme.
+- Page grounds are scoped classes (`.ground-navy`, default kraft). Anything on a ground (secondary
+  buttons, panels, drawers) takes ink from `--ground-ink`, never a colourway.
 
-### Depth and texture
+### Print treatment
 
-- **The hard offset shadow goes on hero display type sitting on a field.** Never
-  on kraft body text (it reads as mud) and never on small text (it reads as
-  doubled).
-- **The offset shadow is `--cw-highlight`.** Type is dark on light paper, so a
-  dark offset would vanish.
-- Grain overlay, hard shadows and a ~0.4° tilt are the whole print treatment.
-  No aged paper, no worn edges.
+- Grain overlay, hard offset shadows, ~0.4° tilt. Nothing else: no aged paper, no worn edges.
+- The hard offset shadow is `--cw-highlight`, and goes only on hero display type on a field. Never on
+  body or small text.
+- One marquee (starburst) per screen, behind artwork only, never behind type.
+- Emblems, not emoji, on a field.
+- Drawers are opaque `--ground`.
+- Never set `--btn-*` inline on a container; it overrides the button recipes.
 
-### Recipes — use these, don't reinvent them
+### Recipes
 
 | Recipe | What it is |
 |---|---|
-| `.mb-frame` | outer rule + field + dotted inner rule. The dotted rule's radius is `--dot-radius`, defaulting to `radius-lg − dot-inset` so the two curves stay concentric — it must NOT inherit the host radius (that gave a square dotted rectangle inside a rounded card). Override it on pills and on other radii |
-| `.mb-label` / `.mb-label-bleed` | a full label; the bleed variant is the play screen and shows no ground at the edges |
-| `.mb-band` | the black band that holds the primary action |
-| `.mb-btn` + `.mb-btn-{primary,secondary,tertiary}` | one button structure; **hierarchy is palette only**, so it still reads in greyscale |
-| `.mb-icon-btn` | round control; no dots, they're too dense at that size |
+| `.mb-frame` | outer rule + field + dashed inner rule; inner radius is `--dot-radius`, override it on other radii |
+| `.mb-label` / `.mb-label-bleed` | a full label; bleed is a full-screen play surface |
+| `.mb-band` | the near-black band that holds the primary action |
+| `.mb-btn` + `.mb-btn-{primary,secondary,tertiary}` | one button; hierarchy is palette only, so it reads in greyscale |
+| `.mb-icon-btn` | round control, no inner rule |
 | `.mb-display` / `.mb-display-sm` / `.mb-shadow` / `.mb-caps` | type |
-| `.rail` | scroll-snap swipe rail |
+| `.rail` | native scroll-snap swipe rail |
 
-- **One marquee per screen, behind ARTWORK only — never behind type.** Ink on
-  highlight measures 1.1–2:1 in every palette, so a word over the starburst is
-  effectively invisible and only the hard shadow was rescuing it. The marquee
-  stamps the sticker or emblem; the drawn word and the countdown sit on the
-  field, which is contrast-checked. Fill from `currentColor`
-  (`src/components/artwork/starburst.tsx`).
-- **Emblems, not emoji, on a field.** Emoji are glossy modern artwork that
-  always read as pasted onto flat spot ink, and they can't take a palette.
-- **Stickers are curated by hand and served locally.** The set lives in
-  `Cards/Gif Collection.md` in the vault; `npm run stickers` imports exactly
-  what that note lists into `public/stickers`, rewrites the manifest and the
-  service worker precache list, and deletes anything not in the note. Never
-  bulk-download from GIPHY search — it is almost entirely clip-art noise, which
-  is why the picker approach was abandoned.
-- **A category with no sticker falls back to its drawn emblem**, by design. That
-  same fallback covers a failed load, so the cards never break offline.
-- Stickers are downloaded at the 200px rendition, not the original: the note
-  links to files that can be megabytes, and a card renders at ~120px.
-- **Drawers must be opaque `--ground`.** A translucent sheet over a saturated
-  label is unreadable.
-- **Page grounds are scoped classes** (`.ground-navy` on the home screen,
-  default kraft elsewhere). Anything that sits on a ground — secondary buttons,
-  panels, drawers — must take its ink from `--ground-ink`, never from a
-  colourway. The colourway red was invisible once the home ground went navy.
-- **Never set button tokens (`--btn-*`) inline on a container.** Inline values
-  beat the `.mb-btn-*` recipes and silently break a button's palette.
+**A component doesn't exist until it renders on `/style`.** One screenshot of that route verifies
+the system.
 
-### Enforcement
+### Stickers
 
-`/style` renders every component, state and palette on one page. **A new
-component does not exist until it appears there** — one screenshot of that route
-verifies the whole system, which is the only reason the rest of the site stays
-consistent.
+- Curated by hand in the vault's `Cards/Gif Collection.md`; `npm run stickers` syncs exactly that
+  list into `public/stickers` at the 200px rendition, with manifest and precache list.
+- A category without a sticker (or a failed load) falls back to its drawn emblem.
 
-## Layout rules
+## Layout
 
-- **Every new `gp` table needs an RLS policy, not just a grant.** Supabase enables RLS on new
-  tables, and RLS with no policy denies the owner's role everything. It hides well: RLS *filters*
-  selects rather than erroring, so `select count(*)` returns 0 and looks like an empty table. This
-  shipped to production once. Prove access with a **write**, never a read — and add the policy in
-  the same migration as the table (`server/migrations/003_rls.sql` is the pattern).
-- **Girgit is the only route that needs a network.** It is precached anyway, so opening it with no
-  signal renders a screen that *says* so — the service worker would otherwise serve a
-  plausible-looking board that silently does nothing, which is the worst failure a room screen can
-  have. Both the join screen and the band say it plainly, and every action is withdrawn rather than
-  left to fail.
-- **The scorecard is not a destination.** It is a bottom sheet in `AppBar`, reachable from every
-  screen mid-game. Do not add a scoreboard tile or nav entry; `/scoreboard` exists only as a
+- **The scorecard is a bottom sheet in `AppBar`, not a destination.** `/scoreboard` exists only as a
   deep-link and SEO page.
-- **Every screen renders `AppBar`, except the generator.** That is what keeps the scorecard one tap
-  away. The generator has no top bar and no drawer: it opens on a briefing, how to play above and
-  settings below in stitched panels, with links to the rules, scorecard and home. Generate starts a
-  round; during one the band is Regenerate (60%) and Settings (40%), which returns to the briefing.
-- The home hero is a swipeable scroll-snap rail (`.rail`), one card per category. Native
-  scroll, no carousel library.
+- Every screen renders `AppBar` except home, the generator and Wavelength (its score is game state).
+- The generator opens on a briefing (how to play, settings) in stitched panels. Generate starts a
+  round; during one the band is Regenerate (60%) and Settings (40%).
+- The home hero is a `.rail`, one card per category. No carousel library.
+- **Room screens with no signal say so** and withdraw every action. The service worker precaches
+  them, so otherwise they render a plausible frozen board.
 
-## Content and data rules
+## Content and data
 
-- **Popularity over locality.** Content is curated for how widely recognised something is, not where
-  it is from. A name earns its place because the whole room knows it — that is what makes a round
-  work, and it is what keeps the site from being a regional in-joke. The Indian-language filter axis
-  is **removed**; `worldwide` is the default. Globally-recognised titles (Baahubali, RRR) are
-  **retagged**, not deleted — the problem was never that they are Telugu, it was that the filter
-  offered a regional axis nobody wants. Kill the axis, keep the famous names.
-- **One curated set, many games.** `Entry` is deliberately wide and every entry has a stable slug
-  `id`. Girgit grids reference those ids rather than repeating strings, so there is exactly one fame
-  bar and `check:grids` fails on a dangling id. Data lives in `shared/data/` because the socket
-  server reads it too.
-- **Notoriety is its own axis, not a type.** `Entry.spicy` marks people famous *for a crime or a
-  scandal* — Diddy is still Music, Epstein is still an Icon. It is excluded unless the player
-  switches it on, because a round about sex trafficking said out loud in a room ends the game. The
-  switch is only rendered where the data actually has spicy entries (`hasSpicy`), and the line is
-  "famous **for** the crime", not "politically divisive" — that keeps it a factual test rather than
-  an editorial one. Girgit grids never draw spicy entries.
-- **`number` has no deck, and the type system will lie to you about it.** `ENTRIES` has no `number`
-  key, so callers used to reach the entry helpers through
-  `category as Exclude<CategoryId, "number">`. That cast made `category !== "number"` look like an
-  impossible comparison, the guard was deleted to satisfy it, and `/who-am-i/number` crashed on
-  `undefined.some` — after hydration only, so prerendering and `tsc` both passed. The helpers are
-  now total over `CategoryId` and the cast is gone. **Exercise all six category pages *and* their
-  drawers in a browser**, not just the one you changed.
-- **An unrecognisable name kills a round harder than a repeat does.** Curate for fame, not volume.
-  Anything pulled by `scripts/build-data.mjs` lands in `*.candidates.json` and needs a human pass
-  before it reaches `shared/data/*.json`.
-- Draws use the shuffle-bag in `src/lib/deck/shuffle-bag.ts` — without replacement, keyed by category +
-  filter signature. Pure random visibly repeats and users read that as a bug.
-- The reveal (`src/components/ui/fit-text.tsx`) breaks **only at spaces**. Splitting a word across
-  lines is unreadable across a room, which is the one thing that screen exists to do.
-- **`absolute inset-0` resolves against the padding box**, so a parent's padding
-  does not constrain it — the reveal ran edge-to-edge until the insets were made
-  explicit. Inset with real values when the text must not touch the screen edge.
-- **Measure text with a `Range`, never `scrollWidth`.** A block element's `scrollWidth` is clamped
-  to its own width, so overflowing text reports as fitting — "Salaar" rendered at 140px and ran off
-  the screen. `range.getBoundingClientRect()` reports the true painted extent.
+- **Popularity over locality.** Curate for how widely the whole room recognises a name. `worldwide`
+  is the default; there is no language axis.
+- For people and characters, `countries` means "where this is a household name". Movies use origin.
+- People filter on two independent axes, `types` and `era`. `era: "evergreen"` matches both Classic
+  and Modern. Chips derive from the other active filters, and stranded selections are pruned in
+  `savePrefs`.
+- **`Entry.spicy`** marks people famous *for* a crime or scandal. Off by default, rendered only where
+  `hasSpicy`, never drawn into Girgit grids.
+- One curated set, many games. Every `Entry` has a stable slug `id`; games reference ids, and
+  `npm run check:grids` fails on a dangling one.
+- `scripts/build-data.mjs` writes `*.candidates.json`; a human pass promotes them to
+  `shared/data/*.json`.
+- `number` has no deck. Entry helpers are total over `CategoryId`; don't cast it away.
+- Draws use the shuffle-bag (`src/lib/deck/shuffle-bag.ts`), without replacement, keyed by category
+  and filter signature.
+- The reveal (`src/components/ui/fit-text.tsx`) breaks only at spaces. Measure text with a `Range`,
+  never `scrollWidth`. `absolute inset-0` ignores parent padding, so inset with real values.
 
-## Architecture rules (so rooms can land later without a rewrite)
+## Architecture
 
-- Drawing logic in `src/lib/deck/draw.ts` is pure TS with no React coupling, so a server can call it.
-- All state goes through `src/lib/state-adapter.ts`. v1 has only `local`; `remote` (Supabase
-  Realtime) implements the same contract later.
-- Persistence is read via `usePersisted` / `useSyncExternalStore` — never copy localStorage into
-  state inside an effect.
+- Game logic is pure TS with no React (`src/lib/deck/draw.ts`, the Girgit engine,
+  `src/lib/wavelength/engine.ts`), so the server can
+  call it.
+- Local persistence goes through `src/lib/state-adapter.ts` and is read via `usePersisted`
+  (`useSyncExternalStore`). Never copy localStorage into state inside an effect.
+- **Every new `gp` table gets an RLS policy in the same migration** (`server/migrations/003_rls.sql`).
+  Prove access with a write, not a read.
 
-## SEO rules
+## SEO
 
-- Ranking content lives in `/how-to-play` guides (visible pages, `HowTo` + `FAQPage` JSON-LD). Play
-  surfaces are not SEO surfaces.
-- Drawer copy is crawlable but may be discounted for being visually hidden. Don't rely on it.
-- The real opportunity is long-tail filter pages (`/random-bollywood-movie-generator`), not the head
-  terms. See §6 of the spec.
+- Ranking content lives in `/how-to-play` guides with `HowTo` + `FAQPage` JSON-LD. Play surfaces are
+  not SEO surfaces, and drawer copy doesn't count.
+- The opportunity is long-tail filter pages, not head terms (spec §6).

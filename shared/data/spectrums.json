@@ -1,0 +1,767 @@
+[
+  {
+    "id": "cold--hot",
+    "left": "Cold",
+    "right": "Hot"
+  },
+  {
+    "id": "overrated--underrated",
+    "left": "Overrated",
+    "right": "Underrated"
+  },
+  {
+    "id": "villain--hero",
+    "left": "Villain",
+    "right": "Hero"
+  },
+  {
+    "id": "useless--useful",
+    "left": "Useless",
+    "right": "Useful"
+  },
+  {
+    "id": "boring--exciting",
+    "left": "Boring",
+    "right": "Exciting"
+  },
+  {
+    "id": "cheap--expensive",
+    "left": "Cheap",
+    "right": "Expensive"
+  },
+  {
+    "id": "bad-smell--good-smell",
+    "left": "Bad smell",
+    "right": "Good smell"
+  },
+  {
+    "id": "easy-to-spell--hard-to-spell",
+    "left": "Easy to spell",
+    "right": "Hard to spell"
+  },
+  {
+    "id": "unhealthy-food--healthy-food",
+    "left": "Unhealthy food",
+    "right": "Healthy food"
+  },
+  {
+    "id": "soft--hard",
+    "left": "Soft",
+    "right": "Hard"
+  },
+  {
+    "id": "quiet--loud",
+    "left": "Quiet",
+    "right": "Loud"
+  },
+  {
+    "id": "rare--common",
+    "left": "Rare",
+    "right": "Common"
+  },
+  {
+    "id": "forgettable--unforgettable",
+    "left": "Forgettable",
+    "right": "Unforgettable"
+  },
+  {
+    "id": "ugly--beautiful",
+    "left": "Ugly",
+    "right": "Beautiful"
+  },
+  {
+    "id": "sad-song--happy-song",
+    "left": "Sad song",
+    "right": "Happy song"
+  },
+  {
+    "id": "bad-movie--good-movie",
+    "left": "Bad movie",
+    "right": "Good movie"
+  },
+  {
+    "id": "scary--comforting",
+    "left": "Scary",
+    "right": "Comforting"
+  },
+  {
+    "id": "old-fashioned--trendy",
+    "left": "Old-fashioned",
+    "right": "Trendy"
+  },
+  {
+    "id": "mild--spicy",
+    "left": "Mild",
+    "right": "Spicy"
+  },
+  {
+    "id": "sweet--savoury",
+    "left": "Sweet",
+    "right": "Savoury"
+  },
+  {
+    "id": "weak-superpower--strong-superpower",
+    "left": "Weak superpower",
+    "right": "Strong superpower"
+  },
+  {
+    "id": "bad-habit--good-habit",
+    "left": "Bad habit",
+    "right": "Good habit"
+  },
+  {
+    "id": "casual--formal",
+    "left": "Casual",
+    "right": "Formal"
+  },
+  {
+    "id": "fragile--durable",
+    "left": "Fragile",
+    "right": "Durable"
+  },
+  {
+    "id": "introvert--extrovert",
+    "left": "Introvert",
+    "right": "Extrovert"
+  },
+  {
+    "id": "normal-pet--weird-pet",
+    "left": "Normal pet",
+    "right": "Weird pet"
+  },
+  {
+    "id": "bad-gift--good-gift",
+    "left": "Bad gift",
+    "right": "Good gift"
+  },
+  {
+    "id": "lazy--hardworking",
+    "left": "Lazy",
+    "right": "Hardworking"
+  },
+  {
+    "id": "underdressed--overdressed",
+    "left": "Underdressed",
+    "right": "Overdressed"
+  },
+  {
+    "id": "tiny--huge",
+    "left": "Tiny",
+    "right": "Huge"
+  },
+  {
+    "id": "slow--fast",
+    "left": "Slow",
+    "right": "Fast"
+  },
+  {
+    "id": "fiction--non-fiction",
+    "left": "Fiction",
+    "right": "Non-fiction"
+  },
+  {
+    "id": "dirty--clean",
+    "left": "Dirty",
+    "right": "Clean"
+  },
+  {
+    "id": "low-effort--high-effort",
+    "left": "Low effort",
+    "right": "High effort"
+  },
+  {
+    "id": "mainstream--niche",
+    "left": "Mainstream",
+    "right": "Niche"
+  },
+  {
+    "id": "safe--dangerous",
+    "left": "Safe",
+    "right": "Dangerous"
+  },
+  {
+    "id": "rough--smooth",
+    "left": "Rough",
+    "right": "Smooth"
+  },
+  {
+    "id": "bad-advice--good-advice",
+    "left": "Bad advice",
+    "right": "Good advice"
+  },
+  {
+    "id": "sidekick--main-character",
+    "left": "Sidekick",
+    "right": "Main character"
+  },
+  {
+    "id": "childish--mature",
+    "left": "Childish",
+    "right": "Mature"
+  },
+  {
+    "id": "short-lived--timeless",
+    "left": "Short-lived",
+    "right": "Timeless"
+  },
+  {
+    "id": "easy-job--hard-job",
+    "left": "Easy job",
+    "right": "Hard job"
+  },
+  {
+    "id": "ordinary--iconic",
+    "left": "Ordinary",
+    "right": "Iconic"
+  },
+  {
+    "id": "bad-pizza-topping--good-pizza-topping",
+    "left": "Bad pizza topping",
+    "right": "Good pizza topping"
+  },
+  {
+    "id": "dry--wet",
+    "left": "Dry",
+    "right": "Wet"
+  },
+  {
+    "id": "dark--bright",
+    "left": "Dark",
+    "right": "Bright"
+  },
+  {
+    "id": "simple--complicated",
+    "left": "Simple",
+    "right": "Complicated"
+  },
+  {
+    "id": "free--priceless",
+    "left": "Free",
+    "right": "Priceless"
+  },
+  {
+    "id": "unpopular-opinion--popular-opinion",
+    "left": "Unpopular opinion",
+    "right": "Popular opinion"
+  },
+  {
+    "id": "calm--chaotic",
+    "left": "Calm",
+    "right": "Chaotic"
+  },
+  {
+    "id": "snack--meal",
+    "left": "Snack",
+    "right": "Meal"
+  },
+  {
+    "id": "sporty--nerdy",
+    "left": "Sporty",
+    "right": "Nerdy"
+  },
+  {
+    "id": "indoor--outdoor",
+    "left": "Indoor",
+    "right": "Outdoor"
+  },
+  {
+    "id": "light--heavy",
+    "left": "Light",
+    "right": "Heavy"
+  },
+  {
+    "id": "funny--serious",
+    "left": "Funny",
+    "right": "Serious"
+  },
+  {
+    "id": "bad-name-for-a-dog--good-name-for-a-dog",
+    "left": "Bad name for a dog",
+    "right": "Good name for a dog"
+  },
+  {
+    "id": "hated-chore--liked-chore",
+    "left": "Hated chore",
+    "right": "Liked chore"
+  },
+  {
+    "id": "bad-first-date--good-first-date",
+    "left": "Bad first date",
+    "right": "Good first date"
+  },
+  {
+    "id": "forgivable--unforgivable",
+    "left": "Forgivable",
+    "right": "Unforgivable"
+  },
+  {
+    "id": "basic--fancy",
+    "left": "Basic",
+    "right": "Fancy"
+  },
+  {
+    "id": "natural--artificial",
+    "left": "Natural",
+    "right": "Artificial"
+  },
+  {
+    "id": "harmless--deadly",
+    "left": "Harmless",
+    "right": "Deadly"
+  },
+  {
+    "id": "morning-thing--night-thing",
+    "left": "Morning thing",
+    "right": "Night thing"
+  },
+  {
+    "id": "easy-to-draw--hard-to-draw",
+    "left": "Easy to draw",
+    "right": "Hard to draw"
+  },
+  {
+    "id": "cheap-date--expensive-date",
+    "left": "Cheap date",
+    "right": "Expensive date"
+  },
+  {
+    "id": "bad-wedding-food--good-wedding-food",
+    "left": "Bad wedding food",
+    "right": "Good wedding food"
+  },
+  {
+    "id": "low-key--dramatic",
+    "left": "Low-key",
+    "right": "Dramatic"
+  },
+  {
+    "id": "unrealistic--realistic",
+    "left": "Unrealistic",
+    "right": "Realistic"
+  },
+  {
+    "id": "bad-superhero--good-superhero",
+    "left": "Bad superhero",
+    "right": "Good superhero"
+  },
+  {
+    "id": "tastes-bad--tastes-good",
+    "left": "Tastes bad",
+    "right": "Tastes good"
+  },
+  {
+    "id": "ancient--modern",
+    "left": "Ancient",
+    "right": "Modern"
+  },
+  {
+    "id": "peaceful--violent",
+    "left": "Peaceful",
+    "right": "Violent"
+  },
+  {
+    "id": "feels-short--feels-long",
+    "left": "Feels short",
+    "right": "Feels long"
+  },
+  {
+    "id": "throwaway--heirloom",
+    "left": "Throwaway",
+    "right": "Heirloom"
+  },
+  {
+    "id": "bad-tv-show--good-tv-show",
+    "left": "Bad TV show",
+    "right": "Good TV show"
+  },
+  {
+    "id": "mediocre--legendary",
+    "left": "Mediocre",
+    "right": "Legendary"
+  },
+  {
+    "id": "flexible--rigid",
+    "left": "Flexible",
+    "right": "Rigid"
+  },
+  {
+    "id": "optional--essential",
+    "left": "Optional",
+    "right": "Essential"
+  },
+  {
+    "id": "tame--wild",
+    "left": "Tame",
+    "right": "Wild"
+  },
+  {
+    "id": "easy-exam--hard-exam",
+    "left": "Easy exam",
+    "right": "Hard exam"
+  },
+  {
+    "id": "guilty-pleasure--proud-pleasure",
+    "left": "Guilty pleasure",
+    "right": "Proud pleasure"
+  },
+  {
+    "id": "bad-song-to-sing--good-song-to-sing",
+    "left": "Bad song to sing",
+    "right": "Good song to sing"
+  },
+  {
+    "id": "normal-phobia--weird-phobia",
+    "left": "Normal phobia",
+    "right": "Weird phobia"
+  },
+  {
+    "id": "bad-for-a-party--good-for-a-party",
+    "left": "Bad for a party",
+    "right": "Good for a party"
+  },
+  {
+    "id": "weird-to-collect--normal-to-collect",
+    "left": "Weird to collect",
+    "right": "Normal to collect"
+  },
+  {
+    "id": "comedy--tragedy",
+    "left": "Comedy",
+    "right": "Tragedy"
+  },
+  {
+    "id": "cringe--cool",
+    "left": "Cringe",
+    "right": "Cool"
+  },
+  {
+    "id": "gentle--brutal",
+    "left": "Gentle",
+    "right": "Brutal"
+  },
+  {
+    "id": "tidy--messy",
+    "left": "Tidy",
+    "right": "Messy"
+  },
+  {
+    "id": "bad-bollywood-song--good-bollywood-song",
+    "left": "Bad Bollywood song",
+    "right": "Good Bollywood song"
+  },
+  {
+    "id": "worst-cricketer--best-cricketer",
+    "left": "Worst cricketer",
+    "right": "Best cricketer"
+  },
+  {
+    "id": "sleepy--energetic",
+    "left": "Sleepy",
+    "right": "Energetic"
+  },
+  {
+    "id": "underpaid--overpaid",
+    "left": "Underpaid",
+    "right": "Overpaid"
+  },
+  {
+    "id": "smells-cheap--smells-rich",
+    "left": "Smells cheap",
+    "right": "Smells rich"
+  },
+  {
+    "id": "hidden-gem--tourist-trap",
+    "left": "Hidden gem",
+    "right": "Tourist trap"
+  },
+  {
+    "id": "bad-holiday--good-holiday",
+    "left": "Bad holiday",
+    "right": "Good holiday"
+  },
+  {
+    "id": "easy-to-cook--hard-to-cook",
+    "left": "Easy to cook",
+    "right": "Hard to cook"
+  },
+  {
+    "id": "sounds-fake--sounds-real",
+    "left": "Sounds fake",
+    "right": "Sounds real"
+  },
+  {
+    "id": "kid-s-food--adult-s-food",
+    "left": "Kid's food",
+    "right": "Adult's food"
+  },
+  {
+    "id": "unlucky--lucky",
+    "left": "Unlucky",
+    "right": "Lucky"
+  },
+  {
+    "id": "bad-invention--good-invention",
+    "left": "Bad invention",
+    "right": "Good invention"
+  },
+  {
+    "id": "harmless-lie--big-lie",
+    "left": "Harmless lie",
+    "right": "Big lie"
+  },
+  {
+    "id": "bad-villain--good-villain",
+    "left": "Bad villain",
+    "right": "Good villain"
+  },
+  {
+    "id": "rookie--expert",
+    "left": "Rookie",
+    "right": "Expert"
+  },
+  {
+    "id": "weak--strong",
+    "left": "Weak",
+    "right": "Strong"
+  },
+  {
+    "id": "trash--treasure",
+    "left": "Trash",
+    "right": "Treasure"
+  },
+  {
+    "id": "overcooked--undercooked",
+    "left": "Overcooked",
+    "right": "Undercooked"
+  },
+  {
+    "id": "boring-hobby--fun-hobby",
+    "left": "Boring hobby",
+    "right": "Fun hobby"
+  },
+  {
+    "id": "smart-animal--dumb-animal",
+    "left": "Smart animal",
+    "right": "Dumb animal"
+  },
+  {
+    "id": "thing-you-rent--thing-you-buy",
+    "left": "Thing you rent",
+    "right": "Thing you buy"
+  },
+  {
+    "id": "shy-animal--bold-animal",
+    "left": "Shy animal",
+    "right": "Bold animal"
+  },
+  {
+    "id": "bad-excuse--good-excuse",
+    "left": "Bad excuse",
+    "right": "Good excuse"
+  },
+  {
+    "id": "bad-breakfast--good-breakfast",
+    "left": "Bad breakfast",
+    "right": "Good breakfast"
+  },
+  {
+    "id": "bad-roommate--good-roommate",
+    "left": "Bad roommate",
+    "right": "Good roommate"
+  },
+  {
+    "id": "plain--patterned",
+    "left": "Plain",
+    "right": "Patterned"
+  },
+  {
+    "id": "ignorable--unmissable",
+    "left": "Ignorable",
+    "right": "Unmissable"
+  },
+  {
+    "id": "underrated-city--overrated-city",
+    "left": "Underrated city",
+    "right": "Overrated city"
+  },
+  {
+    "id": "bad-to-say-at-work--fine-to-say-at-work",
+    "left": "Bad to say at work",
+    "right": "Fine to say at work"
+  },
+  {
+    "id": "bad-sequel--good-sequel",
+    "left": "Bad sequel",
+    "right": "Good sequel"
+  },
+  {
+    "id": "bad-first-job--good-first-job",
+    "left": "Bad first job",
+    "right": "Good first job"
+  },
+  {
+    "id": "comfort-food--fancy-food",
+    "left": "Comfort food",
+    "right": "Fancy food"
+  },
+  {
+    "id": "hard-to-pronounce--easy-to-pronounce",
+    "left": "Hard to pronounce",
+    "right": "Easy to pronounce"
+  },
+  {
+    "id": "cute--creepy",
+    "left": "Cute",
+    "right": "Creepy"
+  },
+  {
+    "id": "normal-to-share--weird-to-share",
+    "left": "Normal to share",
+    "right": "Weird to share"
+  },
+  {
+    "id": "bad-app--good-app",
+    "left": "Bad app",
+    "right": "Good app"
+  },
+  {
+    "id": "unhealthy-habit--healthy-habit",
+    "left": "Unhealthy habit",
+    "right": "Healthy habit"
+  },
+  {
+    "id": "waste-of-money--worth-every-rupee",
+    "left": "Waste of money",
+    "right": "Worth every rupee"
+  },
+  {
+    "id": "stays-the-same--changes-a-lot",
+    "left": "Stays the same",
+    "right": "Changes a lot"
+  },
+  {
+    "id": "bad-song-to-dance-to--good-song-to-dance-to",
+    "left": "Bad song to dance to",
+    "right": "Good song to dance to"
+  },
+  {
+    "id": "mood-killer--mood-booster",
+    "left": "Mood killer",
+    "right": "Mood booster"
+  },
+  {
+    "id": "bad-wedding-gift--good-wedding-gift",
+    "left": "Bad wedding gift",
+    "right": "Good wedding gift"
+  },
+  {
+    "id": "bad-netflix-binge--good-netflix-binge",
+    "left": "Bad Netflix binge",
+    "right": "Good Netflix binge"
+  },
+  {
+    "id": "weird-ice-cream--normal-ice-cream",
+    "left": "Weird ice cream",
+    "right": "Normal ice cream"
+  },
+  {
+    "id": "easy-to-lose--hard-to-lose",
+    "left": "Easy to lose",
+    "right": "Hard to lose"
+  },
+  {
+    "id": "fashionable--unfashionable",
+    "left": "Fashionable",
+    "right": "Unfashionable"
+  },
+  {
+    "id": "bad-for-your-teeth--good-for-your-teeth",
+    "left": "Bad for your teeth",
+    "right": "Good for your teeth"
+  },
+  {
+    "id": "lovable--annoying",
+    "left": "Lovable",
+    "right": "Annoying"
+  },
+  {
+    "id": "nostalgic--futuristic",
+    "left": "Nostalgic",
+    "right": "Futuristic"
+  },
+  {
+    "id": "romantic--unromantic",
+    "left": "Romantic",
+    "right": "Unromantic"
+  },
+  {
+    "id": "cheap-thrill--expensive-thrill",
+    "left": "Cheap thrill",
+    "right": "Expensive thrill"
+  },
+  {
+    "id": "bad-karaoke-song--good-karaoke-song",
+    "left": "Bad karaoke song",
+    "right": "Good karaoke song"
+  },
+  {
+    "id": "mild-inconvenience--total-disaster",
+    "left": "Mild inconvenience",
+    "right": "Total disaster"
+  },
+  {
+    "id": "underground--famous",
+    "left": "Underground",
+    "right": "Famous"
+  },
+  {
+    "id": "bad-vibe--good-vibe",
+    "left": "Bad vibe",
+    "right": "Good vibe"
+  },
+  {
+    "id": "stressful--relaxing",
+    "left": "Stressful",
+    "right": "Relaxing"
+  },
+  {
+    "id": "common-sense--rocket-science",
+    "left": "Common sense",
+    "right": "Rocket science"
+  },
+  {
+    "id": "bad-party-trick--good-party-trick",
+    "left": "Bad party trick",
+    "right": "Good party trick"
+  },
+  {
+    "id": "boring-superpower--cool-superpower",
+    "left": "Boring superpower",
+    "right": "Cool superpower"
+  },
+  {
+    "id": "sour--sweet",
+    "left": "Sour",
+    "right": "Sweet"
+  },
+  {
+    "id": "messy-eater--clean-eater",
+    "left": "Messy eater",
+    "right": "Clean eater"
+  },
+  {
+    "id": "bad-ringtone--good-ringtone",
+    "left": "Bad ringtone",
+    "right": "Good ringtone"
+  },
+  {
+    "id": "wholesome--evil",
+    "left": "Wholesome",
+    "right": "Evil"
+  },
+  {
+    "id": "bad-tattoo--good-tattoo",
+    "left": "Bad tattoo",
+    "right": "Good tattoo"
+  }
+]

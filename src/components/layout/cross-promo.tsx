@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import { SITE } from "@/lib/site-config";
 
 /** One strip, in voice, never over a play surface. */
@@ -12,7 +13,7 @@ export function CrossPromo() {
     >
       <p className="mb-display-sm text-xl">Office Paglu</p>
       <p className="mt-1 text-xs font-semibold">
-        {SITE.sibling.pitch} Wear the joke to the party you just won. →
+        {SITE.sibling.pitch} Wear the joke to the party you just won. <ArrowRight className="inline size-[1em] align-[-0.125em]" strokeWidth={3} aria-hidden />
       </p>
     </a>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import { Chip } from "@/components/ui/controls";
 import { Input } from "@/components/ui/input";
 import { COUNTRIES } from "@/lib/deck/countries";
@@ -115,7 +116,7 @@ export function RangePicker({
               onChange={(e) => onChange(Number(e.target.value), max)}
             />
           </label>
-          <span className="font-extrabold">→</span>
+          <ArrowRight className="size-[1em] shrink-0" strokeWidth={3} aria-hidden />
           <label className="flex-1">
             <span className="sr-only">Maximum</span>
             <Input

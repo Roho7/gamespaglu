@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { AppBar } from "@/components/layout/app-bar";
 import { SideDrawer } from "@/components/layout/side-drawer";
 import { PhaseCountdown } from "@/components/girgit/phase-countdown";
@@ -145,7 +146,7 @@ export function RoomScreen({
                     href="/how-to-play/girgit"
                     className="block text-sm font-bold underline decoration-2"
                   >
-                    Full rules →
+                    Full rules <ArrowRight className="inline size-[1em] align-[-0.125em]" strokeWidth={3} aria-hidden />
                   </Link>
                 </SideDrawer>
 
@@ -375,7 +376,7 @@ export function RoomScreen({
                       <ul className="mb-caps space-y-0.5 text-[0.55rem] opacity-70">
                         {round.votes.map((v) => (
                           <li key={v.voterId}>
-                            {nameOf(v.voterId)} → {nameOf(v.targetId)}
+                            {nameOf(v.voterId)} <ArrowRight className="inline size-[1em] align-[-0.125em]" strokeWidth={3} aria-hidden /> {nameOf(v.targetId)}
                           </li>
                         ))}
                       </ul>

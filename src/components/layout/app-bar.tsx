@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { ScoreboardDrawer } from "@/components/scoreboard/scoreboard-drawer";
 import { cn } from "@/lib/utils";
 
@@ -45,7 +46,7 @@ export function AppBar({
             aria-label="Back"
             className="flex items-center px-4 py-2 text-base font-extrabold active:translate-y-[1px]"
           >
-            ←
+            <ArrowLeft className="size-[1em] shrink-0" strokeWidth={3} aria-hidden />
           </Link>
         ) : null}
 

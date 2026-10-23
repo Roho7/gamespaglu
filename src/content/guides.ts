@@ -254,6 +254,75 @@ export const GUIDES: Guide[] = [
       },
     ],
   },
+  {
+    slug: "wavelength",
+    title: "How to play Wavelength",
+    summary:
+      "One clue, one hidden target, one dial. Read your friends' minds on a spectrum between two ends. Two teams or all together, on one phone.",
+    emoji: "\ud83d\udce1",
+    palette: "miami",
+    players: "2 to 12",
+    time: "About two minutes a card",
+    needs: "One phone for the whole table",
+    status: "live",
+    playRoute: "/wavelength",
+    alsoCalled: ["Dial guessing game", "Spectrum game", "Mind reading party game"],
+    intro: [
+      "Wavelength is a guessing game about how alike your heads are. Every card names a spectrum between two ends, like Cold and Hot or Overrated and Underrated. Somewhere on that spectrum is a hidden target only one player, the Psychic, gets to see.",
+      "The Psychic says one clue out loud that they think sits exactly there. Their team argues about it and turns the dial. Then the target is revealed, and the closer the dial, the more points.",
+      "It needs one phone for the whole table and no signal at all. The phone is the dial, the shutter and the scorekeeper. The arguing is yours.",
+    ],
+    steps: [
+      {
+        title: "Pick a Psychic",
+        body: "One player takes the phone. Everyone else looks away. The Psychic holds the button to peek at where the target sits on the dial; letting go hides it again. If the card is hopeless, they can skip it before saying anything.",
+      },
+      {
+        title: "Say one clue",
+        body: "Out loud, the Psychic names one thing that sits where the target is. On Cold to Hot with the target just right of centre, \u201cchai\u201d works. No numbers, no pointing, no explaining the clue after it is out.",
+      },
+      {
+        title: "Turn the dial",
+        body: "The Psychic's team talks it over and drags the dial to where they think the clue lives. The Psychic keeps a straight face. When the team agrees, lock it in.",
+      },
+      {
+        title: "The other team calls left or right",
+        body: "With two teams, the other side now guesses whether the target is left or right of the dial. They get a point if they are right, unless the dial landed dead centre.",
+      },
+      {
+        title: "Reveal and score",
+        body: "The target appears. Dead centre scores 4, the bands either side 3, the next ones out 2, anything else nothing. Pass the phone to the other team's Psychic for the next card.",
+      },
+    ],
+    variations: [
+      {
+        title: "Catching up",
+        body: "If a team scores 4 while still behind, they go again straight away. It keeps a lopsided game alive.",
+      },
+      {
+        title: "Winning",
+        body: "First team to 10 wins. If both teams pass 10 on the same card, the higher score wins; a tie plays another card.",
+      },
+      {
+        title: "All together",
+        body: "For two or three players, or a table that would rather not compete. Everyone guesses together, the Psychic rotates each card, and after seven cards you get a total and a verdict on how in tune you all are.",
+      },
+    ],
+    faq: [
+      {
+        q: "Does everyone need a phone?",
+        a: "No. One phone does the whole game. Only the Psychic needs to see the target, and only while holding the button, so the phone just goes around the table.",
+      },
+      {
+        q: "Does it work offline?",
+        a: "Yes. Once the page has loaded it works with no signal at all, and the game survives a refresh or a locked screen.",
+      },
+      {
+        q: "What makes a good clue?",
+        a: "Something everyone at the table knows. A clue only works if your team pictures the same thing you do, so the most famous example usually beats the cleverest one.",
+      },
+    ],
+  },
 ];
 export function getGuide(slug: string) {
   return GUIDES.find((g) => g.slug === slug);

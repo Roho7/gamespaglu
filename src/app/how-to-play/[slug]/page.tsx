@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { AppBar } from "@/components/layout/app-bar";
 import { paletteById, paletteVars } from "@/lib/palettes";
 import { CrossPromo } from "@/components/layout/cross-promo";
@@ -110,7 +111,7 @@ export default async function GuidePage({
             href={guide.playRoute}
             className="mb-btn mb-btn-primary w-full text-xl"
           >
-            Play it now →
+            Play it now <ArrowRight className="size-[1em] shrink-0" strokeWidth={3} aria-hidden />
           </Link>
         ) : null}
 

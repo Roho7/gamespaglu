@@ -5,6 +5,7 @@ import { Starburst } from "@/components/artwork/starburst";
 import { Chip, IconButton, Panel } from "@/components/ui/controls";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
 import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
+import { WavelengthDial } from "@/components/wavelength/wavelength-dial";
 import { RotatePhoneHint } from "@/components/generator/rotate-phone-hint";
 import { VineMarquee } from "@/components/stitch/vine-marquee";
 import { Button } from "@/components/ui/button";
@@ -259,6 +260,29 @@ export default function StylePage() {
             Hold either one. The word and the Girgit line land in the same fixed
             slot, at the same size — so a neighbour watching someone press and
             hold learns nothing from the shape of what appears.
+          </p>
+        </Row>
+        <Row title="Wavelength — the dial. Covered, guessing, revealed">
+          <div className="grid gap-4 sm:grid-cols-3">
+            {(
+              [
+                ["miami", null, null],
+                ["miami", 38, null],
+                ["miami", 38, 44],
+              ] as const
+            ).map(([id, dial, target], i) => (
+              <div
+                key={i}
+                style={paletteVars(paletteById(id))}
+                className="mb-label p-4"
+              >
+                <WavelengthDial dial={dial} target={target} label="Cold to Hot" />
+              </div>
+            ))}
+          </div>
+          <p className="text-sm opacity-75">
+            A covered dial draws no wedge at all, so it looks the same for every
+            card and nothing about the target leaks before the reveal.
           </p>
         </Row>
       </main>
