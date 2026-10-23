@@ -24,7 +24,7 @@ export function Chip({
       className={cn(
         "inline-flex items-center gap-1.5 rounded-full border-[var(--rule-thin)] px-3 py-1.5 text-sm font-bold transition-transform active:translate-y-[1px]",
         active
-          ? "border-current bg-[var(--field)] text-[var(--ink-on-field)]"
+          ? "border-current bg-[var(--cw-base)] text-[var(--cw-shadow)]"
           : "border-current bg-transparent opacity-60",
         className,
       )}

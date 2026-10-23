@@ -37,7 +37,7 @@ export function PlayerTable({
     <ul
       className={cn(
         "overflow-hidden rounded-[var(--radius-lg)]",
-        "border-[length:var(--rule)] border-[color:var(--frame)]",
+        "border-[length:var(--rule)] border-[color:var(--cw-secondary)]",
         "bg-[var(--ground-soft)] text-[var(--ground-ink)]",
         "shadow-[0_5px_0_0_var(--shadow-ink)]",
       )}
@@ -60,7 +60,7 @@ export function PlayerTable({
               className={cn(
                 "flex w-full items-center justify-between gap-3 px-3 py-2.5 text-left",
                 selectable && "active:translate-y-[1px]",
-                selectedId === p.id && "bg-[var(--highlight)]",
+                selectedId === p.id && "bg-[var(--cw-primary)]",
               )}
             >
               <span className="flex items-baseline gap-1.5 text-sm font-extrabold">
@@ -68,8 +68,6 @@ export function PlayerTable({
                 {p.id === youId ? (
                   <span className="mb-caps text-[0.5rem] opacity-60">you</span>
                 ) : null}
-                {/* Away, never gone — it explains a blank row without ending
-                    anybody's game. */}
                 {!p.connected ? (
                   <span className="mb-caps text-[0.5rem] opacity-50">away</span>
                 ) : null}

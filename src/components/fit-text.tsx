@@ -71,7 +71,6 @@ export function FitText({
     if (!box || typeof ResizeObserver === "undefined") return;
     const ro = new ResizeObserver(fit);
     ro.observe(box);
-    // Webfonts land after first paint and change every measurement.
     void document.fonts?.ready.then(fit);
     return () => ro.disconnect();
   }, [fit]);

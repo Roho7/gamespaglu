@@ -12,8 +12,7 @@ import { Toast } from "@/components/girgit/toast";
 import { Chip } from "@/components/mb/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { colourwayVars } from "@/lib/colourways";
-import { roundColourway } from "@/lib/girgit/colourway";
+import { colourwayVars, roundColourway } from "@/lib/colors/colourways";
 import type { useRoom } from "@/lib/girgit/use-room";
 import { useOnline } from "@/lib/use-online";
 import {
@@ -162,8 +161,6 @@ export function RoomScreen({
                               const next = on
                                 ? state.packs.filter((p) => p !== pk.id)
                                 : [...state.packs, pk.id];
-                              // Never allow zero — an empty selection is an
-                              // empty deck, and the server refuses it anyway.
                               if (next.length === 0) {
                                 setToast("Keep at least one pack on.");
                                 return;
@@ -266,8 +263,6 @@ export function RoomScreen({
                   <h2 className="mb-display-sm text-2xl">{big}</h2>
                 </header>
 
-                {/* The vote is the one phase the board comes off: the decision
-                    is about people, and ten names must stay above the fold. */}
                 {phase !== "vote" ? (
                   <GirgitGrid
                     cells={round.cells}
@@ -276,9 +271,9 @@ export function RoomScreen({
                     onPick={
                       phase === "escape" && state.your?.isGirgit
                         ? (i) => {
-                            setToast(`Locked in: ${round.cells[i]}`);
-                            void act.escapeGuess(i);
-                          }
+                          setToast(`Locked in: ${round.cells[i]}`);
+                          void act.escapeGuess(i);
+                        }
                         : undefined
                     }
                   />
@@ -302,9 +297,9 @@ export function RoomScreen({
                   onSelect={
                     phase === "vote" && !hasVoted
                       ? (id) => {
-                          setToast(`Voted for ${nameOf(id)}`);
-                          void act.castVote(id);
-                        }
+                        setToast(`Voted for ${nameOf(id)}`);
+                        void act.castVote(id);
+                      }
                       : undefined
                   }
                   disabledIds={phase === "vote" ? [state.you] : []}
@@ -314,9 +309,6 @@ export function RoomScreen({
                       const n = round.voteCounts[p.id] ?? 0;
                       return (
                         <span className="flex items-baseline justify-end gap-3">
-                          {/* The clue stays on screen: it is the entire basis
-                              for the vote, and hiding it to make room for a
-                              tally made the decision guesswork. */}
                           <span className="truncate text-base font-extrabold">
                             {clueWord ?? "—"}
                           </span>
@@ -344,8 +336,6 @@ export function RoomScreen({
 
                 {phase === "reveal" && round.outcome !== "aborted" ? (
                   <div className="space-y-2 text-center">
-                    {/* The whole round hinges on this comparison, so it is
-                        stated rather than implied by two highlighted cells. */}
                     {round.escapeGuess !== null ? (
                       <p className="mb-display-sm text-lg">
                         {nameOf(round.girgitId)} guessed “{word(round.escapeGuess)}”.

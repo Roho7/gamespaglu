@@ -7,7 +7,7 @@ import { availableTypes } from "./entries";
 import { DEFAULT_COUNTRIES } from "./countries";
 import { ALL_TYPES } from "./celeb-types";
 import { primeAudio, revealHit, tick } from "./feedback";
-import { type Colourway, randomColourway } from "./colourways";
+import { type Colourway, randomColourway } from "./colors/colourways";
 import type { CategoryId, CountryKey, EraFilter, TypeKey } from "./types";
 
 export type Phase = "idle" | "countdown" | "reveal";
@@ -33,10 +33,7 @@ type Prefs = {
 const DEFAULT_PREFS: Prefs = {
   v: PREFS_VERSION,
   countries: [...DEFAULT_COUNTRIES],
-  // Everything on by default: a mixed deck makes "am I a real person?" the
-  // best opening question in the game.
   types: [...ALL_TYPES],
-  // Off. A group opts in; nobody gets Epstein by accident.
   spicy: false,
   era: "both",
   min: 1,
@@ -57,9 +54,6 @@ const DEFAULT_PREFS: Prefs = {
  */
 function migrate(stored: Partial<Prefs>): Prefs {
   if (stored.v === PREFS_VERSION) return { ...DEFAULT_PREFS, ...stored };
-  // Anything older: keep only what still means the same thing.
-  // `spicy` is deliberately not carried across: a new axis defaults to off, and
-  // DEFAULT_PREFS supplies it for v2 records that predate it.
   const { types, era, min, max } = stored;
   return {
     ...DEFAULT_PREFS,
@@ -85,8 +79,6 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
   const [count, setCount] = useState(COUNTDOWN_FROM);
   const [label, setLabel] = useState<string | null>(null);
   const [sub, setSub] = useState<string | undefined>();
-  // Null until the first draw, so the idle screen still wears the category's
-  // own colourway and the picker's wayfinding survives.
   const [colourway, setColourway] = useState<Colourway | null>(null);
   const lastColourwayId = useRef<string | undefined>(undefined);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -95,9 +87,6 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
     (next: Partial<Prefs>) => {
       const merged = { ...prefs, ...next };
 
-      // Changing era or country can strand a type selection with nothing behind
-      // it — Internet has no classic entries, for instance. Prune rather than
-      // let the deck empty out.
       if (category !== "number") {
         const offered = availableTypes(category, {
           countries: merged.countries,
@@ -150,13 +139,11 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
 
   const generate = useCallback(() => {
     clearTimers();
-    primeAudio(); // must happen inside the tap, or iOS stays silent
+    primeAudio();
 
     const result = pick();
     if (!result) return;
 
-    // Recolour at the start of the round, so the countdown already carries the
-    // new inks and the reveal lands on them.
     const next = randomColourway(lastColourwayId.current);
     lastColourwayId.current = next.id;
     setColourway(next);
@@ -181,7 +168,6 @@ export function useGenerator(category: CategoryId, opts?: { countdown?: boolean 
         }, i * 1000),
       );
     }
-    // Three seconds is the window to get the phone onto your forehead.
     timers.current.push(
       setTimeout(() => {
         setLabel(result.label);

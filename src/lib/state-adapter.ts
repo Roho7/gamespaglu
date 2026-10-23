@@ -25,17 +25,13 @@ export const localAdapter: StateAdapter = {
     if (typeof window === "undefined") return;
     try {
       window.localStorage.setItem(PREFIX + key, JSON.stringify(value));
-    } catch {
-      /* private mode, quota — losing a preference is not worth a crash */
-    }
+    } catch {}
   },
   remove(key: string) {
     if (typeof window === "undefined") return;
     try {
       window.localStorage.removeItem(PREFIX + key);
-    } catch {
-      /* ignore */
-    }
+    } catch {}
   },
 };
 

@@ -38,15 +38,11 @@ export function SecretHold({
         onPointerUp={release}
         onPointerCancel={release}
         onPointerLeave={release}
-        // A long press otherwise raises the OS text-selection menu, which
-        // covers the very thing you are holding the button to read.
         onContextMenu={(e) => e.preventDefault()}
       >
         {held ? "Let go" : "Hold to see your word"}
       </button>
 
-      {/* Fixed height whether it shows a word, the Girgit line, or nothing, so
-          the layout never twitches and gives away that anything happened. */}
       <p
         aria-live="polite"
         className="mb-display-sm flex min-h-9 items-center justify-center text-center text-lg"

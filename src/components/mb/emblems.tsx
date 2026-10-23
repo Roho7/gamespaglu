@@ -14,7 +14,6 @@ import { cn } from "@/lib/utils";
 type Shapes = (main: string, detail: string) => React.ReactNode;
 
 const SHAPES: Record<CategoryId, Shapes> = {
-  // Sunglasses.
   celebrity: (main, detail) => (
     <>
       <rect x="10" y="42" width="44" height="34" rx="10" fill={main} />
@@ -26,7 +25,6 @@ const SHAPES: Record<CategoryId, Shapes> = {
       <path d="M110 46 L118 36 L112 33 L106 43 Z" fill={main} />
     </>
   ),
-  // Clapperboard.
   movie: (main, detail) => (
     <>
       <rect x="12" y="46" width="96" height="52" rx="6" fill={main} />
@@ -41,7 +39,6 @@ const SHAPES: Record<CategoryId, Shapes> = {
       <rect x="24" y="74" width="52" height="7" rx="3" fill={detail} />
     </>
   ),
-  // Globe.
   place: (main, detail) => (
     <>
       <circle cx="60" cy="60" r="46" fill={main} />
@@ -59,7 +56,6 @@ const SHAPES: Record<CategoryId, Shapes> = {
       <path d="M60 14 V106" stroke={detail} strokeWidth="5" />
     </>
   ),
-  // Elephant.
   animal: (main, detail) => (
     <>
       <ellipse cx="52" cy="58" rx="34" ry="26" fill={main} />
@@ -75,7 +71,6 @@ const SHAPES: Record<CategoryId, Shapes> = {
       <path d="M20 50 q-12 -4 -14 6 q10 4 14 0 Z" fill={main} />
     </>
   ),
-  // Pressure cooker.
   object: (main, detail) => (
     <>
       <path
@@ -89,7 +84,6 @@ const SHAPES: Record<CategoryId, Shapes> = {
       <rect x="34" y="60" width="34" height="6" rx="3" fill={detail} />
     </>
   ),
-  // Die, five pips.
   number: (main, detail) => (
     <>
       <rect x="16" y="16" width="88" height="88" rx="16" fill={main} />
@@ -119,11 +113,11 @@ export function Emblem({
     >
       <g transform="translate(5,5)">
         {shapes(
-          "var(--shadow-text, var(--shadow-ink))",
-          "var(--shadow-text, var(--shadow-ink))",
+          "var(--cw-highlight, var(--shadow-ink))",
+          "var(--cw-highlight, var(--shadow-ink))",
         )}
       </g>
-      <g>{shapes("var(--ink-on-field)", "var(--field)")}</g>
+      <g>{shapes("var(--cw-shadow)", "var(--cw-base)")}</g>
     </svg>
   );
 }

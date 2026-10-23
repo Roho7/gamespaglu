@@ -30,9 +30,7 @@ export function useWakeLock(active: boolean) {
           return;
         }
         sentinel = s;
-      } catch {
-        /* denied or unsupported — nothing to do */
-      }
+      } catch {}
     };
 
     const onVisibility = () => {

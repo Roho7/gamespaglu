@@ -17,7 +17,7 @@ import { Marquee } from "@/components/mb/marquee";
 import { RotateHint } from "@/components/mb/rotate-hint";
 import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/lib/categories";
-import { colourwayById, colourwayVars } from "@/lib/colourways";
+import { colourwayById, colourwayVars } from "@/lib/colors/colourways";
 import { clampRange } from "@/lib/draw";
 import { availableCountries, availableTypes, hasSpicy } from "@/lib/entries";
 import { useGenerator } from "@/lib/use-generator";
@@ -48,11 +48,8 @@ export function GeneratorScreen({
   const isGame = mode === "game";
   const g = useGenerator(category, { countdown: isGame });
 
-  // A phone on a forehead receives no touches; hold the screen awake from the
-  // countdown onward so it never sleeps mid-round.
   useWakeLock(isGame && g.phase !== "idle");
 
-  // Category colourway until the first draw, then a fresh one each time.
   const colourway = g.colourway ?? colourwayById(meta.colourway);
 
   return (
@@ -189,8 +186,6 @@ export function GeneratorScreen({
             }
           />
 
-          {/* The stage: sticker, countdown, or the drawn word. One marquee.
-              pt clears the floating pill. */}
           <div className="relative min-h-0 flex-1 pt-14">
             {g.phase === "countdown" ? (
               <>
@@ -213,10 +208,8 @@ export function GeneratorScreen({
             ) : (
               <>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  {/* The one marquee on this screen, and only ever behind
-                      artwork — never behind type. */}
                   <div className="relative flex h-[min(74vw,38vh)] w-[min(74vw,38vh)] items-center justify-center">
-                    <Marquee className="absolute inset-0 text-[var(--highlight)]" />
+                    <Marquee className="absolute inset-0 text-[var(--cw-primary)]" />
                     <Sticker
                       category={category}
                       className="relative z-10 h-3/5 w-3/5"
@@ -237,7 +230,6 @@ export function GeneratorScreen({
           ) : null}
         </div>
 
-        {/* The black band, as on the reference label. */}
         <div className="mb-band flex-col gap-1.5 px-4 py-3">
           {g.hydrated && g.poolSize === 0 ? (
             <p className="text-center text-xs font-semibold">

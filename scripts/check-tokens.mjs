@@ -14,7 +14,7 @@ import { join } from "node:path";
 
 const ROOTS = ["src/components", "src/app", "src/content"];
 const ALLOWED = new Set([
-  "src/lib/colourways.ts",
+  "src/lib/colors/colourways.ts",
   "src/app/globals.css",
   // Emblems reference token vars only; icons/manifest need literal brand hex.
   "src/app/manifest.ts",
@@ -42,13 +42,14 @@ const css = readFileSync("src/app/globals.css", "utf8");
 const DEFINED = new Set([
   ...[...css.matchAll(/(--[a-z0-9-]+)\s*:/g)].map((m) => m[1]),
   // Set at runtime by colourwayVars(), and by base-ui's drawer internals.
-  "--shadow-text",
+  "--cw-highlight",
   "--btn-field",
   "--btn-rule",
   "--btn-ink",
   "--btn-dots",
   "--drawer-content-height",
   "--drawer-content-width",
+  "--stitch",
 ]);
 const RUNTIME_PREFIXES = [
   "--drawer-",
@@ -90,6 +91,6 @@ for (const root of ROOTS) {
 console.log(
   bad === 0
     ? "No raw colours and no undefined tokens in components."
-    : `\n${bad} raw colour${bad === 1 ? "" : "s"} found. Use colourway tokens (--field, --frame, --ink-on-field, --highlight) or page tokens (--ground, --band).`,
+    : `\n${bad} raw colour${bad === 1 ? "" : "s"} found. Use palette tokens (--cw-base, --cw-highlight, --cw-secondary, --cw-primary, --cw-shadow) or page tokens (--ground, --band).`,
 );
 process.exit(bad === 0 ? 0 : 1);

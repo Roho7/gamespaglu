@@ -8,10 +8,13 @@ import { CelebFilterDemo } from "@/components/game/celeb-filter-demo";
 import { GirgitGrid } from "@/components/girgit/grid";
 import { SecretHold } from "@/components/girgit/secret-hold";
 import { RotateHint } from "@/components/mb/rotate-hint";
+import { VineBorder } from "@/components/mb/vine-border";
+import { VineMarquee } from "@/components/mb/vine-marquee";
 import { Button } from "@/components/ui/button";
+import { StitchBorder } from "@/components/game/stitch-border";
 import { Input } from "@/components/ui/input";
 import { CATEGORY_LIST } from "@/lib/categories";
-import { COLOURWAYS, colourwayVars } from "@/lib/colourways";
+import { COLOURWAYS, colourwayVars } from "@/lib/colors/colourways";
 
 /**
  * The living style guide, and the contract every screen is built against.
@@ -64,11 +67,12 @@ export default function StylePage() {
       <AppBar back="/" title={<span className="mb-display-sm text-lg">Style</span>} />
       <main className="mx-auto w-full max-w-3xl flex-1 space-y-10 px-4 pt-20 pb-16">
         <p className="text-sm font-medium opacity-75">
-          Indian matchbox system. Every colour here comes from four colourway
-          tokens — <code>--field</code>, <code>--frame</code>,{" "}
-          <code>--ink-on-field</code>, <code>--highlight</code>. Components never
-          name a colour; <code>npm run check:tokens</code> enforces it and{" "}
-          <code>npm run check:contrast</code> proves each colourway is readable.
+          Muted print system. Every colour here comes from five palette tokens
+          — <code>--cw-base</code>, <code>--cw-highlight</code>,{" "}
+          <code>--cw-secondary</code>, <code>--cw-primary</code>,{" "}
+          <code>--cw-shadow</code>. Components never name a colour;{" "}
+          <code>npm run check:tokens</code> enforces it and{" "}
+          <code>npm run check:contrast</code> proves each palette is readable.
         </p>
 
         <Row title="Colourways">
@@ -84,9 +88,9 @@ export default function StylePage() {
                   {cw.id}
                 </p>
                 <div className="mt-3 flex gap-1.5">
-                  <span className="size-5 rounded-full border-[var(--rule-thin)] border-current bg-[var(--frame)]" />
-                  <span className="size-5 rounded-full border-[var(--rule-thin)] border-current bg-[var(--highlight)]" />
-                  <span className="size-5 rounded-full border-[var(--rule-thin)] border-current bg-[var(--ink-on-field)]" />
+                  <span className="size-5 rounded-full border-[var(--rule-thin)] border-current bg-[var(--cw-secondary)]" />
+                  <span className="size-5 rounded-full border-[var(--rule-thin)] border-current bg-[var(--cw-primary)]" />
+                  <span className="size-5 rounded-full border-[var(--rule-thin)] border-current bg-[var(--cw-shadow)]" />
                 </div>
               </div>
             ))}
@@ -157,8 +161,35 @@ export default function StylePage() {
 
         <Row title="Marquee — one per screen, behind the hero only">
           <div className="mb-frame relative flex h-48 items-center justify-center rounded-[var(--radius-lg)]">
-            <Marquee className="absolute size-40 text-[var(--highlight)]" />
+            <Marquee className="absolute size-40 text-[var(--cw-primary)]" />
             <span className="mb-display relative text-4xl">Hero</span>
+          </div>
+        </Row>
+
+        <Row title="Vine border — stacks or chains, blooms on mount">
+          <div className="mb-frame flex items-start gap-4 rounded-[var(--radius-lg)] p-4 text-[var(--cw-primary)]">
+            <div className="w-8 shrink-0">
+              <VineBorder bloom />
+              <VineBorder bloom />
+            </div>
+            <div className="flex h-12 min-w-0 overflow-hidden">
+              <VineBorder orientation="horizontal" bloom />
+              <VineBorder orientation="horizontal" bloom />
+            </div>
+          </div>
+        </Row>
+
+        <Row title="Vine marquee — either direction, blooms in and out at the edges">
+          <div className="mb-frame space-y-3 rounded-[var(--radius-lg)] p-4 text-[var(--cw-primary)]">
+            <VineMarquee className="h-12" />
+            <VineMarquee direction="right" className="h-12" />
+          </div>
+        </Row>
+
+        <Row title="Stitch border — frames a band or panel, follows its ink">
+          <div className="mb-band relative h-28 rounded-[var(--radius-lg)] px-4 font-extrabold">
+            <StitchBorder className="inset-3" />
+            Framed band
           </div>
         </Row>
 
@@ -235,7 +266,7 @@ export default function StylePage() {
               band={<Button size="hero" className="max-w-xs">Generate</Button>}
             >
               <div className="relative flex h-full flex-col items-center justify-center gap-2">
-                <Marquee className="absolute size-44 text-[var(--highlight)]" />
+                <Marquee className="absolute size-44 text-[var(--cw-primary)]" />
                 <span className="mb-display relative text-5xl">67</span>
               </div>
             </Label>
@@ -246,7 +277,7 @@ export default function StylePage() {
               band={<RotateHint />}
             >
               <div className="relative flex h-full items-center justify-center">
-                <Marquee className="absolute size-44 text-[var(--highlight)]" />
+                <Marquee className="absolute size-44 text-[var(--cw-primary)]" />
                 <Emblem category="animal" className="relative size-28" />
               </div>
             </Label>

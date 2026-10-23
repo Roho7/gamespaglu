@@ -1,4 +1,4 @@
-import { colourwayById, colourwayVars } from "@/lib/colourways";
+import { colourwayById, colourwayVars } from "@/lib/colors/colourways";
 import { cn } from "@/lib/utils";
 
 /**

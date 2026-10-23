@@ -47,8 +47,6 @@ function deviceId(): string {
 export type RoomStatus = "idle" | "connecting" | "in-room" | "error";
 
 export function useRoom() {
-  // The last room this device sat in. This is what makes closing the app and
-  // coming back work at all — without it, a reload is a stranger.
   const [lastCode, setLastCode] = usePersisted<string>("girgit:room", "");
   const hydrated = useHydrated();
 
@@ -56,9 +54,6 @@ export function useRoom() {
   const [status, setStatus] = useState<RoomStatus>("idle");
   const [error, setError] = useState<Err | null>(null);
   const socketRef = useRef<GirgitSocket | null>(null);
-  // Mirrored into a ref so the resume effect can read the current status
-  // without depending on it — depending on it would tear the socket down and
-  // rebuild it every time the status changed.
   const statusRef = useRef<RoomStatus>("idle");
 
   const socket = useCallback((): GirgitSocket => {
@@ -167,9 +162,6 @@ export function useRoom() {
     if (!hydrated || !lastCode) return;
     const s = socket();
     const resume = () => {
-      // Joining already put us in the room. Re-announcing "connecting" here
-      // flashed "Reconnecting…" across the band the instant anybody joined,
-      // which reads as a fault rather than a successful join.
       if (statusRef.current !== "in-room") setStatus("connecting");
       s.emit(
         "room:resume",
@@ -179,7 +171,6 @@ export function useRoom() {
             setStatus("in-room");
             setError(null);
           } else {
-            // The seat is genuinely gone — say so rather than hanging.
             setLastCode("");
             setStatus("idle");
             setError(r.error);
@@ -188,7 +179,6 @@ export function useRoom() {
       );
     };
     if (s.connected && statusRef.current !== "in-room") resume();
-    // A genuine reconnect always resumes, whatever the status was.
     s.on("connect", resume);
     return () => {
       s.off("connect", resume);

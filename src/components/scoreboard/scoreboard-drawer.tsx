@@ -27,9 +27,6 @@ export function ScoreboardDrawer() {
         <span aria-hidden>🏆</span>
         Score
       </DrawerTrigger>
-      {/* base-ui drives the sheet height from --drawer-content-height, so a
-          height class alone is ignored. Opaque ground: a translucent sheet over
-          a saturated label is unreadable. */}
       <DrawerContent
         className="mx-auto flex w-full max-w-2xl flex-col rounded-t-[var(--radius-2xl)] border-[var(--rule)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)]"
         style={{ ["--drawer-content-height" as string]: "86vh" }}

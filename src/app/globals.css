@@ -21,13 +21,6 @@
   --font-display: var(--font-body);
   --font-heading: var(--font-body);
 
-  /* Colourway roles — set per scope, never global. */
-  --color-field: var(--field);
-  --color-frame: var(--frame);
-  --color-ink-on-field: var(--ink-on-field);
-  --color-highlight: var(--highlight);
-
-  /* Page furniture. */
   --color-ground: var(--ground);
   --color-ground-ink: var(--ground-ink);
   --color-ground-soft: var(--ground-soft);
@@ -40,15 +33,15 @@
   --color-card-foreground: var(--ground-ink);
   --color-popover: var(--ground-soft);
   --color-popover-foreground: var(--ground-ink);
-  --color-primary: var(--field);
-  --color-primary-foreground: var(--ink-on-field);
+  --color-primary: var(--cw-shadow);
+  --color-primary-foreground: var(--cw-base);
   --color-secondary: var(--ground-soft);
   --color-secondary-foreground: var(--ground-ink);
   --color-muted: var(--ground-soft);
   --color-muted-foreground: var(--ground-muted);
-  --color-accent: var(--highlight);
-  --color-accent-foreground: var(--shadow-ink);
-  --color-destructive: var(--field);
+  --color-accent: var(--cw-highlight);
+  --color-accent-foreground: var(--cw-shadow);
+  --color-destructive: var(--cw-primary);
   --color-border: var(--ground-ink);
   --color-input: var(--ground-ink);
   --color-ring: var(--ground-ink);
@@ -61,7 +54,6 @@
 }
 
 :root {
-  /* Kraft board: the box the label is pasted onto. */
   --ground: #d9c49b;
   --ground-soft: #e8d8b6;
   --ground-ink: #2a1c0e;
@@ -71,16 +63,14 @@
   --band-ink: #fff8e7;
   --shadow-ink: #17110c;
 
-  /* Default colourway, overridden per scope. */
-  --field: #c6202a;
-  --frame: #f5c518;
-  --ink-on-field: #fff8e7;
-  --highlight: #f5c518;
+  --cw-base: #e1ca96;
+  --cw-highlight: #aca885;
+  --cw-secondary: #918b76;
+  --cw-primary: #626c66;
+  --cw-shadow: #434a42;
 
   --radius: 16px;
 
-  /* Recipe constants, so every instance matches. */
-  /* Overlay behind drawers and dialogs. */
   --scrim: rgb(23 17 12 / 0.6);
 
   --rule: 3px;
@@ -114,7 +104,6 @@
     color: var(--ground-ink);
     overscroll-behavior-y: none;
   }
-  /* Ink on pulp. Sits above flat fills, under content. */
   body::before {
     content: "";
     position: fixed;
@@ -133,63 +122,43 @@
 }
 
 @layer components {
-  /* ---- Text ------------------------------------------------- */
 
-  /* The single most matchbox move: heavy type, hard offset shadow. */
   .mb-display {
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 0.92;
     text-shadow: var(--shadow-offset) var(--shadow-offset) 0
-      var(--shadow-text, var(--shadow-ink));
+      var(--cw-highlight, var(--shadow-ink));
   }
-  /* No shadow: this is for headings on kraft. Add .mb-shadow when it sits on
-     a field. */
   .mb-display-sm {
     font-weight: 800;
     letter-spacing: -0.02em;
     line-height: 1;
   }
   .mb-shadow {
-    text-shadow: 2px 2px 0 var(--shadow-text, var(--shadow-ink));
+    text-shadow: 2px 2px 0 var(--cw-highlight, var(--shadow-ink));
   }
-  /* Tracked-out caption, as on every real label. Highlight ink is allowed
-     here only because it is small-caps bold; never for body copy. */
   .mb-caps {
     text-transform: uppercase;
     letter-spacing: 0.16em;
     font-weight: 700;
   }
 
-  /* ---- The frame recipe ------------------------------------- */
-
-  /* Outer rule in the frame ink, plus a dotted inner rule inset from it.
-     The dotted line is a pseudo-element so it follows any radius cleanly
-     instead of being distorted by a second border. */
   .mb-frame {
     position: relative;
-    border: var(--rule) solid var(--frame);
-    background-color: var(--field);
-    color: var(--ink-on-field);
+    border: var(--rule) solid var(--cw-secondary);
+    background-color: var(--cw-base);
+    color: var(--cw-shadow);
   }
-  /* The dotted rule needs its own radius, not the host's: inheriting meant a
-     square dotted rectangle inside a rounded card whenever the frame itself was
-     square-cornered, and an over-tight curve when it wasn't. Subtracting the
-     inset is what keeps the two curves concentric. Override --dot-radius for
-     pills. */
   .mb-frame::after {
     content: "";
     position: absolute;
     inset: var(--dot-inset);
-    border: var(--rule-thin) dashed var(--frame);
+    border: var(--rule-thin) dashed var(--cw-secondary);
     border-radius: var(--dot-radius, calc(var(--radius-lg) - var(--dot-inset)));
     pointer-events: none;
   }
 
-  /* ---- Buttons ---------------------------------------------- */
-
-  /* One structure for every button — outer rule, field, dotted inner.
-     Hierarchy is carried entirely by palette, so it survives greyscale. */
   .mb-btn {
     position: relative;
     display: inline-flex;
@@ -208,14 +177,7 @@
       filter 90ms cubic-bezier(0.2, 0, 0, 1);
     user-select: none;
   }
-  .mb-btn::after {
-    content: "";
-    position: absolute;
-    inset: 5px;
-    border: var(--rule-thin) dashed var(--btn-dots);
-    border-radius: 9999px;
-    pointer-events: none;
-  }
+  
   .mb-btn:active:not(:disabled) {
     transform: translateY(2px) scale(0.99);
   }
@@ -228,23 +190,18 @@
     opacity: 0.4;
   }
 
-  /* Loudest: the field itself. */
   .mb-btn-primary {
-    --btn-field: var(--field);
-    --btn-rule: var(--frame);
-    --btn-dots: var(--frame);
-    --btn-ink: var(--ink-on-field);
+    --btn-field: var(--cw-base);
+    --btn-rule: var(--cw-secondary);
+    --btn-dots: var(--cw-secondary);
+    --btn-ink: var(--cw-shadow);
   }
-  /* Same structure, far less ink, so it recedes. Uses the PAGE ink rather
-     than the colourway field: the colourway red was unreadable once the home
-     ground went navy. */
   .mb-btn-secondary {
     --btn-field: var(--ground-soft);
     --btn-rule: var(--ground-ink);
     --btn-dots: var(--ground-ink);
     --btn-ink: var(--ground-ink);
   }
-  /* Quietest: no field at all. */
   .mb-btn-tertiary {
     --btn-field: transparent;
     --btn-rule: currentColor;
@@ -252,12 +209,10 @@
     --btn-ink: inherit;
   }
 
-  /* Opt out of the dotted inner rule — too busy on small pill controls. */
   .mb-no-dots::after {
     display: none;
   }
 
-  /* Small round control, same recipe minus the dots (too dense at this size). */
   .mb-icon-btn {
     display: inline-flex;
     align-items: center;
@@ -275,19 +230,15 @@
     transform: translateY(2px) scale(0.98);
   }
 
-  /* ---- The label ------------------------------------------- */
-
-  /* A whole matchbox label: outer frame, field, and a black band at the
-     bottom for the primary action. */
   .mb-label {
     position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     border-radius: var(--radius-lg);
-    border: var(--rule) solid var(--frame);
-    background-color: var(--field);
-    color: var(--ink-on-field);
+    border: var(--rule) solid var(--cw-secondary);
+    background-color: var(--cw-base);
+    color: var(--cw-shadow);
     box-shadow: 0 6px 0 0 var(--shadow-ink);
   }
   .mb-label-field {
@@ -295,20 +246,34 @@
     flex: 1 1 auto;
     min-height: 0;
     margin: 6px;
-    border: var(--rule-thin) solid var(--frame);
-    border-radius: calc(var(--radius-lg) - 6px);
   }
   .mb-band {
-    background-color: var(--band);
-    color: var(--band-ink);
+    background-color: var(--cw-shadow);
+    color: var(--cw-base);
     display: flex;
     align-items: center;
     justify-content: center;
   }
+  .mb-band-link {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    user-select: none;
+  }
+  .mb-band-link:focus-visible,
+  .mb-band-link:active {
+    background-color: var(--cw-base);
+    color: var(--cw-shadow);
+  }
+  .mb-band-link:focus-visible {
+    outline: none;
+  }
+  @media (hover: hover) {
+    .mb-band-link:hover {
+      background-color: var(--cw-base);
+      color: var(--cw-shadow);
+    }
+  }
 
-  /* Full-bleed variant for the play screen: the label IS the viewport, so no
-     outer rule, no radius, no ground showing at the edges. The inset rule
-     alone carries the matchbox double-line. */
   .mb-label-bleed {
     border: 0;
     border-radius: 0;
@@ -319,7 +284,6 @@
     border-radius: 4px;
   }
 
-  /* Placed by hand, not laid out by a machine. */
   .mb-tilt {
     transform: rotate(-0.4deg);
   }
@@ -396,11 +360,31 @@
   animation: mb-rotate-hint 2.4s ease-in-out infinite;
 }
 
+/* A stitch landing, at stop-motion frame rate: hidden, half-size for one
+   frame, then full. steps(1) holds each keyframe, so nothing tweens. The
+   delay counts out whole frames from the stitch's --step. */
+@keyframes mb-stitch {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-stitch {
+  --stitch-frame: 110ms;
+  animation: mb-stitch calc(var(--stitch-frame) * 2) steps(1, end) both;
+  animation-delay: calc(var(--stitch-frame) * var(--step));
+}
+
 .rail {
   display: flex;
-  /* overflow-x: auto also clips vertically, which cropped the cards' bottom
-     shadow — so the rail carries the room for it. */
-  padding-bottom: 10px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -418,6 +402,7 @@
   .animate-punch,
   .animate-stamp,
   .animate-rotate-hint,
+  .animate-stitch,
   .animate-bob {
     animation: none;
   }

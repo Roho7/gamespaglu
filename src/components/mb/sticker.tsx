@@ -37,8 +37,6 @@ export function Sticker({
   }
 
   return (
-    // Animated GIF served from our own public/ directory: next/image would
-    // neither optimise it nor preserve the animation, so a plain img is right.
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={sticker.src}
@@ -46,7 +44,7 @@ export function Sticker({
       aria-hidden
       onError={() => setFailed(true)}
       className={cn(
-        "object-contain drop-shadow-[5px_5px_0_var(--shadow-text,var(--shadow-ink))]",
+        "object-contain drop-shadow-[5px_5px_0_var(--cw-highlight,var(--shadow-ink))]",
         className,
       )}
     />

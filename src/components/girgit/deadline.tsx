@@ -33,7 +33,6 @@ export function Deadline({
   const msLeft = Math.max(0, deadlineAt - now);
   const seconds = Math.ceil(msLeft / 1000);
   const fraction = Math.max(0, Math.min(1, msLeft / (totalSeconds * 1000)));
-  // Ten seconds is where people start actually hurrying.
   const urgent = msLeft <= 10_000;
 
   return (
@@ -43,7 +42,7 @@ export function Deadline({
         <span
           className={cn(
             "mb-display-sm tabular-nums transition-transform",
-            urgent ? "scale-110 text-[var(--highlight)] text-xl" : "text-base",
+            urgent ? "scale-110 text-[var(--cw-primary)] text-xl" : "text-base",
           )}
         >
           {seconds}s
@@ -53,7 +52,7 @@ export function Deadline({
         <div
           className={cn(
             "h-full rounded-full transition-[width] duration-200 ease-linear",
-            urgent ? "bg-[var(--highlight)]" : "bg-current",
+            urgent ? "bg-[var(--cw-primary)]" : "bg-current",
           )}
           style={{ width: `${fraction * 100}%` }}
         />

@@ -20,7 +20,6 @@ export function RegionPicker({
 }) {
   const toggleCountry = (key: CountryKey) => {
     const on = countries.includes(key);
-    // Never allow zero selected — an empty pool is a dead end, not a state.
     if (on && countries.length === 1) return;
     onCountries(on ? countries.filter((c) => c !== key) : [...countries, key]);
   };
@@ -158,7 +157,6 @@ export function TypePicker({
       return;
     }
     const on = types.includes(key);
-    // Never allow zero selected — an empty pool is a dead end, not a state.
     if (on && types.length === 1) return;
     onTypes(on ? types.filter((t) => t !== key) : [...types, key]);
   };

@@ -53,17 +53,13 @@ function tone(freq: number, durationMs: number, gain: number) {
     osc.connect(amp).connect(ctx.destination);
     osc.start(now);
     osc.stop(now + durationMs / 1000 + 0.02);
-  } catch {
-    /* audio is a nice-to-have, never a failure */
-  }
+  } catch {}
 }
 
 function buzz(pattern: number | number[]) {
   try {
     navigator.vibrate?.(pattern);
-  } catch {
-    /* ignore */
-  }
+  } catch {}
 }
 
 export function tick() {

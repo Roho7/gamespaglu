@@ -39,7 +39,6 @@ export const GAMES: GameManifest[] = [
     emoji: "🦎",
     accentVar: "--cat-place",
     minPlayers: 4,
-    // The first one. Rooms are no longer hypothetical.
     needsRoom: true,
     status: "live",
   },

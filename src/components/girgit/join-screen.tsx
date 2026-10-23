@@ -44,9 +44,6 @@ export function JoinScreen({
           </p>
         </div>
 
-        {/* Girgit is the one thing on this site that needs a connection.
-            Everything else works with no signal, so saying so plainly beats a
-            button that silently does nothing. */}
         {!online ? (
           <Panel className="space-y-1">
             <p className="text-sm font-bold">No signal.</p>

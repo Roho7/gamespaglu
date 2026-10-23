@@ -19,6 +19,13 @@ npx tsc --noEmit && npx eslint src --max-warnings=0 && npx next build
 
 ---
 
+## Code style
+
+- **No inline comments.** Code says what it does; don't add `//`, `/* */` or JSX
+  `{/* */}` comments. Doc comments (`/** */`) on exported declarations and
+  tool directives (`eslint-disable`, `@ts-`, `check-tokens-ignore`) are the only
+  exceptions.
+
 ## UX rules — these were learned the hard way, do not relearn them
 
 These are not style preferences. Each one is a mistake that shipped in this repo and had to be
@@ -120,39 +127,37 @@ the fold, cream-on-yellow in dark mode — were all invisible in the code and ob
 
 ---
 
-## The design system — Indian matchbox
+## The design system — muted print
 
-The whole visual system is four colourway tokens plus a handful of recipes in
-`@layer components`. Get this right and everything stays consistent for free.
+### Direction (redesign, Oct 2026)
+
+- **Muted, not matchbox.** Each category gets one soft five-ink ramp (peach to
+  charcoal, sage, rose, dusk, moss, clay, plum). No saturated spot inks.
+- **The picture carries the screen.** Home cards are a full-bleed dithered photo
+  in the category's palette, the vine marquee on top, and the band below. No
+  centre title; the band names the game.
+- Older matchbox rules below still apply where they don't contradict this.
 
 ### Colour
 
-- **A colourway is the unit, not a colour.** `src/lib/colourways.ts` holds ~10
-  approved sets of `{field, frame, ink, highlight, shadow}`. A real label is 3–4
-  spot inks that work together, so nothing picks hues independently.
-- **Components must never name a colour.** No hex, no `bg-red-500`. Everything
-  comes from `--field`, `--frame`, `--ink-on-field`, `--highlight`, or the page
-  tokens `--ground`, `--ground-soft`, `--ground-ink`, `--band`.
-  `npm run check:tokens` fails the build otherwise.
-- **That guard also catches undefined tokens**, because a `var(--gone)` renders
-  as *nothing* — that is how the scorecard sheet shipped fully transparent and
-  unreadable after a palette rename.
-- **`npm run check:contrast` proves every colourway is readable** at its
-  declared roles: ink ≥4.5:1 on field, highlight and frame ≥3:1, and the shadow
-  ≥3:1 against the ink. Two colourways failed on the first run; that's the point.
-- **Highlight ink is for large bold type only** — small-caps captions and hero
-  display. Never body copy.
-- **There is no dark mode.** A printed label doesn't have one, and the
-  colourways are the theme. Don't reintroduce it.
+- **A palette is five distinct inks**, in `src/lib/colors/colourways.ts`:
+  `base` (paper), `highlight` (light accent, offset under dark type), `secondary`
+  (rules), `primary` (accents, display, vine, image ink), `shadow` (body text,
+  band). Categories pick one by typed `ColourwayId`.
+- **Components never name a colour.** Use `--cw-base`, `--cw-highlight`,
+  `--cw-secondary`, `--cw-primary`, `--cw-shadow`, or the page tokens.
+  `npm run check:tokens` fails otherwise, and catches undefined tokens too.
+- **`npm run check:contrast`** proves five distinct inks and shadow/base ≥4.5,
+  primary/base ≥3, secondary/base ≥2, highlight/shadow ≥3.
+- **There is no dark mode.** The palettes are the theme.
 
 ### Depth and texture
 
 - **The hard offset shadow goes on hero display type sitting on a field.** Never
   on kraft body text (it reads as mud) and never on small text (it reads as
   doubled).
-- **The shadow ink is per-colourway (`--shadow-text`).** On the one dark-ink
-  colourway a dark shadow vanishes and the glyph looks embossed, so that
-  colourway carries a light shadow instead.
+- **The offset shadow is `--cw-highlight`.** Type is dark on light paper, so a
+  dark offset would vanish.
 - Grain overlay, hard shadows and a ~0.4° tilt are the whole print treatment.
   No aged paper, no worn edges.
 

@@ -16,7 +16,6 @@ const buttonVariants = cva("mb-btn disabled:pointer-events-none", {
       primary: "mb-btn-primary",
       secondary: "mb-btn-secondary",
       tertiary: "mb-btn-tertiary",
-      // Aliases so shadcn's own components keep working unchanged.
       outline: "mb-btn-secondary",
       ghost: "mb-btn-tertiary [&::after]:hidden border-transparent",
       destructive: "mb-btn-primary",

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { AppBar } from "@/components/app-bar";
 import { HeroRail } from "@/components/home/hero-rail";
-import { colourwayById, colourwayVars } from "@/lib/colourways";
+import { colourwayById, colourwayVars } from "@/lib/colors/colourways";
 import { SITE } from "@/lib/site";
 
 /**
@@ -14,27 +14,12 @@ import { SITE } from "@/lib/site";
 export default function Home() {
   return (
     <>
-      <AppBar
-        title="Games Paglu"
-        extra={
-          <Link href="/how-to-play" aria-label="How to play">
-            ?
-          </Link>
-        }
-      />
 
       <main className="h-dvh snap-y snap-mandatory overflow-x-hidden overflow-y-auto">
-        {/* 1 — the generators */}
         <section className="relative h-full snap-start">
-          <h1 className="sr-only">
-            Random generators for Who Am I? and Heads Up
-          </h1>
           <HeroRail />
         </section>
 
-        {/* 2 — Girgit. A LIVE game, so it wears the play-mode treatment: solid
-            accent and a real primary action. It sat here as a dashed "not built
-            yet" teaser for months; the two must never look alike. */}
         <section className="ground-navy flex h-full snap-start flex-col items-center justify-center gap-6 bg-[var(--ground)] px-6 text-center text-[var(--ground-ink)]">
           <p className="mb-caps text-[0.6rem] opacity-55">Now with rooms</p>
           <h2 className="mb-display-sm text-3xl">
@@ -61,7 +46,6 @@ export default function Home() {
           </Link>
         </section>
 
-        {/* 3 — the sibling */}
         <section
           style={colourwayVars(colourwayById("pillar"))}
           className="mb-label mb-label-bleed h-full snap-start"

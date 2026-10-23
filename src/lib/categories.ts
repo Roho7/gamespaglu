@@ -1,3 +1,4 @@
+import type { ColourwayId } from "./colors/colourways";
 import type { CategoryId } from "./types";
 
 export type CategoryMeta = {
@@ -8,7 +9,9 @@ export type CategoryMeta = {
   noun: string;
   emoji: string;
   /** Colourway id owning this category's picker card and idle screen. */
-  colourway: string;
+  colourway: ColourwayId;
+  /** Image behind the home hero card, dithered in the colourway's inks. */
+  background?: string;
   /** Standalone SEO route. */
   seoSlug: string;
   seoTitle: string;
@@ -27,7 +30,8 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Celebrity",
     noun: "celebrity",
     emoji: "🕶️",
-    colourway: "pillar",
+    colourway: "sage",
+    background: "/backgrounds/celebrity-1.png",
     seoSlug: "random-celebrity-generator",
     seoTitle: "Random Celebrity Generator",
     seoDescription:
@@ -43,7 +47,8 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Movie",
     noun: "movie",
     emoji: "🎬",
-    colourway: "indigo",
+    colourway: "dusk",
+    background: "/backgrounds/movie-1.png",
     seoSlug: "random-movie-generator",
     seoTitle: "Random Movie Generator",
     seoDescription:
@@ -59,7 +64,8 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Place",
     noun: "place",
     emoji: "🗺️",
-    colourway: "bottle",
+    colourway: "moss",
+    background: "/backgrounds/place-1.png",
     seoSlug: "random-place-generator",
     seoTitle: "Random Place Generator",
     seoDescription:
@@ -75,7 +81,8 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Animal",
     noun: "animal",
     emoji: "🐘",
-    colourway: "mustard",
+    colourway: "rose",
+    background: "/backgrounds/animal-1.png",
     seoSlug: "random-animal-generator",
     seoTitle: "Random Animal Generator",
     seoDescription:
@@ -91,7 +98,7 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Object",
     noun: "object",
     emoji: "🪑",
-    colourway: "teal",
+    colourway: "clay",
     seoSlug: "random-object-generator",
     seoTitle: "Random Object Generator",
     seoDescription:
@@ -107,7 +114,8 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     label: "Number",
     noun: "number",
     emoji: "🔢",
-    colourway: "aubergine",
+    colourway: "plum",
+    background: "/backgrounds/numbers-1.png",
     seoSlug: "random-number-generator",
     seoTitle: "Random Number Generator",
     seoDescription:

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AppBar } from "@/components/app-bar";
-import { colourwayById, colourwayVars } from "@/lib/colourways";
+import { colourwayById, colourwayVars } from "@/lib/colors/colourways";
 import { CrossPromo } from "@/components/cross-promo";
 import { GUIDES } from "@/content/guides";
 

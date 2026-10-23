@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#d9c49b", // check-tokens-ignore: browser chrome needs a literal
+  themeColor: "#e1ca96", // check-tokens-ignore: browser chrome needs a literal
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,

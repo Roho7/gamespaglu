@@ -38,7 +38,7 @@ export function AppBar({
     >
       {titleHidden && title ? <h1 className="sr-only">{title}</h1> : null}
 
-      <nav className="pointer-events-auto flex max-w-full items-stretch overflow-hidden rounded-full border-[var(--rule-thin)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)] shadow-[0_4px_0_0_var(--shadow-ink)]">
+      <nav className="pointer-events-auto flex max-w-full items-stretch overflow-hidden rounded-full border-[var(--rule-thin)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)]">
         {back ? (
           <Link
             href={back}

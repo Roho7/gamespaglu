@@ -24,10 +24,6 @@ export function filterPool(
 ): Entry[] {
   const all = ENTRIES[category];
 
-  // Animals and objects have no region picker, and every entry is tagged
-  // "worldwide". Applying the shared country filter to them matched nothing at
-  // all — the saved default is India+USA — so Generate silently did nothing.
-  // Categories without a region filter always use the whole deck.
   if (!CATEGORIES[category].hasRegionFilter) return all;
   const countries = filters.countries?.length
     ? filters.countries
@@ -39,17 +35,13 @@ export function filterPool(
   const spicy = filters.spicy ?? false;
 
   return all.filter((e) => {
-    // Notoriety is opt-in, so it is checked before anything else.
     if (e.spicy && !spicy) return false;
     const countryHit = e.countries.some((c) => countries.includes(c));
     if (!countryHit) return false;
 
-    // Type chips only gate entries that carry a type.
     if (e.types?.length) {
       if (!e.types.some((t) => types.includes(t as TypeKey))) return false;
     }
-    // "evergreen" belongs to both eras, which is what stops arguments about
-    // whether Batman or Sachin is classic or modern.
     if (era !== "both" && e.era && e.era !== "evergreen" && e.era !== era) {
       return false;
     }
@@ -65,8 +57,6 @@ export function poolSignature(
   if (category === "number") {
     return `number:${filters.min ?? 1}-${filters.max ?? 100}`;
   }
-  // An unfiltered category is one deck, so its bag key must not move with
-  // filters set on other categories.
   if (!CATEGORIES[category].hasRegionFilter) return `${category}:all`;
   const c = [...(filters.countries ?? [])].sort().join(",");
   const t = [...(filters.types ?? [])].sort().join(",");
@@ -104,8 +94,6 @@ export function drawNumber(min: number, max: number): DrawResult {
   const hi = Math.max(min, max);
   const span = hi - lo + 1;
 
-  // Small ranges get the no-repeat deck; huge ones fall back to plain random,
-  // where a repeat is statistically invisible anyway.
   if (span <= BAGGED_RANGE_LIMIT) {
     const idx = drawIndex(poolSignature("number", { min: lo, max: hi }), span);
     return { label: String(lo + idx), remaining: 0, poolSize: span };

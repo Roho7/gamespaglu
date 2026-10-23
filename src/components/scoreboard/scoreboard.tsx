@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import { Chip, Panel } from "@/components/mb/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { colourwayById, colourwayVars } from "@/lib/colourways";
+import { colourwayById, colourwayVars } from "@/lib/colors/colourways";
 import { blip } from "@/lib/feedback";
 import { useHydrated, usePersisted } from "@/lib/use-persisted";
 
@@ -69,8 +69,6 @@ export function Scoreboard() {
     });
   };
 
-  // Display order only — the stored list keeps entry order, so rows don't jump
-  // around under a thumb that is mid-tap. Ties share a rank.
   const ranked = useMemo(() => {
     const sorted = [...players].sort((a, b) => b.score - a.score);
     const out: (Player & { rank: number })[] = [];
@@ -147,11 +145,10 @@ export function Scoreboard() {
                 style={
                   leading ? colourwayVars(colourwayById("mustard")) : undefined
                 }
-                className={`flex items-stretch overflow-hidden rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current ${
-                  leading
-                    ? "bg-[var(--field)] text-[var(--ink-on-field)]"
+                className={`flex items-stretch overflow-hidden rounded-[var(--radius-lg)] border-[var(--rule-thin)] border-current ${leading
+                    ? "bg-[var(--cw-base)] text-[var(--cw-shadow)]"
                     : "bg-[var(--ground-soft)]"
-                }`}
+                  }`}
               >
                 <button
                   type="button"
@@ -227,7 +224,6 @@ export function Scoreboard() {
         </div>
       ) : null}
 
-      {/* A mis-tap here loses a whole night of scores, so both confirm. */}
       {confirm ? (
         <Panel className="space-y-3" >
           <p className="mb-display-sm text-lg">
