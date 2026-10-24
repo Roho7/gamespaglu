@@ -1,5 +1,6 @@
 # Build context is the REPO ROOT, not server/ — the build needs shared/ too.
-#   fly deploy --config server/fly.toml --dockerfile server/Dockerfile
+# Run from the repo root; the `.` matters, or flyctl uses fly.toml's folder:
+#   fly deploy . --config server/fly.toml --dockerfile server/Dockerfile
 FROM node:22-alpine AS builder
 WORKDIR /app
 
