@@ -2,17 +2,23 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, HelpCircle, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import spectrums from "@shared/data/spectrums.json";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
-import { Chip, IconButton } from "@/components/ui/controls";
+import { Chip } from "@/components/ui/controls";
+import { BackLink, HelpLink } from "@/components/layout/page-corners";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { StitchedPanel } from "@/components/stitch/stitched-panel";
 import { WavelengthDial } from "@/components/wavelength/wavelength-dial";
 import { drawIndex } from "@/lib/deck/shuffle-bag";
 import { usePersisted } from "@/lib/hooks/use-persisted";
 import { useWakeLock } from "@/lib/hooks/use-wake-lock";
-import { paletteById, paletteVars, roundPalette } from "@/lib/palettes";
+import {
+  flippedVars,
+  paletteById,
+  paletteVars,
+  roundPalette,
+} from "@/lib/palettes";
 import { blip, revealHit } from "@/lib/sound-and-haptics";
 import {
   NEW_GAME,
@@ -68,6 +74,7 @@ function BandButton({
 function Briefing({ mode, onMode }: { mode: Mode; onMode: (m: Mode) => void }) {
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-2 p-1">
+      <BackLink href="/" className="ml-1" />
       <StitchedPanel title="How to play" className="flex-[3] basis-0">
         <ol className="space-y-2 text-base leading-snug font-medium">
           <li>
@@ -131,12 +138,15 @@ function ScoreStrip({ game, onQuit }: { game: Game; onQuit: () => void }) {
         )}
       </p>
       <div className="flex gap-2">
-        <Link href="/how-to-play/wavelength" aria-label="Rules" className="mb-icon-btn">
-          <HelpCircle className="size-5" />
-        </Link>
-        <IconButton type="button" aria-label="End game" onClick={onQuit}>
-          <X className="size-5" />
-        </IconButton>
+        <HelpLink href="/how-to-play/wavelength" />
+        <button
+          type="button"
+          aria-label="End game"
+          onClick={onQuit}
+          className="mb-square-btn"
+        >
+          <X className="size-5" strokeWidth={3} />
+        </button>
       </div>
     </div>
   );
@@ -212,11 +222,7 @@ export function WavelengthScreen() {
         />
         <div
           style={{
-            ...paletteVars({
-              ...palette,
-              base: palette.shadow,
-              shadow: palette.base,
-            }),
+            ...flippedVars(palette),
             color: "var(--cw-shadow)",
           }}
           className="mb-label-field relative flex min-h-0 flex-1 flex-col"
@@ -246,7 +252,7 @@ export function WavelengthScreen() {
                     onMove={
                       phase.kind === "guess"
                         ? (value) =>
-                          setGame(reduce(game, { type: "move", dial: value }))
+                            setGame(reduce(game, { type: "move", dial: value }))
                         : undefined
                     }
                   />

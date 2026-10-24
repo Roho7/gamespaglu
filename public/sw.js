@@ -3,11 +3,10 @@
  * All word lists are baked into the JS bundle, so caching the app shell is
  * enough — there is nothing to fetch mid-game.
  */
-const CACHE = "gamespaglu-v7";
+const CACHE = "gamespaglu-v9";
 const PRECACHE = [
   "/",
   "/who-am-i",
-  "/headsup",
   "/scoreboard",
   // Girgit is the one route that genuinely needs the network. It is precached
   // anyway so that opening it with no signal renders a screen that SAYS so,
@@ -26,7 +25,7 @@ const PRECACHE = [
   "/backgrounds/animal-1.jpg",
   "/backgrounds/celebrity-1.jpg",
   "/backgrounds/chameleon.jpg",
-  "/backgrounds/heads-up.jpg",
+  "/backgrounds/who-am-i.jpg",
   "/backgrounds/movie-1.jpg",
   "/backgrounds/numbers-1.jpg",
   "/backgrounds/object-1.jpg",

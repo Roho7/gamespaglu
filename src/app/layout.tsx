@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, Oswald } from "next/font/google";
 import { SITE } from "@/lib/site-config";
 import { ServiceWorkerRegistration } from "@/components/layout/service-worker-registration";
+import { PaletteGrain } from "@/components/artwork/palette-grain";
+import { GROUND, groundVars } from "@/lib/palettes";
 import "./globals.css";
 
 /**
@@ -45,7 +47,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f2b23e", // check-tokens-ignore: browser chrome needs a literal
+  themeColor: GROUND.shadow,
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -58,8 +60,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${poster.variable} ${body.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      style={groundVars(GROUND)}
+      className={`${poster.variable} ${body.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col">
+        <PaletteGrain
+          palette={GROUND}
+          tone="ink"
+          className="fixed inset-0 -z-10"
+        />
         {children}
         <ServiceWorkerRegistration />
       </body>

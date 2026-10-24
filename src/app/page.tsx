@@ -1,11 +1,10 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { HomeGameCard } from "@/components/home/home-game-card";
 import { paletteById, paletteVars } from "@/lib/palettes";
 import { SITE } from "@/lib/site-config";
 
 /**
- * Four full-screen sections that snap vertically: Heads Up, Girgit,
+ * Four full-screen sections that snap vertically: Who Am I?, Girgit,
  * Wavelength, and the Office Paglu banner.
  *
  * The page owns the scroll container rather than the body, so the snap points
@@ -16,35 +15,44 @@ export default function Home() {
     <>
       <main className="h-dvh snap-y snap-mandatory overflow-x-hidden overflow-y-auto">
         <HomeGameCard
-          href="/headsup"
+          href="/who-am-i"
+          help="/how-to-play/who-am-i"
           palette="tangerine"
-          title="Heads Up"
+          title="Who Am I?"
           tagline="Phone on your forehead. Everyone knows but you."
-          image="/backgrounds/heads-up.jpg"
+          image="/backgrounds/who-am-i.jpg"
+          rows={[
+            { text: "Who", kind: "title" },
+            { text: "Am I?", kind: "title" },
+            { text: "(Heads up)", kind: "subtitle" },
+          ]}
         />
 
         <HomeGameCard
           href="/girgit"
+          help="/how-to-play/girgit"
           palette="jungle"
           title="Girgit"
           tagline="Everyone gets the word. One of you doesn't."
           image="/backgrounds/chameleon.jpg"
+          rows={[
+            { text: "Girgit", kind: "title" },
+            { text: "(Chameleon)", kind: "subtitle" },
+          ]}
         />
 
         <HomeGameCard
           href="/wavelength"
+          help="/how-to-play/wavelength"
           palette="miami"
           title="Wavelength"
           tagline="One clue. How close can your team get?"
           image="/backgrounds/wavelength.jpg"
-        >
-          <Link
-            href="/how-to-play"
-            className="mb-caps relative mt-auto text-[0.6rem] underline decoration-2"
-          >
-            How to play
-          </Link>
-        </HomeGameCard>
+          rows={[
+            { text: "Wave", kind: "title" },
+            { text: "Length", kind: "title" },
+          ]}
+        />
 
         <section
           style={paletteVars(paletteById("pillar"))}

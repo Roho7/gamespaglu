@@ -42,14 +42,28 @@ function walk(dir, out = []) {
 
 /*
  * Second guard: a var(--x) that no longer exists renders as nothing, which is
- * how the scorecard sheet shipped fully transparent and unreadable after the
+ * how the scoreboard sheet shipped fully transparent and unreadable after the
  * palette was renamed. Every token a component references must be defined.
  */
 const css = readFileSync("src/app/globals.css", "utf8");
 const DEFINED = new Set([
   ...[...css.matchAll(/(--[a-z0-9-]+)\s*:/g)].map((m) => m[1]),
-  // Set at runtime by colourwayVars(), and by base-ui's drawer internals.
+  // Set at runtime by paletteVars() and groundVars(), and by base-ui's drawer internals.
+  "--cw-base",
   "--cw-highlight",
+  "--cw-secondary",
+  "--cw-primary",
+  "--cw-shadow",
+  "--ground",
+  "--ground-soft",
+  "--ground-ink",
+  "--ground-muted",
+  "--scrim",
+  "--loud",
+  "--on-loud",
+  // Set by next/font in the root layout.
+  "--font-poster",
+  "--font-body",
   "--btn-field",
   "--btn-rule",
   "--btn-ink",

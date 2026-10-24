@@ -52,21 +52,28 @@ for (const [block, id] of blocks.map((m) => [m[0], m[1]])) {
   console.log(`${id.padEnd(11)} ${distinct ? "ok" : "FAIL"} five distinct inks  ${results.join("  ")}`);
 }
 
-// Page grounds are static, but they carry text too — and a secondary button
-// on the navy ground is exactly where this went wrong once.
-const GROUNDS = [
-  ["kraft ground", "#2a1c0e", "#d9c49b"],
-  ["kraft panel", "#2a1c0e", "#e8d8b6"],
-  ["navy ground", "#f4efe3", "#0f1a2e"],
-  ["navy panel", "#f4efe3", "#1a2742"],
-  ["black band", "#fff8e7", "#17110c"],
-];
-console.log("");
-for (const [name, fg, bg] of GROUNDS) {
-  const r = ratio(fg, bg);
-  const ok = r >= 4.5;
-  if (!ok) bad++;
-  console.log(`${ok ? "ok  " : "FAIL"} ${name.padEnd(13)} ${r.toFixed(2)}:1 (need 4.5)`);
+// Plain pages are printed in one palette, flipped: its near-black is the
+// ground, its loud ink the type, and panels sit on its primary. A secondary
+// button on a dark ground is exactly where this went wrong once.
+const groundId = src.match(/export const GROUND = paletteById\("([^"]+)"\)/)?.[1];
+const groundBlock = blocks.find((m) => m[1] === groundId)?.[0];
+if (!groundBlock) {
+  console.log(`\nFAIL ground palette "${groundId}" not found in palettes.ts`);
+  bad++;
+} else {
+  const g = Object.fromEntries(ROLES.map((r) => [r, field(groundBlock, r)]));
+  const GROUND_RULES = [
+    ["ground type", g.base, g.shadow, 4.5],
+    ["panel type", g.base, g.primary, 4.5],
+    ["muted type", g.highlight, g.shadow, 3.0],
+  ];
+  console.log(`\nground: ${groundId}`);
+  for (const [name, fg, bg, min] of GROUND_RULES) {
+    const r = ratio(fg, bg);
+    const ok = r >= min;
+    if (!ok) bad++;
+    console.log(`${ok ? "ok  " : "FAIL"} ${name.padEnd(12)} ${r.toFixed(2)}:1 (need ${min})`);
+  }
 }
 
 console.log(

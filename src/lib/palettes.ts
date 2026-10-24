@@ -148,6 +148,42 @@ export function paletteVars(c: Palette): React.CSSProperties {
     ["--cw-secondary" as string]: c.secondary,
     ["--cw-primary" as string]: c.primary,
     ["--cw-shadow" as string]: c.shadow,
+    ["--loud" as string]: c.base,
+    ["--on-loud" as string]: c.shadow,
+  };
+}
+
+/**
+ * Tokens for a dark field: the colourway inverted so type and rules print
+ * light, while `--loud` keeps the palette's loud ink so primary actions stay
+ * the brightest thing on screen.
+ */
+export function flippedVars(p: Palette): React.CSSProperties {
+  return {
+    ...paletteVars({ ...p, base: p.shadow, shadow: p.base }),
+    ["--loud" as string]: p.base,
+    ["--on-loud" as string]: p.shadow,
+  };
+}
+
+/** The palette every plain page is printed in. */
+export const GROUND = paletteById("miami");
+
+/**
+ * Tokens for a plain page. The ground is the palette's near-black and type its
+ * loud ink, and the colourway is inverted to match, so every recipe that reads
+ * `--cw-*` (chips, stitch borders, square buttons) prints light on the dark
+ * ground. Set on <html>, so drawers opened over any page inherit it.
+ */
+export function groundVars(p: Palette): React.CSSProperties {
+  const n = parseInt(p.shadow.slice(1), 16);
+  return {
+    ...flippedVars(p),
+    ["--ground" as string]: p.shadow,
+    ["--ground-soft" as string]: p.primary,
+    ["--ground-ink" as string]: p.base,
+    ["--ground-muted" as string]: p.highlight,
+    ["--scrim" as string]: `rgb(${n >> 16} ${(n >> 8) & 255} ${n & 255} / 0.7)`,
   };
 }
 

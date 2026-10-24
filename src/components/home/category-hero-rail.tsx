@@ -10,7 +10,7 @@ import { StitchBorder } from "@/components/stitch/stitch-border";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
 
 /**
- * The Heads Up screen: one full-bleed label per category, swiped sideways. Each card carries its own palette, so the whole screen changes
+ * The Who Am I? screen: one full-bleed label per category, swiped sideways. Each card carries its own palette, so the whole screen changes
  * colour as you swipe — that IS the wayfinding, which is why the
  * one-accent-per-screen rule is suspended here.
  *

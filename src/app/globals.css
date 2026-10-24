@@ -54,39 +54,16 @@
 }
 
 :root {
-  --ground: #d9c49b;
-  --ground-soft: #e8d8b6;
-  --ground-ink: #2a1c0e;
-  --ground-muted: #6b5636;
-
   --band: #17110c;
   --band-ink: #fff8e7;
   --shadow-ink: #17110c;
 
-  --cw-base: #f2b23e;
-  --cw-highlight: #e88ba6;
-  --cw-secondary: #c2603a;
-  --cw-primary: #3b3631;
-  --cw-shadow: #1c1a18;
-
   --radius: 16px;
-
-  --scrim: rgb(23 17 12 / 0.6);
 
   --rule: 3px;
   --rule-thin: 2px;
   --dot-inset: 7px;
   --shadow-offset: 4px;
-}
-
-/* Page grounds. The default is kraft board; the home screen is dark navy.
-   Scoped as a class so drawers and bars opened over it stay consistent. */
-.ground-navy {
-  --ground: #0f1a2e;
-  --ground-soft: #1a2742;
-  --ground-ink: #f4efe3;
-  --ground-muted: #9aa7bd;
-  --scrim: rgb(6 10 18 / 0.7);
 }
 
 @layer base {
@@ -100,7 +77,6 @@
   }
   body {
     position: relative;
-    background-color: var(--ground);
     color: var(--ground-ink);
     overscroll-behavior-y: none;
   }
@@ -195,10 +171,10 @@
   }
 
   .mb-btn-primary {
-    --btn-field: var(--cw-base);
+    --btn-field: var(--loud);
     --btn-rule: var(--cw-secondary);
     --btn-dots: var(--cw-secondary);
-    --btn-ink: var(--cw-shadow);
+    --btn-ink: var(--on-loud);
   }
   .mb-btn-secondary {
     --btn-field: var(--ground-soft);
@@ -217,21 +193,23 @@
     display: none;
   }
 
-  .mb-icon-btn {
+  .mb-square-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.35rem;
-    height: 2.35rem;
-    border-radius: 9999px;
-    border: var(--rule-thin) solid currentColor;
-    background-color: transparent;
-    color: inherit;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 4px;
+    border: var(--rule-thin) solid var(--on-loud);
+    background-color: var(--loud);
+    color: var(--on-loud);
+    box-shadow: 2px 2px 0 var(--on-loud);
     font-weight: 800;
     transition: transform 90ms cubic-bezier(0.2, 0, 0, 1);
   }
-  .mb-icon-btn:active {
-    transform: translateY(2px) scale(0.98);
+  .mb-square-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
   }
 
   .mb-label {
@@ -239,8 +217,6 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border-radius: var(--radius-lg);
-    border: var(--rule) solid var(--cw-secondary);
     background-color: var(--cw-base);
     color: var(--cw-shadow);
     box-shadow: 0 6px 0 0 var(--shadow-ink);
@@ -287,8 +263,6 @@
   }
 
   .mb-label-bleed {
-    border: 0;
-    border-radius: 0;
     box-shadow: none;
   }
   .mb-label-bleed > .mb-label-field {
@@ -395,7 +369,7 @@
     animation: none;
   }
   .mb-btn:active:not(:disabled),
-  .mb-icon-btn:active {
+  .mb-square-btn:active {
     transform: none;
   }
 }

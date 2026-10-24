@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight } from "lucide-react";
-import { AppBar } from "@/components/layout/app-bar";
+import { PageCorners } from "@/components/layout/page-corners";
+import { StitchBorder } from "@/components/stitch/stitch-border";
+import { StitchedPanel } from "@/components/stitch/stitched-panel";
 import { paletteById, paletteVars } from "@/lib/palettes";
 import { CrossPromo } from "@/components/layout/cross-promo";
 import { CATEGORIES } from "@/lib/deck/categories";
@@ -76,91 +77,73 @@ export default async function GuidePage({
 
   return (
     <main
-      className="mx-auto w-full max-w-2xl flex-1 pt-20"
       style={paletteVars(cw)}
+      className="min-h-dvh bg-[var(--cw-base)] text-[var(--cw-shadow)]"
     >
-      <AppBar back="/how-to-play" title="How to play" />
+      <PageCorners back="/how-to-play" />
 
-      <article className="space-y-8 px-4 pb-12">
-        <header className="mb-frame mb-tilt rounded-[var(--radius-lg)] p-5">
-          <span className="text-4xl" aria-hidden>
-            {guide.emoji}
-          </span>
-          <h1 className="mb-display mt-2 text-3xl">{guide.title}</h1>
-          <div className="mb-caps mt-4 flex flex-wrap gap-x-5 gap-y-1 text-[0.6rem] opacity-80">
+      <article
+        className={`mx-auto w-full max-w-2xl space-y-3 px-3 pt-20 ${guide.playRoute ? "pb-36" : "pb-10"}`}
+      >
+        <header className="mb-tilt space-y-3 px-4 pb-4 text-center">
+          <h1 className="mb-display mb-shadow text-5xl leading-none">
+            {guide.title}
+          </h1>
+          <p className="mb-caps flex flex-wrap justify-center gap-x-4 gap-y-1 text-[0.6rem] opacity-80">
             <span>{guide.players} players</span>
             <span>{guide.time}</span>
             <span>{guide.needs}</span>
-          </div>
+          </p>
+          {guide.alsoCalled?.length ? (
+            <p className="mb-caps text-[0.55rem] opacity-60">
+              Also called {guide.alsoCalled.join(" · ")}
+            </p>
+          ) : null}
         </header>
 
-        {guide.alsoCalled?.length ? (
-          <p className="mb-caps text-[0.6rem] opacity-60">
-            Also called: {guide.alsoCalled.join(" · ")}
-          </p>
-        ) : null}
+        <StitchedPanel title="The game">
+          <div className="space-y-3 text-base leading-relaxed font-medium">
+            {guide.intro.map((p) => (
+              <p key={p.slice(0, 24)}>{p}</p>
+            ))}
+          </div>
+        </StitchedPanel>
 
-        <div className="space-y-4 text-base leading-relaxed opacity-85">
-          {guide.intro.map((p) => (
-            <p key={p.slice(0, 24)}>{p}</p>
-          ))}
-        </div>
-
-        {guide.playRoute ? (
-          <Link
-            href={guide.playRoute}
-            className="mb-btn mb-btn-primary w-full text-xl"
-          >
-            Play it now <ArrowRight className="size-[1em] shrink-0" strokeWidth={3} aria-hidden />
-          </Link>
-        ) : null}
-
-        <section className="space-y-5">
-          <h2 className="mb-display-sm text-2xl">
-            {guide.status === "planned" ? "The plan" : "The rules"}
-          </h2>
-          <ol className="space-y-4">
+        <StitchedPanel title="The rules">
+          <ol className="space-y-5">
             {guide.steps.map((s, i) => (
-              <li
-                key={s.title}
-                className="rounded-[var(--radius-lg)] border-[length:var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4"
-              >
-                <div className="flex items-baseline gap-3">
-                  <span className="mb-frame [--dot-radius:9999px] shrink-0 rounded-full px-3 py-0.5 text-lg font-extrabold">
-                    {i + 1}
-                  </span>
-                  <h3 className="mb-display-sm text-lg">{s.title}</h3>
+              <li key={s.title} className="flex gap-4">
+                <span className="mb-display-sm w-6 shrink-0 text-3xl leading-none">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="mb-display-sm text-xl">{s.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed font-medium opacity-85">
+                    {s.body}
+                  </p>
                 </div>
-                <p className="mt-2 text-sm leading-relaxed opacity-80">
-                  {s.body}
-                </p>
               </li>
             ))}
           </ol>
-        </section>
+        </StitchedPanel>
 
         {guide.variations?.length ? (
-          <section className="space-y-5">
-            <h2 className="mb-display-sm text-2xl">Ways to play it</h2>
+          <StitchedPanel title="Ways to play it">
             <ul className="space-y-4">
               {guide.variations.map((v) => (
-                <li
-                  key={v.title}
-                  className="border-l-[length:var(--rule)] border-current pl-4"
-                >
-                  <h3 className="mb-display-sm text-lg">{v.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed opacity-80">
+                <li key={v.title}>
+                  <h3 className="mb-display-sm text-xl">{v.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed font-medium opacity-85">
                     {v.body}
                   </p>
                 </li>
               ))}
             </ul>
-          </section>
+          </StitchedPanel>
         ) : null}
 
         {guide.categories?.length ? (
-          <section className="space-y-3">
-            <h2 className="mb-display-sm text-2xl">Pick a category</h2>
+          <StitchedPanel title="Pick a category">
             <ul className="grid grid-cols-2 gap-2">
               {guide.categories.map((id) => {
                 const c = CATEGORIES[id];
@@ -168,40 +151,45 @@ export default async function GuidePage({
                   <li key={id}>
                     <Link
                       href={`/who-am-i/${id}`}
-                      className="mb-frame [--dot-radius:calc(var(--radius-md)-var(--dot-inset))] flex items-center gap-2 rounded-[var(--radius-md)] p-3 text-sm font-bold"
                       style={paletteVars(paletteById(c.palette))}
+                      className="mb-label mb-display-sm relative block p-4 text-center text-2xl"
                     >
-                      <span aria-hidden>{c.emoji}</span>
+                      <StitchBorder className="inset-1.5" />
                       {c.label}
                     </Link>
                   </li>
                 );
               })}
             </ul>
-          </section>
+          </StitchedPanel>
         ) : null}
 
         {guide.faq?.length ? (
-          <section className="space-y-4">
-            <h2 className="mb-display-sm text-2xl">Questions people ask</h2>
+          <StitchedPanel title="Questions people ask">
             <dl className="space-y-4">
               {guide.faq.map((f) => (
-                <div
-                  key={f.q}
-                  className="rounded-[var(--radius-lg)] border-[length:var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4"
-                >
-                  <dt className="mb-display-sm text-base">{f.q}</dt>
-                  <dd className="mt-2 text-sm leading-relaxed opacity-80">
+                <div key={f.q}>
+                  <dt className="mb-display-sm text-xl">{f.q}</dt>
+                  <dd className="mt-1 text-sm leading-relaxed font-medium opacity-85">
                     {f.a}
                   </dd>
                 </div>
               ))}
             </dl>
-          </section>
+          </StitchedPanel>
         ) : null}
 
         <CrossPromo />
       </article>
+
+      {guide.playRoute ? (
+        <div className="fixed inset-x-0 bottom-0 z-30 flex">
+          <Link href={guide.playRoute} className="mb-band-action flex-1 py-8">
+            <StitchBorder className="inset-3" />
+            <span className="mb-display-sm text-4xl">Play it now</span>
+          </Link>
+        </div>
+      ) : null}
 
       <script
         type="application/ld+json"

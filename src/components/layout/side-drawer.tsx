@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { X } from "lucide-react";
 import {
   Drawer,
   DrawerClose,
@@ -49,8 +50,8 @@ export function SideDrawer({
           <DrawerTitle className="mb-display-sm text-xl text-[var(--ground-ink)]">
             {title}
           </DrawerTitle>
-          <DrawerClose aria-label="Close" className="mb-icon-btn">
-            ✕
+          <DrawerClose aria-label="Close" className="mb-square-btn">
+            <X className="size-5" strokeWidth={3} aria-hidden />
           </DrawerClose>
         </div>
         <div className="min-h-0 flex-1 space-y-5 overflow-y-auto px-4 py-4">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AppBar } from "@/components/layout/app-bar";
+import { PageCorners } from "@/components/layout/page-corners";
 import { Scoreboard } from "@/components/scoreboard/scoreboard";
 
 export const metadata: Metadata = {
@@ -11,8 +11,9 @@ export const metadata: Metadata = {
 export default function ScoreboardPage() {
   return (
     <main className="mx-auto w-full max-w-xl flex-1 pt-20">
-      <AppBar back="/" title="Scorecard" />
-      <div className="px-4 pb-10">
+      <PageCorners back="/" scoreboard={false} />
+      <div className="space-y-4 px-4 pb-10">
+        <h1 className="mb-display text-4xl">Scoreboard</h1>
         <Scoreboard />
       </div>
     </main>

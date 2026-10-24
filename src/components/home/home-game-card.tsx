@@ -1,28 +1,39 @@
 import Link from "next/link";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
+import { HelpLink } from "@/components/layout/page-corners";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { paletteById, paletteVars, type PaletteId } from "@/lib/palettes";
 
+/** One line of the poster lockup over the photo. */
+export type PosterRow = { text: string; kind: "title" | "subtitle" };
+
+const ROW_SIZE: Record<PosterRow["kind"], string> = {
+  title: "text-[min(38vw,11rem)]",
+  subtitle: "text-[min(13vw,4rem)]",
+};
+
 /**
  * A full-screen home section for a game: the picture dithered in the game's
- * palette, anything extra on the field, and the band that starts it. Built
- * like the category rail cards so every game on home reads as the same kind
- * of thing.
+ * palette, up to three poster rows overlaid on it (left, right, left), a "?"
+ * to its guide in the corner, and the band that starts it. Built like the
+ * category rail cards so every game on home reads as the same kind of thing.
  */
 export function HomeGameCard({
   href,
+  help,
   palette: paletteId,
   title,
   tagline,
   image,
-  children,
+  rows,
 }: {
   href: string;
+  help: string;
   palette: PaletteId;
   title: string;
   tagline: string;
   image?: string;
-  children?: React.ReactNode;
+  rows: [PosterRow, PosterRow?, PosterRow?];
 }) {
   const palette = paletteById(paletteId);
   return (
@@ -38,7 +49,22 @@ export function HomeGameCard({
             className="absolute inset-0"
           />
         ) : null}
-        {children}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-14 flex flex-col px-2 text-[var(--cw-base)] mix-blend-overlay"
+        >
+          {rows.map((row, i) =>
+            row ? (
+              <span
+                key={i}
+                className={`font-[family-name:var(--font-poster)] leading-[0.82] uppercase ${ROW_SIZE[row.kind]} ${i === 1 ? "self-end" : "self-start"}`}
+              >
+                {row.text}
+              </span>
+            ) : null,
+          )}
+        </div>
+        <HelpLink href={help} className="absolute top-3 right-3" />
       </div>
       <Link href={href} className="mb-band-action p-10">
         <StitchBorder className="inset-3" />

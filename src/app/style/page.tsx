@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { AppBar } from "@/components/layout/app-bar";
+import { ArrowLeft, Settings } from "lucide-react";
+import { PageCorners } from "@/components/layout/page-corners";
 import { CategoryEmblem } from "@/components/artwork/category-emblem";
 import { Starburst } from "@/components/artwork/starburst";
-import { Chip, IconButton, Panel } from "@/components/ui/controls";
+import { Chip, Panel } from "@/components/ui/controls";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
 import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
 import { WavelengthDial } from "@/components/wavelength/wavelength-dial";
+import { Scoreboard } from "@/components/scoreboard/scoreboard";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { RotatePhoneHint } from "@/components/generator/rotate-phone-hint";
 import { VineMarquee } from "@/components/stitch/vine-marquee";
@@ -69,11 +71,9 @@ function Row({
 export default function StylePage() {
   return (
     <>
-      <AppBar
-        back="/"
-        title={<span className="mb-display-sm text-lg">Style</span>}
-      />
+      <PageCorners back="/" />
       <main className="mx-auto w-full max-w-3xl flex-1 space-y-10 px-4 pt-20 pb-16">
+        <h1 className="mb-display text-4xl">Style</h1>
         <p className="text-sm font-medium opacity-75">
           Muted print system. Every colour here comes from five palette tokens —{" "}
           <code>--cw-base</code>, <code>--cw-highlight</code>,{" "}
@@ -136,8 +136,13 @@ export default function StylePage() {
 
         <Row title="Controls">
           <div className="flex flex-wrap items-center gap-3">
-            <IconButton>?</IconButton>
-            <IconButton>⚙</IconButton>
+            <span className="mb-square-btn mb-display-sm text-2xl">?</span>
+            <span className="mb-square-btn">
+              <Settings className="size-5" strokeWidth={2.5} aria-hidden />
+            </span>
+            <span className="mb-square-btn">
+              <ArrowLeft className="size-5" strokeWidth={3} aria-hidden />
+            </span>
             <Chip active>Selected</Chip>
             <Chip>Unselected</Chip>
             <div className="w-40">
@@ -263,6 +268,12 @@ export default function StylePage() {
             hold learns nothing from the shape of what appears.
           </p>
         </Row>
+        <Row title="Scoreboard — the live board, shared with the sheet and /scoreboard">
+          <div className="max-w-xl">
+            <Scoreboard />
+          </div>
+        </Row>
+
         <Row title="Wavelength — the dial. Covered, guessing, revealed, on grain">
           <div className="grid gap-4 sm:grid-cols-3">
             {(

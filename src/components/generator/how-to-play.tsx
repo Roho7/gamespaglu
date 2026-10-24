@@ -37,11 +37,13 @@ export function HowToPlay({
           Full rules
         </Link>
         <Link href="/scoreboard" className={LINK}>
-          Scorecard
+          Scoreboard
         </Link>
-        <Link href="/" className={LINK}>
-          All categories
-        </Link>
+        {isGame ? null : (
+          <Link href="/who-am-i" className={LINK}>
+            All categories
+          </Link>
+        )}
       </nav>
     </div>
   );

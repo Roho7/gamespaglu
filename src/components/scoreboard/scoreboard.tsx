@@ -1,10 +1,12 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { Chip, Panel } from "@/components/ui/controls";
+import { Chip } from "@/components/ui/controls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { paletteById, paletteVars } from "@/lib/palettes";
+import { Crown, Minus, Plus, Undo2 } from "lucide-react";
+import { StitchBorder } from "@/components/stitch/stitch-border";
+import { PALETTES, paletteVars } from "@/lib/palettes";
 import { blip } from "@/lib/sound-and-haptics";
 import { useHydrated, usePersisted } from "@/lib/hooks/use-persisted";
 
@@ -89,8 +91,8 @@ export function Scoreboard() {
   if (!hydrated) return null;
 
   return (
-    <div className="space-y-4">
-      <Panel className="space-y-3">
+    <div className="space-y-3">
+      <div className="space-y-3">
         <div className="flex gap-2">
           <Input
             value={name}
@@ -112,7 +114,7 @@ export function Scoreboard() {
 
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="mb-caps text-[0.6rem] opacity-60">Step</span>
+            <span className="mb-caps text-[0.6rem] opacity-70">Step</span>
             {STEPS.map((s) => (
               <Chip key={s} active={step === s} onClick={() => setStep(s)}>
                 {s}
@@ -125,83 +127,91 @@ export function Scoreboard() {
             onClick={undo}
             disabled={history.length === 0}
           >
-            ↩ Undo
+            <Undo2 className="size-4" strokeWidth={2.5} aria-hidden /> Undo
           </Button>
         </div>
-      </Panel>
+      </div>
 
       {players.length === 0 ? (
-        <Panel className="py-10 text-center">
-          <p className="mb-display-sm text-2xl">Nobody&apos;s winning yet</p>
-          <p className="mt-2 text-sm font-bold opacity-60">
+        <div
+          style={paletteVars(PALETTES[0])}
+          className="mb-label relative px-8 py-12 text-center"
+        >
+          <StitchBorder className="inset-2" />
+          <p className="mb-display mb-shadow text-4xl">
+            Nobody&apos;s winning yet
+          </p>
+          <p className="mt-3 text-sm font-semibold">
             Add players or teams above. Works for cards, carrom, antakshari —
             anything.
           </p>
-        </Panel>
+        </div>
       ) : (
         <ul className="space-y-3">
           {ranked.map((p) => {
             const leading = someoneScored && p.score === leaderScore;
+            const palette =
+              PALETTES[
+                players.findIndex((q) => q.id === p.id) % PALETTES.length
+              ];
             return (
               <li
                 key={p.id}
-                style={
-                  leading ? paletteVars(paletteById("mustard")) : undefined
-                }
-                className={`flex items-stretch overflow-hidden rounded-[var(--radius-lg)] border-[length:var(--rule-thin)] border-current ${
-                  leading
-                    ? "bg-[var(--cw-base)] text-[var(--cw-shadow)]"
-                    : "bg-[var(--ground-soft)]"
-                }`}
+                style={paletteVars(palette)}
+                className="mb-label relative flex flex-row items-center gap-3 px-5 py-5"
               >
+                <StitchBorder className="inset-1.5" />
                 <button
                   type="button"
                   aria-label={`Subtract ${step} from ${p.name}`}
                   onClick={() => bump(p.id, -step)}
-                  className="w-14 shrink-0 border-r-[length:var(--rule-thin)] border-current text-2xl font-extrabold active:translate-y-[1px]"
+                  className="mb-square-btn relative shrink-0"
                 >
-                  −
+                  <Minus className="size-5" strokeWidth={3} aria-hidden />
                 </button>
 
-                <div className="min-w-0 flex-1 px-3 py-3">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xs font-black opacity-50">
-                      #{p.rank}
-                    </span>
-                    <span className="truncate text-base font-bold">
-                      {p.name}
-                    </span>
-                    {leading ? <span aria-hidden>👑</span> : null}
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="number"
-                      inputMode="numeric"
-                      value={p.score}
-                      onChange={(e) =>
-                        setExact(p.id, Number(e.target.value) || 0)
-                      }
-                      aria-label={`${p.name} score`}
-                      className="w-24 bg-transparent text-2xl font-extrabold outline-none"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removePlayer(p.id)}
-                      aria-label={`Remove ${p.name}`}
-                      className="text-xs font-bold underline decoration-2 opacity-40"
-                    >
-                      remove
-                    </button>
-                  </div>
+                <div className="relative min-w-0 flex-1 text-center">
+                  <p className="mb-caps flex items-center justify-center gap-1.5 text-[0.6rem]">
+                    <span className="opacity-70">#{p.rank}</span>
+                    {leading ? (
+                      <>
+                        <Crown
+                          className="size-3.5"
+                          strokeWidth={2.5}
+                          aria-hidden
+                        />
+                        <span>Leading</span>
+                      </>
+                    ) : null}
+                  </p>
+                  <p className="mb-display-sm truncate text-2xl">{p.name}</p>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    value={p.score}
+                    onChange={(e) =>
+                      setExact(p.id, Number(e.target.value) || 0)
+                    }
+                    aria-label={`${p.name} score`}
+                    className={`mb-display w-full bg-transparent text-center text-5xl leading-none outline-none ${leading ? "mb-shadow" : ""}`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removePlayer(p.id)}
+                    aria-label={`Remove ${p.name}`}
+                    className="mb-caps text-[0.55rem] underline decoration-2 opacity-60"
+                  >
+                    Remove
+                  </button>
                 </div>
 
                 <button
                   type="button"
                   aria-label={`Add ${step} to ${p.name}`}
                   onClick={() => bump(p.id, step)}
-                  className="w-14 shrink-0 border-l-[length:var(--rule-thin)] border-current text-2xl font-extrabold active:translate-y-[1px]"
+                  className="mb-square-btn relative shrink-0"
                 >
-                  +
+                  <Plus className="size-5" strokeWidth={3} aria-hidden />
                 </button>
               </li>
             );
@@ -229,13 +239,17 @@ export function Scoreboard() {
       ) : null}
 
       {confirm ? (
-        <Panel className="space-y-3">
-          <p className="mb-display-sm text-lg">
+        <div
+          style={paletteVars(PALETTES[0])}
+          className="mb-label relative space-y-3 p-6"
+        >
+          <StitchBorder className="inset-1.5" />
+          <p className="mb-display-sm relative text-xl">
             {confirm === "reset"
               ? "Reset every score to zero? Names stay."
               : "Clear everything — names and scores?"}
           </p>
-          <div className="flex gap-2">
+          <div className="relative flex gap-2">
             <Button
               className="flex-1"
               onClick={() => {
@@ -257,7 +271,7 @@ export function Scoreboard() {
               Cancel
             </Button>
           </div>
-        </Panel>
+        </div>
       ) : null}
     </div>
   );

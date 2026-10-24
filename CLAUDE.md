@@ -68,12 +68,16 @@ category palette, with the band below naming the game. Simple, clean, profession
 - **Components never name a colour.** Use `--cw-*` or the page tokens. `npm run check:tokens`
   enforces it; `npm run check:contrast` enforces the ink ratios.
 - **No dark mode.** The palettes are the theme.
-- **Wavelength inverts its field**: dark `ink` grain ground, light type, by swapping `base` and
-  `shadow` on `.mb-label-field`; the dial resets them for its light face. A swapped token needs
-  the colour set again in the same `style` object (`color: "var(--cw-shadow)"`), because children inherit the
+- **Plain pages are printed in one palette, flipped.** `GROUND` in `palettes.ts` (miami) sets the
+  ground: its `shadow` is the page, its `base` the type, its `primary` the panels, with a still
+  `ink` grain behind everything (root layout). `groundVars()` sets this on `<html>`, so drawers
+  inherit it. `npm run check:contrast` checks the ground palette too. Never hardcode a ground.
+- **A flipped field uses `flippedVars()`** (the ground, Wavelength's field): the colourway inverts so
+  type and rules print light, but `--loud`/`--on-loud` keep the loud ink. Primary buttons and
+  square buttons read `--loud`, so they stay the brightest thing on any surface. A flipped field
+  must set `color: "var(--cw-shadow)"` in the same `style` object, because children inherit the
   computed colour, not the variable.
-- Page grounds are scoped classes (`.ground-navy`, default kraft). Anything on a ground (secondary
-  buttons, panels, drawers) takes ink from `--ground-ink`, never a colourway.
+- Anything on the ground (secondary buttons, inputs, panels, drawers) takes ink from `--ground-*`.
 
 ### Print treatment
 
@@ -90,10 +94,10 @@ category palette, with the band below naming the game. Simple, clean, profession
 | Recipe | What it is |
 |---|---|
 | `.mb-frame` | outer rule + field + dashed inner rule; inner radius is `--dot-radius`, override it on other radii |
-| `.mb-label` / `.mb-label-bleed` | a full label; bleed is a full-screen play surface |
+| `.mb-label` / `.mb-label-bleed` | a square, borderless card with a hard drop shadow (stitch it with `StitchBorder`); bleed is a full-screen play surface with no shadow |
 | `.mb-band` | the near-black band that holds the primary action |
 | `.mb-btn` + `.mb-btn-{primary,secondary,tertiary}` | one button; hierarchy is palette only, so it reads in greyscale |
-| `.mb-icon-btn` | round control, no inner rule |
+| `.mb-square-btn` | the one corner control: solid square, hard shadow, reads over photos |
 | `.mb-display` / `.mb-display-sm` / `.mb-shadow` / `.mb-caps` | type |
 | `.rail` | native scroll-snap swipe rail |
 
@@ -108,12 +112,18 @@ the system.
 
 ## Layout
 
-- **The scorecard is a bottom sheet in `AppBar`, not a destination.** `/scoreboard` exists only as a
-  deep-link and SEO page.
-- Every screen renders `AppBar` except home, the generator and Wavelength (its score is game state).
+- **There is no top bar.** Inner pages render `PageCorners`: a square back button top-left, and
+  top-right any page controls plus the scoreboard. Home cards (`HomeGameCard`) carry a square `?` to
+  their guide top-right instead.
+- **The scoreboard is a bottom sheet behind a square button, not a destination.** `PageCorners`
+  shows it on every inner game screen; `/scoreboard` exists only as a deep-link and SEO page.
+  Home, the generator and Wavelength have no scoreboard button (Wavelength's score is game state).
+- **One control shape.** Corner and drawer controls are all `.mb-square-btn`; icons from
+  `lucide-react`, `?` set in display type.
 - The generator opens on a briefing (how to play, settings) in stitched panels. Generate starts a
   round; during one the band is Regenerate (60%) and Settings (40%).
-- The home hero is a `.rail`, one card per category. No carousel library.
+- Home is full-screen `HomeGameCard`s snapping vertically, one per game, never a sideways rail.
+  The category `.rail` lives on `/who-am-i`. No carousel library.
 - **Room screens with no signal say so** and withdraw every action. The service worker precaches
   them, so otherwise they render a plausible frozen board.
 

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowRight } from "lucide-react";
-import { AppBar } from "@/components/layout/app-bar";
+import { ArrowRight, Settings } from "lucide-react";
+import { PageCorners } from "@/components/layout/page-corners";
 import { SideDrawer } from "@/components/layout/side-drawer";
 import { PhaseCountdown } from "@/components/girgit/phase-countdown";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
@@ -115,13 +115,17 @@ export function RoomScreen({
 
       <div className="mb-label mb-label-bleed flex-1">
         <div className="mb-label-field relative flex min-h-0 flex-1 flex-col">
-          <AppBar
+          <h1 className="sr-only">Girgit</h1>
+          <PageCorners
             back="/"
-            title="Girgit"
-            titleHidden
             extra={
               <>
-                <SideDrawer label="How to play" icon="?" title="How to play">
+                <SideDrawer
+                  label="How to play"
+                  icon="?"
+                  title="How to play"
+                  className="mb-square-btn mb-display-sm text-2xl"
+                >
                   <ol className="space-y-3 text-sm font-medium">
                     <li>1. Everyone sees the same 16 words and the theme.</li>
                     <li>
@@ -150,7 +154,12 @@ export function RoomScreen({
                   </Link>
                 </SideDrawer>
 
-                <SideDrawer label="Room" icon="⚙" title={`Room ${state.code}`}>
+                <SideDrawer
+                  label="Room"
+                  icon={<Settings className="size-5" strokeWidth={2.5} aria-hidden />}
+                  title={`Room ${state.code}`}
+                  className="mb-square-btn"
+                >
                   <div className="space-y-2">
                     <p className="mb-caps text-[0.6rem] opacity-60">
                       Word packs

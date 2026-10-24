@@ -15,12 +15,10 @@ export type Guide = {
   title: string;
   /** Card + meta description. */
   summary: string;
-  emoji: string;
   palette: PaletteId;
   players: string;
   time: string;
   needs: string;
-  status: "live" | "planned";
   /** Route to actually play it, if it exists. */
   playRoute?: string;
   alsoCalled?: string[];
@@ -37,12 +35,10 @@ export const GUIDES: Guide[] = [
     title: "How to play Who Am I?",
     summary:
       "The phone-on-forehead guessing game. Everyone can see your name except you. Rules, question tactics and six ways to play it.",
-    emoji: "🙈",
-    palette: "pulp",
+    palette: "tangerine",
     players: "3 or more",
     time: "As long as the room lasts",
     needs: "One phone per player",
-    status: "live",
     playRoute: "/who-am-i/celebrity",
     alsoCalled: [
       "Heads Up",
@@ -128,12 +124,10 @@ export const GUIDES: Guide[] = [
     title: "How to use the Scoreboard",
     summary:
       "A score tracker for any game played in person — cards, carrom, board games, antakshari. Players or teams, tap to score, undo mistakes.",
-    emoji: "🏆",
     palette: "flamingo",
     players: "2 or more",
     time: "One session",
     needs: "One phone, passed around or left on the table",
-    status: "live",
     playRoute: "/scoreboard",
     intro: [
       "Every in-person game eventually needs somebody to keep score, and that somebody always ends up using the back of an envelope. This replaces the envelope.",
@@ -173,12 +167,10 @@ export const GUIDES: Guide[] = [
     title: "How to play Girgit",
     summary:
       "Sixteen words, one secret, and one player who has no idea which. Everyone writes one clue, then the table works out who was bluffing.",
-    emoji: "\ud83e\udd8e",
     palette: "jungle",
     players: "4 to 10",
     time: "About four minutes a round",
     needs: "A phone each, everyone in the same room",
-    status: "live",
     playRoute: "/girgit",
     alsoCalled: [
       "The Chameleon",
@@ -259,14 +251,16 @@ export const GUIDES: Guide[] = [
     title: "How to play Wavelength",
     summary:
       "One clue, one hidden target, one dial. Read your friends' minds on a spectrum between two ends. Two teams or all together, on one phone.",
-    emoji: "\ud83d\udce1",
     palette: "miami",
     players: "2 to 12",
     time: "About two minutes a card",
     needs: "One phone for the whole table",
-    status: "live",
     playRoute: "/wavelength",
-    alsoCalled: ["Dial guessing game", "Spectrum game", "Mind reading party game"],
+    alsoCalled: [
+      "Dial guessing game",
+      "Spectrum game",
+      "Mind reading party game",
+    ],
     intro: [
       "Wavelength is a guessing game about how alike your heads are. Every card names a spectrum between two ends, like Cold and Hot or Overrated and Underrated. Somewhere on that spectrum is a hidden target only one player, the Psychic, gets to see.",
       "The Psychic says one clue out loud that they think sits exactly there. Their team argues about it and turns the dial. Then the target is revealed, and the closer the dial, the more points.",

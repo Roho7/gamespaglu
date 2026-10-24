@@ -8,6 +8,7 @@ import { RotatePhoneHint } from "@/components/generator/rotate-phone-hint";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { StitchedPanel } from "@/components/stitch/stitched-panel";
+import { BackLink } from "@/components/layout/page-corners";
 import { CATEGORIES } from "@/lib/deck/categories";
 import { paletteById, paletteVars } from "@/lib/palettes";
 import { useGenerator } from "@/lib/hooks/use-generator";
@@ -73,6 +74,7 @@ export function GeneratorScreen({
 
           {briefing ? (
             <div className="flex min-h-0 flex-1 flex-col gap-2 p-1">
+              <BackLink href={isGame ? "/who-am-i" : "/"} className="ml-1" />
               <StitchedPanel title="How to play" className="flex-1 basis-0">
                 <HowToPlay category={category} isGame={isGame} about={about} />
               </StitchedPanel>

@@ -12,6 +12,7 @@
     "check:contrast": "node scripts/check-contrast.mjs",
     "check": "npm run check:decks && npm run check:grids && npm run check:wavelength && npm run check:tokens && npm run check:contrast",
     "stickers": "node --env-file=.env scripts/import-stickers.mjs",
+    "backgrounds": "node scripts/shrink-backgrounds.mjs",
     "check:grids": "node scripts/check-grids.mjs",
     "check:wavelength": "node --no-warnings scripts/check-wavelength.mjs"
   },

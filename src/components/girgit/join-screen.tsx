@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AppBar } from "@/components/layout/app-bar";
+import { PageCorners } from "@/components/layout/page-corners";
 import { Panel } from "@/components/ui/controls";
 import { useOnline } from "@/lib/hooks/use-online";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,8 @@ export function JoinScreen({
 
   return (
     <main className="min-h-dvh px-4 pt-20 pb-10">
-      <AppBar back="/" title="Girgit" titleHidden />
+      <h1 className="sr-only">Girgit</h1>
+      <PageCorners back="/" />
 
       <div className="mx-auto w-full max-w-sm space-y-5">
         <div className="mb-tilt text-center">

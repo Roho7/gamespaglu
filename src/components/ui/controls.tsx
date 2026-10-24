@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Shared matchbox controls. Every visual here is a recipe from globals.css —
- * .mb-frame, .mb-btn, .mb-icon-btn, .mb-caps — so there is exactly one place
+ * .mb-frame, .mb-btn, .mb-caps — so there is exactly one place
  * per concept and `npm run check:tokens` can guarantee no colour is named.
  */
 
@@ -50,17 +50,5 @@ export function Panel({
     >
       {children}
     </div>
-  );
-}
-
-export function IconButton({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"button">) {
-  return (
-    <button {...props} className={cn("mb-icon-btn", className)}>
-      {children}
-    </button>
   );
 }
