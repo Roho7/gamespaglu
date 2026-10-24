@@ -68,16 +68,19 @@ category palette, with the band below naming the game. Simple, clean, profession
 - **Components never name a colour.** Use `--cw-*` or the page tokens. `npm run check:tokens`
   enforces it; `npm run check:contrast` enforces the ink ratios.
 - **No dark mode.** The palettes are the theme.
-- **Plain pages are printed in one palette, flipped.** `GROUND` in `palettes.ts` (miami) sets the
-  ground: its `shadow` is the page, its `base` the type, its `primary` the panels, with a still
-  `ink` grain behind everything (root layout). `groundVars()` sets this on `<html>`, so drawers
-  inherit it. `npm run check:contrast` checks the ground palette too. Never hardcode a ground.
-- **A flipped field uses `flippedVars()`** (the ground, Wavelength's field): the colourway inverts so
-  type and rules print light, but `--loud`/`--on-loud` keep the loud ink. Primary buttons and
-  square buttons read `--loud`, so they stay the brightest thing on any surface. A flipped field
-  must set `color: "var(--cw-shadow)"` in the same `style` object, because children inherit the
-  computed colour, not the variable.
-- Anything on the ground (secondary buttons, inputs, panels, drawers) takes ink from `--ground-*`.
+- **Theme with `theme()`, never an inline style.** Spread it onto an element
+  (`<div {...theme("jungle")}>`): it sets `data-palette` (and `data-flipped`), and every `--cw-*`
+  recipe inside follows. `paletteCss()` generates the CSS for every palette once, in the root
+  layout. `theme()` takes a typed `PaletteId`, so a missing palette is a compile error, not a
+  silent fallback. A dialog renders outside its page, so theme its `DialogContent` directly.
+- **Plain pages are printed in one palette, flipped.** `GROUND` in `palettes.ts` (miami) is set on
+  `<html>`: its `shadow` is the page, its `base` the type, with a still `ink` grain behind
+  everything. `npm run check:contrast` checks the ground palette too. Never hardcode a ground.
+- **A flipped field** (`theme(p, { flipped: true })`: the ground, Wavelength's field) inverts the
+  colourway so type and rules print light, while `--loud`/`--on-loud` keep the loud ink. Primary
+  and square buttons read `--loud`, so they stay the brightest thing on any surface.
+- Fields (`Input`) take their palette's `primary` as fill and `--loud` as type; secondary buttons,
+  panels and drawers on the ground take `--ground-*`.
 
 ### Print treatment
 
@@ -112,7 +115,8 @@ the system.
 
 ## Layout
 
-- **There is no top bar.** Inner pages render `PageCorners`: a square back button top-left, and
+- **There is no top bar.** Inner pages render `PageCorners`: a square back button top-left
+  (`BackLink`, always `router.back()`, never a fixed route), and
   top-right any page controls plus the scoreboard. Home cards (`HomeGameCard`) carry a square `?` to
   their guide top-right instead.
 - **The scoreboard is a bottom sheet behind a square button, not a destination.** `PageCorners`

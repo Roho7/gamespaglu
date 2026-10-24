@@ -2,7 +2,7 @@ import Link from "next/link";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
 import { HelpLink } from "@/components/layout/page-corners";
 import { StitchBorder } from "@/components/stitch/stitch-border";
-import { paletteById, paletteVars, type PaletteId } from "@/lib/palettes";
+import { paletteById, type PaletteId, theme } from "@/lib/palettes";
 
 /** One line of the poster lockup over the photo. */
 export type PosterRow = { text: string; kind: "title" | "subtitle" };
@@ -38,7 +38,7 @@ export function HomeGameCard({
   const palette = paletteById(paletteId);
   return (
     <section
-      style={paletteVars(palette)}
+      {...theme(palette)}
       className="mb-label mb-label-bleed h-full snap-start"
     >
       <div className="relative flex min-h-0 flex-1 flex-col items-center px-6 pb-6 text-center">

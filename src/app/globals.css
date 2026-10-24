@@ -107,6 +107,16 @@
     text-shadow: var(--shadow-offset) var(--shadow-offset) 0
       var(--cw-highlight, var(--shadow-ink));
   }
+  .mb-display-flipped {
+    font-family: var(--font-poster), var(--font-body), sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    line-height: 0.92;
+    text-shadow: var(--shadow-offset) var(--shadow-offset) 0
+      var(--shadow-ink, var(--cw-highlight));
+  }
+
   .mb-display-sm {
     font-family: var(--font-poster), var(--font-body), sans-serif;
     font-weight: 400;

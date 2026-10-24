@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Crown, Minus, Plus, Undo2 } from "lucide-react";
 import { StitchBorder } from "@/components/stitch/stitch-border";
-import { PALETTES, paletteVars } from "@/lib/palettes";
+import { PALETTES, theme } from "@/lib/palettes";
 import { blip } from "@/lib/sound-and-haptics";
 import { useHydrated, usePersisted } from "@/lib/hooks/use-persisted";
 
@@ -134,7 +134,7 @@ export function Scoreboard() {
 
       {players.length === 0 ? (
         <div
-          style={paletteVars(PALETTES[0])}
+          {...theme(PALETTES[0])}
           className="mb-label relative px-8 py-12 text-center"
         >
           <StitchBorder className="inset-2" />
@@ -157,7 +157,7 @@ export function Scoreboard() {
             return (
               <li
                 key={p.id}
-                style={paletteVars(palette)}
+                {...theme(palette)}
                 className="mb-label relative flex flex-row items-center gap-3 px-5 py-5"
               >
                 <StitchBorder className="inset-1.5" />
@@ -240,7 +240,7 @@ export function Scoreboard() {
 
       {confirm ? (
         <div
-          style={paletteVars(PALETTES[0])}
+          {...theme(PALETTES[0])}
           className="mb-label relative space-y-3 p-6"
         >
           <StitchBorder className="inset-1.5" />

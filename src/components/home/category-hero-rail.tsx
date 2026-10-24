@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CATEGORY_LIST } from "@/lib/deck/categories";
-import { paletteById, paletteVars } from "@/lib/palettes";
+import { paletteById, theme } from "@/lib/palettes";
 import { blip } from "@/lib/sound-and-haptics";
 import { VineMarquee } from "@/components/stitch/vine-marquee";
 import { StitchBorder } from "@/components/stitch/stitch-border";
@@ -54,7 +54,7 @@ export function CategoryHeroRail() {
           return (
             <div
               key={c.id}
-              style={paletteVars(palette)}
+              {...theme(palette)}
               className="mb-label mb-label-bleed h-full"
             >
               <div className="relative flex min-h-0 flex-1 flex-col">
@@ -65,18 +65,15 @@ export function CategoryHeroRail() {
                     className="absolute inset-0"
                   />
                 ) : null}
-                <div className="flex h-10 text-[var(--cw-highlight)] absolute inset-x-0 top-0">
+                <div className="flex h-4 text-[var(--cw-highlight)] absolute inset-x-0 top-0">
                   <VineMarquee />
                 </div>
-                <div className="flex h-10 text-[var(--cw-highlight)] absolute inset-x-0 bottom-0">
+                <div className="flex h-4 text-[var(--cw-highlight)] absolute inset-x-0 bottom-0">
                   <VineMarquee direction="right" />
                 </div>
               </div>
 
-              <Link
-                href={`/who-am-i/${c.id}`}
-                className="mb-band-action p-10"
-              >
+              <Link href={`/who-am-i/${c.id}`} className="mb-band-action p-10">
                 <StitchBorder className="inset-3" />
                 <span className="text-sm font-light">Generate Random </span>
                 <span className="mb-display-sm text-5xl">{c.label}</span>
@@ -87,7 +84,7 @@ export function CategoryHeroRail() {
       </div>
 
       <div
-        style={paletteVars(paletteById(active.palette))}
+        {...theme(active.palette)}
         className="pointer-events-none absolute inset-0 z-20 text-[var(--cw-shadow)]"
       >
         {index > 0 ? (
@@ -111,7 +108,6 @@ export function CategoryHeroRail() {
             <Chevron className="size-6 -rotate-90" />
           </button>
         ) : null}
-
       </div>
     </div>
   );

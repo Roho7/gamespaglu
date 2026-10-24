@@ -10,7 +10,7 @@ import { StitchBorder } from "@/components/stitch/stitch-border";
 import { StitchedPanel } from "@/components/stitch/stitched-panel";
 import { BackLink } from "@/components/layout/page-corners";
 import { CATEGORIES } from "@/lib/deck/categories";
-import { paletteById, paletteVars } from "@/lib/palettes";
+import { paletteById, theme } from "@/lib/palettes";
 import { useGenerator } from "@/lib/hooks/use-generator";
 import { useWakeLock } from "@/lib/hooks/use-wake-lock";
 import type { CategoryId } from "@/lib/deck/types";
@@ -58,7 +58,7 @@ export function GeneratorScreen({
   const palette = g.palette ?? paletteById(meta.palette);
 
   return (
-    <div style={paletteVars(palette)} className="flex h-dvh flex-col">
+    <div {...theme(palette)} className="flex h-dvh flex-col">
       <div className="mb-label mb-label-bleed flex-1">
         <div className="mb-label-field relative flex min-h-0 flex-1 flex-col">
           <h1 className="sr-only">{heading}</h1>
@@ -74,7 +74,7 @@ export function GeneratorScreen({
 
           {briefing ? (
             <div className="flex min-h-0 flex-1 flex-col gap-2 p-1">
-              <BackLink href={isGame ? "/who-am-i" : "/"} className="ml-1" />
+              <BackLink className="ml-1" />
               <StitchedPanel title="How to play" className="flex-1 basis-0">
                 <HowToPlay category={category} isGame={isGame} about={about} />
               </StitchedPanel>

@@ -116,7 +116,11 @@ export function RangePicker({
               onChange={(e) => onChange(Number(e.target.value), max)}
             />
           </label>
-          <ArrowRight className="size-[1em] shrink-0" strokeWidth={3} aria-hidden />
+          <ArrowRight
+            className="size-[1em] shrink-0"
+            strokeWidth={3}
+            aria-hidden
+          />
           <label className="flex-1">
             <span className="sr-only">Maximum</span>
             <Input

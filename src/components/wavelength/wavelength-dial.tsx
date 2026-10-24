@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { ArrowDown } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
-import { paletteVars, type Palette } from "@/lib/palettes";
+import { type Palette, theme } from "@/lib/palettes";
 import { BANDS, clampDial } from "@/lib/wavelength/engine";
 
 const PIVOT_X = 100;
@@ -119,10 +119,7 @@ export function WavelengthDial({
   const release = () => onHold?.(false);
 
   return (
-    <div
-      style={paletteVars(palette)}
-      className="relative [container-type:inline-size]"
-    >
+    <div {...theme(palette)} className="relative [container-type:inline-size]">
       <div
         className="absolute inset-0"
         style={{ mask: FACE_MASK, WebkitMask: FACE_MASK }}

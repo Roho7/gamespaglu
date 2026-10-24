@@ -27,7 +27,7 @@ export function DitheredPhoto({
       originalColors={false}
       inverted={false}
       type="8x8"
-      size={2}
+      size={1.5}
       colorSteps={2}
       fit="cover"
     />

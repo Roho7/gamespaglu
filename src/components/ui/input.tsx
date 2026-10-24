@@ -1,20 +1,30 @@
 import * as React from "react";
 
+import { StitchBorder } from "@/components/stitch/stitch-border";
 import { cn } from "@/lib/utils";
 
-/** Matchbox input: pill, ink rule, kraft field. Colours from tokens only. */
+/**
+ * A square field in its palette's dark ink with the loud ink as type, so it
+ * takes the colours of whatever it sits in, framed by the small bud stitch
+ * around its outer edge. `className` styles the frame, and the input inherits
+ * its type, alignment and spacing, so a caller can set `text-center text-2xl`.
+ */
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
-    <input
-      type={type}
-      data-slot="input"
+    <span
       className={cn(
-        "w-full min-w-0 rounded-full border-[length:var(--rule-thin)] border-current bg-[var(--ground-soft)] px-4 py-2.5 text-base font-semibold text-[var(--ground-ink)] outline-none placeholder:opacity-45",
-        "focus-visible:outline-[var(--rule)] focus-visible:outline-current",
+        "relative block w-full min-w-0 bg-[var(--cw-primary)] text-base font-semibold text-[var(--loud)] focus-within:outline-[length:var(--rule)] focus-within:outline-current",
         className,
       )}
-      {...props}
-    />
+    >
+      <input
+        type={type}
+        data-slot="input"
+        className="w-full min-w-0 bg-transparent px-4 py-3 [font:inherit] [letter-spacing:inherit] [text-align:inherit] text-inherit outline-none placeholder:opacity-45"
+        {...props}
+      />
+      <StitchBorder variant="field" className="inset-0" />
+    </span>
   );
 }
 

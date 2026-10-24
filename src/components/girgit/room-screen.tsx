@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowRight, Settings } from "lucide-react";
 import { PageCorners } from "@/components/layout/page-corners";
 import { SideDrawer } from "@/components/layout/side-drawer";
 import { PhaseCountdown } from "@/components/girgit/phase-countdown";
+import { GirgitRules } from "@/components/girgit/room-panels";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
 import { PlayerTable } from "@/components/girgit/player-table";
 import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
@@ -13,7 +13,9 @@ import { TapToast } from "@/components/girgit/tap-toast";
 import { Chip } from "@/components/ui/controls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { paletteVars, roundPalette } from "@/lib/palettes";
+import { paletteById, roundPalette, theme } from "@/lib/palettes";
+import { DitheredPhoto } from "@/components/home/dithered-photo";
+import { StitchBorder } from "@/components/stitch/stitch-border";
 import type { useGirgitRoom } from "@/lib/hooks/use-girgit-room";
 import { useOnline } from "@/lib/hooks/use-online";
 import {
@@ -22,6 +24,11 @@ import {
   PACKS,
   type RoomState,
 } from "@shared/protocol";
+
+const GIRGIT_PALETTE = paletteById("jungle");
+
+/** The photo behind the waiting room, dithered in Girgit's palette. */
+const LOBBY_IMAGE = "/backgrounds/chameleon.jpg";
 
 /**
  * The play surface. One label, one accent, one action in the band.
@@ -63,7 +70,11 @@ export function RoomScreen({
 
   const hasClued = state.your?.hasClued ?? false;
   const hasVoted = state.your?.hasVoted ?? false;
-  const palette = roundPalette(state.code, round?.roundNo ?? 0);
+  const lobby = phase === "lobby" || !round;
+  const short = state.players.length < state.minPlayers;
+  const palette = lobby
+    ? GIRGIT_PALETTE
+    : roundPalette(state.code, round.roundNo);
 
   const clueOf = (playerId: string) =>
     round?.clues.find((c) => c.playerId === playerId)?.word ?? null;
@@ -110,14 +121,20 @@ export function RoomScreen({
   const { big, small } = headline();
 
   return (
-    <div style={paletteVars(palette)} className="flex min-h-dvh flex-col">
+    <div {...theme(palette)} className="flex min-h-dvh flex-col">
       <TapToast message={toast} />
 
       <div className="mb-label mb-label-bleed flex-1">
         <div className="mb-label-field relative flex min-h-0 flex-1 flex-col">
           <h1 className="sr-only">Girgit</h1>
+          {lobby ? (
+            <DitheredPhoto
+              image={LOBBY_IMAGE}
+              palette={GIRGIT_PALETTE}
+              className="absolute inset-0 opacity-60"
+            />
+          ) : null}
           <PageCorners
-            back="/"
             extra={
               <>
                 <SideDrawer
@@ -126,37 +143,18 @@ export function RoomScreen({
                   title="How to play"
                   className="mb-square-btn mb-display-sm text-2xl"
                 >
-                  <ol className="space-y-3 text-sm font-medium">
-                    <li>1. Everyone sees the same 16 words and the theme.</li>
-                    <li>
-                      2. Everyone can see which word is the secret one — except
-                      the Girgit, who only knows they are the Girgit.
-                    </li>
-                    <li>
-                      3. Hold the button to check your word. Don&apos;t let your
-                      neighbour see it.
-                    </li>
-                    <li>
-                      4. Everyone writes one clue. They land on the table as
-                      they come.
-                    </li>
-                    <li>5. Argue. Out loud. Then vote.</li>
-                    <li>
-                      6. Catch the Girgit and they get one guess at the word to
-                      escape.
-                    </li>
-                  </ol>
-                  <Link
-                    href="/how-to-play/girgit"
-                    className="block text-sm font-bold underline decoration-2"
-                  >
-                    Full rules <ArrowRight className="inline size-[1em] align-[-0.125em]" strokeWidth={3} aria-hidden />
-                  </Link>
+                  <GirgitRules />
                 </SideDrawer>
 
                 <SideDrawer
                   label="Room"
-                  icon={<Settings className="size-5" strokeWidth={2.5} aria-hidden />}
+                  icon={
+                    <Settings
+                      className="size-5"
+                      strokeWidth={2.5}
+                      aria-hidden
+                    />
+                  }
                   title={`Room ${state.code}`}
                   className="mb-square-btn"
                 >
@@ -253,21 +251,19 @@ export function RoomScreen({
           />
 
           <div className="relative flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pt-16 pb-3 sm:px-8">
-            {phase === "lobby" || !round ? (
+            {lobby ? (
               <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-3 text-center">
-                <p className="mb-caps text-[0.6rem] opacity-70">
-                  Everyone taps Join and types this
+                <p className="mb-caps text-sm">
+                  SHARE THIS WITH YOUR TEAMMATES
                 </p>
-                <p className="mb-display mb-shadow text-6xl tracking-[0.12em]">
+                <p className="mb-display mb-shadow text-7xl tracking-[0.12em]">
                   {state.code}
                 </p>
-                <p className="mb-caps text-[0.6rem] opacity-70">
+                <p className="mb-caps text-sm]">
                   {state.players.length} of {state.maxPlayers} in
-                  {state.players.length < state.minPlayers
-                    ? ` · need ${state.minPlayers}`
-                    : ""}
+                  {short ? ` · need ${state.minPlayers}` : ""}
                 </p>
-                <ul className="flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm font-bold">
+                <ul className="flex flex-wrap justify-center gap-x-3 gap-y-1 text-base font-bold">
                   {state.players.map((p) => (
                     <li key={p.id} className={p.connected ? "" : "opacity-40"}>
                       {p.name}
@@ -385,7 +381,13 @@ export function RoomScreen({
                       <ul className="mb-caps space-y-0.5 text-[0.55rem] opacity-70">
                         {round.votes.map((v) => (
                           <li key={v.voterId}>
-                            {nameOf(v.voterId)} <ArrowRight className="inline size-[1em] align-[-0.125em]" strokeWidth={3} aria-hidden /> {nameOf(v.targetId)}
+                            {nameOf(v.voterId)}{" "}
+                            <ArrowRight
+                              className="inline size-[1em] align-[-0.125em]"
+                              strokeWidth={3}
+                              aria-hidden
+                            />{" "}
+                            {nameOf(v.targetId)}
                           </li>
                         ))}
                       </ul>
@@ -404,141 +406,143 @@ export function RoomScreen({
           </div>
         </div>
 
-        <div className="mb-band flex-col gap-2 px-4 py-3">
-          {!cutOff && round?.deadlineAt ? (
-            <PhaseCountdown
-              deadlineAt={round.deadlineAt}
-              totalSeconds={state.clueSeconds}
-              label="Clues close in"
-            />
-          ) : null}
-
-          {cutOff ? (
-            <div className="text-center">
-              <p className="mb-display-sm text-base">
-                {online ? "Reconnecting…" : "No signal"}
-              </p>
-              <p className="mb-caps text-[0.55rem] opacity-70">
-                Your seat and your word are held. Nothing is lost.
-              </p>
-            </div>
-          ) : null}
-
-          {!cutOff && (phase === "lobby" || !round) ? (
-            isHost ? (
-              <Button
-                size="hero"
-                className="max-w-sm"
-                onClick={() => act.startRound()}
-                disabled={state.players.length < state.minPlayers}
-              >
-                {state.players.length < state.minPlayers
-                  ? `Need ${state.minPlayers} players`
-                  : "Deal"}
-              </Button>
-            ) : (
-              <p className="mb-caps text-center text-[0.6rem] opacity-80">
-                Waiting for {nameOf(state.hostId)} to deal
-              </p>
-            )
-          ) : null}
-
-          {!cutOff && phase === "clues" && round ? (
-            hasClued ? (
-              <p className="mb-caps text-center text-[0.6rem] opacity-80">
-                In. Waiting on {round.cluesTotal - round.cluesIn} of{" "}
-                {round.cluesTotal}
-              </p>
-            ) : (
-              <div className="flex w-full max-w-sm items-center gap-2">
-                <Input
-                  value={clue}
-                  maxLength={MAX_CLUE_LENGTH}
-                  onChange={(e) => setClue(e.target.value)}
-                  placeholder="One or two words"
-                  autoComplete="off"
-                  className="flex-1"
-                />
-                <Button
-                  onClick={async () => {
-                    const r = await act.submitClue(clue);
-                    if (r.ok) {
-                      setClue("");
-                      setToast("Clue in");
-                    } else {
-                      setToast(r.error.message);
-                    }
-                  }}
-                  disabled={!clue.trim()}
-                >
-                  Send
-                </Button>
-              </div>
-            )
-          ) : null}
-
-          {!cutOff && phase === "discuss" ? (
-            <Button
-              size="hero"
-              className="max-w-sm"
-              onClick={() => act.callVote()}
+        {lobby && !cutOff ? (
+          <button
+            type="button"
+            onClick={() => act.startRound()}
+            disabled={!isHost || short}
+            className="mb-band-action py-8"
+          >
+            <StitchBorder className="inset-3" />
+            <span
+              className={`mb-display-sm ${isHost ? "text-4xl" : "text-2xl"}`}
             >
-              Call the vote
-            </Button>
-          ) : null}
-
-          {!cutOff && phase === "vote" && round ? (
-            <div className="flex w-full max-w-sm items-center justify-between gap-3">
-              <span className="mb-caps text-[0.6rem] opacity-80">
-                {hasVoted
-                  ? "Locked in"
-                  : `${round.votesIn} of ${round.cluesTotal} voted`}
+              {isHost ? "Start" : "Waiting for host to start…"}
+            </span>
+            {isHost && short ? (
+              <span className="mb-caps text-[0.6rem]">
+                Need {state.minPlayers} players
               </span>
-              {isHost ? (
-                <button
-                  className="mb-caps text-[0.55rem] underline opacity-70"
-                  onClick={() => act.abortRound()}
-                >
-                  end round
-                </button>
-              ) : null}
-            </div>
-          ) : null}
+            ) : null}
+          </button>
+        ) : (
+          <div className="mb-band flex-col gap-2 px-4 py-3">
+            {!cutOff && round?.deadlineAt ? (
+              <PhaseCountdown
+                deadlineAt={round.deadlineAt}
+                totalSeconds={state.clueSeconds}
+                label="Clues close in"
+              />
+            ) : null}
 
-          {!cutOff && phase === "escape" ? (
-            <div className="flex w-full max-w-sm items-center justify-between gap-3">
-              <span className="mb-caps text-[0.6rem] opacity-80">
-                {state.your?.isGirgit
-                  ? "Pick a word above"
-                  : "Hold your breath"}
-              </span>
-              {isHost ? (
-                <button
-                  className="mb-caps text-[0.55rem] underline opacity-70"
-                  onClick={() => act.abortRound()}
-                >
-                  end round
-                </button>
-              ) : null}
-            </div>
-          ) : null}
+            {cutOff ? (
+              <div className="text-center">
+                <p className="mb-display-sm text-base">
+                  {online ? "Reconnecting…" : "No signal"}
+                </p>
+                <p className="mb-caps text-[0.55rem] opacity-70">
+                  Your seat and your word are held. Nothing is lost.
+                </p>
+              </div>
+            ) : null}
 
-          {!cutOff && phase === "reveal" ? (
-            isHost ? (
+            {!cutOff && phase === "clues" && round ? (
+              hasClued ? (
+                <p className="mb-caps text-center text-[0.6rem] opacity-80">
+                  In. Waiting on {round.cluesTotal - round.cluesIn} of{" "}
+                  {round.cluesTotal}
+                </p>
+              ) : (
+                <div className="flex w-full max-w-sm items-center gap-2">
+                  <Input
+                    value={clue}
+                    maxLength={MAX_CLUE_LENGTH}
+                    onChange={(e) => setClue(e.target.value)}
+                    placeholder="One or two words"
+                    autoComplete="off"
+                    className="flex-1"
+                  />
+                  <Button
+                    onClick={async () => {
+                      const r = await act.submitClue(clue);
+                      if (r.ok) {
+                        setClue("");
+                        setToast("Clue in");
+                      } else {
+                        setToast(r.error.message);
+                      }
+                    }}
+                    disabled={!clue.trim()}
+                  >
+                    Send
+                  </Button>
+                </div>
+              )
+            ) : null}
+
+            {!cutOff && phase === "discuss" ? (
               <Button
                 size="hero"
                 className="max-w-sm"
-                onClick={() => act.startRound()}
+                onClick={() => act.callVote()}
               >
-                Again
+                Call the vote
               </Button>
-            ) : (
-              <p className="mb-caps text-center text-[0.6rem] opacity-80">
-                Waiting for {nameOf(state.hostId)}
-              </p>
-            )
-          ) : null}
-        </div>
+            ) : null}
+
+            {!cutOff && phase === "vote" && round ? (
+              <div className="flex w-full max-w-sm items-center justify-between gap-3">
+                <span className="mb-caps text-[0.6rem] opacity-80">
+                  {hasVoted
+                    ? "Locked in"
+                    : `${round.votesIn} of ${round.cluesTotal} voted`}
+                </span>
+                {isHost ? (
+                  <button
+                    className="mb-caps text-[0.55rem] underline opacity-70"
+                    onClick={() => act.abortRound()}
+                  >
+                    end round
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
+
+            {!cutOff && phase === "escape" ? (
+              <div className="flex w-full max-w-sm items-center justify-between gap-3">
+                <span className="mb-caps text-[0.6rem] opacity-80">
+                  {state.your?.isGirgit
+                    ? "Pick a word above"
+                    : "Hold your breath"}
+                </span>
+                {isHost ? (
+                  <button
+                    className="mb-caps text-[0.55rem] underline opacity-70"
+                    onClick={() => act.abortRound()}
+                  >
+                    end round
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
+
+            {!cutOff && phase === "reveal" ? (
+              isHost ? (
+                <Button
+                  size="hero"
+                  className="max-w-sm"
+                  onClick={() => act.startRound()}
+                >
+                  Again
+                </Button>
+              ) : (
+                <p className="mb-caps text-center text-[0.6rem] opacity-80">
+                  Waiting for {nameOf(state.hostId)}
+                </p>
+              )
+            ) : null}
+          </div>
+        )}
       </div>
     </div>
   );

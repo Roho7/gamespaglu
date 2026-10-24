@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { HomeGameCard } from "@/components/home/home-game-card";
-import { paletteById, paletteVars } from "@/lib/palettes";
+import { theme } from "@/lib/palettes";
 import { SITE } from "@/lib/site-config";
 
 /**
@@ -14,6 +14,19 @@ export default function Home() {
   return (
     <>
       <main className="h-dvh snap-y snap-mandatory overflow-x-hidden overflow-y-auto">
+        <HomeGameCard
+          href="/wavelength"
+          help="/how-to-play/wavelength"
+          palette="miami"
+          title="Wavelength"
+          tagline="One clue. How close can your team get?"
+          image="/backgrounds/wavelength.jpg"
+          rows={[
+            { text: "Wave", kind: "title" },
+            { text: "Length", kind: "title" },
+          ]}
+        />
+
         <HomeGameCard
           href="/who-am-i"
           help="/how-to-play/who-am-i"
@@ -29,11 +42,11 @@ export default function Home() {
         />
 
         <HomeGameCard
-          href="/girgit"
+          href="/girgit/new"
           help="/how-to-play/girgit"
           palette="jungle"
           title="Girgit"
-          tagline="Everyone gets the word. One of you doesn't."
+          tagline="Find the imposter who doesn't know the word."
           image="/backgrounds/chameleon.jpg"
           rows={[
             { text: "Girgit", kind: "title" },
@@ -41,21 +54,8 @@ export default function Home() {
           ]}
         />
 
-        <HomeGameCard
-          href="/wavelength"
-          help="/how-to-play/wavelength"
-          palette="miami"
-          title="Wavelength"
-          tagline="One clue. How close can your team get?"
-          image="/backgrounds/wavelength.jpg"
-          rows={[
-            { text: "Wave", kind: "title" },
-            { text: "Length", kind: "title" },
-          ]}
-        />
-
         <section
-          style={paletteVars(paletteById("pillar"))}
+          {...theme("pulp")}
           className="mb-label mb-label-bleed h-full snap-start"
         >
           <div className="mb-label-field mb-tilt relative flex min-h-0 flex-1 flex-col items-center justify-center gap-5 px-6 text-center">

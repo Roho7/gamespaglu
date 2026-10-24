@@ -31,6 +31,77 @@ export type Guide = {
 
 export const GUIDES: Guide[] = [
   {
+    slug: "wavelength",
+    title: "How to play Wavelength",
+    summary:
+      "One clue, one hidden target, one dial. Read your friends' minds on a spectrum between two ends. Two teams or all together, on one phone.",
+    palette: "miami",
+    players: "2 to 12",
+    time: "About two minutes a card",
+    needs: "One phone for the whole table",
+    playRoute: "/wavelength",
+    alsoCalled: [
+      "Dial guessing game",
+      "Spectrum game",
+      "Mind reading party game",
+    ],
+    intro: [
+      "Wavelength is a guessing game about how alike your heads are. Every card names a spectrum between two ends, like Cold and Hot or Overrated and Underrated. Somewhere on that spectrum is a hidden target only one player, the Psychic, gets to see.",
+      "The Psychic says one clue out loud that they think sits exactly there. Their team argues about it and turns the dial. Then the target is revealed, and the closer the dial, the more points.",
+      "It needs one phone for the whole table and no signal at all. The phone is the dial, the shutter and the scorekeeper. The arguing is yours.",
+    ],
+    steps: [
+      {
+        title: "Pick a Psychic",
+        body: "One player takes the phone. Everyone else looks away. The Psychic presses and holds the dial to see where the target sits; letting go hides it again. If the card is hopeless, they can skip it before saying anything.",
+      },
+      {
+        title: "Say one clue",
+        body: "Out loud, the Psychic names one thing that sits where the target is. On Cold to Hot with the target just right of centre, \u201cchai\u201d works. No numbers, no pointing, no explaining the clue after it is out.",
+      },
+      {
+        title: "Turn the dial",
+        body: "The Psychic's team talks it over and drags the dial to where they think the clue lives. The Psychic keeps a straight face. When the team agrees, lock it in.",
+      },
+      {
+        title: "The other team calls left or right",
+        body: "With two teams, the other side now guesses whether the target is left or right of the dial. They get a point if they are right, unless the dial landed dead centre.",
+      },
+      {
+        title: "Reveal and score",
+        body: "The target appears. Dead centre scores 4, the bands either side 2, the next ones out 1, anything else nothing. Pass the phone to the other team's Psychic for the next card.",
+      },
+    ],
+    variations: [
+      {
+        title: "Catching up",
+        body: "If a team scores 4 while still behind, they go again straight away. It keeps a lopsided game alive.",
+      },
+      {
+        title: "Winning",
+        body: "First team to 10 wins. If both teams pass 10 on the same card, the higher score wins; a tie plays another card.",
+      },
+      {
+        title: "All together",
+        body: "For two or three players, or a table that would rather not compete. Everyone guesses together, the Psychic rotates each card, and after seven cards you get a total and a verdict on how in tune you all are.",
+      },
+    ],
+    faq: [
+      {
+        q: "Does everyone need a phone?",
+        a: "No. One phone does the whole game. Only the Psychic needs to see the target, and only while holding the button, so the phone just goes around the table.",
+      },
+      {
+        q: "Does it work offline?",
+        a: "Yes. Once the page has loaded it works with no signal at all, and the game survives a refresh or a locked screen.",
+      },
+      {
+        q: "What makes a good clue?",
+        a: "Something everyone at the table knows. A clue only works if your team pictures the same thing you do, so the most famous example usually beats the cleverest one.",
+      },
+    ],
+  },
+  {
     slug: "who-am-i",
     title: "How to play Who Am I?",
     summary:
@@ -119,49 +190,7 @@ export const GUIDES: Guide[] = [
       },
     ],
   },
-  {
-    slug: "scoreboard",
-    title: "How to use the Scoreboard",
-    summary:
-      "A score tracker for any game played in person — cards, carrom, board games, antakshari. Players or teams, tap to score, undo mistakes.",
-    palette: "flamingo",
-    players: "2 or more",
-    time: "One session",
-    needs: "One phone, passed around or left on the table",
-    playRoute: "/scoreboard",
-    intro: [
-      "Every in-person game eventually needs somebody to keep score, and that somebody always ends up using the back of an envelope. This replaces the envelope.",
-      "It is deliberately not tied to any game. Rummy, carrom, badminton, antakshari, a quiz you invented ten minutes ago — the Scoreboard doesn't care what the points mean.",
-    ],
-    steps: [
-      {
-        title: "Add players or teams",
-        body: "Type a name and hit Add. The same field takes team names, so 'Boys vs Girls' or 'Table 2' works exactly like a person's name.",
-      },
-      {
-        title: "Score with the big buttons",
-        body: "Each row has a minus on the left and a plus on the right, sized for a thumb from across the table. Set the step to 1, 5 or 10 for games that score in chunks.",
-      },
-      {
-        title: "Type an exact score when it's odd",
-        body: "Tap the number itself and type over it. Useful for a round that scored 37, and for correcting whoever was in charge before you.",
-      },
-      {
-        title: "Undo, reset or start fresh",
-        body: "Undo walks back the last twenty changes. Reset scores keeps the names for a rematch; New game clears everything. Both ask first, because a mis-tap would lose the whole night.",
-      },
-    ],
-    faq: [
-      {
-        q: "Does it remember the scores if I close the tab?",
-        a: "Yes. The board is stored on the device, so it survives a refresh, a locked phone and a closed browser. It stays until you clear it.",
-      },
-      {
-        q: "Can two phones share one scoreboard?",
-        a: "Not yet. One phone holds the board today. Shared, live scoreboards arrive with rooms.",
-      },
-    ],
-  },
+
   {
     slug: "girgit",
     title: "How to play Girgit",
@@ -171,7 +200,7 @@ export const GUIDES: Guide[] = [
     players: "4 to 10",
     time: "About four minutes a round",
     needs: "A phone each, everyone in the same room",
-    playRoute: "/girgit",
+    playRoute: "/girgit/new",
     alsoCalled: [
       "The Chameleon",
       "Word imposter",
@@ -246,74 +275,47 @@ export const GUIDES: Guide[] = [
       },
     ],
   },
+
   {
-    slug: "wavelength",
-    title: "How to play Wavelength",
+    slug: "scoreboard",
+    title: "How to use the Scoreboard",
     summary:
-      "One clue, one hidden target, one dial. Read your friends' minds on a spectrum between two ends. Two teams or all together, on one phone.",
-    palette: "miami",
-    players: "2 to 12",
-    time: "About two minutes a card",
-    needs: "One phone for the whole table",
-    playRoute: "/wavelength",
-    alsoCalled: [
-      "Dial guessing game",
-      "Spectrum game",
-      "Mind reading party game",
-    ],
+      "A score tracker for any game played in person — cards, carrom, board games, antakshari. Players or teams, tap to score, undo mistakes.",
+    palette: "flamingo",
+    players: "2 or more",
+    time: "One session",
+    needs: "One phone, passed around or left on the table",
+    playRoute: "/scoreboard",
     intro: [
-      "Wavelength is a guessing game about how alike your heads are. Every card names a spectrum between two ends, like Cold and Hot or Overrated and Underrated. Somewhere on that spectrum is a hidden target only one player, the Psychic, gets to see.",
-      "The Psychic says one clue out loud that they think sits exactly there. Their team argues about it and turns the dial. Then the target is revealed, and the closer the dial, the more points.",
-      "It needs one phone for the whole table and no signal at all. The phone is the dial, the shutter and the scorekeeper. The arguing is yours.",
+      "Every in-person game eventually needs somebody to keep score, and that somebody always ends up using the back of an envelope. This replaces the envelope.",
+      "It is deliberately not tied to any game. Rummy, carrom, badminton, antakshari, a quiz you invented ten minutes ago — the Scoreboard doesn't care what the points mean.",
     ],
     steps: [
       {
-        title: "Pick a Psychic",
-        body: "One player takes the phone. Everyone else looks away. The Psychic presses and holds the dial to see where the target sits; letting go hides it again. If the card is hopeless, they can skip it before saying anything.",
+        title: "Add players or teams",
+        body: "Type a name and hit Add. The same field takes team names, so 'Boys vs Girls' or 'Table 2' works exactly like a person's name.",
       },
       {
-        title: "Say one clue",
-        body: "Out loud, the Psychic names one thing that sits where the target is. On Cold to Hot with the target just right of centre, \u201cchai\u201d works. No numbers, no pointing, no explaining the clue after it is out.",
+        title: "Score with the big buttons",
+        body: "Each row has a minus on the left and a plus on the right, sized for a thumb from across the table. Set the step to 1, 5 or 10 for games that score in chunks.",
       },
       {
-        title: "Turn the dial",
-        body: "The Psychic's team talks it over and drags the dial to where they think the clue lives. The Psychic keeps a straight face. When the team agrees, lock it in.",
+        title: "Type an exact score when it's odd",
+        body: "Tap the number itself and type over it. Useful for a round that scored 37, and for correcting whoever was in charge before you.",
       },
       {
-        title: "The other team calls left or right",
-        body: "With two teams, the other side now guesses whether the target is left or right of the dial. They get a point if they are right, unless the dial landed dead centre.",
-      },
-      {
-        title: "Reveal and score",
-        body: "The target appears. Dead centre scores 4, the bands either side 2, the next ones out 1, anything else nothing. Pass the phone to the other team's Psychic for the next card.",
-      },
-    ],
-    variations: [
-      {
-        title: "Catching up",
-        body: "If a team scores 4 while still behind, they go again straight away. It keeps a lopsided game alive.",
-      },
-      {
-        title: "Winning",
-        body: "First team to 10 wins. If both teams pass 10 on the same card, the higher score wins; a tie plays another card.",
-      },
-      {
-        title: "All together",
-        body: "For two or three players, or a table that would rather not compete. Everyone guesses together, the Psychic rotates each card, and after seven cards you get a total and a verdict on how in tune you all are.",
+        title: "Undo, reset or start fresh",
+        body: "Undo walks back the last twenty changes. Reset scores keeps the names for a rematch; New game clears everything. Both ask first, because a mis-tap would lose the whole night.",
       },
     ],
     faq: [
       {
-        q: "Does everyone need a phone?",
-        a: "No. One phone does the whole game. Only the Psychic needs to see the target, and only while holding the button, so the phone just goes around the table.",
+        q: "Does it remember the scores if I close the tab?",
+        a: "Yes. The board is stored on the device, so it survives a refresh, a locked phone and a closed browser. It stays until you clear it.",
       },
       {
-        q: "Does it work offline?",
-        a: "Yes. Once the page has loaded it works with no signal at all, and the game survives a refresh or a locked screen.",
-      },
-      {
-        q: "What makes a good clue?",
-        a: "Something everyone at the table knows. A clue only works if your team pictures the same thing you do, so the most famous example usually beats the cleverest one.",
+        q: "Can two phones share one scoreboard?",
+        a: "Not yet. One phone holds the board today. Shared, live scoreboards arrive with rooms.",
       },
     ],
   },

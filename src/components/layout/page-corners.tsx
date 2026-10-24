@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { ScoreboardDrawer } from "@/components/scoreboard/scoreboard-drawer";
 import { cn } from "@/lib/utils";
@@ -26,18 +29,18 @@ export function SquareLink({
   );
 }
 
-/** The square back arrow. */
-export function BackLink({
-  href,
-  className,
-}: {
-  href: string;
-  className?: string;
-}) {
+/** The square back arrow: steps back through history, to wherever the player came from. */
+export function BackLink({ className }: { className?: string }) {
+  const router = useRouter();
   return (
-    <SquareLink href={href} label="Back" className={className}>
+    <button
+      type="button"
+      aria-label="Back"
+      onClick={() => router.back()}
+      className={cn("mb-square-btn", className)}
+    >
       <ArrowLeft className="size-5" strokeWidth={3} aria-hidden />
-    </SquareLink>
+    </button>
   );
 }
 
@@ -66,17 +69,15 @@ export function HelpLink({
  * Pinned to the viewport, so it never scrolls away.
  */
 export function PageCorners({
-  back,
   extra,
   scoreboard = true,
 }: {
-  back: string;
   extra?: React.ReactNode;
   scoreboard?: boolean;
 }) {
   return (
     <div className="pointer-events-none fixed inset-x-0 top-3 z-40 flex justify-between px-3">
-      <BackLink href={back} className="pointer-events-auto" />
+      <BackLink className="pointer-events-auto" />
       <div className="pointer-events-auto flex gap-2">
         {extra}
         {scoreboard ? <ScoreboardDrawer /> : null}

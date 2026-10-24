@@ -1,15 +1,52 @@
-import type { CSSProperties } from "react";
+import type { ComponentProps, CSSProperties } from "react";
 import { FLOWER } from "@/components/stitch/vine-tile";
 import { cn } from "@/lib/utils";
 
-/**
- * A cross-stitch frame for any positioned box: a flower stitched into each
- * corner, joined by straight rules that stop one stitch short of each flower.
- * Drawn in currentColor, so it follows the ink and hover states of whatever it
- * sits in.
- */
+type Pattern = readonly string[];
 
-function mask(p: readonly string[]) {
+const ARROW: Pattern = [
+  "..#####",
+  "...####",
+  "....###",
+  "...#.##",
+  "..#...#",
+  ".......",
+  ".......",
+];
+
+const CROSS: Pattern = [
+  "#.....#",
+  ".#...#.",
+  "..#.#..",
+  "...#...",
+  "..#.#..",
+  ".#...#.",
+  "#.....#",
+];
+
+const BUD: Pattern = ["..#..", ".#.#.", "#...#", ".#.#.", "..#.."];
+
+/**
+ * What each frame stitches into its corners, clockwise from top-left: a card
+ * is all flowers, a link card trades the top-right flower for an arrow, and a
+ * field (a text box) uses a smaller bud so it never reads as a card.
+ */
+const VARIANTS = {
+  card: { stitch: 3, corners: [FLOWER, FLOWER, FLOWER, FLOWER] },
+  link: { stitch: 3, corners: [FLOWER, ARROW, FLOWER, FLOWER] },
+  field: { stitch: 2, corners: [BUD, BUD, BUD, BUD] },
+} satisfies Record<string, { stitch: number; corners: Pattern[] }>;
+
+export type StitchVariant = keyof typeof VARIANTS;
+
+const CORNERS: CSSProperties[] = [
+  { top: 0, left: 0 },
+  { top: 0, right: 0 },
+  { bottom: 0, right: 0 },
+  { bottom: 0, left: 0 },
+];
+
+function mask(p: Pattern) {
   const rects = p.flatMap((row, y) =>
     [...row].flatMap((cell, x) =>
       cell === "#" ? [`<rect x="${x}" y="${y}" width="1" height="1"/>`] : [],
@@ -19,56 +56,104 @@ function mask(p: readonly string[]) {
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 }
 
-const FLOWER_MASK = mask(FLOWER);
-const FLOWER_SIZE = `calc(var(--stitch) * ${FLOWER.length})`;
+function stitched(p: Pattern, size: string): CSSProperties {
+  const image = mask(p);
+  return {
+    backgroundColor: "currentColor",
+    maskImage: image,
+    WebkitMaskImage: image,
+    maskSize: "100% 100%",
+    WebkitMaskSize: "100% 100%",
+    width: size,
+    height: size,
+  };
+}
 
-const flowerStyle: CSSProperties = {
-  backgroundColor: "currentColor",
-  maskImage: FLOWER_MASK,
-  WebkitMaskImage: FLOWER_MASK,
-  maskSize: "100% 100%",
-  WebkitMaskSize: "100% 100%",
-  width: FLOWER_SIZE,
-  height: FLOWER_SIZE,
-};
+function frame(corners: Pattern[]) {
+  const cells = corners[0].length;
+  const size = `calc(var(--stitch) * ${cells})`;
+  const clear = `calc(var(--stitch) * ${cells + 1})`;
+  const stitch = "var(--stitch)";
+  return {
+    cross: stitched(CROSS, size),
+    corners: corners.map((p, i): CSSProperties => ({
+      ...CORNERS[i],
+      ...stitched(p, size),
+    })),
+    rules: [
+      { top: 0, left: clear, right: clear, height: stitch },
+      { bottom: 0, left: clear, right: clear, height: stitch },
+      { left: 0, top: clear, bottom: clear, width: stitch },
+      { right: 0, top: clear, bottom: clear, width: stitch },
+    ] satisfies CSSProperties[],
+  };
+}
 
-const STITCH = "var(--stitch)";
-const CLEAR = `calc(var(--stitch) * ${FLOWER.length + 1})`;
+const FRAMES = Object.fromEntries(
+  Object.entries(VARIANTS).map(([k, v]) => [k, frame(v.corners)]),
+) as Record<StitchVariant, ReturnType<typeof frame>>;
 
-const CORNERS: CSSProperties[] = [
-  { top: 0, left: 0 },
-  { top: 0, right: 0 },
-  { bottom: 0, left: 0 },
-  { bottom: 0, right: 0 },
-];
-
-const RULES: CSSProperties[] = [
-  { top: 0, left: CLEAR, right: CLEAR, height: STITCH },
-  { bottom: 0, left: CLEAR, right: CLEAR, height: STITCH },
-  { left: 0, top: CLEAR, bottom: CLEAR, width: STITCH },
-  { right: 0, top: CLEAR, bottom: CLEAR, width: STITCH },
-];
-
+/**
+ * A cross-stitch frame for any positioned box: a motif stitched into each
+ * corner, joined by straight rules that stop one stitch short of it. Drawn in
+ * currentColor, so it follows the ink and hover states of whatever it sits in.
+ *
+ * `closeButton` makes the top-right corner a stitched cross that closes
+ * whatever the frame is on; its props (onClick, a dialog's close handlers) go
+ * straight onto the button. A link frame's arrow nudges toward its target when
+ * the nearest `group` is hovered.
+ */
 export function StitchBorder({
-  stitch = 3,
+  variant = "card",
+  stitch,
+  closeButton,
   className,
 }: {
-  /** Size of one stitch in pixels. */
+  variant?: StitchVariant;
+  /** Size of one stitch in pixels; each variant has its own default. */
   stitch?: number;
+  closeButton?: ComponentProps<"button">;
   className?: string;
 }) {
+  const { corners, rules, cross } = FRAMES[variant];
   return (
     <div
-      aria-hidden
       className={cn("pointer-events-none absolute", className)}
-      style={{ ["--stitch" as string]: `${stitch}px` }}
+      style={{
+        ["--stitch" as string]: `${stitch ?? VARIANTS[variant].stitch}px`,
+      }}
     >
-      {RULES.map((at, i) => (
-        <span key={i} className="absolute bg-current" style={at} />
+      {rules.map((at, i) => (
+        <span key={i} aria-hidden className="absolute bg-current" style={at} />
       ))}
-      {CORNERS.map((at, i) => (
-        <span key={i} className="absolute" style={{ ...flowerStyle, ...at }} />
-      ))}
+      {corners.map((at, i) =>
+        i === 1 && closeButton ? (
+          <button
+            key={i}
+            type="button"
+            aria-label="Close"
+            {...closeButton}
+            className={cn(
+              "pointer-events-auto absolute -top-2.5 -right-2.5 p-2.5 transition-transform duration-200 hover:rotate-90 focus-visible:rotate-90",
+              closeButton.className,
+            )}
+          >
+            <span aria-hidden className="block" style={cross} />
+          </button>
+        ) : (
+          <span
+            key={i}
+            aria-hidden
+            className={cn(
+              "absolute",
+              i === 1 &&
+                variant === "link" &&
+                "transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1",
+            )}
+            style={at}
+          />
+        ),
+      )}
     </div>
   );
 }

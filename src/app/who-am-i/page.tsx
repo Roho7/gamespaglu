@@ -14,7 +14,7 @@ export default function WhoAmIPage() {
   return (
     <>
       <h1 className="sr-only">Who Am I?</h1>
-      <PageCorners back="/" />
+      <PageCorners />
       <main className="h-dvh">
         <CategoryHeroRail />
       </main>

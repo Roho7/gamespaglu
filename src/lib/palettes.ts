@@ -141,50 +141,62 @@ export function randomPalette(previousId?: string): Palette {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-export function paletteVars(c: Palette): React.CSSProperties {
-  return {
-    ["--cw-base" as string]: c.base,
-    ["--cw-highlight" as string]: c.highlight,
-    ["--cw-secondary" as string]: c.secondary,
-    ["--cw-primary" as string]: c.primary,
-    ["--cw-shadow" as string]: c.shadow,
-    ["--loud" as string]: c.base,
-    ["--on-loud" as string]: c.shadow,
-  };
-}
-
-/**
- * Tokens for a dark field: the colourway inverted so type and rules print
- * light, while `--loud` keeps the palette's loud ink so primary actions stay
- * the brightest thing on screen.
- */
-export function flippedVars(p: Palette): React.CSSProperties {
-  return {
-    ...paletteVars({ ...p, base: p.shadow, shadow: p.base }),
-    ["--loud" as string]: p.base,
-    ["--on-loud" as string]: p.shadow,
-  };
-}
-
 /** The palette every plain page is printed in. */
 export const GROUND = paletteById("miami");
 
 /**
- * Tokens for a plain page. The ground is the palette's near-black and type its
- * loud ink, and the colourway is inverted to match, so every recipe that reads
- * `--cw-*` (chips, stitch borders, square buttons) prints light on the dark
- * ground. Set on <html>, so drawers opened over any page inherit it.
+ * Prints an element in a palette: spread it onto the element
+ * (`<div {...theme("jungle")}>`) and every `--cw-*` recipe inside follows.
+ * `flipped` is for a dark field: the colourway inverts so type and rules print
+ * light, while `--loud` keeps the loud ink so primary actions stay the
+ * brightest thing there. The CSS behind it is generated once by
+ * `paletteCss()`, so no element carries an inline colour.
  */
-export function groundVars(p: Palette): React.CSSProperties {
-  const n = parseInt(p.shadow.slice(1), 16);
+export function theme(
+  palette: Palette | PaletteId,
+  { flipped = false }: { flipped?: boolean } = {},
+) {
   return {
-    ...flippedVars(p),
-    ["--ground" as string]: p.shadow,
-    ["--ground-soft" as string]: p.primary,
-    ["--ground-ink" as string]: p.base,
-    ["--ground-muted" as string]: p.highlight,
-    ["--scrim" as string]: `rgb(${n >> 16} ${(n >> 8) & 255} ${n & 255} / 0.7)`,
+    "data-palette": typeof palette === "string" ? palette : palette.id,
+    ...(flipped ? { "data-flipped": "" } : {}),
   };
+}
+
+function inks(p: Palette, flipped: boolean) {
+  const [base, shadow] = flipped ? [p.shadow, p.base] : [p.base, p.shadow];
+  return [
+    `--cw-base:${base}`,
+    `--cw-highlight:${p.highlight}`,
+    `--cw-secondary:${p.secondary}`,
+    `--cw-primary:${p.primary}`,
+    `--cw-shadow:${shadow}`,
+    `--loud:${p.base}`,
+    `--on-loud:${p.shadow}`,
+  ].join(";");
+}
+
+/**
+ * The stylesheet behind `theme()`: one rule per palette and one for its
+ * flipped form, plus the ground tokens. A flipped field sets its colour again
+ * because children inherit the computed colour, not the variable. Rendered
+ * once in the root layout.
+ */
+export function paletteCss(): string {
+  const n = parseInt(GROUND.shadow.slice(1), 16);
+  const ground = [
+    `--ground:${GROUND.shadow}`,
+    `--ground-soft:${GROUND.primary}`,
+    `--ground-ink:${GROUND.base}`,
+    `--ground-muted:${GROUND.highlight}`,
+    `--scrim:rgb(${n >> 16} ${(n >> 8) & 255} ${n & 255} / 0.7)`,
+  ].join(";");
+  return [
+    `:root{${ground}}`,
+    ...PALETTES.flatMap((p) => [
+      `[data-palette="${p.id}"]{${inks(p, false)}}`,
+      `[data-palette="${p.id}"][data-flipped]{${inks(p, true)};color:var(--cw-shadow)}`,
+    ]),
+  ].join("\n");
 }
 
 export function roundPalette(code: string, roundNo: number): Palette {

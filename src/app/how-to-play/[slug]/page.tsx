@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { PageCorners } from "@/components/layout/page-corners";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { StitchedPanel } from "@/components/stitch/stitched-panel";
-import { paletteById, paletteVars } from "@/lib/palettes";
+import { paletteById, theme } from "@/lib/palettes";
 import { CrossPromo } from "@/components/layout/cross-promo";
 import { CATEGORIES } from "@/lib/deck/categories";
 import { GUIDES, getGuide } from "@/content/guides";
@@ -77,10 +77,10 @@ export default async function GuidePage({
 
   return (
     <main
-      style={paletteVars(cw)}
+      {...theme(cw)}
       className="min-h-dvh bg-[var(--cw-base)] text-[var(--cw-shadow)]"
     >
-      <PageCorners back="/how-to-play" />
+      <PageCorners />
 
       <article
         className={`mx-auto w-full max-w-2xl space-y-3 px-3 pt-20 ${guide.playRoute ? "pb-36" : "pb-10"}`}
@@ -89,13 +89,12 @@ export default async function GuidePage({
           <h1 className="mb-display mb-shadow text-5xl leading-none">
             {guide.title}
           </h1>
-          <p className="mb-caps flex flex-wrap justify-center gap-x-4 gap-y-1 text-[0.6rem] opacity-80">
+          <p className="mb-caps flex flex-wrap justify-center gap-x-4 gap-y-1 text-[1rem] opacity-80">
             <span>{guide.players} players</span>
-            <span>{guide.time}</span>
             <span>{guide.needs}</span>
           </p>
           {guide.alsoCalled?.length ? (
-            <p className="mb-caps text-[0.55rem] opacity-60">
+            <p className="font-sans uppercase font-medium text-[0.6rem] opacity-60">
               Also called {guide.alsoCalled.join(" · ")}
             </p>
           ) : null}
@@ -151,10 +150,10 @@ export default async function GuidePage({
                   <li key={id}>
                     <Link
                       href={`/who-am-i/${id}`}
-                      style={paletteVars(paletteById(c.palette))}
-                      className="mb-label mb-display-sm relative block p-4 text-center text-2xl"
+                      {...theme(c.palette)}
+                      className="mb-label mb-display-sm group relative block p-4 text-center text-2xl"
                     >
-                      <StitchBorder className="inset-1.5" />
+                      <StitchBorder variant="link" className="inset-1.5" />
                       {c.label}
                     </Link>
                   </li>

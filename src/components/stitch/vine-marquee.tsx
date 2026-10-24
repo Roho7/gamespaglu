@@ -75,7 +75,7 @@ export function VineMarquee({
           const at = x + i * VINE_LENGTH + anchor + 0.5;
           copy.style.setProperty(
             name,
-            String(Math.floor(Math.min(at, span - at))),
+            String(Math.floor(Math.min(at, span - at) / 3)),
           );
         }
       });

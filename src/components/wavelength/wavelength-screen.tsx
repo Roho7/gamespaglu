@@ -13,12 +13,7 @@ import { WavelengthDial } from "@/components/wavelength/wavelength-dial";
 import { drawIndex } from "@/lib/deck/shuffle-bag";
 import { usePersisted } from "@/lib/hooks/use-persisted";
 import { useWakeLock } from "@/lib/hooks/use-wake-lock";
-import {
-  flippedVars,
-  paletteById,
-  paletteVars,
-  roundPalette,
-} from "@/lib/palettes";
+import { paletteById, roundPalette, theme } from "@/lib/palettes";
 import { blip, revealHit } from "@/lib/sound-and-haptics";
 import {
   NEW_GAME,
@@ -40,7 +35,7 @@ import {
 
 const DECK: Card["spectrum"][] = spectrums;
 const TEAM_NAME: Record<Team, string> = { a: "Team A", b: "Team B" };
-const LINK = "mb-caps text-[0.65rem] underline decoration-2 underline-offset-4";
+const LINK = "mb-caps text-sm underline decoration-2 underline-offset-4";
 
 function deal(): Card {
   const spectrum = DECK[drawIndex("wavelength", DECK.length)];
@@ -74,7 +69,7 @@ function BandButton({
 function Briefing({ mode, onMode }: { mode: Mode; onMode: (m: Mode) => void }) {
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-2 p-1">
-      <BackLink href="/" className="ml-1" />
+      <BackLink className="ml-1" />
       <StitchedPanel title="How to play" className="flex-[3] basis-0">
         <ol className="space-y-2 text-base leading-snug font-medium">
           <li>
@@ -152,11 +147,6 @@ function ScoreStrip({ game, onQuit }: { game: Game; onQuit: () => void }) {
   );
 }
 
-/**
- * Wavelength on one phone. The briefing, then a loop of peek, clue, dial,
- * call and reveal. The whole game is persisted, so a refresh or a locked
- * screen resumes mid-card.
- */
 export function WavelengthScreen() {
   const [game, setGame] = usePersisted<Game>("wavelength:game", NEW_GAME);
   const [peeking, setPeeking] = useState(false);
@@ -213,7 +203,7 @@ export function WavelengthScreen() {
   })();
 
   return (
-    <div style={paletteVars(palette)} className="flex h-dvh flex-col">
+    <div {...theme(palette)} className="flex h-dvh flex-col">
       <div className="mb-label mb-label-bleed flex-1">
         <PaletteGrain
           palette={palette}
@@ -221,10 +211,7 @@ export function WavelengthScreen() {
           className="absolute inset-0"
         />
         <div
-          style={{
-            ...flippedVars(palette),
-            color: "var(--cw-shadow)",
-          }}
+          {...theme(palette, { flipped: true })}
           className="mb-label-field relative flex min-h-0 flex-1 flex-col"
         >
           <h1 className="sr-only">Wavelength</h1>
@@ -252,12 +239,12 @@ export function WavelengthScreen() {
                     onMove={
                       phase.kind === "guess"
                         ? (value) =>
-                            setGame(reduce(game, { type: "move", dial: value }))
+                          setGame(reduce(game, { type: "move", dial: value }))
                         : undefined
                     }
                   />
                   <div className="grid grid-cols-2 gap-4">
-                    <p className="mb-display-sm text-2xl leading-tight">
+                    <p className="mb-display-sm text-accent text-2xl leading-tight">
                       <ArrowLeft
                         className="inline size-[1em] align-[-0.125em]"
                         strokeWidth={3}
@@ -265,7 +252,7 @@ export function WavelengthScreen() {
                       />{" "}
                       {card.spectrum.left}
                     </p>
-                    <p className="mb-display-sm text-right text-2xl leading-tight">
+                    <p className="mb-display-sm text-right text-accent text-2xl leading-tight">
                       {card.spectrum.right}{" "}
                       <ArrowRight
                         className="inline size-[1em] align-[-0.125em]"

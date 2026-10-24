@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/",
     "/scoreboard",
     "/who-am-i",
-    "/girgit",
+    "/girgit/new",
     "/wavelength",
     "/how-to-play",
     ...GUIDES.map((g) => `/how-to-play/${g.slug}`),

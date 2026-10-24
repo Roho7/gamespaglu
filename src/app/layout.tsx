@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Bebas_Neue, Oswald } from "next/font/google";
+import { Bebas_Neue, Montserrat } from "next/font/google";
 import { SITE } from "@/lib/site-config";
 import { ServiceWorkerRegistration } from "@/components/layout/service-worker-registration";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
-import { GROUND, groundVars } from "@/lib/palettes";
+import { Toaster } from "@/components/ui/sonner";
+import { GROUND, paletteCss, theme } from "@/lib/palettes";
 import "./globals.css";
 
 /**
- * Poster type: Bebas Neue for display, a condensed all-caps face, and Oswald
+ * Poster type: Bebas Neue for display, a condensed all-caps face, and Montserrat
  * for everything else. Self-hosted by next/font at build time, so the PWA
  * never fetches a font at runtime.
  */
@@ -18,7 +19,7 @@ const poster = Bebas_Neue({
   display: "swap",
 });
 
-const body = Oswald({
+const body = Montserrat({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -62,9 +63,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      style={groundVars(GROUND)}
+      {...theme(GROUND, { flipped: true })}
       className={`${poster.variable} ${body.variable} h-full antialiased`}
     >
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: paletteCss() }} />
+      </head>
       <body className="flex min-h-full flex-col">
         <PaletteGrain
           palette={GROUND}
@@ -72,6 +76,7 @@ export default function RootLayout({
           className="fixed inset-0 -z-10"
         />
         {children}
+        <Toaster />
         <ServiceWorkerRegistration />
       </body>
     </html>

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function ScoreboardPage() {
   return (
     <main className="mx-auto w-full max-w-xl flex-1 pt-20">
-      <PageCorners back="/" scoreboard={false} />
+      <PageCorners scoreboard={false} />
       <div className="space-y-4 px-4 pb-10">
         <h1 className="mb-display text-4xl">Scoreboard</h1>
         <Scoreboard />

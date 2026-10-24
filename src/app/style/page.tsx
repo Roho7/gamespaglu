@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowLeft, Settings } from "lucide-react";
 import { PageCorners } from "@/components/layout/page-corners";
+import { ToastDemo } from "@/app/style/toast-demo";
 import { CategoryEmblem } from "@/components/artwork/category-emblem";
 import { Starburst } from "@/components/artwork/starburst";
 import { Chip, Panel } from "@/components/ui/controls";
@@ -15,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { Input } from "@/components/ui/input";
 import { CATEGORY_LIST } from "@/lib/deck/categories";
-import { PALETTES, paletteById, paletteVars } from "@/lib/palettes";
+import { paletteById, PALETTES, theme } from "@/lib/palettes";
 
 /**
  * The living style guide, and the contract every screen is built against.
@@ -71,7 +72,7 @@ function Row({
 export default function StylePage() {
   return (
     <>
-      <PageCorners back="/" />
+      <PageCorners />
       <main className="mx-auto w-full max-w-3xl flex-1 space-y-10 px-4 pt-20 pb-16">
         <h1 className="mb-display text-4xl">Style</h1>
         <p className="text-sm font-medium opacity-75">
@@ -88,7 +89,7 @@ export default function StylePage() {
             {PALETTES.map((cw) => (
               <div
                 key={cw.id}
-                style={paletteVars(cw)}
+                {...theme(cw)}
                 className="mb-frame rounded-[var(--radius-lg)] p-4"
               >
                 <p className="mb-display-sm text-lg">{cw.name}</p>
@@ -111,8 +112,8 @@ export default function StylePage() {
             <p className="mb-display-sm text-2xl">Display small</p>
             <p className="mb-caps text-xs">Tracked small caps caption</p>
             <p className="text-base font-medium">
-              Body copy, Oswald regular. Readable at length, never set in the
-              highlight ink.
+              Body copy, Montserrat regular. Readable at length, never set in
+              the highlight ink.
             </p>
           </div>
         </Row>
@@ -132,6 +133,10 @@ export default function StylePage() {
           <div className="max-w-sm">
             <Button size="hero">Hero</Button>
           </div>
+        </Row>
+
+        <Row title="Toast — errors and confirmations, from sonner">
+          <ToastDemo />
         </Row>
 
         <Row title="Controls">
@@ -198,9 +203,7 @@ export default function StylePage() {
             {CATEGORY_LIST.map((c) => (
               <div
                 key={c.id}
-                style={paletteVars({
-                  ...PALETTES[0],
-                })}
+                {...theme(PALETTES[0])}
                 className="mb-frame [--dot-radius:calc(var(--radius-md)-var(--dot-inset))] flex flex-col items-center gap-2 rounded-[var(--radius-md)] p-3"
               >
                 <CategoryEmblem category={c.id} className="size-14" />
@@ -212,10 +215,7 @@ export default function StylePage() {
 
         <Row title="Girgit — the grid. Never marks the secret">
           <div className="grid gap-4 sm:grid-cols-2">
-            <div
-              style={paletteVars(paletteById("neon"))}
-              className="mb-label p-3"
-            >
+            <div {...theme("neon")} className="mb-label p-3">
               <div className="space-y-2 p-1">
                 <p className="mb-caps text-[0.55rem] opacity-70">In play</p>
                 <GirgitGrid cells={DEMO_CELLS} />
@@ -225,10 +225,7 @@ export default function StylePage() {
                 </p>
               </div>
             </div>
-            <div
-              style={paletteVars(paletteById("tangerine"))}
-              className="mb-label p-3"
-            >
+            <div {...theme("tangerine")} className="mb-label p-3">
               <div className="space-y-2 p-1">
                 <p className="mb-caps text-[0.55rem] opacity-70">
                   At the reveal — the only time a cell is marked
@@ -245,18 +242,12 @@ export default function StylePage() {
 
         <Row title="Girgit — hold to reveal. Identical shape for both roles">
           <div className="grid gap-4 sm:grid-cols-2">
-            <div
-              style={paletteVars(paletteById("jungle"))}
-              className="mb-label p-3"
-            >
+            <div {...theme("jungle")} className="mb-label p-3">
               <div className="p-2">
                 <HoldToRevealSecret word="Boarding pass" isGirgit={false} />
               </div>
             </div>
-            <div
-              style={paletteVars(paletteById("jungle"))}
-              className="mb-label p-3"
-            >
+            <div {...theme("jungle")} className="mb-label p-3">
               <div className="p-2">
                 <HoldToRevealSecret word={null} isGirgit />
               </div>
@@ -283,11 +274,7 @@ export default function StylePage() {
                 ["cherry", 38, 44],
               ] as const
             ).map(([id, dial, target], i) => (
-              <div
-                key={i}
-                style={paletteVars(paletteById(id))}
-                className="mb-label p-4"
-              >
+              <div key={i} {...theme(id)} className="mb-label p-4">
                 <PaletteGrain
                   palette={paletteById(id)}
                   tone="field"
