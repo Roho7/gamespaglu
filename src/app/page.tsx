@@ -18,8 +18,8 @@ export default function Home() {
           href="/wavelength"
           help="/how-to-play/wavelength"
           palette="miami"
-          title="Wavelength"
-          tagline="One clue. How close can your team get?"
+          title="Play Wavelength"
+          tagline="Do you share the same vibe?"
           image="/backgrounds/wavelength.jpg"
           rows={[
             { text: "Wave", kind: "title" },
@@ -31,8 +31,8 @@ export default function Home() {
           href="/who-am-i"
           help="/how-to-play/who-am-i"
           palette="tangerine"
-          title="Who Am I?"
-          tagline="Phone on your forehead. Everyone knows but you."
+          title="Play Who Am I?"
+          tagline="Phone on forehead. Guess who you are."
           image="/backgrounds/who-am-i.jpg"
           rows={[
             { text: "Who", kind: "title" },
@@ -45,7 +45,7 @@ export default function Home() {
           href="/girgit/new"
           help="/how-to-play/girgit"
           palette="jungle"
-          title="Girgit"
+          title="Play Girgit"
           tagline="Find the imposter who doesn't know the word."
           image="/backgrounds/chameleon.jpg"
           rows={[

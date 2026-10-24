@@ -9,17 +9,19 @@ import { StitchBorder } from "@/components/stitch/stitch-border";
 import { PALETTES, theme } from "@/lib/palettes";
 import { blip } from "@/lib/sound-and-haptics";
 import { useHydrated, usePersisted } from "@/lib/hooks/use-persisted";
+import {
+  useScoreboard,
+  type ScoreboardPlayer as Player,
+} from "@/lib/hooks/use-scoreboard";
 
-type Player = { id: string; name: string; score: number };
 type Snapshot = { players: Player[] };
 
-const KEY = "scoreboard";
 const STEP_KEY = "scoreboard:step";
 const UNDO_DEPTH = 20;
 const STEPS = [1, 5, 10];
 
 export function Scoreboard() {
-  const [players, setPlayers] = usePersisted<Player[]>(KEY, []);
+  const [players, setPlayers] = useScoreboard();
   const [step, setStep] = usePersisted<number>(STEP_KEY, 1);
   const hydrated = useHydrated();
   const [name, setName] = useState("");
@@ -185,6 +187,11 @@ export function Scoreboard() {
                     ) : null}
                   </p>
                   <p className="mb-display-sm truncate text-2xl">{p.name}</p>
+                  {p.members?.length ? (
+                    <p className="truncate text-xs font-semibold opacity-75">
+                      {p.members.join(", ")}
+                    </p>
+                  ) : null}
                   <input
                     type="number"
                     inputMode="numeric"

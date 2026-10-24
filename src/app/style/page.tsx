@@ -8,6 +8,7 @@ import { Chip, Panel } from "@/components/ui/controls";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
 import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
 import { WavelengthDial } from "@/components/wavelength/wavelength-dial";
+import { MarqueeBanner } from "@/components/layout/marquee-banner";
 import { Scoreboard } from "@/components/scoreboard/scoreboard";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { RotatePhoneHint } from "@/components/generator/rotate-phone-hint";
@@ -90,16 +91,16 @@ export default function StylePage() {
               <div
                 key={cw.id}
                 {...theme(cw)}
-                className="mb-frame rounded-[var(--radius-lg)] p-4"
+                className="mb-frame p-4"
               >
                 <p className="mb-display-sm text-lg">{cw.name}</p>
                 <p className="mb-caps mt-1 text-[0.55rem] opacity-80">
                   {cw.id}
                 </p>
                 <div className="mt-3 flex gap-1.5">
-                  <span className="size-5 rounded-full border-[length:var(--rule-thin)] border-current bg-[var(--cw-secondary)]" />
-                  <span className="size-5 rounded-full border-[length:var(--rule-thin)] border-current bg-[var(--cw-primary)]" />
-                  <span className="size-5 rounded-full border-[length:var(--rule-thin)] border-current bg-[var(--cw-shadow)]" />
+                  <span className="size-5 border-[length:var(--rule-thin)] border-current bg-[var(--cw-secondary)]" />
+                  <span className="size-5 border-[length:var(--rule-thin)] border-current bg-[var(--cw-primary)]" />
+                  <span className="size-5 border-[length:var(--rule-thin)] border-current bg-[var(--cw-shadow)]" />
                 </div>
               </div>
             ))}
@@ -163,7 +164,7 @@ export default function StylePage() {
                 Kraft panel, for reading surfaces.
               </p>
             </Panel>
-            <div className="mb-frame rounded-[var(--radius-lg)] p-4">
+            <div className="mb-frame p-4">
               <p className="text-sm font-semibold">
                 Frame recipe: outer rule, field, dotted inner rule.
               </p>
@@ -172,28 +173,28 @@ export default function StylePage() {
         </Row>
 
         <Row title="Marquee — one per screen, behind the hero only">
-          <div className="mb-frame relative flex h-48 items-center justify-center rounded-[var(--radius-lg)]">
+          <div className="mb-frame relative flex h-48 items-center justify-center">
             <Starburst className="absolute size-40 text-[var(--cw-primary)]" />
             <span className="mb-display relative text-4xl">Hero</span>
           </div>
         </Row>
 
         <Row title="Vine marquee — either direction, blooms in and out at the edges">
-          <div className="mb-frame space-y-3 rounded-[var(--radius-lg)] p-4 text-[var(--cw-primary)]">
+          <div className="mb-frame space-y-3 p-4 text-[var(--cw-primary)]">
             <VineMarquee className="h-12" />
             <VineMarquee direction="right" className="h-12" />
           </div>
         </Row>
 
         <Row title="Stitch border — frames a band or panel, follows its ink">
-          <div className="mb-band relative h-28 rounded-[var(--radius-lg)] px-4 font-extrabold">
+          <div className="mb-band relative h-28 px-4 font-extrabold">
             <StitchBorder className="inset-3" />
             Framed band
           </div>
         </Row>
 
         <Row title="Rotate hint — sits in the band during a countdown">
-          <div className="mb-band rounded-[var(--radius-lg)] p-4">
+          <div className="mb-band p-4">
             <RotatePhoneHint />
           </div>
         </Row>
@@ -204,7 +205,7 @@ export default function StylePage() {
               <div
                 key={c.id}
                 {...theme(PALETTES[0])}
-                className="mb-frame [--dot-radius:calc(var(--radius-md)-var(--dot-inset))] flex flex-col items-center gap-2 rounded-[var(--radius-md)] p-3"
+                className="mb-frame flex flex-col items-center gap-2 p-3"
               >
                 <CategoryEmblem category={c.id} className="size-14" />
                 <span className="mb-caps text-[0.5rem]">{c.label}</span>
@@ -262,6 +263,23 @@ export default function StylePage() {
         <Row title="Scoreboard — the live board, shared with the sheet and /scoreboard">
           <div className="max-w-xl">
             <Scoreboard />
+          </div>
+        </Row>
+
+        <Row title="Marquee banner — the one instruction on a play surface">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {(["cherry", "jungle"] as const).map((id) => (
+              <div
+                key={id}
+                {...theme(id, { flipped: true })}
+                className="mb-label p-4"
+              >
+                <MarqueeBanner
+                  headline="Pass the phone to Ana"
+                  detail="Ana is the Psychic. Everyone else, look away."
+                />
+              </div>
+            ))}
           </div>
         </Row>
 

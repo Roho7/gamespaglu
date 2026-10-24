@@ -31,6 +31,13 @@ const TW_COLOUR =
  */
 const UNTYPED_WIDTH = /\bborder(?:-[trblxy])?-\[var\(--(?:rule|rule-thin)\)\]/;
 
+/*
+ * Fourth guard: the print has no rounded corners. Every edge is square, so a
+ * rounded utility or a non-zero border-radius anywhere fails, globals included.
+ */
+const ROUNDED =
+  /\brounded(?!-none\b)(?:-[a-z0-9]+)*(?:-\[[^\]]*\])?|border-radius:(?!\s*0\s*[;}])[^;}]+/;
+
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
     const path = join(dir, name);
@@ -85,10 +92,15 @@ const RUNTIME_PREFIXES = [
 let bad = 0;
 for (const root of ROOTS) {
   for (const file of walk(root)) {
-    if (ALLOWED.has(file)) continue;
     const lines = readFileSync(file, "utf8").split("\n");
     lines.forEach((line, i) => {
       if (line.includes("check-tokens-ignore")) return;
+      const round = line.match(ROUNDED);
+      if (round) {
+        bad++;
+        console.log(`${file}:${i + 1}  ${round[0]}: no rounded corners`);
+      }
+      if (ALLOWED.has(file)) return;
       const hex = line.match(HEX);
       const tw = line.match(TW_COLOUR);
       if (hex || tw) {
@@ -118,7 +130,7 @@ for (const root of ROOTS) {
 
 console.log(
   bad === 0
-    ? "No raw colours, undefined tokens or untyped border widths in components."
+    ? "No raw colours, undefined tokens, untyped border widths or rounded corners in components."
     : `\n${bad} raw colour${bad === 1 ? "" : "s"} found. Use palette tokens (--cw-base, --cw-highlight, --cw-secondary, --cw-primary, --cw-shadow) or page tokens (--ground, --band).`,
 );
 process.exit(bad === 0 ? 0 : 1);

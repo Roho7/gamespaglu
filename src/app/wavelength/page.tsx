@@ -5,7 +5,7 @@ import { SITE } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "Wavelength — the dial guessing game on one phone",
   description:
-    "One clue, one hidden target, one dial. Read your friends' minds on a spectrum between two ends. Two teams or all together, one phone, works offline.",
+    "One clue, one hidden target, one dial. Read your friends' minds on a spectrum between two ends. One Psychic, One Guesser or Teams, one phone, works offline.",
   alternates: { canonical: `${SITE.url}/wavelength` },
   openGraph: {
     title: "Wavelength — on one phone",

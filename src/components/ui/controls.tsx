@@ -44,7 +44,7 @@ export function Panel({
   return (
     <div
       className={cn(
-        "rounded-[var(--radius-lg)] border-[length:var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4",
+        "border-[length:var(--rule-thin)] border-current bg-[var(--ground-soft)] p-4",
         className,
       )}
     >

@@ -25,7 +25,7 @@ export function ScoreboardDrawer() {
         <Trophy className="size-5" strokeWidth={2.5} aria-hidden />
       </DrawerTrigger>
       <DrawerContent
-        className="mx-auto flex w-full max-w-2xl flex-col rounded-t-[var(--radius-2xl)] border-[length:var(--rule)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)]"
+        className="mx-auto flex w-full max-w-2xl flex-col border-[length:var(--rule)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)]"
         style={{ ["--drawer-content-height" as string]: "86vh" }}
       >
         <div className="flex items-center justify-between gap-3 px-4 pt-4 pb-3">

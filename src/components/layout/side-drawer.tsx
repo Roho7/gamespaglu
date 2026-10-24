@@ -43,7 +43,7 @@ export function SideDrawer({
         {icon}
       </DrawerTrigger>
       <DrawerContent
-        className="ml-auto h-full w-[min(22rem,88vw)] rounded-l-[var(--radius-2xl)] border-[length:var(--rule)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)]"
+        className="ml-auto h-full w-[min(22rem,88vw)] border-[length:var(--rule)] border-[var(--ground-ink)] bg-[var(--ground)] text-[var(--ground-ink)]"
         style={{ ["--drawer-content-width" as string]: "min(22rem, 88vw)" }}
       >
         <div className="flex items-center justify-between gap-3 border-b-[length:var(--rule-thin)] border-current px-4 py-3">

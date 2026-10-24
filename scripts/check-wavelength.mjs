@@ -12,10 +12,10 @@ import { readFileSync } from "node:fs";
 import {
   NEW_GAME,
   bandPoints,
-  isOver,
+  leaders,
   reduce,
-  verdict,
-  winner,
+  roles,
+  rosterProblem,
 } from "../src/lib/wavelength/engine.ts";
 
 const MAX_POLE = 22;
@@ -59,98 +59,181 @@ if (deck.length < MIN_DECK)
   fail(`deck has ${deck.length} spectra, needs ${MIN_DECK}`);
 
 const card = (target) => ({ spectrum: deck[0], target });
-const play = (game, target, dial, side) => {
-  let g = reduce(game, { type: "clue" });
-  g = reduce(g, { type: "move", dial });
-  g = reduce(g, { type: "lock" });
-  if (side) g = reduce(g, { type: "call", side });
+const seat = (id, members = []) => ({ id, name: id, members });
+const PLAYERS = ["ana", "ben", "cara"].map((id) => seat(id));
+const TEAMS = [seat("a", ["ana", "ben"]), seat("b", ["cara", "dev", "eli"])];
+const started = (mode, seats, target = 50, rounds = 2) =>
+  reduce(
+    reduce(reduce({ ...NEW_GAME, mode, rounds }, { type: "setup" }), {
+      type: "rounds",
+      rounds,
+    }),
+    { type: "start", seats, card: card(target) },
+  );
+const guess = (game, ...dials) => {
+  let g = reduce(game, { type: "clue", text: "  chai  " });
+  for (const dial of dials) {
+    g = reduce(g, { type: "move", dial });
+    g = reduce(g, { type: "lock" });
+  }
   return g;
 };
-const started = (mode, target) =>
-  reduce({ ...NEW_GAME, mode }, { type: "start", card: card(target) });
+const points = (g) =>
+  Object.fromEntries(g.phase.awards.map((a) => [a.seat, a.points]));
 
 expect("bullseye", bandPoints(50, 52.5), 4);
-expect("verdict bands", [0, 8, 14, 20].map(verdict), [
-  "Static",
-  "Some signal",
-  "Tuned in",
-  "Same wavelength",
-]);
 expect("close", bandPoints(50, 57.5), 2);
 expect("near", bandPoints(50, 62.5), 1);
 expect("miss", bandPoints(50, 63), 0);
+
 expect(
-  "dial clamps",
-  reduce(reduce(started("teams", 50), { type: "clue" }), {
-    type: "move",
-    dial: 140,
-  }).phase.dial,
-  100,
+  "two players minimum",
+  rosterProblem("psychic", [seat("ana")]),
+  "Add at least two players.",
+);
+expect(
+  "teams need two each",
+  rosterProblem("teams", [seat("a", ["ana"]), seat("b", ["ben", "cara"])]) !==
+    null,
+  true,
+);
+expect("valid teams", rosterProblem("teams", TEAMS), null);
+expect(
+  "start refuses a short roster",
+  reduce(reduce(NEW_GAME, { type: "setup" }), {
+    type: "start",
+    seats: [seat("ana")],
+    card: card(50),
+  }).phase.kind,
+  "players",
 );
 
-let g = play(started("teams", 60), 60, 55, "right");
-expect("teams scores the active band", g.scores, { a: 2, b: 1 });
+let g = started("psychic", PLAYERS);
+expect("psychic rotates from the first seat", roles(g).peeker, "ana");
+expect(
+  "guessers follow the psychic",
+  roles(g).guessers.map((s) => s.id),
+  ["ben", "cara"],
+);
+g = reduce(g, { type: "clue", text: "  chai  " });
+expect("clue is trimmed", g.phase.clue, "chai");
+g = reduce(reduce(g, { type: "move", dial: 140 }), { type: "lock" });
+expect("dial clamps", g.phase.guesses[0].dial, 100);
+expect(
+  "each guesser starts at centre",
+  [g.phase.kind, g.phase.dial],
+  ["guess", 50],
+);
+g = guess(started("psychic", PLAYERS), 50, 57);
+expect("psychic scores the rounded average", points(g), {
+  ben: 4,
+  cara: 2,
+  ana: 3,
+});
+g = reduce(g, { type: "next", card: card(40) });
+expect(
+  "next psychic",
+  [roles(g).peeker, roles(g).guessers.map((s) => s.id)],
+  ["ben", ["cara", "ana"]],
+);
+
+g = guess(started("guesser", PLAYERS), 55);
+expect("one guesser scores alone", points(g), { ana: 2 });
+expect("clue-givers all peek", roles(g).peeker, null);
+
+g = started("teams", TEAMS, 60);
+expect(
+  "team A's first psychic",
+  [roles(g).active.id, roles(g).peeker, roles(g).caller.id],
+  ["a", "ana", "b"],
+);
+g = guess(g, 55);
+expect("teams wait for the call", g.phase.kind, "call");
+expect(
+  "right call scores 1",
+  points(reduce(g, { type: "call", side: "right" })),
+  { a: 2, b: 1 },
+);
 expect(
   "wrong call scores nothing",
-  play(started("teams", 60), 60, 55, "left").scores,
+  points(reduce(g, { type: "call", side: "left" })),
   { a: 2, b: 0 },
 );
+g = reduce(guess(started("teams", TEAMS, 40), 55), {
+  type: "call",
+  side: "left",
+});
+expect("call reads the locked dial", points(g), { a: 0, b: 1 });
 expect(
   "bullseye denies the call",
-  play(started("teams", 50), 50, 50, "right").scores,
+  points(
+    reduce(guess(started("teams", TEAMS, 50), 50), {
+      type: "call",
+      side: "right",
+    }),
+  ),
   { a: 4, b: 0 },
 );
-g = reduce(g, { type: "next", card: card(40) });
-expect("turn passes", g.turn, "b");
-
-g = { ...started("teams", 50), scores: { a: 0, b: 5 } };
-g = reduce(play(g, 50, 50, "left"), { type: "next", card: card(40) });
-expect("catch-up keeps the turn", g.turn, "a");
-
-g = { ...started("teams", 50), scores: { a: 9, b: 8 } };
-g = play(g, 50, 60, "left");
+g = reduce(reduce(g, { type: "call", side: "left" }), {
+  type: "next",
+  card: card(40),
+});
 expect(
-  "passing 10 with a lead ends it",
-  [g.scores, isOver(g)],
-  [{ a: 10, b: 9 }, true],
+  "turn passes to team B",
+  [roles(g).active.id, roles(g).peeker],
+  ["b", "cara"],
 );
-g = { ...started("teams", 50), scores: { a: 9, b: 9 } };
-g = play(g, 50, 60, "left");
+g = reduce(reduce(guess(g, 40), { type: "call", side: "left" }), {
+  type: "next",
+  card: card(40),
+});
 expect(
-  "level at 10 plays on",
-  [g.scores, isOver(g)],
-  [{ a: 10, b: 10 }, false],
+  "psychic rotates inside the team",
+  [roles(g).active.id, roles(g).peeker],
+  ["a", "ben"],
 );
-g = { ...started("teams", 50), scores: { a: 8, b: 3 } };
-g = reduce(play(g, 50, 50, "left"), { type: "next", card: card(40) });
-expect("first to 10 wins", [g.phase.kind, winner(g)], ["over", "a"]);
 
-g = started("together", 50);
-for (let i = 0; i < 7; i++) {
-  g = play(g, 50, 50, null);
-  expect(`together has no call (card ${i + 1})`, g.phase.kind, "reveal");
+g = started("guesser", PLAYERS, 50, 2);
+for (let i = 0; i < 6; i++) {
+  g = guess(g, 50);
   g = reduce(g, { type: "next", card: card(50) });
 }
+expect("a round is one turn each", g.phase.kind, "over");
 expect(
-  "together ends after 7",
-  [g.phase.kind, g.scores.a, verdict(g.scores.a)],
-  ["over", 28, "Same wavelength"],
-);
-expect(
-  "start resets scores",
-  reduce(g, { type: "start", card: card(50) }).scores,
-  { a: 0, b: 0 },
+  "play again restarts at the first turn",
+  [reduce(g, { type: "start", seats: PLAYERS, card: card(50) }).turn],
+  [0],
 );
 expect(
   "skip swaps the card",
-  reduce(started("teams", 50), { type: "skip", card: card(20) }).phase.card
+  reduce(started("teams", TEAMS), { type: "skip", card: card(20) }).phase.card
     .target,
   20,
 );
 expect(
   "moves ignored outside guess",
-  reduce(started("teams", 50), { type: "move", dial: 10 }).phase.kind,
+  reduce(started("teams", TEAMS), { type: "move", dial: 10 }).phase.kind,
   "psychic",
+);
+expect(
+  "reset keeps mode and rounds",
+  [
+    reduce(g, { type: "reset" }).mode,
+    reduce(g, { type: "reset" }).rounds,
+    reduce(g, { type: "reset" }).phase.kind,
+  ],
+  ["guesser", 2, "briefing"],
+);
+const tally = { ana: 5, ben: 5, cara: 2 };
+expect(
+  "tied leaders",
+  leaders(PLAYERS, (id) => tally[id]).map((s) => s.id),
+  ["ana", "ben"],
+);
+expect(
+  "nobody leads at zero",
+  leaders(PLAYERS, () => 0),
+  [],
 );
 
 if (failures.length) {

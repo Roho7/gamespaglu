@@ -8,7 +8,7 @@ export function CrossPromo() {
       href={SITE.sibling.url}
       target="_blank"
       rel="noreferrer"
-      className="mb-frame mt-10 block rounded-[var(--radius-lg)] p-4"
+      className="mb-frame mt-10 block p-4"
       data-analytics="cross-promo-officepaglu"
     >
       <p className="mb-display-sm text-xl">Office Paglu</p>

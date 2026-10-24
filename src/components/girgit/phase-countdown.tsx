@@ -48,10 +48,10 @@ export function PhaseCountdown({
           {seconds}s
         </span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full border-[length:var(--rule-thin)] border-current/40">
+      <div className="h-2 w-full overflow-hidden border-[length:var(--rule-thin)] border-current/40">
         <div
           className={cn(
-            "h-full rounded-full transition-[width] duration-200 ease-linear",
+            "h-full transition-[width] duration-200 ease-linear",
             urgent ? "bg-[var(--cw-primary)]" : "bg-current",
           )}
           style={{ width: `${fraction * 100}%` }}

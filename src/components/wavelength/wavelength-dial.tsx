@@ -58,9 +58,12 @@ const WEDGE: Slice[] = BANDS.flatMap((band, tier): Slice[] => {
  *
  * With `onHold` the whole face is a press-and-hold button: down reveals, up
  * hides. That is the Psychic's peek, so there is no separate control for it.
+ *
+ * `others` draws further locked needles, for a reveal with several guesses.
  */
 export function WavelengthDial({
   dial,
+  others = [],
   target,
   onMove,
   onHold,
@@ -68,6 +71,7 @@ export function WavelengthDial({
   palette,
 }: {
   dial: number | null;
+  others?: number[];
   target: number | null;
   onMove?: (value: number) => void;
   onHold?: (held: boolean) => void;
@@ -220,6 +224,32 @@ export function WavelengthDial({
             </text>
           </g>
         ) : null}
+
+        {others.map((value, i) => {
+          const [x, y] = polar(value, OUTER - 4);
+          return (
+            <g key={i}>
+              <line
+                x1={PIVOT_X}
+                y1={PIVOT_Y}
+                x2={x}
+                y2={y}
+                stroke="var(--cw-shadow)"
+                strokeWidth={4.5}
+                strokeLinecap="round"
+              />
+              <line
+                x1={PIVOT_X}
+                y1={PIVOT_Y}
+                x2={x}
+                y2={y}
+                stroke="var(--cw-highlight)"
+                strokeWidth={2}
+                strokeLinecap="round"
+              />
+            </g>
+          );
+        })}
 
         {dial !== null ? (
           <g>

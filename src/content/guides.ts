@@ -1,5 +1,6 @@
 import type { PaletteId } from "@/lib/palettes";
 import type { CategoryId } from "@/lib/deck/types";
+import type { Mode } from "@/lib/wavelength/engine";
 
 /**
  * The How to play section. This is where the words live now — the play screens
@@ -34,7 +35,7 @@ export const GUIDES: Guide[] = [
     slug: "wavelength",
     title: "How to play Wavelength",
     summary:
-      "One clue, one hidden target, one dial. Read your friends' minds on a spectrum between two ends. Two teams or all together, on one phone.",
+      "One clue, one hidden target, one dial. Read your friends' minds on a spectrum between two ends. One Psychic, One Guesser or two teams, on one phone.",
     palette: "miami",
     players: "2 to 12",
     time: "About two minutes a card",
@@ -57,7 +58,7 @@ export const GUIDES: Guide[] = [
       },
       {
         title: "Say one clue",
-        body: "Out loud, the Psychic names one thing that sits where the target is. On Cold to Hot with the target just right of centre, \u201cchai\u201d works. No numbers, no pointing, no explaining the clue after it is out.",
+        body: "Out loud, the Psychic names one thing that sits where the target is, and can type it into the box so it stays on screen while the guessing happens. On Cold to Hot with the target just right of centre, \u201cchai\u201d works. No numbers, no pointing, no explaining the clue after it is out.",
       },
       {
         title: "Turn the dial",
@@ -69,21 +70,25 @@ export const GUIDES: Guide[] = [
       },
       {
         title: "Reveal and score",
-        body: "The target appears. Dead centre scores 4, the bands either side 2, the next ones out 1, anything else nothing. Pass the phone to the other team's Psychic for the next card.",
+        body: "The target appears. Dead centre scores 4, the bands either side 2, the next ones out 1, anything else nothing. The points go straight onto the scoreboard, and the banner over the dial says who takes the phone next.",
       },
     ],
     variations: [
       {
-        title: "Catching up",
-        body: "If a team scores 4 while still behind, they go again straight away. It keeps a lopsided game alive.",
+        title: "One Psychic",
+        body: "Everyone for themselves. One Psychic gives the clue and every other player guesses in secret, passing the phone round so nobody sees the others' dials. Each guesser scores their own band, and the Psychic scores the average of the table. The Psychic moves one seat on every card.",
       },
       {
-        title: "Winning",
-        body: "First team to 10 wins. If both teams pass 10 on the same card, the higher score wins; a tie plays another card.",
+        title: "One Guesser",
+        body: "The mirror image. One player looks away while everyone else sees the target and agrees on clues together. The guesser turns the dial and keeps whatever it scores. A different player guesses every card.",
       },
       {
-        title: "All together",
-        body: "For two or three players, or a table that would rather not compete. Everyone guesses together, the Psychic rotates each card, and after seven cards you get a total and a verdict on how in tune you all are.",
+        title: "Teams",
+        body: "Two teams take turns, each with its own Psychic. After the dial is locked the other team calls left or right for a bonus point, unless the dial landed dead centre. The highest score after the last round wins.",
+      },
+      {
+        title: "Rounds",
+        body: "A round is one turn for every seat: every player takes the rotating role once, or each team plays once. Pick between one and six rounds before you start; the scoreboard keeps the running total.",
       },
     ],
     faq: [
@@ -323,3 +328,44 @@ export const GUIDES: Guide[] = [
 export function getGuide(slug: string) {
   return GUIDES.find((g) => g.slug === slug);
 }
+
+/** The three Wavelength modes as the briefing's tabs show them. */
+export const WAVELENGTH_MODES: Record<
+  Mode,
+  { name: string; players: string; minPlayers: number; steps: string[] }
+> = {
+  psychic: {
+    name: "One Psychic",
+    players: "2+ players",
+    minPlayers: 2,
+    steps: [
+      "The Psychic holds the dial to see the target. Nobody else looks.",
+      "They say a clue out loud, and can type it for the table.",
+      "The phone goes round. Everyone else turns the dial in secret and locks it in.",
+      "Reveal. Each guesser scores 4, 2 or 1; the Psychic scores the average.",
+    ],
+  },
+  guesser: {
+    name: "One Guesser",
+    players: "2+ players",
+    minPlayers: 2,
+    steps: [
+      "One player looks away. They are the guesser this card.",
+      "Everyone else holds the dial to see the target and agrees on clues.",
+      "Say the clues out loud, or type them, then hand the phone over.",
+      "The guesser turns the dial and keeps the 4, 2 or 1 it scores.",
+    ],
+  },
+  teams: {
+    name: "Teams",
+    players: "4+ players",
+    minPlayers: 4,
+    steps: [
+      "The active team's Psychic holds the dial to see the target.",
+      "They give one clue out loud, and can type it for the table.",
+      "Their team talks it over, turns the dial and locks it in.",
+      "The other team calls left or right of the dial for a bonus point.",
+      "Reveal. The active team scores 4, 2 or 1, then the turn passes.",
+    ],
+  },
+};

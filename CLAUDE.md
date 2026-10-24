@@ -85,9 +85,11 @@ category palette, with the band below naming the game. Simple, clean, profession
 ### Print treatment
 
 - Grain overlay, hard offset shadows, ~0.4° tilt. Nothing else: no aged paper, no worn edges.
+- **No rounded corners, anywhere.** Every edge is square; the radius tokens are 0 and
+  `npm run check:tokens` fails on a `rounded-*` utility or a non-zero `border-radius`.
 - The hard offset shadow is `--cw-highlight`, and goes only on hero display type on a field. Never on
   body or small text.
-- One marquee (starburst) per screen, behind artwork only, never behind type.
+- One starburst per screen, behind artwork only, never behind type. The bulb `MarqueeBanner` is a sign, not artwork.
 - Emblems, not emoji, on a field.
 - Drawers are opaque `--ground`.
 - Never set `--btn-*` inline on a container; it overrides the button recipes.
@@ -96,13 +98,14 @@ category palette, with the band below naming the game. Simple, clean, profession
 
 | Recipe | What it is |
 |---|---|
-| `.mb-frame` | outer rule + field + dashed inner rule; inner radius is `--dot-radius`, override it on other radii |
+| `.mb-frame` | outer rule + field + dashed inner rule |
 | `.mb-label` / `.mb-label-bleed` | a square, borderless card with a hard drop shadow (stitch it with `StitchBorder`); bleed is a full-screen play surface with no shadow |
 | `.mb-band` | the near-black band that holds the primary action |
-| `.mb-btn` + `.mb-btn-{primary,secondary,tertiary}` | one button; hierarchy is palette only, so it reads in greyscale |
+| `.mb-btn` + `.mb-btn-{primary,secondary,tertiary}` | one button, the same square solid shape and hard shadow as `.mb-square-btn`; hierarchy is palette only, so it reads in greyscale |
 | `.mb-square-btn` | the one corner control: solid square, hard shadow, reads over photos |
 | `.mb-display` / `.mb-display-sm` / `.mb-shadow` / `.mb-caps` | type |
 | `.rail` | native scroll-snap swipe rail |
+| `.mb-marquee` + `.mb-marquee-sign` | chasing-bulb sign (`MarqueeBanner`): the one turn instruction on a play surface |
 
 **A component doesn't exist until it renders on `/style`.** One screenshot of that route verifies
 the system.
@@ -121,7 +124,9 @@ the system.
   their guide top-right instead.
 - **The scoreboard is a bottom sheet behind a square button, not a destination.** `PageCorners`
   shows it on every inner game screen; `/scoreboard` exists only as a deep-link and SEO page.
-  Home, the generator and Wavelength have no scoreboard button (Wavelength's score is game state).
+  Home and the generator have no scoreboard button. Wavelength keeps score *in* the scoreboard: its
+  player setup writes the rows (one per player, or one per team with `members`), and every reveal
+  adds its `awards` through `addPoints` (`src/lib/hooks/use-scoreboard.ts`).
 - **One control shape.** Corner and drawer controls are all `.mb-square-btn`; icons from
   `lucide-react`, `?` set in display type.
 - The generator opens on a briefing (how to play, settings) in stitched panels. Generate starts a

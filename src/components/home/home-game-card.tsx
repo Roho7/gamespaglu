@@ -68,7 +68,7 @@ export function HomeGameCard({
       </div>
       <Link href={href} className="mb-band-action p-10">
         <StitchBorder className="inset-3" />
-        <span className="text-sm font-light">{tagline}</span>
+        <span className="text-sm font-light text-center">{tagline}</span>
         <span className="mb-display-sm text-5xl">{title}</span>
       </Link>
     </section>

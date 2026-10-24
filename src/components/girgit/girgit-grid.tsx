@@ -45,7 +45,7 @@ export function GirgitGrid({
             aria-label={pickable ? `Guess ${word}` : undefined}
             onClick={() => onPick?.(i)}
             className={cn(
-              "flex min-h-[3.6rem] items-center justify-center rounded-[var(--radius-sm)]",
+              "flex min-h-[3.6rem] items-center justify-center",
               "border-[length:var(--rule-thin)] border-[color:var(--cw-secondary)] px-1 py-1",
               "text-center text-[0.62rem] leading-[1.15] font-bold tracking-[0.02em] uppercase",
               "hyphens-auto transition-transform",

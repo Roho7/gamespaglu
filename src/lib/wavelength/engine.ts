@@ -2,54 +2,71 @@
  * Wavelength rules as a pure reducer. No React, no randomness: anything random
  * (the next card) arrives inside the action, so every transition is
  * reproducible and `scripts/check-wavelength.mjs` can drive it directly.
+ *
+ * Scores are not kept here. A reveal carries the round's `awards`, and the
+ * screen adds them to the shared scoreboard, which is the one tally.
  */
 
 export type Spectrum = { id: string; left: string; right: string };
 export type Card = { spectrum: Spectrum; target: number };
 
-export type Team = "a" | "b";
-export type Mode = "teams" | "together";
+/**
+ * `psychic`: one Psychic a card, everyone else guesses in secret.
+ * `guesser`: everyone else gives clues, one player guesses.
+ * `teams`: two teams take turns; the other team calls left or right.
+ */
+export type Mode = "psychic" | "guesser" | "teams";
 export type Side = "left" | "right";
-export type Points = { active: number; other: number };
+
+/** One scoreboard row: a player, or in Teams a team and its members. */
+export type Seat = { id: string; name: string; members: string[] };
+export type Guess = { seat: string; dial: number };
+export type Award = { seat: string; points: number; role: Role };
+export type Role = "guess" | "psychic" | "call";
 
 export type Phase =
   | { kind: "briefing" }
+  | { kind: "players" }
   | { kind: "psychic"; card: Card }
-  | { kind: "guess"; card: Card; dial: number }
-  | { kind: "call"; card: Card; dial: number }
+  | { kind: "guess"; card: Card; clue: string; dial: number; guesses: Guess[] }
+  | { kind: "call"; card: Card; clue: string; guesses: Guess[] }
   | {
       kind: "reveal";
       card: Card;
-      dial: number;
+      clue: string;
+      guesses: Guess[];
       call: Side | null;
-      points: Points;
+      awards: Award[];
     }
   | { kind: "over" };
 
 export type Game = {
   mode: Mode;
+  rounds: number;
+  seats: Seat[];
+  turn: number;
   phase: Phase;
-  scores: Record<Team, number>;
-  turn: Team;
-  cardsPlayed: number;
 };
 
 export type Action =
   | { type: "mode"; mode: Mode }
-  | { type: "start"; card: Card }
+  | { type: "rounds"; rounds: number }
+  | { type: "setup" }
+  | { type: "start"; seats: Seat[]; card: Card }
   | { type: "skip"; card: Card }
-  | { type: "clue" }
+  | { type: "clue"; text: string }
   | { type: "move"; dial: number }
   | { type: "lock" }
   | { type: "call"; side: Side }
   | { type: "next"; card: Card }
   | { type: "reset" };
 
-export const WIN_SCORE = 10;
-export const TOGETHER_CARDS = 7;
+export const MODES: Mode[] = ["psychic", "guesser", "teams"];
+export const ROUND_OPTIONS = [1, 2, 3, 4, 5, 6];
 export const TARGET_MIN = 10;
 export const TARGET_MAX = 90;
 export const DIAL_START = 50;
+export const CLUE_MAX = 60;
 
 /** Scoring bands, centre out. `reach` is the distance from the target on a 0..100 dial. */
 export const BANDS = [
@@ -57,18 +74,15 @@ export const BANDS = [
   { points: 2, reach: 7.5 },
   { points: 1, reach: 12.5 },
 ] as const;
+export const BULLSEYE = BANDS[0].points;
 
 export const NEW_GAME: Game = {
-  mode: "teams",
+  mode: "psychic",
+  rounds: 3,
+  seats: [],
+  turn: 0,
   phase: { kind: "briefing" },
-  scores: { a: 0, b: 0 },
-  turn: "a",
-  cardsPlayed: 0,
 };
-
-export function otherTeam(team: Team): Team {
-  return team === "a" ? "b" : "a";
-}
 
 export function clampDial(value: number): number {
   return Math.min(100, Math.max(0, Math.round(value)));
@@ -83,39 +97,127 @@ export function targetSide(dial: number, target: number): Side {
   return target < dial ? "left" : "right";
 }
 
-function score(game: Game, card: Card, dial: number, call: Side | null): Game {
-  const active = bandPoints(dial, card.target);
-  const other =
-    call !== null && active < 4 && call === targetSide(dial, card.target)
-      ? 1
-      : 0;
-  const scores = { ...game.scores };
-  scores[game.turn] += active;
-  scores[otherTeam(game.turn)] += other;
+/** Why a roster can't start this mode, or null when it can. */
+export function rosterProblem(mode: Mode, seats: Seat[]): string | null {
+  if (mode === "teams") {
+    if (seats.length !== 2) return "Teams needs exactly two teams.";
+    const short = seats.find((s) => s.members.length < 2);
+    return short
+      ? `${short.name} needs two players: a Psychic and a guesser.`
+      : null;
+  }
+  return seats.length < 2 ? "Add at least two players." : null;
+}
+
+/** Cards in a full game: a round is one turn for every seat. */
+export function totalTurns(game: Game): number {
+  return game.rounds * game.seats.length;
+}
+
+export function roundOf(game: Game): number {
+  return Math.floor(game.turn / Math.max(1, game.seats.length)) + 1;
+}
+
+/**
+ * Who does what on a given turn. `active` is the seat whose turn it is (the
+ * Psychic, the lone guesser, or the active team); `peeker` is the name of the
+ * one person who holds the dial to see the target, or null in One Guesser,
+ * where every clue-giver looks.
+ */
+export type TurnRoles = {
+  active: Seat;
+  peeker: string | null;
+  guessers: Seat[];
+  caller: Seat | null;
+};
+
+export function rolesAt(game: Game, turn: number): TurnRoles {
+  const { seats } = game;
+  const active = seats[turn % seats.length];
+  switch (game.mode) {
+    case "psychic": {
+      const i = turn % seats.length;
+      return {
+        active,
+        peeker: active.name,
+        guessers: [...seats.slice(i + 1), ...seats.slice(0, i)],
+        caller: null,
+      };
+    }
+    case "guesser":
+      return { active, peeker: null, guessers: [active], caller: null };
+    case "teams": {
+      const lap = Math.floor(turn / seats.length);
+      return {
+        active,
+        peeker: active.members[lap % active.members.length],
+        guessers: [active],
+        caller: seats[(turn + 1) % seats.length],
+      };
+    }
+  }
+}
+
+export function roles(game: Game): TurnRoles {
+  return rolesAt(game, game.turn);
+}
+
+/** The round's points, one award per seat that scored or could have. */
+export function awardsFor(
+  game: Game,
+  card: Card,
+  guesses: Guess[],
+  call: Side | null,
+): Award[] {
+  const { active, caller } = roles(game);
+  const scored = guesses.map((g): Award => ({
+    seat: g.seat,
+    points: bandPoints(g.dial, card.target),
+    role: "guess",
+  }));
+  if (game.mode === "psychic") {
+    const average =
+      scored.reduce((sum, a) => sum + a.points, 0) / Math.max(1, scored.length);
+    return [
+      ...scored,
+      { seat: active.id, points: Math.round(average), role: "psychic" },
+    ];
+  }
+  if (game.mode === "teams" && caller && call) {
+    const [main] = scored;
+    const right =
+      main.points < BULLSEYE &&
+      call === targetSide(guesses[0].dial, card.target);
+    return [
+      ...scored,
+      { seat: caller.id, points: right ? 1 : 0, role: "call" },
+    ];
+  }
+  return scored;
+}
+
+function reveal(
+  game: Game,
+  card: Card,
+  clue: string,
+  guesses: Guess[],
+  call: Side | null,
+): Game {
   return {
     ...game,
-    scores,
-    cardsPlayed: game.cardsPlayed + 1,
-    phase: { kind: "reveal", card, dial, call, points: { active, other } },
+    phase: {
+      kind: "reveal",
+      card,
+      clue,
+      guesses,
+      call,
+      awards: awardsFor(game, card, guesses, call),
+    },
   };
 }
 
-/** The leading team once the game is over, or null for a Together game. */
-export function winner(game: Game): Team | null {
-  if (game.mode === "together") return null;
-  return game.scores.a > game.scores.b ? "a" : "b";
-}
-
-export function isOver(game: Game): boolean {
-  if (game.mode === "together") return game.cardsPlayed >= TOGETHER_CARDS;
-  const top = Math.max(game.scores.a, game.scores.b);
-  return top >= WIN_SCORE && game.scores.a !== game.scores.b;
-}
-
-function nextTurn(game: Game, points: Points): Team {
-  if (game.mode === "together") return game.turn;
-  const behind = game.scores[game.turn] < game.scores[otherTeam(game.turn)];
-  return points.active === 4 && behind ? game.turn : otherTeam(game.turn);
+export function isLastTurn(game: Game): boolean {
+  return game.turn + 1 >= totalTurns(game);
 }
 
 export function reduce(game: Game, action: Action): Game {
@@ -123,11 +225,21 @@ export function reduce(game: Game, action: Action): Game {
   switch (action.type) {
     case "mode":
       return phase.kind === "briefing" ? { ...game, mode: action.mode } : game;
+    case "rounds":
+      return phase.kind === "briefing" && ROUND_OPTIONS.includes(action.rounds)
+        ? { ...game, rounds: action.rounds }
+        : game;
+    case "setup":
+      return phase.kind === "briefing"
+        ? { ...game, phase: { kind: "players" } }
+        : game;
     case "start":
-      if (phase.kind !== "briefing" && phase.kind !== "over") return game;
+      if (phase.kind !== "players" && phase.kind !== "over") return game;
+      if (rosterProblem(game.mode, action.seats)) return game;
       return {
-        ...NEW_GAME,
-        mode: game.mode,
+        ...game,
+        seats: action.seats,
+        turn: 0,
         phase: { kind: "psychic", card: action.card },
       };
     case "skip":
@@ -138,42 +250,57 @@ export function reduce(game: Game, action: Action): Game {
       return phase.kind === "psychic"
         ? {
             ...game,
-            phase: { kind: "guess", card: phase.card, dial: DIAL_START },
+            phase: {
+              kind: "guess",
+              card: phase.card,
+              clue: action.text.trim().slice(0, CLUE_MAX),
+              dial: DIAL_START,
+              guesses: [],
+            },
           }
         : game;
     case "move":
       return phase.kind === "guess"
         ? { ...game, phase: { ...phase, dial: clampDial(action.dial) } }
         : game;
-    case "lock":
+    case "lock": {
       if (phase.kind !== "guess") return game;
-      return game.mode === "teams"
-        ? {
-            ...game,
-            phase: { kind: "call", card: phase.card, dial: phase.dial },
-          }
-        : score(game, phase.card, phase.dial, null);
+      const { guessers } = roles(game);
+      const guesses = [
+        ...phase.guesses,
+        { seat: guessers[phase.guesses.length].id, dial: phase.dial },
+      ];
+      if (guesses.length < guessers.length)
+        return { ...game, phase: { ...phase, dial: DIAL_START, guesses } };
+      if (game.mode === "teams")
+        return {
+          ...game,
+          phase: { kind: "call", card: phase.card, clue: phase.clue, guesses },
+        };
+      return reveal(game, phase.card, phase.clue, guesses, null);
+    }
     case "call":
       return phase.kind === "call"
-        ? score(game, phase.card, phase.dial, action.side)
+        ? reveal(game, phase.card, phase.clue, phase.guesses, action.side)
         : game;
     case "next":
       if (phase.kind !== "reveal") return game;
-      if (isOver(game)) return { ...game, phase: { kind: "over" } };
+      if (isLastTurn(game)) return { ...game, phase: { kind: "over" } };
       return {
         ...game,
-        turn: nextTurn(game, phase.points),
+        turn: game.turn + 1,
         phase: { kind: "psychic", card: action.card },
       };
     case "reset":
-      return { ...NEW_GAME, mode: game.mode };
+      return { ...NEW_GAME, mode: game.mode, rounds: game.rounds };
   }
 }
 
-/** Together mode's one-line verdict for a final total. */
-export function verdict(total: number): string {
-  if (total >= 20) return "Same wavelength";
-  if (total >= 14) return "Tuned in";
-  if (total >= 8) return "Some signal";
-  return "Static";
+/** The seats sharing the top score, or none before anyone has scored. */
+export function leaders(
+  seats: Seat[],
+  scoreOf: (id: string) => number,
+): Seat[] {
+  const top = Math.max(...seats.map((s) => scoreOf(s.id)));
+  return top > 0 ? seats.filter((s) => scoreOf(s.id) === top) : [];
 }

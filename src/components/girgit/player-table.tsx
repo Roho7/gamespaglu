@@ -36,7 +36,7 @@ export function PlayerTable({
   return (
     <ul
       className={cn(
-        "overflow-hidden rounded-[var(--radius-lg)]",
+        "overflow-hidden",
         "border-[length:var(--rule)] border-[color:var(--cw-secondary)]",
         "bg-[var(--ground-soft)] text-[var(--ground-ink)]",
         "shadow-[0_5px_0_0_var(--shadow-ink)]",
