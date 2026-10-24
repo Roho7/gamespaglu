@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowRight, Settings } from "lucide-react";
+import { Settings } from "lucide-react";
+import { PaletteGrain } from "@/components/artwork/palette-grain";
+import { BandButton } from "@/components/layout/band-button";
 import { PageCorners } from "@/components/layout/page-corners";
 import { SideDrawer } from "@/components/layout/side-drawer";
 import { PhaseCountdown } from "@/components/girgit/phase-countdown";
 import { GirgitRules } from "@/components/girgit/room-panels";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
-import { PlayerTable } from "@/components/girgit/player-table";
+import { ClueBoard, type ClueSlip } from "@/components/girgit/clue-board";
 import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
 import { TapToast } from "@/components/girgit/tap-toast";
 import { Chip } from "@/components/ui/controls";
@@ -15,13 +17,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { paletteById, roundPalette, theme } from "@/lib/palettes";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
-import { StitchBorder } from "@/components/stitch/stitch-border";
-import type { useGirgitRoom } from "@/lib/hooks/use-girgit-room";
+import type { GirgitRoom } from "@/lib/hooks/use-girgit-room";
 import { useOnline } from "@/lib/hooks/use-online";
 import {
   CLUE_SECONDS_OPTIONS,
   MAX_CLUE_LENGTH,
   PACKS,
+  SCORE_GIRGIT_ESCAPED,
+  SCORE_GIRGIT_GUESSED,
+  SCORE_INNOCENT,
   type RoomState,
 } from "@shared/protocol";
 
@@ -45,7 +49,7 @@ export function RoomScreen({
   reconnecting,
 }: {
   state: RoomState;
-  act: ReturnType<typeof useGirgitRoom>["act"];
+  act: GirgitRoom["act"];
   leave: () => void;
   reconnecting: boolean;
 }) {
@@ -120,12 +124,65 @@ export function RoomScreen({
   }
   const { big, small } = headline();
 
+  const won = (id: string): number => {
+    const girgit = id === round?.girgitId;
+    switch (round?.outcome) {
+      case "girgit-escaped":
+        return girgit ? SCORE_GIRGIT_ESCAPED : 0;
+      case "girgit-guessed":
+        return girgit ? SCORE_GIRGIT_GUESSED : 0;
+      case "girgit-caught":
+        return girgit ? 0 : SCORE_INNOCENT;
+      default:
+        return 0;
+    }
+  };
+
+  const slips: ClueSlip[] = state.players.map((p) => {
+    const revealed = phase === "reveal" && round?.outcome !== "aborted";
+    const skipped = round?.skipped.includes(p.id) ?? false;
+    const votes = round?.voteCounts[p.id] ?? 0;
+    return {
+      id: p.id,
+      name: p.name,
+      clue: clueOf(p.id),
+      you: p.id === state.you,
+      away: !p.connected,
+      dim: skipped,
+      marked: revealed && p.id === round?.girgitId,
+      badge: revealed
+        ? won(p.id) > 0
+          ? `+${won(p.id)}`
+          : null
+        : phase === "vote" && votes > 0
+          ? `${votes}`
+          : null,
+      note: revealed
+        ? `${p.id === round?.girgitId ? "Girgit · " : ""}${p.score} ${p.score === 1 ? "pt" : "pts"}`
+        : skipped
+          ? "timed out"
+          : phase === "vote" && round?.votedBy.includes(p.id)
+            ? "voted"
+            : undefined,
+    };
+  });
+
   return (
-    <div {...theme(palette)} className="flex min-h-dvh flex-col">
+    <div {...theme(palette)} className="flex h-dvh flex-col">
       <TapToast message={toast} />
 
-      <div className="mb-label mb-label-bleed flex-1">
-        <div className="mb-label-field relative flex min-h-0 flex-1 flex-col">
+      <div className="mb-label mb-label-bleed min-h-0 flex-1">
+        {lobby ? null : (
+          <PaletteGrain
+            palette={palette}
+            tone="ink"
+            className="absolute inset-0"
+          />
+        )}
+        <div
+          {...theme(palette, { flipped: !lobby })}
+          className="mb-label-field relative flex min-h-0 flex-1 flex-col"
+        >
           <h1 className="sr-only">Girgit</h1>
           {lobby ? (
             <DitheredPhoto
@@ -282,6 +339,30 @@ export function RoomScreen({
                   <h2 className="mb-display-sm text-2xl">{big}</h2>
                 </header>
 
+                {phase === "reveal" && round.outcome !== "aborted" ? (
+                  <div className="space-y-2 text-center">
+                    {round.escapeGuess !== null ? (
+                      <p className="mb-display-sm text-lg">
+                        {nameOf(round.girgitId)} guessed “
+                        {word(round.escapeGuess)}”.
+                        <br />
+                        The word was “{word(round.secretIndex)}”.
+                      </p>
+                    ) : (
+                      <p className="mb-display-sm text-lg">
+                        The word was “{word(round.secretIndex)}”.
+                      </p>
+                    )}
+                    <p className="mb-caps text-[0.6rem] opacity-80">
+                      {round.outcome === "girgit-escaped"
+                        ? `Got away with it · +${SCORE_GIRGIT_ESCAPED}`
+                        : round.outcome === "girgit-guessed"
+                          ? `Caught, but guessed right · +${SCORE_GIRGIT_GUESSED}`
+                          : `Caught cold · +${SCORE_INNOCENT} to everyone else`}
+                    </p>
+                  </div>
+                ) : null}
+
                 {phase !== "vote" ? (
                   <GirgitGrid
                     cells={round.cells}
@@ -309,10 +390,8 @@ export function RoomScreen({
                   />
                 ) : null}
 
-                <PlayerTable
-                  players={state.players}
-                  youId={state.you}
-                  dimIds={round.skipped}
+                <ClueBoard
+                  slips={slips}
                   onSelect={
                     phase === "vote" && !hasVoted
                       ? (id) => {
@@ -322,111 +401,39 @@ export function RoomScreen({
                       : undefined
                   }
                   disabledIds={phase === "vote" ? [state.you] : []}
-                  rowsRight={(p) => {
-                    const clueWord = clueOf(p.id);
-                    if (phase === "vote") {
-                      const n = round.voteCounts[p.id] ?? 0;
-                      return (
-                        <span className="flex items-baseline justify-end gap-3">
-                          <span className="truncate text-base font-extrabold">
-                            {clueWord ?? "—"}
-                          </span>
-                          {round.votedBy.includes(p.id) ? (
-                            <span className="mb-caps text-[0.5rem] opacity-55">
-                              voted
-                            </span>
-                          ) : null}
-                          <span className="mb-display-sm w-5 text-lg tabular-nums">
-                            {n}
-                          </span>
-                        </span>
-                      );
-                    }
-                    const w = clueWord;
-                    if (w)
-                      return (
-                        <span className="text-base font-extrabold">{w}</span>
-                      );
-                    if (round.skipped.includes(p.id)) {
-                      return (
-                        <span className="mb-caps text-[0.5rem]">timed out</span>
-                      );
-                    }
-                    return <span className="opacity-40">…</span>;
-                  }}
                 />
 
-                {phase === "reveal" && round.outcome !== "aborted" ? (
-                  <div className="space-y-2 text-center">
-                    {round.escapeGuess !== null ? (
-                      <p className="mb-display-sm text-lg">
-                        {nameOf(round.girgitId)} guessed “
-                        {word(round.escapeGuess)}”.
-                        <br />
-                        The word was “{word(round.secretIndex)}”.
-                      </p>
-                    ) : (
-                      <p className="mb-display-sm text-lg">
-                        The word was “{word(round.secretIndex)}”.
-                      </p>
-                    )}
-                    <p className="mb-caps text-[0.6rem] opacity-80">
-                      {round.outcome === "girgit-escaped"
-                        ? "Got away with it · +2"
-                        : round.outcome === "girgit-guessed"
-                          ? "Caught, but guessed right · +1"
-                          : "Caught cold · +1 to everyone else"}
-                    </p>
-                    {round.votes ? (
-                      <ul className="mb-caps space-y-0.5 text-[0.55rem] opacity-70">
-                        {round.votes.map((v) => (
-                          <li key={v.voterId}>
-                            {nameOf(v.voterId)}{" "}
-                            <ArrowRight
-                              className="inline size-[1em] align-[-0.125em]"
-                              strokeWidth={3}
-                              aria-hidden
-                            />{" "}
-                            {nameOf(v.targetId)}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
-                    <ul className="flex flex-wrap justify-center gap-x-3 text-sm font-bold">
-                      {state.players.map((p) => (
-                        <li key={p.id}>
-                          {p.name} {p.score}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
               </div>
             )}
           </div>
         </div>
 
-        {lobby && !cutOff ? (
-          <button
-            type="button"
-            onClick={() => act.startRound()}
-            disabled={!isHost || short}
-            className="mb-band-action py-8"
-          >
-            <StitchBorder className="inset-3" />
-            <span
-              className={`mb-display-sm ${isHost ? "text-4xl" : "text-2xl"}`}
-            >
-              {isHost ? "Start" : "Waiting for host to start…"}
-            </span>
-            {isHost && short ? (
-              <span className="mb-caps text-[0.6rem]">
-                Need {state.minPlayers} players
-              </span>
-            ) : null}
-          </button>
+        {!cutOff && lobby ? (
+          <div className="relative flex">
+            {isHost ? (
+              <BandButton
+                onClick={() => act.startRound()}
+                disabled={short}
+                detail={short ? `Need ${state.minPlayers} players` : undefined}
+              >
+                Start
+              </BandButton>
+            ) : (
+              <p className="mb-band mb-display-sm flex-1 py-10 text-2xl">
+                Waiting for host to start…
+              </p>
+            )}
+          </div>
+        ) : !cutOff && phase === "discuss" ? (
+          <div className="relative flex">
+            <BandButton onClick={() => act.callVote()}>Call the vote</BandButton>
+          </div>
+        ) : !cutOff && phase === "reveal" && isHost ? (
+          <div className="relative flex">
+            <BandButton onClick={() => act.startRound()}>Again</BandButton>
+          </div>
         ) : (
-          <div className="mb-band flex-col gap-2 px-4 py-3">
+          <div className="mb-band relative flex-col gap-2 px-4 py-3">
             {!cutOff && round?.deadlineAt ? (
               <PhaseCountdown
                 deadlineAt={round.deadlineAt}
@@ -480,16 +487,6 @@ export function RoomScreen({
               )
             ) : null}
 
-            {!cutOff && phase === "discuss" ? (
-              <Button
-                size="hero"
-                className="max-w-sm"
-                onClick={() => act.callVote()}
-              >
-                Call the vote
-              </Button>
-            ) : null}
-
             {!cutOff && phase === "vote" && round ? (
               <div className="flex w-full max-w-sm items-center justify-between gap-3">
                 <span className="mb-caps text-[0.6rem] opacity-80">
@@ -527,19 +524,9 @@ export function RoomScreen({
             ) : null}
 
             {!cutOff && phase === "reveal" ? (
-              isHost ? (
-                <Button
-                  size="hero"
-                  className="max-w-sm"
-                  onClick={() => act.startRound()}
-                >
-                  Again
-                </Button>
-              ) : (
-                <p className="mb-caps text-center text-[0.6rem] opacity-80">
-                  Waiting for {nameOf(state.hostId)}
-                </p>
-              )
+              <p className="mb-caps text-center text-[0.6rem] opacity-80">
+                Waiting for {nameOf(state.hostId)}
+              </p>
             ) : null}
           </div>
         )}

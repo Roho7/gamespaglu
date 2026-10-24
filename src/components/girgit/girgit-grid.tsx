@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
  * The 4x4 grid. This is the board, and the only board — nothing goes on the
  * table.
  *
- * Cells are deliberately plain: sixteen dotted matchbox frames at 80px would be
- * unreadable noise, so the double-rule treatment stays on the label around them
- * and the cells carry a single rule in the frame ink.
+ * Cells are solid tiles in the dark ink with the loud ink as type, set in the
+ * condensed display face so long words fit four across. Only a tile you can
+ * tap (the caught Girgit's guess) gets the loud rule and hard shadow.
  *
  * Nothing here ever marks the secret. A highlighted cell is legible by POSITION
  * from across a table — you do not even have to read it — so the secret is
@@ -24,16 +24,14 @@ export function GirgitGrid({
 }: {
   cells: string[];
   onPick?: (index: number) => void;
-  /** The secret. Reveal only. */
   markIndex?: number | null;
-  /** What the caught Girgit picked. Reveal only, and only when they were wrong. */
   guessIndex?: number | null;
   disabled?: boolean;
 }) {
   const pickable = Boolean(onPick) && !disabled;
 
   return (
-    <div className="grid grid-cols-4 gap-1.5">
+    <div lang="en" className="grid grid-cols-4 gap-2">
       {cells.map((word, i) => {
         const marked = markIndex === i;
         const guessed = guessIndex === i && guessIndex !== markIndex;
@@ -45,16 +43,17 @@ export function GirgitGrid({
             aria-label={pickable ? `Guess ${word}` : undefined}
             onClick={() => onPick?.(i)}
             className={cn(
-              "flex min-h-[3.6rem] items-center justify-center",
-              "border-[length:var(--rule-thin)] border-[color:var(--cw-secondary)] px-1 py-1",
-              "text-center text-[0.62rem] leading-[1.15] font-bold tracking-[0.02em] uppercase",
-              "hyphens-auto transition-transform",
-              marked &&
-                "bg-[var(--cw-primary)] text-[var(--cw-highlight,var(--shadow-ink))]",
-              guessed &&
-                "border-dashed bg-[var(--band)] text-[var(--band-ink)] line-through",
-              !marked && !guessed && "bg-transparent text-[var(--cw-shadow)]",
-              pickable && "active:translate-y-[2px] active:scale-[0.98]",
+              "mb-display-sm flex min-h-14 items-center justify-center px-1 py-1.5",
+              "border-[length:var(--rule-thin)] text-center text-[0.9rem] leading-[1.05]",
+              "break-words hyphens-auto transition-transform",
+              marked
+                ? "border-[color:var(--loud)] bg-[var(--loud)] text-[var(--on-loud)]"
+                : guessed
+                  ? "border-dashed border-[color:var(--cw-shadow)] bg-transparent text-[var(--cw-shadow)] line-through"
+                  : "border-transparent bg-[var(--cw-primary)] text-[var(--loud)]",
+              pickable &&
+              !marked &&
+              "border-[color:var(--loud)] shadow-[3px_3px_0_var(--loud)] active:translate-[3px] active:shadow-none",
               !pickable && "cursor-default",
             )}
           >

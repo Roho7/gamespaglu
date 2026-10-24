@@ -73,7 +73,7 @@ export function HostOrJoinScreen({
   error,
 }: {
   onCreate: (name: string, prefs: HostPrefs) => void;
-  onJoin: (name: string, code: string) => void;
+  onJoin?: (name: string, code: string) => void;
   busy: boolean;
   error: Err | null;
 }) {
@@ -106,7 +106,7 @@ export function HostOrJoinScreen({
     e.preventDefault();
     if (missing) return;
     if (door === "host") onCreate(name, prefs);
-    else onJoin(name, code);
+    else onJoin?.(name, code);
   };
 
   return (
@@ -180,7 +180,7 @@ export function HostOrJoinScreen({
           </div>
         </div>
         <div className="relative flex">
-          {(["host", "join"] as const).map((d) => (
+          {(onJoin ? (["host", "join"] as const) : (["host"] as const)).map((d) => (
             <button
               key={d}
               type="button"

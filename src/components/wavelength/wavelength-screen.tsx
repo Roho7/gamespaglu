@@ -4,10 +4,10 @@ import { useState } from "react";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import spectrums from "@shared/data/spectrums.json";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
+import { BandButton } from "@/components/layout/band-button";
 import { HelpLink } from "@/components/layout/page-corners";
 import { MarqueeBanner } from "@/components/layout/marquee-banner";
 import { ScoreboardDrawer } from "@/components/scoreboard/scoreboard-drawer";
-import { StitchBorder } from "@/components/stitch/stitch-border";
 import { Input } from "@/components/ui/input";
 import { WavelengthBriefing } from "@/components/wavelength/wavelength-briefing";
 import { WavelengthDial } from "@/components/wavelength/wavelength-dial";
@@ -49,32 +49,6 @@ function deal(): Card {
   const spectrum = DECK[drawIndex("wavelength", DECK.length)];
   const target = TARGET_MIN + Math.random() * (TARGET_MAX - TARGET_MIN);
   return { spectrum, target: Math.round(target * 10) / 10 };
-}
-
-function BandButton({
-  children,
-  onClick,
-  disabled,
-  className = "flex-1",
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  disabled?: boolean;
-  className?: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={`mb-band-action py-10 ${className}`}
-    >
-      <StitchBorder className="inset-3" />
-      <span className="mb-display-sm inline-flex items-center gap-2 text-4xl">
-        {children}
-      </span>
-    </button>
-  );
 }
 
 /** What the marquee says: whose turn it is and who holds the phone. */

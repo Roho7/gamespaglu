@@ -46,6 +46,26 @@ function deviceId(): string {
 
 export type RoomStatus = "idle" | "connecting" | "in-room" | "error";
 
+/** What a room hook hands the screens. The socket room and the local test room both return it. */
+export type GirgitRoom = {
+  state: RoomState | null;
+  status: RoomStatus;
+  error: Err | null;
+  create: (name: string) => Promise<Result<{ code: string }>>;
+  join?: (name: string, code: string) => Promise<Result<{ code: string }>>;
+  leave: () => Promise<void>;
+  act: {
+    setClueSeconds: (seconds: number) => Promise<Result<unknown>>;
+    setPacks: (packs: string[]) => Promise<Result<unknown>>;
+    startRound: () => Promise<Result<unknown>>;
+    abortRound: () => Promise<Result<unknown>>;
+    submitClue: (word: string) => Promise<Result<unknown>>;
+    callVote: () => Promise<Result<unknown>>;
+    castVote: (targetId: string) => Promise<Result<unknown>>;
+    escapeGuess: (cellIndex: number) => Promise<Result<unknown>>;
+  };
+};
+
 export function useGirgitRoom() {
   const [lastCode, setLastCode] = usePersisted<string>("girgit:room", "");
   const hydrated = useHydrated();

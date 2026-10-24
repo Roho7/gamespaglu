@@ -32,11 +32,10 @@ import {
   applyScores,
   currentRound,
   expiredRooms,
-  publicRound,
   startRound,
   transition,
-  yourRound,
 } from "./girgit/store";
+import { publicRound, yourRound } from "./girgit/views";
 import {
   ALL_PACKS,
   CLUE_SECONDS_OPTIONS,

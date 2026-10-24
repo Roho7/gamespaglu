@@ -33,7 +33,7 @@ export function HoldToRevealSecret({
     <div className="flex flex-col items-center gap-1">
       <button
         type="button"
-        className="mb-btn mb-btn-secondary w-full max-w-sm px-6 py-2.5 text-base select-none"
+        className="mb-btn mb-btn-tertiary w-full max-w-sm px-6 py-2.5 text-base select-none"
         onPointerDown={() => setHeld(true)}
         onPointerUp={release}
         onPointerCancel={release}

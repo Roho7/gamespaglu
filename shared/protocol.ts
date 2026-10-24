@@ -69,9 +69,7 @@ export type ClueSeconds = (typeof CLUE_SECONDS_OPTIONS)[number];
 export const DEFAULT_CLUE_SECONDS: ClueSeconds = 60;
 
 export const SCORE_GIRGIT_ESCAPED = 2;
-/** Caught, but guessed the secret word. */
 export const SCORE_GIRGIT_GUESSED = 1;
-/** Caught and guessed wrong — every innocent scores. */
 export const SCORE_INNOCENT = 1;
 
 export type DeviceId = string;
@@ -85,19 +83,15 @@ export type GameId = "girgit";
  */
 export type RoomPhase =
   | "lobby"
-  /** Everyone types one clue. Reveal is simultaneous. */
   | "clues"
-  /** No app surface at all. The grid and the clues sit there; people talk. */
   | "discuss"
   | "vote"
-  /** The caught Girgit gets one guess at the secret word. */
   | "escape"
   | "reveal";
 
 export type PublicPlayer = {
   id: PlayerId;
   name: string;
-  /** Stable seat order, so the round order does not shuffle when someone drops. */
   seat: number;
   /**
    * False means the socket is gone, NOT that the player left. Locking your
@@ -105,7 +99,6 @@ export type PublicPlayer = {
    * that happens at a table, and it must not end anyone's game.
    */
   connected: boolean;
-  /** Leaving takes effect at the next round boundary, never mid-round. */
   pendingLeave: boolean;
   isHost: boolean;
   score: number;
@@ -117,41 +110,25 @@ export type Outcome =
   | "girgit-caught"
   | "aborted";
 
-/** What everyone in the room may see. Never carries the secret mid-round. */
+
 export type PublicRound = {
   roundNo: number;
   theme: string;
   cells: string[];
   cluesIn: number;
   cluesTotal: number;
-  /**
-   * Clues appear as they are written, not all at once at the end.
-   *
-   * This reverses the original design. Simultaneous reveal removed the
-   * going-last advantage the tabletop game has, which is a real edge for the
-   * Girgit — but playing it, the wait reads as the app being stuck, and a table
-   * that cannot see the clue board filling up has nothing to talk about. Live
-   * clues won on the strength of actually playing it.
-   */
   clues: { playerId: PlayerId; word: string }[];
-  /** Who has locked a vote in. */
   votedBy: PlayerId[];
-  /** How many votes each player has received. Counts are public; targets are not. */
   voteCounts: Record<PlayerId, number>;
-  /** Epoch ms the current phase expires, or null when nothing is timed. */
   deadlineAt: number | null;
-  /** Players who ran out of time and were skipped. */
   skipped: PlayerId[];
   voteOpen: boolean;
   votesIn: number;
-  /** Hidden while casting, fully attributed once resolved. */
   votes: { voterId: PlayerId; targetId: PlayerId }[] | null;
   accused: PlayerId | null;
   outcome: Outcome | null;
-  /** All three null until the reveal. This is the secret. */
   girgitId: PlayerId | null;
   secretIndex: number | null;
-  /** Which cell the caught Girgit picked, so the board can show both. */
   escapeGuess: number | null;
 };
 
@@ -161,14 +138,7 @@ export type PublicRound = {
  */
 export type YourRound = {
   isGirgit: boolean;
-  /** Null for the Girgit. Not omitted — the shape is identical either way. */
   secretIndex: number | null;
-  /**
-   * Your own action, echoed back. The public payload deliberately hides the
-   * clue words and the vote targets until the reveal, which meant the UI could
-   * not tell you whether your own tap had landed — the first thing real players
-   * complained about.
-   */
   hasClued: boolean;
   hasVoted: boolean;
 };

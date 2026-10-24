@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { ArrowLeft, Settings } from "lucide-react";
 import { PageCorners } from "@/components/layout/page-corners";
+import { PickableGridDemo, VotingBoardDemo } from "@/app/style/girgit-demo";
 import { ToastDemo } from "@/app/style/toast-demo";
 import { CategoryEmblem } from "@/components/artwork/category-emblem";
 import { Starburst } from "@/components/artwork/starburst";
 import { Chip, Panel } from "@/components/ui/controls";
+import { ClueBoard, type ClueSlip } from "@/components/girgit/clue-board";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
 import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
 import { WavelengthDial } from "@/components/wavelength/wavelength-dial";
@@ -36,6 +38,13 @@ export const metadata: Metadata = {
  * A style guide that shows comfortable content proves nothing about the
  * cell that actually breaks.
  */
+const DEMO_SLIPS: ClueSlip[] = [
+  { id: "you", name: "Roho", you: true, clue: "Penalty" },
+  { id: "asha", name: "Asha", clue: "Iconic" },
+  { id: "bunty", name: "Bunty", clue: null },
+  { id: "chiku", name: "Chiku", clue: null, note: "timed out", dim: true },
+];
+
 const DEMO_CELLS = [
   "Cristiano Ronaldo",
   "Lionel Messi",
@@ -216,7 +225,7 @@ export default function StylePage() {
 
         <Row title="Girgit — the grid. Never marks the secret">
           <div className="grid gap-4 sm:grid-cols-2">
-            <div {...theme("neon")} className="mb-label p-3">
+            <div {...theme("neon", { flipped: true })} className="mb-label p-3">
               <div className="space-y-2 p-1">
                 <p className="mb-caps text-[0.55rem] opacity-70">In play</p>
                 <GirgitGrid cells={DEMO_CELLS} />
@@ -226,15 +235,57 @@ export default function StylePage() {
                 </p>
               </div>
             </div>
-            <div {...theme("tangerine")} className="mb-label p-3">
+            <div
+              {...theme("tangerine", { flipped: true })}
+              className="mb-label p-3"
+            >
               <div className="space-y-2 p-1">
                 <p className="mb-caps text-[0.55rem] opacity-70">
-                  At the reveal — the only time a cell is marked
+                  The caught Girgit&apos;s guess, then the reveal
                 </p>
-                <GirgitGrid cells={DEMO_CELLS} markIndex={5} />
+                <PickableGridDemo cells={DEMO_CELLS} />
+                <GirgitGrid cells={DEMO_CELLS} markIndex={5} guessIndex={2} />
                 <p className="text-[0.65rem] opacity-70">
-                  Highlight fill with shadow ink, because ink-on-field is a
-                  light cream that would vanish on it.
+                  Only tappable tiles take the loud rule and shadow. The secret
+                  prints loud; a wrong guess is struck through.
+                </p>
+              </div>
+            </div>
+          </div>
+        </Row>
+
+        <Row title="Girgit — the clue board">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div {...theme("jungle", { flipped: true })} className="mb-label p-3">
+              <div className="space-y-2 p-1">
+                <p className="mb-caps text-[0.55rem] opacity-70">
+                  Clues landing, then the vote
+                </p>
+                <ClueBoard slips={DEMO_SLIPS} />
+                <VotingBoardDemo
+                  slips={DEMO_SLIPS.map((s, i) => ({
+                    ...s,
+                    badge: i === 1 ? "2" : null,
+                  }))}
+                />
+              </div>
+            </div>
+            <div {...theme("jungle", { flipped: true })} className="mb-label p-3">
+              <div className="space-y-2 p-1">
+                <p className="mb-caps text-[0.55rem] opacity-70">The reveal</p>
+                <ClueBoard
+                  slips={DEMO_SLIPS.map((s, i) => ({
+                    ...s,
+                    clue: s.clue ?? "Loud",
+                    dim: false,
+                    marked: i === 1,
+                    badge: i === 1 ? null : "+1",
+                    note: i === 1 ? "Girgit · 0 pts" : "1 pt",
+                  }))}
+                />
+                <p className="text-[0.65rem] opacity-70">
+                  Outlined, never filled, so a clue never reads as one of the
+                  sixteen words. Dashed until it lands.
                 </p>
               </div>
             </div>

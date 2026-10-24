@@ -8,8 +8,8 @@ import { paletteById, type PaletteId, theme } from "@/lib/palettes";
 export type PosterRow = { text: string; kind: "title" | "subtitle" };
 
 const ROW_SIZE: Record<PosterRow["kind"], string> = {
-  title: "text-[min(38vw,11rem)]",
-  subtitle: "text-[min(13vw,4rem)]",
+  title: "text-[min(40vw,15rem)]",
+  subtitle: "text-[min(15vw,7rem)]",
 };
 
 /**

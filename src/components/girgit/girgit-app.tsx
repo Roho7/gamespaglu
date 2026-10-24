@@ -2,11 +2,16 @@
 
 import { HostOrJoinScreen } from "@/components/girgit/host-or-join-screen";
 import { RoomScreen } from "@/components/girgit/room-screen";
-import { useGirgitRoom } from "@/lib/hooks/use-girgit-room";
+import { useGirgitRoom, type GirgitRoom } from "@/lib/hooks/use-girgit-room";
 import { ALL_PACKS, DEFAULT_CLUE_SECONDS } from "@shared/protocol";
 
+
 export function GirgitApp() {
-  const { state, status, error, create, join, leave, act } = useGirgitRoom();
+  return <GirgitScreens room={useGirgitRoom()} />;
+}
+
+export function GirgitScreens({ room }: { room: GirgitRoom }) {
+  const { state, status, error, create, join, leave, act } = room;
 
   if (!state) {
     return (
