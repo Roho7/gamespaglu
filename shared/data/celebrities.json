@@ -4570,5 +4570,1035 @@
     ],
     "era": "modern",
     "spicy": true
+  },
+  {
+    "label": "Michelangelo",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Claude Monet",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Salvador Dalí",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Andy Warhol",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Rembrandt",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Banksy",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "M. F. Husain",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Raja Ravi Varma",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Jackson Pollock",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Henri Matisse",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Edvard Munch",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Raphael",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "J. K. Rowling",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Agatha Christie",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Stephen King",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Charles Dickens",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Jane Austen",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Mark Twain",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "George Orwell",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Roald Dahl",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Dr. Seuss",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Rabindranath Tagore",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Ruskin Bond",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Chetan Bhagat",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Paulo Coelho",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "J. R. R. Tolkien",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Dan Brown",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Coldplay",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "BTS",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "ABBA",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Metallica",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Nirvana",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "The Rolling Stones",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Linkin Park",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Backstreet Boys",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Maroon 5",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Imagine Dragons",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "AC/DC",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Pink Floyd",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "One Direction",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Spice Girls",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "music"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "George Washington",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "John F. Kennedy",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Bill Clinton",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ronald Reagan",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Theodore Roosevelt",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Thomas Jefferson",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Emmanuel Macron",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "A. P. J. Abdul Kalam",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Xi Jinping",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Napoleon",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Julius Caesar",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Martin Luther King",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Queen Victoria",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Genghis Khan",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Alexander the Great",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Joan of Arc",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "icon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Garfield",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Snoopy",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Daffy Duck",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Tweety",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Road Runner",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Wile E. Coyote",
+    "countries": [
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Sonic",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Courage",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Nemo",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Baloo",
+    "countries": [
+      "in"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Minnie Mouse",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Goofy",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Ariel",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Olaf",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Belle",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Stitch",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Mulan",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Tinker Bell",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Dumbo",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "cartoon"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Sherlock Holmes",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "James Bond",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Mr. Bean",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Darth Vader",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Dracula",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Frankenstein",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Tarzan",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Willy Wonka",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Jack Sparrow",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Indiana Jones",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "evergreen"
+  },
+  {
+    "label": "Gandalf",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Robin Hood",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "classic"
+  },
+  {
+    "label": "Harry Potter",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Hermione",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ron Weasley",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dumbledore",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Voldemort",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Snape",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Hagrid",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Dobby",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Draco Malfoy",
+    "countries": [
+      "worldwide"
+    ],
+    "types": [
+      "film"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Hawkeye",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Ant-Man",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Scarlet Witch",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Groot",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
+  },
+  {
+    "label": "Star-Lord",
+    "countries": [
+      "in",
+      "us"
+    ],
+    "types": [
+      "superhero"
+    ],
+    "era": "modern"
   }
 ]

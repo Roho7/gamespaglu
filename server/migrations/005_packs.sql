@@ -3,15 +3,22 @@
 -- A room chooses which packs are in play. The column is never empty: an empty
 -- selection is an empty deck, which is the failure this codebase has shipped
 -- once already and now guards against everywhere.
+--
+-- Safe to re-run: adding a pack means editing the three lists below and running
+-- this file again, which resets the default and the constraint in place.
 
 alter table gp.rooms
   add column if not exists packs text[] not null
-    default array['movies-tv','people','characters','brands','everyday'];
+    default array['movies-tv','people','characters','brands','everyday','world','culture'];
+
+alter table gp.rooms
+  alter column packs
+    set default array['movies-tv','people','characters','brands','everyday','world','culture'];
 
 alter table gp.rooms drop constraint if exists rooms_packs_check;
 alter table gp.rooms
   add constraint rooms_packs_check
   check (
     array_length(packs, 1) >= 1
-    and packs <@ array['movies-tv','people','characters','brands','everyday']
+    and packs <@ array['movies-tv','people','characters','brands','everyday','world','culture']
   );

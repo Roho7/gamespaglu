@@ -60,6 +60,8 @@ export const PACKS = [
   { id: "characters", label: "Characters" },
   { id: "brands", label: "Brands" },
   { id: "everyday", label: "Everyday things" },
+  { id: "world", label: "Around the world" },
+  { id: "culture", label: "Arts & culture" },
 ] as const;
 export type PackId = (typeof PACKS)[number]["id"];
 export const ALL_PACKS: PackId[] = PACKS.map((p) => p.id);

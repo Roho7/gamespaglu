@@ -36,7 +36,7 @@ for (const p of FLAT_POOLS) {
 }
 
 const grids = load("grids");
-const PACK_IDS = ["movies-tv", "people", "characters", "brands", "everyday"];
+const PACK_IDS = ["movies-tv", "people", "characters", "brands", "everyday", "world", "culture"];
 /** A pack with fewer than this repeats itself within one sitting. */
 const MIN_GRIDS_PER_PACK = 3;
 let bad = 0;
