@@ -6,9 +6,9 @@ plus one spec per game (`Girgit Spec.md`, `Wavelength Spec.md`), which override 
 
 Next.js (App Router) · TypeScript · Tailwind v4 · shadcn/ui · no accounts · **offline-first, except rooms**.
 
-Rooms (Girgit) use a Socket.IO server on Fly (`server/`) and Postgres in the shared officepaglu
-Supabase project, in a `gp` schema behind a scoped `gp_app` role. Everything else is backendless and
-works with no signal.
+Rooms (Girgit, Mafia) use a Socket.IO server on Fly (`server/`) and Upstash Redis in Singapore.
+`server/scripts/drop-gp.sql` removes the old `gp` schema from the shared officepaglu database.
+Everything else is backendless and works with no signal.
 
 ```bash
 npm run dev
@@ -187,8 +187,7 @@ at the table, not a spec describing the mechanics.
   call it.
 - Local persistence goes through `src/lib/state-adapter.ts` and is read via `usePersisted`
   (`useSyncExternalStore`). Never copy localStorage into state inside an effect.
-- **Every new `gp` table gets an RLS policy in the same migration** (`server/migrations/003_rls.sql`).
-  Prove access with a write, not a read.
+- Room state is one Redis document per code (`RedisRoomStore`). A new game does not get a table.
 
 ## SEO
 

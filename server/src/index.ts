@@ -5,9 +5,8 @@ import cors from "cors";
 import helmet from "helmet";
 import { Server, type Socket } from "socket.io";
 import { env } from "./env";
-import { ping, pool } from "./db";
 import { GameError } from "./game/errors";
-import { PgRoomStore } from "./game/pg-store";
+import { RedisRoomStore } from "./game/redis-store";
 import { createGames } from "./game/registry";
 import type { RoomRecord } from "./game/room";
 import { RoomService } from "./game/service";
@@ -20,34 +19,43 @@ import type {
   RoomCode,
   ServerToClient,
 } from "../../shared/protocol";
+import { connectRoomRedis, type RoomRedis } from "./redis";
 
 const SWEEP_INTERVAL_MS = 2000;
 const REAP_INTERVAL_MS = 10 * 60 * 1000;
 const INTERNAL: Err = { code: "INTERNAL", message: "Something broke on our side." };
 const DONE: Done = { ok: true };
 
-const rooms = new RoomService({
-  store: new PgRoomStore(pool),
-  games: createGames(GRIDS),
-  rng: Math.random,
-  now: Date.now,
-  newId: randomUUID,
-});
+function roomsFor(redis: RoomRedis) {
+  return new RoomService({
+    store: new RedisRoomStore(redis),
+    games: createGames(GRIDS),
+    rng: Math.random,
+    now: Date.now,
+    newId: randomUUID,
+  });
+}
 
 const app = express();
 app.use(helmet());
 app.use(cors({ origin: env.allowedOrigins }));
 
-app.get("/health", async (_req, res) => {
-  try {
-    await ping();
-    res.json({ ok: true });
-  } catch {
-    res.status(503).json({ ok: false, db: false });
-  }
-});
+function health(redis: RoomRedis) {
+  app.get("/health", async (_req, res) => {
+    try {
+      await redis.ping();
+      res.json({ ok: true });
+    } catch {
+      res.status(503).json({ ok: false, redis: false });
+    }
+  });
+}
 
-const server = http.createServer(app);
+async function main() {
+  const redis = connectRoomRedis(env.redisUrl, env.redisToken);
+  const rooms = roomsFor(redis);
+  health(redis);
+  const server = http.createServer(app);
 
 type SocketData = { playerId?: string; code?: string };
 type GameSocket = Socket<ClientToServer, ServerToClient, Record<string, never>, SocketData>;
@@ -177,6 +185,9 @@ setInterval(() => {
     .catch((err) => console.error("[reaper]", err));
 }, REAP_INTERVAL_MS).unref();
 
-server.listen(env.port, () => {
-  console.log(`[gamespaglu-server] listening on ${env.port}`);
-});
+  server.listen(env.port, () => {
+    console.log(`[gamespaglu-server] listening on ${env.port}`);
+  });
+}
+
+void main();

@@ -5,10 +5,7 @@ import type { IndexedMutation, Mutation, RoomStore, RoundIndex } from "./store";
 
 type Entry = { room: RoomRecord; index: RoundIndex };
 
-/**
- * Rooms in a Map, for the tests and the in-browser local room. Records are cloned in and out, and
- * updates to one room queue behind each other, so it behaves like the row lock it stands in for.
- */
+
 export class MemoryRoomStore implements RoomStore {
   private readonly rooms = new Map<RoomCode, Entry>();
   private readonly queues = new Map<RoomCode, Promise<unknown>>();
