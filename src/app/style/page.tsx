@@ -19,6 +19,7 @@ import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { RotatePhoneHint } from "@/components/generator/rotate-phone-hint";
 import { VineMarquee } from "@/components/stitch/vine-marquee";
 import { Button } from "@/components/ui/button";
+import { PixelChevron } from "@/components/stitch/pixel-chevron";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { Input } from "@/components/ui/input";
 import { CATEGORY_LIST } from "@/lib/deck/categories";
@@ -52,7 +53,7 @@ const DEMO_SEATS: SeatSlip[] = [
   { id: "you", name: "Roho", you: true, open: true },
   { id: "asha", name: "Asha", open: true },
   { id: "bunty", name: "Bunty", away: true, open: true },
-  { id: "chiku", name: "Chiku", out: true, stamp: "Whacked", note: "Detective" },
+  { id: "chiku", name: "Chiku", out: true, stamp: "Whacked", note: "Doctor" },
 ];
 
 const DEMO_NAMES: Record<string, string> = { you: "Roho", asha: "Asha", bunty: "Bunty", chiku: "Chiku" };
@@ -207,6 +208,14 @@ export default function StylePage() {
           </div>
         </Row>
 
+        <Row title="Pixel chevron — swipe this way, on the stitch grid, pulsing where it points">
+          <div {...theme("tangerine")} className="mb-label flex-row justify-around p-6 text-[var(--cw-shadow)]">
+            <PixelChevron direction="down" />
+            <PixelChevron direction="left" />
+            <PixelChevron direction="right" />
+          </div>
+        </Row>
+
         <Row title="Stitch border — frames a band or panel, follows its ink">
           <div className="mb-band relative h-28 px-4 font-extrabold">
             <StitchBorder className="inset-3" />
@@ -346,7 +355,7 @@ export default function StylePage() {
                   slips={DEMO_SEATS.map((s, i) => ({
                     ...s,
                     open: false,
-                    note: i === 1 ? "Mafia · 0 pts" : i === 3 ? "Detective · 1 pt" : "Villager · 1 pt",
+                    note: i === 1 ? "Mafia · 0 pts" : i === 3 ? "Doctor · 1 pt" : "Villager · 1 pt",
                     stamp: i === 1 ? "Exiled" : s.stamp,
                     out: i === 1 || s.out,
                     badge: i === 1 ? null : "+1",
@@ -374,7 +383,7 @@ export default function StylePage() {
             </div>
             <div {...theme("cobalt", { flipped: true })} className="mb-label p-3">
               <div className="p-2">
-                <YourCardDemo role="detective" />
+                <YourCardDemo role="doctor" />
               </div>
             </div>
           </div>
@@ -393,7 +402,6 @@ export default function StylePage() {
                   night: 1,
                   kill: "chiku",
                   save: "asha",
-                  check: "bunty",
                   died: "chiku",
                   suspicions: [{ voterId: "you", targetId: "bunty" }],
                 },

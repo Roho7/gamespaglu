@@ -17,7 +17,7 @@ const ROLES: Record<PlayerId, MafiaRole> = {
   m1: "mafia",
   m2: "mafia",
   doc: "doctor",
-  det: "detective",
+  v0: "villager",
   v1: "villager",
   v2: "villager",
   v3: "villager",
@@ -31,18 +31,18 @@ function picks(s: MafiaState, all: Record<PlayerId, PlayerId>): MafiaState {
   return s;
 }
 
-const FIRST_NIGHT = { m1: "v1", m2: "v1", doc: "v2", det: "m1", v1: "m2", v2: "m2", v3: "m2" };
+const FIRST_NIGHT = { m1: "v1", m2: "v1", doc: "v2", v0: "m1", v1: "m2", v2: "m2", v3: "m2" };
 
 /** One state per phase of a game, so every view rule is checked at every point a player can be. */
 function everyPhase(): MafiaState[] {
-  const night1 = picks(fresh(), { m1: "v1", m2: "v2", det: "m1" });
+  const night1 = picks(fresh(), { m1: "v1", m2: "v2", v0: "m1" });
   const day1 = picks(fresh(), FIRST_NIGHT);
   const vote1 = castVote(castVote(callVote(day1, "v2"), "m1", "v2"), "doc", "m1");
   let verdict1 = vote1;
-  for (const [by, target] of [["m2", "v2"], ["det", "m1"], ["v2", "m1"], ["v3", "m1"]] as const) {
+  for (const [by, target] of [["m2", "v2"], ["v0", "m1"], ["v2", "m1"], ["v3", "m1"]] as const) {
     verdict1 = castVote(verdict1, by, target);
   }
-  const night2 = picks(fallNight(verdict1, "v2"), { m2: "det" });
+  const night2 = picks(fallNight(verdict1, "v2"), { m2: "v0" });
   return [night1, day1, vote1, verdict1, night2];
 }
 
@@ -59,7 +59,7 @@ describe("public view", () => {
   test("never carries the night's choices while the game runs", () => {
     for (const s of everyPhase()) {
       const json = JSON.stringify(publicRound(s, 1));
-      for (const secret of ['"kill"', '"save"', '"check"', '"suspicions"', '"picks"']) {
+      for (const secret of ['"kill"', '"save"', '"suspicions"', '"picks"']) {
         expect(json).not.toContain(secret);
       }
       expect(publicRound(s, 1).replay).toBeNull();
@@ -124,7 +124,7 @@ describe("public view", () => {
   });
 
   test("reports the role mix the table was dealt", () => {
-    expect(publicRound(fresh(), 1).mix).toEqual({ mafia: 2, doctor: 1, detective: 1, villager: 3 });
+    expect(publicRound(fresh(), 1).mix).toEqual({ mafia: 2, doctor: 1, villager: 4 });
   });
 });
 
@@ -142,7 +142,7 @@ describe("private view", () => {
   test("shows a living Mafia their teammates' picks, at night only", () => {
     const [night1, day1] = everyPhase();
     expect(yourRound(night1, "m1").teamPicks).toEqual([{ playerId: "m2", targetId: "v2" }]);
-    expect(yourRound(night1, "det").teamPicks).toEqual([]);
+    expect(yourRound(night1, "v0").teamPicks).toEqual([]);
     expect(yourRound(day1, "m1").teamPicks).toEqual([]);
   });
 
@@ -150,17 +150,6 @@ describe("private view", () => {
     const [, , , , night2] = everyPhase();
     expect(yourRound(night2, "m1").alive).toBe(false);
     expect(yourRound(night2, "m1").teamPicks).toEqual([]);
-  });
-
-  test("gives the Detective their checks and nobody else", () => {
-    const day1 = picks(fresh(), FIRST_NIGHT);
-    expect(yourRound(day1, "det").checks).toEqual([{ night: 1, targetId: "m1", isMafia: true }]);
-    for (const id of IDS.filter((p) => p !== "det")) expect(yourRound(day1, id).checks).toEqual([]);
-  });
-
-  test("does not give the Detective a result before morning", () => {
-    const [night1] = everyPhase();
-    expect(yourRound(night1, "det").checks).toEqual([]);
   });
 
   test("gives the Doctor their last save and nobody else", () => {

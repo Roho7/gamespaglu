@@ -89,7 +89,6 @@ export function yourRound(state: MafiaState, playerId: PlayerId): MafiaYourRound
         : [],
     pick: state.phase === "night" ? (state.picks[playerId] ?? null) : null,
     vote: state.phase === "vote" ? (state.votes[playerId] ?? null) : null,
-    checks: role === "detective" ? state.checks : [],
     lastSave: role === "doctor" ? state.lastSave : null,
   };
 }

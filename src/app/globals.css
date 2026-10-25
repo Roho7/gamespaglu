@@ -389,6 +389,21 @@
   animation: mb-bob 2.2s ease-in-out infinite;
 }
 
+@keyframes mb-nudge {
+  0%,
+  100% {
+    transform: translateY(-3px);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+.animate-nudge {
+  animation: mb-nudge 1.4s steps(6, end) infinite;
+}
+
 /* Rotate-your-phone nudge. */
 @keyframes mb-rotate-hint {
   0%,
@@ -427,7 +442,8 @@
   .animate-punch,
   .animate-stamp,
   .animate-rotate-hint,
-  .animate-bob {
+  .animate-bob,
+  .animate-nudge {
     animation: none;
   }
   .mb-btn:active:not(:disabled),

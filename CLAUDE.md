@@ -112,7 +112,7 @@ the system.
 
 ### Mafia role cards and faces
 
-- Each role's card photo lives at `public/roles/{mafia,doctor,detective,villager}.jpg`
+- Each role's card photo lives at `public/roles/{mafia,doctor,villager}.jpg`
   (`src/content/role-art.ts`), dithered into the phase's inks. A missing file falls back to the
   drawn `RoleEmblem`. Drop PNGs in and run `npm run backgrounds`.
 - Player faces are DiceBear `adventurer-neutral`, generated on the device from the player's name

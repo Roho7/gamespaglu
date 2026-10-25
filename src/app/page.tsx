@@ -9,6 +9,7 @@ export default function Home() {
     <>
       <main className="h-dvh snap-y snap-mandatory overflow-x-hidden overflow-y-auto">
         <HomeGameCard
+          more
           href="/wavelength"
           help="/how-to-play/wavelength"
           palette="miami"
@@ -22,6 +23,7 @@ export default function Home() {
         />
 
         <HomeGameCard
+          more
           href="/who-am-i"
           help="/how-to-play/who-am-i"
           palette="tangerine"
@@ -36,6 +38,7 @@ export default function Home() {
         />
 
         <HomeGameCard
+          more
           href="/girgit/new"
           help="/how-to-play/girgit"
           palette="jungle"

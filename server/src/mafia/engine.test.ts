@@ -23,7 +23,7 @@ import {
 const FIVE: Record<PlayerId, MafiaRole> = {
   m1: "mafia",
   doc: "doctor",
-  det: "detective",
+  v0: "villager",
   v1: "villager",
   v2: "villager",
 };
@@ -32,7 +32,7 @@ const SEVEN: Record<PlayerId, MafiaRole> = {
   m1: "mafia",
   m2: "mafia",
   doc: "doctor",
-  det: "detective",
+  v0: "villager",
   v1: "villager",
   v2: "villager",
   v3: "villager",
@@ -57,18 +57,18 @@ function skipDay(s: MafiaState): MafiaState {
   return fallNight(closeVote(callVote(s, living(s)[0]), true), living(s)[0]);
 }
 
-const quietNight = { m1: "v1", doc: "v1", det: "m1", v1: "v2", v2: "v1" };
+const quietNight = { m1: "v1", doc: "v1", v0: "m1", v1: "v2", v2: "v1" };
 
 describe("roleMix", () => {
   test.each([
-    [5, 1, 2],
-    [6, 1, 3],
-    [7, 2, 3],
-    [9, 2, 5],
-    [10, 3, 5],
-    [12, 3, 7],
+    [5, 1, 3],
+    [6, 1, 4],
+    [7, 2, 4],
+    [9, 2, 6],
+    [10, 3, 6],
+    [12, 3, 8],
   ])("%i players deal %i Mafia and %i villagers", (n, mafia, villager) => {
-    expect(roleMix(n)).toEqual({ mafia, doctor: 1, detective: 1, villager });
+    expect(roleMix(n)).toEqual({ mafia, doctor: 1, villager });
   });
 });
 
@@ -77,7 +77,7 @@ describe("deal", () => {
     for (let n = 5; n <= 12; n++) {
       const ids = Array.from({ length: n }, (_, i) => `p${i}`);
       const s = dealMafia(seats(ids), seeded(n));
-      const counts = { mafia: 0, doctor: 0, detective: 0, villager: 0 };
+      const counts = { mafia: 0, doctor: 0, villager: 0 };
       for (const id of ids) counts[s.roles[id]]++;
       expect(counts).toEqual(roleMix(n));
     }
@@ -104,7 +104,7 @@ describe("deal", () => {
 
 describe("night", () => {
   test("resolves when the last living player picks, and the kill lands", () => {
-    let s = night(game(FIVE), { m1: "v1", doc: "v2", det: "v1", v1: "m1" });
+    let s = night(game(FIVE), { m1: "v1", doc: "v2", v0: "v1", v1: "m1" });
     expect(s.phase).toBe("night");
     expect(nightOutstanding(s)).toEqual(["v2"]);
     s = pickAtNight(s, "v2", "doc");
@@ -116,9 +116,9 @@ describe("night", () => {
         night: 1,
         kill: "v1",
         save: "v2",
-        check: "v1",
         died: "v1",
         suspicions: [
+          { voterId: "v0", targetId: "v1" },
           { voterId: "v1", targetId: "m1" },
           { voterId: "v2", targetId: "doc" },
         ],
@@ -134,7 +134,7 @@ describe("night", () => {
   });
 
   test("Mafia must agree, and stay outstanding until they do", () => {
-    let s = night(game(SEVEN), { m1: "v1", m2: "v2", doc: "doc", det: "m1", v1: "v2", v2: "v3", v3: "v1" });
+    let s = night(game(SEVEN), { m1: "v1", m2: "v2", doc: "doc", v0: "m1", v1: "v2", v2: "v3", v3: "v1" });
     expect(s.phase).toBe("night");
     expect(agreedKill(s)).toBeNull();
     expect(nightOutstanding(s)).toEqual(["m1", "m2"]);
@@ -145,8 +145,8 @@ describe("night", () => {
 
   test("anyone may change their pick until the night resolves", () => {
     let s = pickAtNight(game(FIVE), "v1", "m1");
-    s = pickAtNight(s, "v1", "det");
-    expect(s.picks.v1).toBe("det");
+    s = pickAtNight(s, "v1", "v0");
+    expect(s.picks.v1).toBe("v0");
   });
 
   test("Mafia cannot target their own", () => {
@@ -155,7 +155,7 @@ describe("night", () => {
   });
 
   test("the Doctor may save themselves, but never the same player two nights running", () => {
-    let s = night(game(SEVEN), { m1: "doc", m2: "doc", doc: "doc", det: "v1", v1: "v2", v2: "v3", v3: "v1" });
+    let s = night(game(SEVEN), { m1: "doc", m2: "doc", doc: "doc", v0: "v1", v1: "v2", v2: "v3", v3: "v1" });
     expect(s.fates).toEqual({});
     s = skipDay(s);
     expectRefusal("BAD_TARGET", () => pickAtNight(s, "doc", "doc"));
@@ -164,25 +164,11 @@ describe("night", () => {
   });
 
   test("a Doctor who saved nobody may save anyone the next night", () => {
-    let s = endNight(night(game(FIVE), { m1: "v1", det: "m1", v1: "v2", v2: "v1" }), true);
+    let s = endNight(night(game(FIVE), { m1: "v1", v0: "m1", v1: "v2", v2: "v1" }), true);
     expect(s.lastSave).toBeNull();
     expect(s.fates).toEqual({ v1: "killed" });
     s = pickAtNight(skipDay(s), "doc", "v2");
     expect(s.picks.doc).toBe("v2");
-  });
-
-  test("the Detective checks someone else, and learns the truth", () => {
-    expectRefusal("BAD_TARGET", () => pickAtNight(game(FIVE), "det", "det"));
-    const s = night(game(FIVE), quietNight);
-    expect(s.checks).toEqual([{ night: 1, targetId: "m1", isMafia: true }]);
-    const other = night(game(FIVE), { ...quietNight, det: "v2" });
-    expect(other.checks).toEqual([{ night: 1, targetId: "v2", isMafia: false }]);
-  });
-
-  test("a Detective killed that night learns nothing", () => {
-    const s = night(game(FIVE), { ...quietNight, m1: "det" });
-    expect(s.fates).toEqual({ det: "killed" });
-    expect(s.checks).toEqual([]);
   });
 
   test("Villagers cannot suspect themselves", () => {
@@ -204,12 +190,12 @@ describe("night", () => {
     const s = endNight(stalled, true);
     expect(s.phase).toBe("day");
     expect(s.fates).toEqual({});
-    expect(s.records[0]).toMatchObject({ kill: null, save: "v2", check: null, died: null });
+    expect(s.records[0]).toMatchObject({ kill: null, save: "v2", died: null });
   });
 });
 
 describe("day and vote", () => {
-  const day = () => night(game(SEVEN), { m1: "v1", m2: "v1", doc: "v2", det: "m1", v1: "m1", v2: "m1", v3: "m1" });
+  const day = () => night(game(SEVEN), { m1: "v1", m2: "v1", doc: "v2", v0: "m1", v1: "m1", v2: "m1", v3: "m1" });
 
   test("any living player calls the vote; the dead cannot", () => {
     const s = day();
@@ -228,7 +214,7 @@ describe("day and vote", () => {
   });
 
   test("the single leader goes out and the verdict waits for the table", () => {
-    const s = vote(day(), { m1: "v2", m2: "v2", doc: "m1", det: "m1", v2: "m1", v3: "m1" });
+    const s = vote(day(), { m1: "v2", m2: "v2", doc: "m1", v0: "m1", v2: "m1", v3: "m1" });
     expect(s.phase).toBe("verdict");
     expect(s.fates.m1).toBe("voted");
     expect(s.records.at(-1)).toMatchObject({ kind: "vote", day: 1, out: "m1" });
@@ -236,19 +222,19 @@ describe("day and vote", () => {
   });
 
   test("a tie sends nobody out", () => {
-    const s = vote(day(), { m1: "v2", m2: "v2", doc: "m1", det: "m1", v2: "v3", v3: "doc" });
+    const s = vote(day(), { m1: "v2", m2: "v2", doc: "m1", v0: "m1", v2: "v3", v3: "doc" });
     expect(s.phase).toBe("verdict");
     expect(s.records.at(-1)).toMatchObject({ out: null });
     expect(living(s)).toHaveLength(6);
   });
 
   test("No one winning sends nobody out", () => {
-    const s = vote(day(), { m1: NO_ONE, m2: NO_ONE, doc: NO_ONE, det: "m1", v2: "m1", v3: NO_ONE });
+    const s = vote(day(), { m1: NO_ONE, m2: NO_ONE, doc: NO_ONE, v0: "m1", v2: "m1", v3: NO_ONE });
     expect(s.records.at(-1)).toMatchObject({ out: null });
   });
 
   test("the host can close a stalled vote, counting only the ballots in", () => {
-    const s = vote(day(), { doc: "m2", det: "m2" });
+    const s = vote(day(), { doc: "m2", v0: "m2" });
     expect(s.phase).toBe("vote");
     expectRefusal("NOT_HOST", () => closeVote(s, false));
     const closed = closeVote(s, true);
@@ -256,7 +242,7 @@ describe("day and vote", () => {
     expect(closed.records.at(-1)).toMatchObject({
       ballots: [
         { voterId: "doc", targetId: "m2" },
-        { voterId: "det", targetId: "m2" },
+        { voterId: "v0", targetId: "m2" },
       ],
     });
   });
@@ -267,7 +253,7 @@ describe("day and vote", () => {
   });
 
   test("night falls on any living player's say, into the next night", () => {
-    const s = vote(day(), { m1: NO_ONE, m2: NO_ONE, doc: NO_ONE, det: NO_ONE, v2: NO_ONE, v3: NO_ONE });
+    const s = vote(day(), { m1: NO_ONE, m2: NO_ONE, doc: NO_ONE, v0: NO_ONE, v2: NO_ONE, v3: NO_ONE });
     expectRefusal("NOT_PLAYING", () => fallNight(s, "v1"));
     const next = fallNight(s, "v2");
     expect(next).toMatchObject({ phase: "night", night: 2, picks: {} });
@@ -277,26 +263,26 @@ describe("day and vote", () => {
 describe("winning", () => {
   test("the town wins when the last Mafia is out", () => {
     let s = night(game(FIVE), quietNight);
-    s = vote(s, { m1: "v1", doc: "m1", det: "m1", v1: "m1", v2: "m1" });
+    s = vote(s, { m1: "v1", doc: "m1", v0: "m1", v1: "m1", v2: "m1" });
     expect(s).toMatchObject({ phase: "over", outcome: "town" });
-    expect(scoreGame(s)).toEqual({ m1: 0, doc: 1, det: 1, v1: 1, v2: 1 });
+    expect(scoreGame(s)).toEqual({ m1: 0, doc: 1, v0: 1, v1: 1, v2: 1 });
   });
 
   test("the Mafia win once they equal the town", () => {
     let s = night(game(FIVE), { ...quietNight, doc: "v2" });
-    s = vote(s, { m1: "v2", doc: "v2", det: "v2", v2: "m1" });
+    s = vote(s, { m1: "v2", doc: "v2", v0: "v2", v2: "m1" });
     expect(s.fates).toEqual({ v1: "killed", v2: "voted" });
     expect(winner(s)).toBeNull();
-    s = night(fallNight(s, "doc"), { m1: "doc", doc: "det", det: "doc" });
+    s = night(fallNight(s, "doc"), { m1: "doc", doc: "v0", v0: "doc" });
     expect(winner(s)).toBe("mafia");
     expect(s).toMatchObject({ phase: "over", outcome: "mafia" });
     expect(s.fates.doc).toBe("killed");
-    expect(scoreGame(s)).toEqual({ m1: 1, doc: 0, det: 0, v1: 0, v2: 0 });
+    expect(scoreGame(s)).toEqual({ m1: 1, doc: 0, v0: 0, v1: 0, v2: 0 });
   });
 
   test("the dead on the winning side still score", () => {
     let s = night(game(FIVE), { ...quietNight, doc: "v2" });
-    s = vote(s, { m1: "doc", doc: "m1", det: "m1", v2: "m1" });
+    s = vote(s, { m1: "doc", doc: "m1", v0: "m1", v2: "m1" });
     expect(s.outcome).toBe("town");
     expect(scoreGame(s).v1).toBe(1);
   });
@@ -312,22 +298,22 @@ describe("leaving mid-game", () => {
   });
 
   test("resolves the night when the leaver was the last one it waited on", () => {
-    const waiting = night(game(SEVEN), { m1: "v2", m2: "v2", doc: "v3", det: "m1", v2: "m1", v3: "m1" });
+    const waiting = night(game(SEVEN), { m1: "v2", m2: "v2", doc: "v3", v0: "m1", v2: "m1", v3: "m1" });
     const s = removePlayer(waiting, "v1");
     expect(s.phase).toBe("day");
     expect(s.records.at(-1)).toMatchObject({ kind: "night", kill: "v2", died: "v2" });
   });
 
   test("resolves the vote when the leaver was the last one it waited on", () => {
-    let s = night(game(SEVEN), { m1: "v1", m2: "v1", doc: "v2", det: "m1", v1: "m1", v2: "m1", v3: "m1" });
-    s = vote(s, { m1: "v2", m2: "v2", doc: "m1", det: "m1", v2: "m1" });
+    let s = night(game(SEVEN), { m1: "v1", m2: "v1", doc: "v2", v0: "m1", v1: "m1", v2: "m1", v3: "m1" });
+    s = vote(s, { m1: "v2", m2: "v2", doc: "m1", v0: "m1", v2: "m1" });
     s = removePlayer(s, "v3");
     expect(s.phase).toBe("verdict");
     expect(s.fates).toMatchObject({ v3: "left", m1: "voted" });
   });
 
   test("a ballot for the leaver is withdrawn", () => {
-    let s = callVote(night(game(SEVEN), { m1: "v1", m2: "v1", doc: "v2", det: "m1", v1: "m1", v2: "m1", v3: "m1" }), "v2");
+    let s = callVote(night(game(SEVEN), { m1: "v1", m2: "v1", doc: "v2", v0: "m1", v1: "m1", v2: "m1", v3: "m1" }), "v2");
     s = castVote(s, "doc", "v3");
     s = removePlayer(s, "v3");
     expect(s.votes).toEqual({});
@@ -371,13 +357,13 @@ describe("purity", () => {
 
   test("a whole game plays out with no server, database or clock", () => {
     let s = game(SEVEN);
-    s = night(s, { m1: "v1", m2: "v1", doc: "v2", det: "m1", v1: "m2", v2: "m2", v3: "m2" });
-    s = vote(s, { m1: "v2", m2: "v2", doc: "m1", det: "m1", v2: "m1", v3: "m1" });
+    s = night(s, { m1: "v1", m2: "v1", doc: "v2", v0: "m1", v1: "m2", v2: "m2", v3: "m2" });
+    s = vote(s, { m1: "v2", m2: "v2", doc: "m1", v0: "m1", v2: "m1", v3: "m1" });
     s = fallNight(s, "doc");
-    s = night(s, { m2: "det", doc: "doc", det: "m2", v2: "m2", v3: "m2" });
+    s = night(s, { m2: "v0", doc: "doc", v0: "m2", v2: "m2", v3: "m2" });
     s = vote(s, { m2: "v3", doc: "m2", v2: "m2", v3: "m2" });
     expect(s).toMatchObject({ phase: "over", outcome: "town", night: 2 });
-    expect(s.fates).toEqual({ v1: "killed", m1: "voted", det: "killed", m2: "voted" });
+    expect(s.fates).toEqual({ v1: "killed", m1: "voted", v0: "killed", m2: "voted" });
     expect(s.records.map((r) => r.kind)).toEqual(["night", "vote", "night", "vote"]);
   });
 });

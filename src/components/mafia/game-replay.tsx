@@ -19,8 +19,7 @@ export function GameReplay({
             <>
               <p className="mb-caps text-[0.6rem] opacity-70">Night {r.night}</p>
               <p className="font-bold">
-                {tried("The Mafia", "went after", r.kill)} {tried("The Doctor", "patched up", r.save)}{" "}
-                {tried("The Detective", "snooped on", r.check)}
+                {tried("The Mafia", "went after", r.kill)} {tried("The Doctor", "patched up", r.save)}
               </p>
               <p>{r.died ? `${nameOf(r.died)} got whacked.` : "Everyone made it to morning."}</p>
               {r.suspicions.length ? (

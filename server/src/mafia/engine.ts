@@ -10,7 +10,6 @@ import {
   roleMix,
   sideOf,
   type Ballot,
-  type DetectiveCheck,
   type MafiaFate,
   type MafiaOutcome,
   type MafiaPhase,
@@ -41,7 +40,6 @@ export type MafiaState = {
   votes: Record<PlayerId, VoteTarget>;
   /** Who the Doctor saved last night; they cannot save the same player tonight. */
   lastSave: PlayerId | null;
-  checks: DetectiveCheck[];
   records: MafiaRecord[];
   outcome: MafiaOutcome | null;
 };
@@ -66,7 +64,6 @@ export function dealMafia(seats: Seat[], rng: Rng): MafiaState {
   const deck: MafiaRole[] = [
     ...Array<MafiaRole>(mix.mafia).fill("mafia"),
     "doctor",
-    "detective",
     ...Array<MafiaRole>(mix.villager).fill("villager"),
   ];
   const order = shuffle(players, rng);
@@ -83,7 +80,6 @@ export function dealMafia(seats: Seat[], rng: Rng): MafiaState {
     picks: {},
     votes: {},
     lastSave: null,
-    checks: [],
     records: [],
     outcome: null,
   };
@@ -136,7 +132,6 @@ function refusePick(state: MafiaState, picker: PlayerId, target: PlayerId) {
     case "doctor":
       if (target === state.lastSave) reject("BAD_TARGET", "You saved them last night. Spread the love.");
       break;
-    case "detective":
     case "villager":
       if (target === picker) reject("BAD_TARGET", "Pick someone who isn't you.");
       break;
@@ -160,31 +155,18 @@ export function endNight(state: MafiaState, isHost: boolean): MafiaState {
   return resolveNight(state);
 }
 
-function pickOf(state: MafiaState, role: MafiaRole): { by: PlayerId | null; target: PlayerId | null } {
-  const by = livingWith(state, role)[0] ?? null;
-  return { by, target: by ? (state.picks[by] ?? null) : null };
+function pickOf(state: MafiaState, role: MafiaRole): PlayerId | null {
+  const by = livingWith(state, role)[0];
+  return by ? (state.picks[by] ?? null) : null;
 }
 
 export function resolveNight(state: MafiaState): MafiaState {
   const kill = agreedKill(state);
-  const save = pickOf(state, "doctor").target;
-  const detective = pickOf(state, "detective");
+  const save = pickOf(state, "doctor");
   const died = kill && kill !== save ? kill : null;
   const suspicions: Ballot[] = livingWith(state, "villager")
     .filter((p) => state.picks[p])
     .map((p) => ({ voterId: p, targetId: state.picks[p] }));
-
-  const checks =
-    detective.by && detective.target && detective.by !== died
-      ? [
-          ...state.checks,
-          {
-            night: state.night,
-            targetId: detective.target,
-            isMafia: state.roles[detective.target] === "mafia",
-          },
-        ]
-      : state.checks;
 
   return settle(
     {
@@ -192,10 +174,9 @@ export function resolveNight(state: MafiaState): MafiaState {
       fates: died ? { ...state.fates, [died]: "killed" } : state.fates,
       picks: {},
       lastSave: save,
-      checks,
       records: [
         ...state.records,
-        { kind: "night", night: state.night, kill, save, check: detective.target, died, suspicions },
+        { kind: "night", night: state.night, kill, save, died, suspicions },
       ],
     },
     "day",

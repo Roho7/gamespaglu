@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
 import { HelpLink } from "@/components/layout/page-corners";
+import { PixelChevron } from "@/components/stitch/pixel-chevron";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { paletteById, type PaletteId, theme } from "@/lib/palettes";
 
@@ -26,6 +27,7 @@ export function HomeGameCard({
   tagline,
   image,
   rows,
+  more = false,
 }: {
   href: string;
   help: string;
@@ -34,6 +36,8 @@ export function HomeGameCard({
   tagline: string;
   image?: string;
   rows: [PosterRow, PosterRow?, PosterRow?];
+  /** Another game waits below, so the card says to swipe down. */
+  more?: boolean;
 }) {
   const palette = paletteById(paletteId);
   return (
@@ -65,6 +69,12 @@ export function HomeGameCard({
           )}
         </div>
         <HelpLink href={help} className="absolute top-3 right-3" />
+        {more ? (
+          <PixelChevron
+            direction="down"
+            className="absolute bottom-5 left-1/2 w-10 -translate-x-1/2 text-[var(--cw-highlight)]"
+          />
+        ) : null}
       </div>
       <Link href={href} className="mb-band-action p-10">
         <StitchBorder className="inset-3" />

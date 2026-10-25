@@ -36,16 +36,6 @@ function Secrets({ your, nameOf }: Omit<Props, "palette">) {
           ))}
         </div>
       );
-    case "detective":
-      return (
-        <div className="space-y-1 font-bold">
-          {your.checks.map((c) => (
-            <p key={c.night}>
-              Night {c.night}: {nameOf(c.targetId)} {c.isMafia ? "is Mafia. Gotcha." : "is clean."}
-            </p>
-          ))}
-        </div>
-      );
     case "doctor":
       return your.lastSave ? (
         <p className="font-bold">Last night you patched up {nameOf(your.lastSave)}. Spread the love tonight.</p>

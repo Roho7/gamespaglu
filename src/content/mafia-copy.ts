@@ -9,7 +9,6 @@ type Pools = { titles: readonly string[]; lines: readonly string[] };
 const AS_A: Record<MafiaRole, string> = {
   mafia: "Mafia",
   doctor: "the Doctor",
-  detective: "the Detective",
   villager: "a humble Villager",
 };
 
@@ -138,6 +137,5 @@ export const HOW_TO_PICK = "Tap a name on the board, then lock it in";
 export const ROLE_BRIEF: Record<MafiaRole, string> = {
   mafia: "You are Mafia. Pick someone to whack tonight. Your crew has to agree, or nobody gets got.",
   doctor: "You are the Doctor. Pick someone to save tonight. Yourself counts. The same face two nights running doesn't.",
-  detective: "You are the Detective. Pick someone to snoop on. The truth lands on this card by morning.",
   villager: "You are a Villager. Pick who you think is a member of the Mafia.",
 };

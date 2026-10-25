@@ -6,7 +6,7 @@ export const MAFIA_MAX_PLAYERS = 12;
 
 export const SCORE_MAFIA_WIN = 1;
 
-export type MafiaRole = "mafia" | "doctor" | "detective" | "villager";
+export type MafiaRole = "mafia" | "doctor" | "villager";
 export type MafiaSide = "town" | "mafia";
 export type MafiaPhase = "night" | "day" | "vote" | "verdict" | "over";
 export type MafiaOutcome = MafiaSide | "aborted";
@@ -24,7 +24,7 @@ export type RoleMix = Record<MafiaRole, number>;
 /** The roles a table of `players` is dealt. Fixed by headcount; there are no settings. */
 export function roleMix(players: number): RoleMix {
   const mafia = players <= 6 ? 1 : players <= 9 ? 2 : 3;
-  return { mafia, doctor: 1, detective: 1, villager: Math.max(0, players - mafia - 2) };
+  return { mafia, doctor: 1, villager: Math.max(0, players - mafia - 1) };
 }
 
 export const sideOf = (role: MafiaRole): MafiaSide => (role === "mafia" ? "mafia" : "town");
@@ -44,7 +44,6 @@ export type MafiaNightRecord = {
   night: number;
   kill: PlayerId | null;
   save: PlayerId | null;
-  check: PlayerId | null;
   died: PlayerId | null;
   suspicions: Ballot[];
 };
@@ -92,8 +91,6 @@ export type MafiaPublicRound = {
   replay: MafiaRecord[] | null;
 };
 
-export type DetectiveCheck = { night: number; targetId: PlayerId; isMafia: boolean };
-
 /** The per-recipient half. Everything here is shown only inside the hold-to-reveal card. */
 export type MafiaYourRound = {
   role: MafiaRole;
@@ -102,6 +99,5 @@ export type MafiaYourRound = {
   teamPicks: { playerId: PlayerId; targetId: PlayerId | null }[];
   pick: PlayerId | null;
   vote: VoteTarget | null;
-  checks: DetectiveCheck[];
   lastSave: PlayerId | null;
 };

@@ -19,14 +19,6 @@ const SHAPES: Record<MafiaRole, Shapes> = {
       <rect x="30" y="51" width="60" height="18" fill={detail} />
     </>
   ),
-  detective: (main, detail) => (
-    <>
-      <path d="M72 76 L102 106 L92 116 L62 86 Z" fill={main} />
-      <circle cx="50" cy="50" r="38" fill={main} />
-      <circle cx="50" cy="50" r="26" fill={detail} />
-      <path d="M36 40 Q42 30 54 30" stroke={main} strokeWidth="6" fill="none" />
-    </>
-  ),
   villager: (main, detail) => (
     <>
       <path d="M12 56 L60 16 L108 56 Z" fill={main} />

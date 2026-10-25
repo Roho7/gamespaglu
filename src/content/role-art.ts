@@ -7,6 +7,5 @@ import type { MafiaRole } from "@shared/protocol";
 export const ROLE_ART: Record<MafiaRole, string> = {
   mafia: "/roles/mafia.jpg",
   doctor: "/roles/doctor.jpg",
-  detective: "/roles/detective.jpg",
   villager: "/roles/villager.jpg",
 };

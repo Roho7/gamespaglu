@@ -31,22 +31,21 @@ const BASE: MafiaYourRound = {
   teamPicks: [],
   pick: null,
   vote: null,
-  checks: [],
   lastSave: null,
 };
 
 /** The card for two different roles: the same button, the same frame. */
-export function YourCardDemo({ role }: { role: "mafia" | "detective" }) {
+export function YourCardDemo({ role }: { role: "mafia" | "doctor" }) {
   const your: MafiaYourRound =
     role === "mafia"
       ? { ...BASE, role, team: ["bunty"], teamPicks: [{ playerId: "bunty", targetId: "asha" }] }
-      : { ...BASE, role, checks: [{ night: 1, targetId: "chiku", isMafia: false }] };
+      : { ...BASE, role, lastSave: "chiku" };
   return <YourCard your={your} nameOf={nameOf} palette={paletteById("cobalt")} night />;
 }
 
 const CURTAINS: { palette: "cobalt" | "cherry"; beat: (seed: string) => Beat }[] = [
   { palette: "cobalt", beat: mafiaBeats.night },
-  { palette: "cherry", beat: (seed) => mafiaBeats.morning(seed, { name: "Bunty", role: "detective" }) },
+  { palette: "cherry", beat: (seed) => mafiaBeats.morning(seed, { name: "Bunty", role: "doctor" }) },
   { palette: "cherry", beat: mafiaBeats.vote },
   { palette: "cherry", beat: (seed) => mafiaBeats.verdict(seed, { name: "Asha", role: "mafia" }) },
   { palette: "cherry", beat: (seed) => mafiaBeats.over(seed, "town") },

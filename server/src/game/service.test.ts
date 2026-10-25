@@ -197,18 +197,18 @@ describe("Mafia through the room", () => {
     const { code, ids, host, who } = await dealt();
     const [mafia] = who("mafia");
     const [doctor] = who("doctor");
-    const [detective] = who("detective");
-    const [v1, v2] = who("villager");
+    
+    const [v1, v2, v3] = who("villager");
 
     await rooms.act(code, mafia, { type: "night:pick", targetId: v1 });
     await rooms.act(code, doctor, { type: "night:pick", targetId: v2 });
-    await rooms.act(code, detective, { type: "night:pick", targetId: mafia });
     await rooms.act(code, v1, { type: "night:pick", targetId: mafia });
+    await rooms.act(code, v3, { type: "night:pick", targetId: mafia });
     let room = await rooms.act(code, v2, { type: "night:pick", targetId: mafia });
     expect(viewOf<"mafia">(room, host).round?.news).toEqual({ night: 1, died: v1 });
 
     await rooms.act(code, doctor, { type: "vote:call" });
-    for (const voter of [doctor, detective, v2]) {
+    for (const voter of [doctor, v2, v3]) {
       room = await rooms.act(code, voter, { type: "vote:cast", targetId: mafia });
     }
     room = await rooms.act(code, mafia, { type: "vote:cast", targetId: NO_ONE });
@@ -259,11 +259,11 @@ describe("Mafia through the room", () => {
     const { code, who } = await dealt();
     const [mafia] = who("mafia");
     const [doctor] = who("doctor");
-    const [detective] = who("detective");
-    const [v1, v2] = who("villager");
+    
+    const [v1, v2, v3] = who("villager");
     await rooms.act(code, mafia, { type: "night:pick", targetId: v1 });
     await rooms.act(code, doctor, { type: "night:pick", targetId: doctor });
-    await rooms.act(code, detective, { type: "night:pick", targetId: v1 });
+    await rooms.act(code, v3, { type: "night:pick", targetId: v1 });
     await Promise.all([
       rooms.act(code, v1, { type: "night:pick", targetId: v2 }),
       rooms.act(code, v2, { type: "night:pick", targetId: v1 }),

@@ -11,7 +11,6 @@ import {
 export const ROLE_LABEL: Record<MafiaRole, string> = {
   mafia: "Mafia",
   doctor: "Doctor",
-  detective: "Detective",
   villager: "Villager",
 };
 
@@ -28,7 +27,7 @@ export function MafiaRules() {
       <ol className="space-y-3 text-sm font-medium">
         <li>1. Everyone gets a secret role. Peek at your card, then keep a straight face.</li>
         <li>2. Night falls. Every phone says the same thing, so nobody can tell who is doing what.</li>
-        <li>3. The Mafia whack someone. The Doctor plays hero. The Detective snoops. Villagers point at whoever looks shifty.</li>
+        <li>3. The Mafia whack someone. The Doctor plays hero. Villagers point at whoever looks shifty.</li>
         <li>4. Morning brings the body count, and what they were.</li>
         <li>5. Argue. Lie. Swear on your mother. Then vote someone out, or chicken out.</li>
         <li>6. Catch every crook and the town wins. Let them match your numbers and the Mafia own the place.</li>
@@ -62,7 +61,6 @@ export function RoleTable() {
             <th className="pb-1 font-normal">Players</th>
             <th className="pb-1 font-normal">Mafia</th>
             <th className="pb-1 font-normal">Doctor</th>
-            <th className="pb-1 font-normal">Detective</th>
           </tr>
         </thead>
         <tbody>
@@ -72,7 +70,6 @@ export function RoleTable() {
                 {r.from}–{r.to}
               </td>
               <td>{r.mafia}</td>
-              <td>1</td>
               <td>1</td>
             </tr>
           ))}
@@ -87,5 +84,5 @@ export function RoleTable() {
 export function mixLine(players: number): string {
   const mix = roleMix(players);
   const villagers = `${mix.villager} ${mix.villager === 1 ? "Villager" : "Villagers"}`;
-  return `${mix.mafia} Mafia · Doctor · Detective · ${villagers}`;
+  return `${mix.mafia} Mafia · Doctor · ${villagers}`;
 }

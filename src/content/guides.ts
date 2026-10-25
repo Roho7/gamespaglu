@@ -295,12 +295,12 @@ export const GUIDES: Guide[] = [
     intro: [
       "Somewhere at this table is a crook. Maybe two. Maybe the friend who swore on their mother that they were a Villager. Every night the Mafia quietly whack someone, and every day the town argues, accuses and votes somebody out \u2014 sometimes even the right person.",
       "Around a table, Mafia needs a narrator: one poor soul who sits out all night dealing scraps of paper and saying \u201ceveryone close your eyes\u201d. Here the phones do that job. Roles land on each phone, the night happens on the screens, and the person who always gets stuck narrating finally gets to lie to your face like everyone else.",
-      "Nobody closes their eyes. Every living player taps their phone every night and every screen says the same thing, so the person tapping next to you could be the Doctor, the Detective or the one who just picked you.",
+      "Nobody closes their eyes. Every living player taps their phone every night and every screen says the same thing, so the person tapping next to you could be the Doctor or the one who just picked you.",
     ],
     steps: [
       {
         title: "Gather the suspects",
-        body: "One person hosts and reads out the four-letter code. Everyone else types it in on their own phone. The lobby tells you what the table will be dealt: one Mafia for five or six players, two for seven to nine, three for ten to twelve, plus a Doctor and a Detective. Everyone else is a Villager. No powers, all opinions.",
+        body: "One person hosts and reads out the four-letter code. Everyone else types it in on their own phone. The lobby tells you what the table will be dealt: one Mafia for five or six players, two for seven to nine, three for ten to twelve, plus a Doctor. Everyone else is a Villager. No powers, all opinions.",
       },
       {
         title: "Peek at your card",
@@ -308,11 +308,11 @@ export const GUIDES: Guide[] = [
       },
       {
         title: "Night falls",
-        body: "Every living phone asks the same thing: pick someone. The Mafia pick who gets whacked, and they all have to agree or nobody gets got. The Doctor picks someone to save \u2014 themselves included, but never the same face two nights running. The Detective picks someone to snoop on. Villagers pick whoever looks shifty. Change your mind as often as you like until the last pick is in.",
+        body: "Every living phone asks the same thing: pick someone. The Mafia pick who gets whacked, and they all have to agree or nobody gets got. The Doctor picks someone to save \u2014 themselves included, but never the same face two nights running. Villagers pick whoever looks shifty. Change your mind as often as you like until the last pick is in.",
       },
       {
         title: "Morning brings the body count",
-        body: "Every phone announces who didn\u2019t make it, and what they were. If the Doctor guessed right, everyone wakes up and the Mafia look quietly furious. The Detective\u2019s answer turns up on their card: Mafia, or clean.",
+        body: "Every phone announces who didn\u2019t make it, and what they were. If the Doctor guessed right, everyone wakes up and the Mafia look quietly furious.",
       },
       {
         title: "Court is in session",
@@ -352,7 +352,7 @@ export const GUIDES: Guide[] = [
       },
       {
         q: "Why does everyone tap at night, even Villagers?",
-        a: "Cover. If only the Mafia, the Doctor and the Detective touched their phones at night, you could find them by watching hands. Villagers point at a suspect instead, and those hunches come back to haunt everyone in the replay.",
+        a: "Cover. If only the Mafia and the Doctor touched their phones at night, you could find them by watching hands. Villagers point at a suspect instead, and those hunches come back to haunt everyone in the replay.",
       },
       {
         q: "Is this the same as Werewolf?",
@@ -360,7 +360,7 @@ export const GUIDES: Guide[] = [
       },
       {
         q: "How many players do we need?",
-        a: "Five at least, twelve at most. Seven to nine is the sweet spot: two Mafia, a Doctor, a Detective and enough Villagers to start a proper argument.",
+        a: "Five at least, twelve at most. Seven to nine is the sweet spot: two Mafia, a Doctor and enough Villagers to start a proper argument.",
       },
     ],
   },

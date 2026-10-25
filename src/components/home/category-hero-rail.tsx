@@ -6,6 +6,7 @@ import { CATEGORY_LIST } from "@/lib/deck/categories";
 import { paletteById, theme } from "@/lib/palettes";
 import { blip } from "@/lib/sound-and-haptics";
 import { VineMarquee } from "@/components/stitch/vine-marquee";
+import { PixelChevron } from "@/components/stitch/pixel-chevron";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
 
@@ -85,16 +86,16 @@ export function CategoryHeroRail() {
 
       <div
         {...theme(active.palette)}
-        className="pointer-events-none absolute inset-0 z-20 text-[var(--cw-shadow)]"
+        className="pointer-events-none absolute inset-0 z-20 text-[var(--cw-highlight)]"
       >
         {index > 0 ? (
           <button
             type="button"
             aria-label={`Previous: ${CATEGORY_LIST[index - 1].label}`}
             onClick={() => goTo(index - 1)}
-            className="pointer-events-auto absolute top-1/2 left-1 -translate-y-1/2 p-3 opacity-55 active:opacity-90"
+            className="pointer-events-auto absolute top-1/2 left-1 -translate-y-1/2 p-3"
           >
-            <Chevron className="size-6 rotate-90" />
+            <PixelChevron direction="left" />
           </button>
         ) : null}
 
@@ -103,33 +104,12 @@ export function CategoryHeroRail() {
             type="button"
             aria-label={`Next: ${CATEGORY_LIST[index + 1].label}`}
             onClick={() => goTo(index + 1)}
-            className="pointer-events-auto absolute top-1/2 right-1 -translate-y-1/2 p-3 opacity-55 active:opacity-90"
+            className="pointer-events-auto absolute top-1/2 right-1 -translate-y-1/2 p-3"
           >
-            <Chevron className="size-6 -rotate-90" />
+            <PixelChevron direction="right" />
           </button>
         ) : null}
       </div>
     </div>
-  );
-}
-
-/** Points down by default; rotate it for the sideways affordances. */
-function Chevron({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden
-      focusable="false"
-      className={className}
-    >
-      <path
-        d="M5 9l7 7 7-7"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }

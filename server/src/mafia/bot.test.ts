@@ -11,7 +11,7 @@ const ROLES: Record<PlayerId, MafiaRole> = {
   m1: "mafia",
   m2: "mafia",
   doc: "doctor",
-  det: "detective",
+  v0: "villager",
   v1: "villager",
   v2: "villager",
 };
