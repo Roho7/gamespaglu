@@ -3,9 +3,11 @@ import { ArrowLeft, Settings } from "lucide-react";
 import { PageCorners } from "@/components/layout/page-corners";
 import { PickableGridDemo, VotingBoardDemo } from "@/app/style/girgit-demo";
 import { CurtainDemo, NightSeatsDemo, YourCardDemo } from "@/app/style/mafia-demo";
+import { RoomScoreboard } from "@/components/scoreboard/room-scoreboard";
+import { HoldToRevealPlace, PlaceCardFace } from "@/components/tiktiki/place-card";
+import { PlaceList } from "@/components/tiktiki/place-list";
+import { RoundClock } from "@/components/tiktiki/round-clock";
 import { ToastDemo } from "@/app/style/toast-demo";
-import { CategoryEmblem } from "@/components/artwork/category-emblem";
-import { Starburst } from "@/components/artwork/starburst";
 import { Chip, Panel } from "@/components/ui/controls";
 import { ClueBoard, type ClueSlip } from "@/components/girgit/clue-board";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
@@ -22,7 +24,6 @@ import { Button } from "@/components/ui/button";
 import { PixelChevron } from "@/components/stitch/pixel-chevron";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { Input } from "@/components/ui/input";
-import { CATEGORY_LIST } from "@/lib/deck/categories";
 import { paletteById, PALETTES, theme } from "@/lib/palettes";
 
 /**
@@ -194,13 +195,6 @@ export default function StylePage() {
           </div>
         </Row>
 
-        <Row title="Marquee — one per screen, behind the hero only">
-          <div className="mb-frame relative flex h-48 items-center justify-center">
-            <Starburst className="absolute size-40 text-[var(--cw-primary)]" />
-            <span className="mb-display relative text-4xl">Hero</span>
-          </div>
-        </Row>
-
         <Row title="Vine marquee — either direction, blooms in and out at the edges">
           <div className="mb-frame space-y-3 p-4 text-[var(--cw-primary)]">
             <VineMarquee className="h-12" />
@@ -226,21 +220,6 @@ export default function StylePage() {
         <Row title="Rotate hint — sits in the band during a countdown">
           <div className="mb-band p-4">
             <RotatePhoneHint />
-          </div>
-        </Row>
-
-        <Row title="Emblems">
-          <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-            {CATEGORY_LIST.map((c) => (
-              <div
-                key={c.id}
-                {...theme(PALETTES[0])}
-                className="mb-frame flex flex-col items-center gap-2 p-3"
-              >
-                <CategoryEmblem category={c.id} className="size-14" />
-                <span className="mb-caps text-[0.5rem]">{c.label}</span>
-              </div>
-            ))}
           </div>
         </Row>
 
@@ -386,6 +365,11 @@ export default function StylePage() {
                 <YourCardDemo role="doctor" />
               </div>
             </div>
+            <div {...theme("cobalt", { flipped: true })} className="mb-label p-3">
+              <div className="p-2">
+                <YourCardDemo role="dead" />
+              </div>
+            </div>
           </div>
           <p className="text-sm opacity-75">
             Hold either one. The card opens in the same fixed frame whatever is on it.
@@ -416,6 +400,40 @@ export default function StylePage() {
                   out: "asha",
                 },
                 { kind: "exit", playerId: "bunty" },
+              ]}
+            />
+          </div>
+        </Row>
+
+        <Row title="Tiktiki — the card. 80% picture, the name in the band; the Tiktiki gets the lizard">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+            <PlaceCardFace face="swimming-pool" palette={paletteById("neon")} />
+            <PlaceCardFace face={null} palette={paletteById("neon")} />
+            <PlaceCardFace face="gym" palette={paletteById("neon")} />
+          </div>
+          <p className="text-sm opacity-75">The third has no photo yet, so it prints the grain gradient.</p>
+        </Row>
+
+        <Row title="Tiktiki — hold to peek, the one button in the middle of the play surface">
+          <div {...theme("neon", { flipped: true })} className="mb-label p-6">
+            <HoldToRevealPlace face="laboratory" palette={paletteById("neon")} />
+          </div>
+        </Row>
+
+        <Row title="Tiktiki — the clock and the notepad of places">
+          <div {...theme("neon", { flipped: true })} className="mb-label max-w-md space-y-5 p-4">
+            <RoundClock deadlineAt={null} msLeft={312_000} roundMs={480_000} />
+            <PlaceList places={["beach", "bank", "circus", "hospital"]} crossed={new Set(["bank" as const])} selected="circus" />
+          </div>
+        </Row>
+
+        <Row title="Room scoreboard — the room's own totals, the same on every phone">
+          <div {...theme("miami", { flipped: true })} className="max-w-md p-4">
+            <RoomScoreboard
+              players={[
+                { id: "a", name: "Asha", seat: 0, connected: true, isHost: true, score: 5 },
+                { id: "b", name: "Bunty", seat: 1, connected: true, isHost: false, score: 2 },
+                { id: "c", name: "Chiku", seat: 2, connected: false, isHost: false, score: 0 },
               ]}
             />
           </div>

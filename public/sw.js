@@ -3,7 +3,7 @@
  * All word lists are baked into the JS bundle, so caching the app shell is
  * enough — there is nothing to fetch mid-game.
  */
-const CACHE = "gamespaglu-v14";
+const CACHE = "gamespaglu-v15";
 const PRECACHE = [
   "/",
   "/who-am-i",
@@ -14,6 +14,7 @@ const PRECACHE = [
   // screen is worse than an honest one.
   "/girgit/new",
   "/mafia/new",
+  "/tiktiki/new",
   "/wavelength",
   "/random-number-generator",
   "/random-celebrity-generator",
@@ -30,6 +31,7 @@ const PRECACHE = [
   "/roles/mafia.jpg",
   "/roles/doctor.jpg",
   "/roles/villager.jpg",
+  "/places/tiktiki.jpg",
   "/backgrounds/who-am-i.jpg",
   "/backgrounds/movie-1.jpg",
   "/backgrounds/numbers-1.jpg",

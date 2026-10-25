@@ -10,10 +10,13 @@ export function DitheredPhoto({
   image,
   palette,
   className,
+  originY,
 }: {
   image: string;
   palette: Palette;
   className?: string;
+  /** 0.5 centers the crop. -0.5 pins the top of the photo to the top of the frame. */
+  originY?: number;
 }) {
   return (
     <ImageDithering
@@ -30,6 +33,7 @@ export function DitheredPhoto({
       size={1.5}
       colorSteps={2}
       fit="cover"
+      originY={originY}
     />
   );
 }

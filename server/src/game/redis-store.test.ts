@@ -78,6 +78,7 @@ function room(lastActiveAt: number): RoomRecord {
     settings: DEFAULT_MAFIA_SETTINGS,
     players: [],
     round: null,
+    dealAt: null,
     lastActiveAt,
   };
 }

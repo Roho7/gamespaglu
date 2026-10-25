@@ -104,13 +104,13 @@ function bannerFor(game: Game): { headline: string; detail: string } | null {
         };
       return game.mode === "guesser"
         ? {
-            headline: `Next up: ${next.active.name}`,
-            detail: `${next.active.name} guesses the next card.`,
-          }
+          headline: `Next up: ${next.active.name}`,
+          detail: `${next.active.name} guesses the next card.`,
+        }
         : {
-            headline: `Next up: ${next.peeker}`,
-            detail: `${next.peeker} is the next Psychic.`,
-          };
+          headline: `Next up: ${next.peeker}`,
+          detail: `${next.peeker} is the next Psychic.`,
+        };
     }
   }
 }
@@ -128,7 +128,7 @@ function ScoreStrip({
   const active = over ? null : roles(game).active.id;
   return (
     <div className="flex items-center justify-between gap-2 px-3 pt-3">
-      <div className="mb-caps min-w-0 text-[0.7rem] leading-relaxed">
+      <div className="mb-caps min-w-0 text-sm leading-relaxed">
         <p>
           {over
             ? `${game.rounds} ${game.rounds === 1 ? "round" : "rounds"} played`
@@ -283,7 +283,7 @@ export function WavelengthScreen() {
                   ) : null}
                   {shownClue ? (
                     <p className="text-center">
-                      <span className="mb-caps block text-[0.6rem] opacity-80">
+                      <span className="mb-caps block text-sm opacity-80">
                         The clue
                       </span>
                       <span className="mb-display-sm text-3xl leading-tight break-words">
@@ -303,7 +303,7 @@ export function WavelengthScreen() {
                     onMove={
                       phase.kind === "guess"
                         ? (value) =>
-                            setGame(reduce(game, { type: "move", dial: value }))
+                          setGame(reduce(game, { type: "move", dial: value }))
                         : undefined
                     }
                   />
@@ -458,7 +458,7 @@ function RevealScore({ game }: { game: Game }) {
       <p className="mb-display mb-shadow text-5xl">
         {main?.points ? `+${main.points}` : "Miss"}
       </p>
-      <p className="mb-caps text-[0.7rem]">
+      <p className="mb-caps text-sm">
         {main ? nameOf(main.seat) : ""} scores {main?.points ?? 0}
         {callLine}
       </p>

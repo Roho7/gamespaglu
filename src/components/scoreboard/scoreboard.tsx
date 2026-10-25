@@ -116,7 +116,7 @@ export function Scoreboard() {
 
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="mb-caps text-[0.6rem] opacity-70">Step</span>
+            <span className="mb-caps text-sm opacity-70">Step</span>
             {STEPS.map((s) => (
               <Chip key={s} active={step === s} onClick={() => setStep(s)}>
                 {s}
@@ -154,7 +154,7 @@ export function Scoreboard() {
             const leading = someoneScored && p.score === leaderScore;
             const palette =
               PALETTES[
-                players.findIndex((q) => q.id === p.id) % PALETTES.length
+              players.findIndex((q) => q.id === p.id) % PALETTES.length
               ];
             return (
               <li
@@ -173,7 +173,7 @@ export function Scoreboard() {
                 </button>
 
                 <div className="relative min-w-0 flex-1 text-center">
-                  <p className="mb-caps flex items-center justify-center gap-1.5 text-[0.6rem]">
+                  <p className="mb-caps flex items-center justify-center gap-1.5 text-sm">
                     <span className="opacity-70">#{p.rank}</span>
                     {leading ? (
                       <>

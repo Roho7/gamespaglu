@@ -243,8 +243,44 @@ describe("Mafia through the room", () => {
     const room = await rooms.abort(code, host);
     expect(viewOf<"mafia">(room, host).round?.outcome).toBe("aborted");
     expect(room?.players.every((p) => p.score === 0)).toBe(true);
-    const again = await rooms.start(code, host);
-    expect(again?.round?.no).toBe(2);
+    await rooms.start(code, host);
+    t += 5000;
+    await rooms.sweep(() => undefined);
+    expect(stored(code).round?.no).toBe(2);
+  });
+
+  test("a rematch counts down on every phone, then deals by itself", async () => {
+    const { code, host, ids } = await dealt();
+    await rooms.abort(code, host);
+    const counting = await rooms.start(code, host);
+    expect(counting?.round?.no).toBe(1);
+    for (const id of ids) expect(viewOf<"mafia">(counting, id).startsAt).toBe(t + 5000);
+
+    await expectRefusalAsync("WRONG_PHASE", () => rooms.start(code, host));
+    t += 4999;
+    expect(await rooms.sweep(() => undefined)).toEqual([]);
+    t += 1;
+    const [dealtAgain] = await rooms.sweep(() => undefined);
+    expect(dealtAgain.round?.no).toBe(2);
+    expect(viewOf<"mafia">(dealtAgain, host)).toMatchObject({ phase: "night", startsAt: null });
+  });
+
+  test("a rematch the table can no longer fill is called off", async () => {
+    const { code, host, ids } = await dealt();
+    await rooms.abort(code, host);
+    await rooms.start(code, host);
+    await rooms.leave(code, ids.find((id) => id !== host)!);
+    t += 5000;
+    await rooms.sweep(() => undefined);
+    expect(stored(code)).toMatchObject({ dealAt: null, round: { no: 1 } });
+    expect(await rooms.sweep(() => undefined)).toEqual([]);
+  });
+
+  test("the first deal never waits", async () => {
+    const { code, host } = await table("mafia", 5);
+    const room = await rooms.start(code, host);
+    expect(room?.round?.no).toBe(1);
+    expect(room?.dealAt).toBeNull();
   });
 
   test("the host's flag reaches the game, so only the host ends the night", async () => {

@@ -30,7 +30,7 @@ export function RotatePhoneHint() {
           fill="currentColor"
         />
       </svg>
-      <p className="mb-caps text-[0.6rem] opacity-80">Turn sideways</p>
+      <p className="mb-caps text-sm opacity-80">Turn sideways</p>
     </div>
   );
 }

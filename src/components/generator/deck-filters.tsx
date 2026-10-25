@@ -42,7 +42,7 @@ export function RegionPicker({
         )}
       </div>
 
-      <p className="mb-caps text-[0.6rem] opacity-60">{poolSize} in the deck</p>
+      <p className="mb-caps text-sm opacity-60">{poolSize} in the deck</p>
     </div>
   );
 }
@@ -63,7 +63,7 @@ export function SpicyToggle({
       <Chip active={spicy} onClick={() => onSpicy(!spicy)}>
         {spicy ? "Spicy on" : "Spicy off"}
       </Chip>
-      <p className="text-[0.7rem] opacity-70">
+      <p className="text-sm opacity-70">
         Adds people famous for crime and scandal. Off unless you want it.
       </p>
     </div>

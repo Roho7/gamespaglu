@@ -94,7 +94,7 @@ export default async function GuidePage({
             <span>{guide.needs}</span>
           </p>
           {guide.alsoCalled?.length ? (
-            <p className="font-sans uppercase font-medium text-[0.6rem] opacity-60">
+            <p className="font-sans uppercase font-medium text-sm opacity-60">
               Also called {guide.alsoCalled.join(" · ")}
             </p>
           ) : null}
@@ -175,6 +175,22 @@ export default async function GuidePage({
                 </div>
               ))}
             </dl>
+          </StitchedPanel>
+        ) : null}
+
+        {guide.credits?.length ? (
+          <StitchedPanel title="Photo credits">
+            <ul className="space-y-1 text-sm font-medium opacity-85">
+              {guide.credits.map((c) => (
+                <li key={c.href}>
+                  {c.label}:{" "}
+                  <a href={c.href} target="_blank" rel="noreferrer" className="underline decoration-2">
+                    {c.author}
+                  </a>
+                  , {c.license}
+                </li>
+              ))}
+            </ul>
           </StitchedPanel>
         ) : null}
 

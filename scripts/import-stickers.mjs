@@ -13,7 +13,7 @@
  * Curation is deliberately manual. Bulk search results were mostly clip-art
  * noise; a human picking thirteen good ones beats a script picking fifty.
  *
- * A category with no stickers is fine — the drawn emblem is the fallback.
+ * A category with no stickers is fine.
  */
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -112,7 +112,7 @@ if (key && allIds.length > 0) {
 for (const category of CATEGORIES) {
   const items = wanted[category];
   if (items.length === 0) {
-    console.log(`${category.padEnd(10)} — none in the note, using the emblem`);
+    console.log(`${category.padEnd(10)} — none in the note`);
     continue;
   }
   mkdirSync(join(STICKER_DIR, category), { recursive: true });

@@ -35,12 +35,14 @@ const BASE: MafiaYourRound = {
 };
 
 /** The card for two different roles: the same button, the same frame. */
-export function YourCardDemo({ role }: { role: "mafia" | "doctor" }) {
+export function YourCardDemo({ role }: { role: "mafia" | "doctor" | "dead" }) {
   const your: MafiaYourRound =
     role === "mafia"
       ? { ...BASE, role, team: ["bunty"], teamPicks: [{ playerId: "bunty", targetId: "asha" }] }
-      : { ...BASE, role, lastSave: "chiku" };
-  return <YourCard your={your} nameOf={nameOf} palette={paletteById("cobalt")} night />;
+      : role === "dead"
+        ? { ...BASE, alive: false }
+        : { ...BASE, role, lastSave: "chiku" };
+  return <YourCard your={your} nameOf={nameOf} palette={paletteById("cobalt")} night fate={role === "dead" ? "killed" : null} />;
 }
 
 const CURTAINS: { palette: "cobalt" | "cherry"; beat: (seed: string) => Beat }[] = [

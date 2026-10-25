@@ -44,6 +44,7 @@ export const mafiaModule: GameModule<"mafia", MafiaState> = {
   id: "mafia",
   minPlayers: MAFIA_MIN_PLAYERS,
   maxPlayers: MAFIA_MAX_PLAYERS,
+  rematchDelayMs: 5000,
   defaultSettings: DEFAULT_MAFIA_SETTINGS,
   parseSettings: () => DEFAULT_MAFIA_SETTINGS,
   parseAction,

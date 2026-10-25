@@ -24,7 +24,7 @@ type Door = "host" | "join";
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="relative block space-y-1.5">
-      <span className="mb-caps text-[0.6rem]">{label}</span>
+      <span className="mb-caps text-sm">{label}</span>
       {children}
     </label>
   );
@@ -168,7 +168,7 @@ export function HostOrJoinScreen({
               <Button type="submit" size="hero" disabled={missing !== null}>
                 {door === "join" ? "Join" : "Start a room"}
               </Button>
-              {missing ? <p className="mb-caps text-[0.6rem]">{missing}</p> : null}
+              {missing ? <p className="mb-caps text-sm">{missing}</p> : null}
             </div>
           </form>
         </DialogContent>

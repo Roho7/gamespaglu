@@ -20,6 +20,7 @@ import {
   abort,
   configure,
   deal,
+  dueAt,
   expire,
   isStale,
   kick,
@@ -84,11 +85,11 @@ export class RoomService {
   private index(room: RoomRecord): RoundIndex {
     const mod = this.module(room.game);
     const state = room.round?.state;
-    if (state === undefined) return { phase: "lobby", outcome: null, deadlineAt: null };
+    if (state === undefined) return { phase: "lobby", outcome: null, deadlineAt: dueAt(room, mod) };
     return {
       phase: mod.phase(state),
       outcome: mod.outcome(state),
-      deadlineAt: mod.isOver(state) ? null : mod.deadline(state),
+      deadlineAt: dueAt(room, mod),
     };
   }
 
@@ -113,7 +114,11 @@ export class RoomService {
           return { room: null, result: STALE, index: this.index(current) };
         }
         const mod = this.module(current.game);
-        const loaded = { ...current, settings: mod.parseSettings(current.settings, mod.defaultSettings) };
+        const loaded = {
+          ...current,
+          dealAt: current.dealAt ?? null,
+          settings: mod.parseSettings(current.settings, mod.defaultSettings),
+        };
         const out = fn(loaded, mod);
         return { ...out, index: out.room ? this.index(out.room) : this.index(current) };
       },
@@ -194,7 +199,7 @@ export class RoomService {
     const changed: RoomRecord[] = [];
     for (const code of await this.deps.store.due(this.deps.now())) {
       try {
-        const room = await this.change(code, (r, mod) => expire(r, mod, this.deps.now));
+        const room = await this.change(code, (r, mod) => expire(r, mod, this.deps.rng, this.deps.now));
         if (room) changed.push(room);
       } catch (err) {
         if (!(err instanceof GameError)) onError(code, err);

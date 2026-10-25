@@ -31,7 +31,7 @@ export function BandButton({
       <span className="mb-display-sm inline-flex items-center gap-2 text-4xl">
         {children}
       </span>
-      {detail ? <span className="mb-caps text-[0.6rem]">{detail}</span> : null}
+      {detail ? <span className="mb-caps text-sm">{detail}</span> : null}
     </button>
   );
 }

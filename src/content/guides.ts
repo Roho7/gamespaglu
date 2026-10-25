@@ -1,6 +1,7 @@
 import type { PaletteId } from "@/lib/palettes";
 import type { CategoryId } from "@/lib/deck/types";
 import type { Mode } from "@/lib/wavelength/engine";
+import { PLACE_CREDITS } from "@/content/place-art";
 
 /**
  * The How to play section. This is where the words live now — the play screens
@@ -28,6 +29,8 @@ export type Guide = {
   variations?: { title: string; body: string }[];
   categories?: CategoryId[];
   faq?: { q: string; a: string }[];
+  /** Photo credits, for games whose cards carry licensed photos. */
+  credits?: { label: string; author: string; license: string; href: string }[];
 };
 
 export const GUIDES: Guide[] = [
@@ -363,6 +366,77 @@ export const GUIDES: Guide[] = [
         a: "Five at least, twelve at most. Seven to nine is the sweet spot: two Mafia, a Doctor and enough Villagers to start a proper argument.",
       },
     ],
+  },
+  {
+    slug: "tiktiki",
+    title: "How to play Tiktiki",
+    summary:
+      "Everyone knows where you are except one: the Tiktiki, the lizard on the wall. Ask sneaky questions, catch the spy, or bluff your way to the place. Four to twelve players, a phone each.",
+    palette: "neon",
+    players: "4 to 12",
+    time: "Six to ten minutes a round",
+    needs: "A phone each, everyone in the same room",
+    playRoute: "/tiktiki/new",
+    alsoCalled: ["Spyfall online", "Spy location game", "Who's the spy"],
+    intro: [
+      "Everyone at the table has been dropped somewhere: a swimming pool, a bank, a pirate ship. Everyone except one. The Tiktiki, the lizard on the wall, has no idea where you are and has to bluff like they've been coming here for years.",
+      "If you've played Spyfall, you know this one. The phones deal the place, run the clock, hold the trials and keep score, so the whole table just talks.",
+    ],
+    steps: [
+      {
+        title: "Gather the suspects",
+        body: "One person hosts and reads out the four-letter code, and everyone else types it in on their own phone. The host picks a six, eight or ten-minute clock.",
+      },
+      {
+        title: "Peek at your card",
+        body: "Press and hold the button in the middle of the screen to see where you are, then let go. One card shows a lizard instead: that player is the Tiktiki. Every phone shows the same button, so nobody learns anything from watching you peek.",
+      },
+      {
+        title: "Ask around",
+        body: "The phone names who asks first. They ask anyone a question about the place, that player answers and asks the next question, and so on. No asking straight back. Be vague enough that the Tiktiki can't work out the place, and sharp enough that a bluffer stands out.",
+      },
+      {
+        title: "Point a finger",
+        body: "Anyone can accuse once a round. The clock stops and everyone else votes guilty or not guilty. It has to be unanimous: one no and the questions carry on, with every vote shown by name.",
+      },
+      {
+        title: "The Tiktiki's last guess",
+        body: "However the round ends, whether that's a conviction, the wrong person convicted or the clock running out, the Tiktiki gets one formal guess at the place from the twelve on the table.",
+      },
+      {
+        title: "Scores",
+        body: "Catch the Tiktiki and have them guess wrong, and everyone else scores a point, two for whoever made the accusation. Otherwise the Tiktiki scores: two if caught but they name the place, two for surviving the clock, three for getting an innocent convicted, and two more on top for naming the place.",
+      },
+    ],
+    variations: [
+      {
+        title: "Notes",
+        body: "The map pin in the corner opens the twelve places on the table this round. Tap one to cross it off. Your notes stay on your phone.",
+      },
+      {
+        title: "A phone falls asleep",
+        body: "Locking your phone doesn't cost your seat. If a vote is stuck on someone who wandered off, the host can bang the gavel from the room menu, and missing votes count as not guilty.",
+      },
+    ],
+    faq: [
+      {
+        q: "Is this Spyfall?",
+        a: "It's the same idea: one spy, one secret place, a table full of questions. Tiktiki is our version, where the phones do the dealing, the clock and the scoring.",
+      },
+      {
+        q: "What does Tiktiki mean?",
+        a: "It's the Bengali word for the little house lizard that sits on the wall and hears everything. It's also slang for a snoop.",
+      },
+      {
+        q: "Does everyone need their own phone?",
+        a: "Yes. The place is secret on every phone, and the Tiktiki's card has to look exactly like everyone else's from across the table.",
+      },
+      {
+        q: "How many players do we need?",
+        a: "Four at least, twelve at most. Five to eight is the sweet spot: enough questions to hide in, few enough that everyone gets grilled.",
+      },
+    ],
+    credits: PLACE_CREDITS,
   },
   {
     slug: "scoreboard",

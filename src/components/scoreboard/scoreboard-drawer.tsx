@@ -9,14 +9,17 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { RoomScoreboard } from "@/components/scoreboard/room-scoreboard";
 import { Scoreboard } from "@/components/scoreboard/scoreboard";
+import type { PublicPlayer } from "@shared/protocol";
 
 /**
  * Keeping score happens *during* a game, so the scoreboard is a bottom sheet
  * reachable from a corner button on every inner screen rather than a page you leave the
- * game to visit. Same persisted board as /scoreboard.
+ * game to visit. Same persisted board as /scoreboard, except in a room, where it shows the room's
+ * own totals instead.
  */
-export function ScoreboardDrawer() {
+export function ScoreboardDrawer({ room }: { room?: PublicPlayer[] }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -37,7 +40,7 @@ export function ScoreboardDrawer() {
           </DrawerClose>
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-6">
-          <Scoreboard />
+          {room ? <RoomScoreboard players={room} /> : <Scoreboard />}
         </div>
       </DrawerContent>
     </Drawer>

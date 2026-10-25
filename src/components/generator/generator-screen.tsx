@@ -116,7 +116,7 @@ export function GeneratorScreen({
               href={g.image.credit}
               target="_blank"
               rel="noreferrer"
-              className="mb-caps relative pb-2 text-center text-[0.5rem] opacity-60"
+              className="mb-caps relative pb-2 text-center text-sm opacity-60"
             >
               Photo · Wikimedia Commons
             </a>

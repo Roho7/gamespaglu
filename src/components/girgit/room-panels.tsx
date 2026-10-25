@@ -53,7 +53,7 @@ export function GirgitHostSettings({
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <p className="mb-caps text-[0.6rem]">Word packs</p>
+        <p className="mb-caps text-sm">Word packs</p>
         <div className="flex flex-wrap gap-2">
           {PACKS.map((pk) => {
             const on = prefs.packs.includes(pk.id);
@@ -72,7 +72,7 @@ export function GirgitHostSettings({
         </div>
       </div>
       <div className="space-y-2">
-        <p className="mb-caps text-[0.6rem]">Clue timer</p>
+        <p className="mb-caps text-sm">Clue timer</p>
         <div className="flex flex-wrap gap-2">
           {CLUE_SECONDS_OPTIONS.map((n) => (
             <Chip
@@ -85,7 +85,7 @@ export function GirgitHostSettings({
           ))}
         </div>
       </div>
-      <p className="text-[0.7rem] opacity-80">
+      <p className="text-sm opacity-80">
         Used when you host. Joining someone else&apos;s room, theirs apply.
       </p>
     </div>

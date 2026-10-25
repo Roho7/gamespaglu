@@ -44,7 +44,7 @@ export function GirgitGrid({
             onClick={() => onPick?.(i)}
             className={cn(
               "mb-display-sm flex min-h-14 items-center justify-center px-1 py-1.5",
-              "border-[length:var(--rule-thin)] text-center text-[0.9rem] leading-[1.05]",
+              "border-[length:var(--rule-thin)] text-center text-sm leading-[1.05]",
               "break-words hyphens-auto transition-transform",
               marked
                 ? "border-[color:var(--loud)] bg-[var(--loud)] text-[var(--on-loud)]"

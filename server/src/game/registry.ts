@@ -2,6 +2,7 @@ import type { GameId } from "../../../shared/protocol";
 import { girgitModule } from "../girgit/module";
 import type { Grid } from "../girgit/engine";
 import { mafiaModule } from "../mafia/module";
+import { tiktikiModule } from "../tiktiki/module";
 import type { AnyGameModule } from "./module";
 
 export type Games = Record<GameId, AnyGameModule>;
@@ -11,5 +12,6 @@ export function createGames(grids: readonly Grid[]): Games {
   return {
     girgit: girgitModule(grids) as unknown as AnyGameModule,
     mafia: mafiaModule as unknown as AnyGameModule,
+    tiktiki: tiktikiModule as unknown as AnyGameModule,
   };
 }

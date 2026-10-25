@@ -16,6 +16,8 @@ export type GameModule<G extends GameId, State> = {
   id: G;
   minPlayers: number;
   maxPlayers: number;
+  /** How long a rematch counts down before the deal, so every phone sees it coming. 0 deals at once. */
+  rematchDelayMs: number;
   defaultSettings: GameTypes[G]["settings"];
   /** Throws BAD_SETTING. `current` lets a partial update keep the rest. */
   parseSettings(raw: unknown, current: GameTypes[G]["settings"]): GameTypes[G]["settings"];

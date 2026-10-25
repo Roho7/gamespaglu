@@ -59,7 +59,7 @@ export function ClueBoard({
                     ? "border-[color:var(--cw-secondary)]"
                     : "border-dashed border-[color:var(--cw-secondary)]",
                 selectable &&
-                  "border-[color:var(--loud)] shadow-[3px_3px_0_var(--loud)] transition-transform active:translate-[3px] active:shadow-none",
+                "border-[color:var(--loud)] shadow-[3px_3px_0_var(--loud)] transition-transform active:translate-[3px] active:shadow-none",
               )}
             >
               <span className="mb-caps flex max-w-full items-baseline gap-1.5 pr-8 text-[0.55rem]">
@@ -76,7 +76,7 @@ export function ClueBoard({
                 {s.clue ?? "…"}
               </span>
               {s.note ? (
-                <span className="mb-caps text-[0.5rem] opacity-70">
+                <span className="mb-caps text-sm opacity-70">
                   {s.note}
                 </span>
               ) : null}

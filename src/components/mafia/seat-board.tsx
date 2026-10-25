@@ -46,7 +46,7 @@ export function SeatBoard({
                 s.abstain && "justify-center border-dashed bg-transparent py-3 shadow-none",
                 tappable && "border-[color:var(--loud)] active:translate-[3px] active:shadow-[1px_1px_0_var(--shadow-ink)]",
                 s.selected &&
-                "-translate-y-1 border-[color:var(--loud)] bg-[var(--loud)] text-[var(--on-loud)] shadow-[5px_7px_0_var(--shadow-ink)]",
+                "-translate-y-1 border-[color:var(--cw-secondary)] bg-[var(--cw-highlight)] text-[var(--on-loud)] shadow-[5px_7px_0_var(--shadow-ink)]",
                 s.out && "translate-y-0.5 shadow-none",
               )}
             >
@@ -67,7 +67,7 @@ export function SeatBoard({
                   {s.name}
                 </span>
                 {s.you || s.away || s.note ? (
-                  <span className="mb-caps flex max-w-full items-baseline gap-1.5 text-[0.5rem]">
+                  <span className="mb-caps flex max-w-full items-baseline gap-1.5 text-sm">
                     {s.you ? <span className="opacity-70">you</span> : null}
                     {s.away ? <span className="opacity-70">away</span> : null}
                     {s.note ? <span className="truncate opacity-80">{s.note}</span> : null}

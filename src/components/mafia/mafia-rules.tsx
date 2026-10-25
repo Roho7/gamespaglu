@@ -56,7 +56,7 @@ export function RoleTable() {
   return (
     <div className="space-y-3">
       <table className="w-full text-left text-sm font-semibold">
-        <thead className="mb-caps text-[0.6rem]">
+        <thead className="mb-caps text-sm">
           <tr>
             <th className="pb-1 font-normal">Players</th>
             <th className="pb-1 font-normal">Mafia</th>
@@ -75,7 +75,7 @@ export function RoleTable() {
           ))}
         </tbody>
       </table>
-      <p className="text-[0.7rem] opacity-80">Everyone else is a Villager. No powers, all opinions.</p>
+      <p className="text-sm opacity-80">Everyone else is a Villager. No powers, all opinions.</p>
     </div>
   );
 }

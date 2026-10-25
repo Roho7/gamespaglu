@@ -12,7 +12,7 @@ import {
   type RoomCode,
   type RoomState,
 } from "../../../shared/protocol";
-import { reject } from "./errors";
+import { GameError, reject } from "./errors";
 import type { AnyGameModule, Now, Rng } from "./module";
 
 export type PlayerRecord = {
@@ -31,6 +31,8 @@ export type RoomRecord = {
   settings: GameTypes[GameId]["settings"];
   players: PlayerRecord[];
   round: { no: number; state: unknown } | null;
+  /** When a scheduled rematch deals, or null when none is counting down. */
+  dealAt: number | null;
   lastActiveAt: number;
 };
 
@@ -66,6 +68,7 @@ export function openRoom(
     settings: mod.parseSettings(settings ?? {}, mod.defaultSettings),
     players: [{ ...host, seat: 0, connected: true, score: 0 }],
     round: null,
+    dealAt: null,
     lastActiveAt: now(),
   };
 }
@@ -208,11 +211,20 @@ export function deal(
 ): RoomRecord {
   requireHost(room, playerId);
   if (liveRound(room, mod)) reject("WRONG_PHASE", "Finish this round first.");
+  if (room.dealAt !== null) reject("WRONG_PHASE", "A new game is already on its way.");
+  if (room.round && mod.rematchDelayMs > 0) {
+    return touched({ ...room, dealAt: now() + mod.rematchDelayMs }, now);
+  }
+  return dealNow(room, mod, rng, now);
+}
+
+/** Freezes everyone seated right now into the next deal. */
+function dealNow(room: RoomRecord, mod: AnyGameModule, rng: Rng, now: Now): RoomRecord {
   const seats = [...room.players]
     .sort((a, b) => a.seat - b.seat)
     .map((p) => ({ id: p.id, name: p.name }));
   const state = mod.deal(seats, room.settings, room.round?.state ?? null, rng, now);
-  return touched({ ...room, round: { no: (room.round?.no ?? 0) + 1, state } }, now);
+  return touched({ ...room, dealAt: null, round: { no: (room.round?.no ?? 0) + 1, state } }, now);
 }
 
 export function abort(room: RoomRecord, mod: AnyGameModule, playerId: PlayerId, now: Now): RoomRecord {
@@ -236,15 +248,30 @@ export function play(
   return touched(advance(room, mod, next), now);
 }
 
-/** Times out the current phase if its deadline has passed. A no-op otherwise. */
-export function expire(room: RoomRecord, mod: AnyGameModule, now: Now): RoomRecord {
+/**
+ * Deals a rematch whose countdown has run out, or times out the current phase if its deadline has
+ * passed. A rematch the table can no longer fill, because people left during the countdown, is
+ * called off rather than retried forever.
+ */
+export function expire(room: RoomRecord, mod: AnyGameModule, rng: Rng, now: Now): RoomRecord {
+  if (room.dealAt !== null) {
+    if (room.dealAt > now()) return room;
+    try {
+      return dealNow(room, mod, rng, now);
+    } catch (err) {
+      if (err instanceof GameError) return { ...room, dealAt: null };
+      throw err;
+    }
+  }
   const round = liveRound(room, mod);
   const due = round ? mod.deadline(round.state) : null;
   if (!round || due === null || due > now()) return room;
   return advance(room, mod, mod.expire(round.state));
 }
 
-export function deadlineOf(room: RoomRecord, mod: AnyGameModule): number | null {
+/** The next moment the sweep must act on this room: a rematch deal, or the phase timing out. */
+export function dueAt(room: RoomRecord, mod: AnyGameModule): number | null {
+  if (room.dealAt !== null) return room.dealAt;
   const round = liveRound(room, mod);
   return round ? mod.deadline(round.state) : null;
 }
@@ -273,6 +300,7 @@ export function viewFor(room: RoomRecord, mod: AnyGameModule, you: PlayerId): Ro
     minPlayers: mod.minPlayers,
     maxPlayers: mod.maxPlayers,
     settings: room.settings,
+    startsAt: room.dealAt,
     round: round ? mod.publicView(round.state, round.no) : null,
     your: round && inRound ? mod.privateView(round.state, you) : null,
   } as RoomState;

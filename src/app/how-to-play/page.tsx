@@ -33,7 +33,7 @@ export default function HowToPlayIndex() {
               <StitchBorder variant="link" className="inset-2" />
               <h2 className="mb-display-sm text-3xl">{guide.title}</h2>
               <p className="text-sm font-medium">{guide.summary}</p>
-              <p className="mb-caps flex flex-wrap gap-x-4 gap-y-1 text-[0.6rem] opacity-75">
+              <p className="mb-caps flex flex-wrap gap-x-4 gap-y-1 text-sm opacity-75">
                 <span>{guide.players} players</span>
                 <span>{guide.needs}</span>
               </p>

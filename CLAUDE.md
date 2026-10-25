@@ -89,7 +89,7 @@ category palette, with the band below naming the game. Simple, clean, profession
   `npm run check:tokens` fails on a `rounded-*` utility or a non-zero `border-radius`.
 - The hard offset shadow is `--cw-highlight`, and goes only on hero display type on a field. Never on
   body or small text.
-- One starburst per screen, behind artwork only, never behind type. The bulb `MarqueeBanner` is a sign, not artwork.
+- The bulb `MarqueeBanner` is a sign, not artwork.
 - Emblems, not emoji, on a field.
 - Drawers are opaque `--ground`.
 - Never set `--btn-*` inline on a container; it overrides the button recipes.
@@ -122,7 +122,6 @@ the system.
 
 - Curated by hand in the vault's `Cards/Gif Collection.md`; `npm run stickers` syncs exactly that
   list into `public/stickers` at the 200px rendition, with manifest and precache list.
-- A category without a sticker (or a failed load) falls back to its drawn emblem.
 
 ## Layout
 

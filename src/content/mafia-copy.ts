@@ -130,6 +130,13 @@ export const mafiaBeats = {
   over: (seed: string, outcome: MafiaOutcome) => beat(ENDINGS[outcome], seed),
 };
 
+/** What a dead player's card says about who they were. */
+export const ROLE_PAST: Record<MafiaRole, string> = {
+  mafia: "You were Mafia.",
+  doctor: "You were the Doctor.",
+  villager: "You were a Villager.",
+};
+
 /** The one mechanical instruction on the card at night, the same for every role. */
 export const HOW_TO_PICK = "Tap a name on the board, then lock it in";
 

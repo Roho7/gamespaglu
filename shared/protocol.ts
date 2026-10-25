@@ -19,10 +19,18 @@ import type {
   MafiaSettings,
   MafiaYourRound,
 } from "./mafia";
+import type {
+  TiktikiAction,
+  TiktikiPhase,
+  TiktikiPublicRound,
+  TiktikiSettings,
+  TiktikiYourRound,
+} from "./tiktiki";
 
 export type { DeviceId, PlayerId, RoomCode } from "./ids";
 export * from "./girgit";
 export * from "./mafia";
+export * from "./tiktiki";
 
 /** Bumped when a change is not backward compatible. */
 export const PROTOCOL_VERSION = 2;
@@ -36,7 +44,7 @@ export const ROOM_CODE_ALPHABET = "BCDFGHJKLMNPQRSTVWXYZ";
 /** How long a room survives with nobody doing anything. */
 export const ROOM_TTL_MS = 2 * 60 * 60 * 1000;
 
-export const GAME_IDS = ["girgit", "mafia"] as const;
+export const GAME_IDS = ["girgit", "mafia", "tiktiki"] as const;
 export type GameId = (typeof GAME_IDS)[number];
 
 /** Everything that differs per game, keyed by game, so `RoomState` narrows on `game`. */
@@ -54,6 +62,13 @@ export type GameTypes = {
     round: MafiaPublicRound;
     your: MafiaYourRound;
     action: MafiaAction;
+  };
+  tiktiki: {
+    phase: TiktikiPhase;
+    settings: TiktikiSettings;
+    round: TiktikiPublicRound;
+    your: TiktikiYourRound;
+    action: TiktikiAction;
   };
 };
 
@@ -79,6 +94,8 @@ export type RoomStateOf<G extends GameId> = {
   minPlayers: number;
   maxPlayers: number;
   settings: GameTypes[G]["settings"];
+  /** Epoch ms a scheduled rematch deals, so every phone can count down to it. Null otherwise. */
+  startsAt: number | null;
   round: GameTypes[G]["round"] | null;
   /** Null for a player seated after the deal, who waits for the next one. */
   your: GameTypes[G]["your"] | null;

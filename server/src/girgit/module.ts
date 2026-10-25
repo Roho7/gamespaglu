@@ -68,6 +68,7 @@ export function girgitModule(grids: readonly Grid[]): GameModule<"girgit", Round
     id: "girgit",
     minPlayers: GIRGIT_MIN_PLAYERS,
     maxPlayers: GIRGIT_MAX_PLAYERS,
+    rematchDelayMs: 0,
     defaultSettings: DEFAULT_GIRGIT_SETTINGS,
     parseSettings,
     parseAction,

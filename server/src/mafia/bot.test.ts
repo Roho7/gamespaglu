@@ -23,6 +23,7 @@ const roomOf = (state: MafiaState): RoomRecord => ({
   settings: {},
   players: state.players.map((id, seat) => ({ id, deviceId: id, name: id, seat, connected: true, score: 0 })),
   round: { no: 1, state },
+  dealAt: null,
   lastActiveAt: 0,
 });
 

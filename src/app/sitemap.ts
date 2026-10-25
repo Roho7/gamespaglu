@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/who-am-i",
     "/girgit/new",
     "/mafia/new",
+    "/tiktiki/new",
     "/wavelength",
     "/how-to-play",
     ...GUIDES.map((g) => `/how-to-play/${g.slug}`),

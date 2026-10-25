@@ -178,6 +178,7 @@ export function RoomScreen({
             />
           ) : null}
           <PageCorners
+            room={state.players}
             extra={
               <>
                 <SideDrawer
@@ -202,7 +203,7 @@ export function RoomScreen({
                   className="mb-square-btn"
                 >
                   <div className="space-y-2">
-                    <p className="mb-caps text-[0.6rem] opacity-60">
+                    <p className="mb-caps text-sm opacity-60">
                       Word packs
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -234,7 +235,7 @@ export function RoomScreen({
                         );
                       })}
                     </div>
-                    <p className="text-[0.7rem] opacity-70">
+                    <p className="text-sm opacity-70">
                       {isHost
                         ? "Applies to the next deal — this round's grid is already out."
                         : "The host picks these."}
@@ -242,7 +243,7 @@ export function RoomScreen({
                   </div>
 
                   <div className="space-y-2">
-                    <p className="mb-caps text-[0.6rem] opacity-60">
+                    <p className="mb-caps text-sm opacity-60">
                       Clue timer
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -262,7 +263,7 @@ export function RoomScreen({
                         </Chip>
                       ))}
                     </div>
-                    <p className="text-[0.7rem] opacity-70">
+                    <p className="text-sm opacity-70">
                       {isHost
                         ? "Applies to the round already running. Only clues are timed."
                         : "The host sets this."}
@@ -278,7 +279,7 @@ export function RoomScreen({
                       >
                         End this round
                       </Button>
-                      <p className="text-[0.7rem] opacity-70">
+                      <p className="text-sm opacity-70">
                         The vote and the guess have no clock, so this is what
                         unsticks a round nobody can finish. Nobody scores.
                       </p>
@@ -325,7 +326,7 @@ export function RoomScreen({
                         The word was “{word(round.secretIndex)}”.
                       </p>
                     )}
-                    <p className="mb-caps text-[0.6rem] opacity-80">
+                    <p className="mb-caps text-sm opacity-80">
                       {round.outcome === "girgit-escaped"
                         ? `Got away with it · +${SCORE_GIRGIT_ESCAPED}`
                         : round.outcome === "girgit-guessed"
@@ -343,9 +344,9 @@ export function RoomScreen({
                     onPick={
                       phase === "escape" && state.your?.isGirgit
                         ? (i) => {
-                            setToast(`Locked in: ${round.cells[i]}`);
-                            void room.act({ type: "escape:guess", cellIndex: i });
-                          }
+                          setToast(`Locked in: ${round.cells[i]}`);
+                          void room.act({ type: "escape:guess", cellIndex: i });
+                        }
                         : undefined
                     }
                   />
@@ -367,9 +368,9 @@ export function RoomScreen({
                   onSelect={
                     phase === "vote" && !hasVoted
                       ? (id) => {
-                          setToast(`Voted for ${nameOf(id)}`);
-                          void room.act({ type: "vote:cast", targetId: id });
-                        }
+                        setToast(`Voted for ${nameOf(id)}`);
+                        void room.act({ type: "vote:cast", targetId: id });
+                      }
                       : undefined
                   }
                   disabledIds={phase === "vote" ? [state.you] : []}
@@ -427,7 +428,7 @@ export function RoomScreen({
 
             {!cutOff && phase === "clues" && round ? (
               hasClued ? (
-                <p className="mb-caps text-center text-[0.6rem] opacity-80">
+                <p className="mb-caps text-center text-sm opacity-80">
                   In. Waiting on {round.cluesTotal - round.cluesIn} of{" "}
                   {round.cluesTotal}
                 </p>
@@ -461,7 +462,7 @@ export function RoomScreen({
 
             {!cutOff && phase === "vote" && round ? (
               <div className="flex w-full max-w-sm items-center justify-between gap-3">
-                <span className="mb-caps text-[0.6rem] opacity-80">
+                <span className="mb-caps text-sm opacity-80">
                   {hasVoted
                     ? "Locked in"
                     : `${round.votesIn} of ${round.cluesTotal} voted`}
@@ -479,7 +480,7 @@ export function RoomScreen({
 
             {!cutOff && phase === "escape" ? (
               <div className="flex w-full max-w-sm items-center justify-between gap-3">
-                <span className="mb-caps text-[0.6rem] opacity-80">
+                <span className="mb-caps text-sm opacity-80">
                   {state.your?.isGirgit
                     ? "Pick a word above"
                     : "Hold your breath"}
@@ -496,7 +497,7 @@ export function RoomScreen({
             ) : null}
 
             {!cutOff && phase === "reveal" ? (
-              <p className="mb-caps text-center text-[0.6rem] opacity-80">
+              <p className="mb-caps text-center text-sm opacity-80">
                 Waiting for {nameOf(state.hostId)}
               </p>
             ) : null}

@@ -9,6 +9,7 @@ import { SideDrawer } from "@/components/layout/side-drawer";
 import { GameReplay } from "@/components/mafia/game-replay";
 import { FATE_LABEL, MafiaRules, ROLE_LABEL, mixLine } from "@/components/mafia/mafia-rules";
 import { PhaseCurtain } from "@/components/mafia/phase-curtain";
+import { RematchCountdown } from "@/components/mafia/rematch-countdown";
 import { SeatBoard, type SeatSlip } from "@/components/mafia/seat-board";
 import { YourCard } from "@/components/mafia/your-card";
 import { RoomLobby } from "@/components/room/room-lobby";
@@ -255,6 +256,7 @@ export function MafiaRoomScreen({
   return (
     <div {...theme(palette)} className="flex h-dvh flex-col">
       <TapToast message={toast} />
+      <RematchCountdown key={state.startsAt ?? "idle"} startsAt={state.startsAt} palette={NIGHT} />
       <PhaseCurtain
         beat={beat && curtain === stage ? { ...beat, id: stage } : null}
         palette={palette}
@@ -268,6 +270,7 @@ export function MafiaRoomScreen({
         >
           <h1 className="sr-only">Mafia</h1>
           <PageCorners
+            room={state.players}
             extra={
               <>
                 <SideDrawer
@@ -293,7 +296,7 @@ export function MafiaRoomScreen({
                       >
                         Wake the town
                       </Button>
-                      <p className="text-[0.7rem] opacity-70">
+                      <p className="text-sm opacity-70">
                         Someone&apos;s phone fell asleep in their pocket? Morning comes without them. Picks
                         not made count for nothing.
                       </p>
@@ -308,7 +311,7 @@ export function MafiaRoomScreen({
                       >
                         Close the polls
                       </Button>
-                      <p className="text-[0.7rem] opacity-70">Anyone still dithering forfeits their ballot.</p>
+                      <p className="text-sm opacity-70">Anyone still dithering forfeits their ballot.</p>
                     </div>
                   ) : null}
                   {isHost && live ? (
@@ -316,12 +319,12 @@ export function MafiaRoomScreen({
                       <Button variant="secondary" size="sm" onClick={() => hostDo(room.abort, "Game called off")}>
                         Call it off
                       </Button>
-                      <p className="text-[0.7rem] opacity-70">Ends this game. Nobody scores, nobody saw anything.</p>
+                      <p className="text-sm opacity-70">Ends this game. Nobody scores, nobody saw anything.</p>
                     </div>
                   ) : null}
                   {isHost && state.players.length > 1 ? (
                     <div className="space-y-2">
-                      <p className="mb-caps text-[0.6rem] opacity-60">Show someone the door</p>
+                      <p className="mb-caps text-sm opacity-60">Show someone the door</p>
                       <div className="flex flex-wrap gap-2">
                         {state.players
                           .filter((p) => p.id !== state.you)
@@ -336,7 +339,7 @@ export function MafiaRoomScreen({
                             </Button>
                           ))}
                       </div>
-                      <p className="text-[0.7rem] opacity-70">
+                      <p className="text-sm opacity-70">
                         For someone who has actually gone home. Mid-game they&apos;re out, and everyone sees
                         what they were.
                       </p>
@@ -356,6 +359,7 @@ export function MafiaRoomScreen({
               nameOf={nameOf}
               palette={palette}
               night={phase === "night"}
+              fate={round?.roster.find((p) => p.id === state.you)?.fate ?? null}
               className="absolute right-0 bottom-6 z-20"
             />
           ) : null}
@@ -368,7 +372,7 @@ export function MafiaRoomScreen({
                 minPlayers={state.minPlayers}
                 maxPlayers={state.maxPlayers}
               >
-                {short ? null : <p className="mb-caps text-[0.6rem]">{mixLine(state.players.length)}</p>}
+                {short ? null : <p className="mb-caps text-sm">{mixLine(state.players.length)}</p>}
               </RoomLobby>
             ) : (
               <div className="mx-auto my-auto w-full max-w-md space-y-5">

@@ -5,15 +5,15 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Eye } from "lucide-react";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
-import { ROLE_LABEL } from "@/components/mafia/mafia-rules";
+import { FATE_LABEL, ROLE_LABEL } from "@/components/mafia/mafia-rules";
 import { RoleEmblem } from "@/components/mafia/role-emblem";
 import { StitchBorder } from "@/components/stitch/stitch-border";
-import { HOW_TO_PICK, ROLE_BRIEF } from "@/content/mafia-copy";
+import { HOW_TO_PICK, ROLE_BRIEF, ROLE_PAST } from "@/content/mafia-copy";
 import { ROLE_ART } from "@/content/role-art";
 import { useImageReady } from "@/lib/hooks/use-image-ready";
 import { theme, type Palette } from "@/lib/palettes";
 import { cn } from "@/lib/utils";
-import type { MafiaYourRound } from "@shared/protocol";
+import type { MafiaFate, MafiaYourRound } from "@shared/protocol";
 
 type Props = { your: MafiaYourRound; nameOf: (id: string) => string; palette: Palette };
 
@@ -51,7 +51,7 @@ function CardArt({ your, palette }: Omit<Props, "nameOf">) {
   return (
     <div className="relative h-[36%] shrink-0 overflow-hidden border-b-[length:var(--rule-thin)] border-[color:var(--cw-secondary)]">
       {ready ? (
-        <DitheredPhoto image={art} palette={palette} className="absolute inset-0" />
+        <DitheredPhoto image={art} palette={palette} originY={0.15} className="absolute inset-0" />
       ) : (
         <>
           <PaletteGrain palette={palette} tone="field" className="absolute inset-0" />
@@ -69,8 +69,9 @@ export function YourCard({
   nameOf,
   palette,
   night,
+  fate,
   className,
-}: Props & { night: boolean; className?: string }) {
+}: Props & { night: boolean; fate: MafiaFate | null; className?: string }) {
   const [held, setHeld] = useState(false);
   const still = useReducedMotion();
   const release = () => setHeld(false);
@@ -95,7 +96,7 @@ export function YourCard({
       >
         <span aria-hidden className="absolute inset-1.5 border border-dashed border-current opacity-70" />
         <Eye className="size-5" strokeWidth={2.5} aria-hidden />
-        <span className="mb-caps rotate-180 text-[0.6rem] [writing-mode:vertical-rl]">
+        <span className="mb-caps rotate-180 text-sm [writing-mode:vertical-rl]">
           {held ? "Let go" : "Your card"}
         </span>
       </button>
@@ -123,14 +124,18 @@ export function YourCard({
                 className="mb-label-field relative m-0 flex h-full flex-col overflow-hidden"
               >
                 <CardArt your={your} palette={palette} />
-                <div className="relative flex min-h-0 flex-1 flex-col gap-1.5 px-6 pt-5 pb-9 text-[0.8rem] leading-snug">
+                {fate ? (
+                  <p className="mb-display absolute inset-x-[-12%] top-[22%] z-20 -rotate-[8deg] border-y-[length:var(--rule)] border-[color:var(--on-loud)] bg-[var(--loud)] py-1 text-center text-6xl leading-none text-[var(--on-loud)] shadow-[0_6px_0_var(--shadow-ink)]">
+                    {FATE_LABEL[fate]}
+                  </p>
+                ) : null}
+                <div className="relative flex min-h-0 flex-1 flex-col gap-1.5 px-6 pt-5 pb-9 text-sm leading-snug">
                   <StitchBorder className="inset-1.5" />
-                  <p className="mb-caps text-[0.55rem] opacity-70">{your.alive ? "Your card" : "Your old card"}</p>
-                  <p className="mb-display mb-shadow -mt-1 text-4xl leading-none">{label}</p>
-                  <p>{your.alive ? ROLE_BRIEF[your.role] : "You're a ghost now. Ghosts watch. Ghosts don't talk."}</p>
+                  <p className="mb-display mb-shadow mt-4 text-4xl leading-none">{label}</p>
+                  <p>{your.alive ? ROLE_BRIEF[your.role] : ROLE_PAST[your.role]}</p>
                   <Secrets your={your} nameOf={nameOf} />
                   {night && your.alive ? (
-                    <p className="mb-caps mt-auto text-[0.6rem] text-[var(--loud)]">{HOW_TO_PICK}</p>
+                    <p className="mb-caps mt-auto text-sm text-[var(--loud)]">{HOW_TO_PICK}</p>
                   ) : null}
                 </div>
               </div>

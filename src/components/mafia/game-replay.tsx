@@ -17,7 +17,7 @@ export function GameReplay({
         <li key={i} className="space-y-0.5">
           {r.kind === "night" ? (
             <>
-              <p className="mb-caps text-[0.6rem] opacity-70">Night {r.night}</p>
+              <p className="mb-caps text-sm opacity-70">Night {r.night}</p>
               <p className="font-bold">
                 {tried("The Mafia", "went after", r.kill)} {tried("The Doctor", "patched up", r.save)}
               </p>
@@ -31,7 +31,7 @@ export function GameReplay({
             </>
           ) : r.kind === "vote" ? (
             <>
-              <p className="mb-caps text-[0.6rem] opacity-70">Day {r.day} trial</p>
+              <p className="mb-caps text-sm opacity-70">Day {r.day} trial</p>
               <p className="font-bold">{r.out ? `${nameOf(r.out)} got the boot.` : "The town bottled it. Nobody went."}</p>
               {r.ballots.length ? (
                 <p className="opacity-80">

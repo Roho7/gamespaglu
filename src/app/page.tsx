@@ -52,6 +52,7 @@ export default function Home() {
         />
 
         <HomeGameCard
+          more
           href="/mafia/new"
           help="/how-to-play/mafia"
           palette="cherry"
@@ -61,12 +62,25 @@ export default function Home() {
           rows={[{ text: "Mafia", kind: "title" }]}
         />
 
+        <HomeGameCard
+          href="/tiktiki/new"
+          help="/how-to-play/tiktiki"
+          palette="neon"
+          title="Play Tiktiki"
+          tagline="Everyone knows where we are. Except the lizard."
+          image="/places/tiktiki.jpg"
+          rows={[
+            { text: "Tiktiki", kind: "title" },
+            { text: "(Spyfall)", kind: "subtitle" },
+          ]}
+        />
+
         {/* <section
           {...theme("pulp")}
           className="mb-label mb-label-bleed h-full snap-start"
         >
           <div className="mb-label-field mb-tilt relative flex min-h-0 flex-1 flex-col items-center justify-center gap-5 px-6 text-center">
-            <p className="mb-caps text-[0.6rem] opacity-75">
+            <p className="mb-caps text-sm opacity-75">
               From the same paglus
             </p>
             <h2 className="mb-display text-5xl">Office Paglu</h2>
