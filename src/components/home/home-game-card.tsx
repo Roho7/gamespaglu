@@ -10,7 +10,7 @@ export type PosterRow = { text: string; kind: "title" | "subtitle" };
 
 const ROW_SIZE: Record<PosterRow["kind"], string> = {
   title: "text-[min(40vw,15rem)] lg:text-[min(45vw,25rem)]",
-  subtitle: "text-[min(15vw,7rem)] lg:self-end! absolute top-2",
+  subtitle: "text-[min(15vw,7rem)] lg:self-end! lg:absolute lg:top-2",
 };
 
 
