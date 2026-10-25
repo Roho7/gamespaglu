@@ -110,6 +110,14 @@ category palette, with the band below naming the game. Simple, clean, profession
 **A component doesn't exist until it renders on `/style`.** One screenshot of that route verifies
 the system.
 
+### Mafia role cards and faces
+
+- Each role's card photo lives at `public/roles/{mafia,doctor,detective,villager}.jpg`
+  (`src/content/role-art.ts`), dithered into the phase's inks. A missing file falls back to the
+  drawn `RoleEmblem`. Drop PNGs in and run `npm run backgrounds`.
+- Player faces are DiceBear `adventurer-neutral`, generated on the device from the player's name
+  with a transparent background (`PlayerAvatar`), so only the features print over a palette ink.
+
 ### Stickers
 
 - Curated by hand in the vault's `Cards/Gif Collection.md`; `npm run stickers` syncs exactly that
@@ -135,6 +143,22 @@ the system.
   The category `.rail` lives on `/who-am-i`. No carousel library.
 - **Room screens with no signal say so** and withdraw every action. The service worker precaches
   them, so otherwise they render a plausible frozen board.
+
+## Copy
+
+**Whimsical, never literal.** Every word a player reads is part of the game, written by someone
+at the table, not a spec describing the mechanics.
+
+- Talk to the player and tell them what to do, in character. "You are a Villager. Pick who you
+  think is a member of the Mafia", never "No power. Your night pick is a hunch, and it shows in the
+  replay".
+- Errors and empty states too: "They're already out. Pick someone with a pulse", not "Pick someone
+  still in the game".
+- Big moments draw from a pool, not one fixed string. Keep pools in `src/content/` and pick with
+  `whimsy(pool, seed)` (`src/lib/whimsy.ts`), seeded by the room and the moment so every phone at
+  the table reads the same line.
+- Whimsy never costs clarity: the line still has to say exactly what to do or what just happened.
+- They/them for any player, since names don't tell you pronouns.
 
 ## Content and data
 

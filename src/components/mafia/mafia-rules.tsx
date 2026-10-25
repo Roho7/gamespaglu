@@ -16,9 +16,9 @@ export const ROLE_LABEL: Record<MafiaRole, string> = {
 };
 
 export const FATE_LABEL: Record<MafiaFate, string> = {
-  killed: "Killed",
-  voted: "Voted out",
-  left: "Left",
+  killed: "Whacked",
+  voted: "Exiled",
+  left: "Walked out",
 };
 
 /** Mafia's rules in six lines, with the full guide one tap away. */
@@ -26,12 +26,12 @@ export function MafiaRules() {
   return (
     <div className="space-y-3">
       <ol className="space-y-3 text-sm font-medium">
-        <li>1. Everyone gets a secret role. Hold your card to see it.</li>
-        <li>2. At night every phone asks the same thing: choose a player.</li>
-        <li>3. The Mafia kill, the Doctor saves, the Detective checks. Villagers pick a hunch.</li>
-        <li>4. Morning says who died, and what they were.</li>
-        <li>5. Argue out loud, then vote someone out, or no one.</li>
-        <li>6. The town wins when the Mafia are gone. The Mafia win when they match the town.</li>
+        <li>1. Everyone gets a secret role. Peek at your card, then keep a straight face.</li>
+        <li>2. Night falls. Every phone says the same thing, so nobody can tell who is doing what.</li>
+        <li>3. The Mafia whack someone. The Doctor plays hero. The Detective snoops. Villagers point at whoever looks shifty.</li>
+        <li>4. Morning brings the body count, and what they were.</li>
+        <li>5. Argue. Lie. Swear on your mother. Then vote someone out, or chicken out.</li>
+        <li>6. Catch every crook and the town wins. Let them match your numbers and the Mafia own the place.</li>
       </ol>
       <Link href="/how-to-play/mafia" className="block text-sm font-bold underline decoration-2">
         Full rules{" "}
@@ -78,7 +78,7 @@ export function RoleTable() {
           ))}
         </tbody>
       </table>
-      <p className="text-[0.7rem] opacity-80">Everyone else is a Villager.</p>
+      <p className="text-[0.7rem] opacity-80">Everyone else is a Villager. No powers, all opinions.</p>
     </div>
   );
 }

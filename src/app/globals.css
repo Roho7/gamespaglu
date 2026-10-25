@@ -41,7 +41,8 @@
   --color-muted-foreground: var(--ground-muted);
   --color-accent: var(--cw-highlight);
   --color-accent-foreground: var(--cw-shadow);
-  --color-destructive: var(--cw-primary);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--on-destructive);
   --color-border: var(--ground-ink);
   --color-input: var(--ground-ink);
   --color-ring: var(--ground-ink);
@@ -57,6 +58,9 @@
   --band: #17110c;
   --band-ink: #fff8e7;
   --shadow-ink: #17110c;
+  /* Printer's red. Fixed, so a fate stamp reads the same in every palette. */
+  --destructive: #c4121a;
+  --on-destructive: #fff6e4;
 
   --radius: 0;
 

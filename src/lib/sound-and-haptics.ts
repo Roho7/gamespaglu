@@ -85,3 +85,10 @@ export function dayBreaks() {
   setTimeout(() => tone(784, 220, 0.14), 110);
   buzz([20, 30, 20]);
 }
+
+/** The vote is called: two knocks of a gavel. */
+export function gavel() {
+  tone(196, 90, 0.22);
+  setTimeout(() => tone(196, 140, 0.22), 180);
+  buzz([30, 150, 40]);
+}

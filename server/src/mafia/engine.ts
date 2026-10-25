@@ -91,7 +91,7 @@ export function dealMafia(seats: Seat[], rng: Rng): MafiaState {
 
 function requireAlive(state: MafiaState, id: PlayerId) {
   if (!state.players.includes(id)) reject("NOT_PLAYING", "You are not in this game.");
-  if (state.fates[id]) reject("NOT_PLAYING", "You're out.");
+  if (state.fates[id]) reject("NOT_PLAYING", "You're out. Ghosts don't get a say.");
 }
 
 const requirePhase = (state: MafiaState, phase: MafiaPhase, message: string) => {
@@ -131,23 +131,23 @@ function settle(state: MafiaState, next: MafiaPhase): MafiaState {
 function refusePick(state: MafiaState, picker: PlayerId, target: PlayerId) {
   switch (state.roles[picker]) {
     case "mafia":
-      if (state.roles[target] === "mafia") reject("BAD_TARGET", "That's one of yours.");
+      if (state.roles[target] === "mafia") reject("BAD_TARGET", "That's family. Pick someone else.");
       break;
     case "doctor":
-      if (target === state.lastSave) reject("BAD_TARGET", "Not the same person two nights running.");
+      if (target === state.lastSave) reject("BAD_TARGET", "You saved them last night. Spread the love.");
       break;
     case "detective":
     case "villager":
-      if (target === picker) reject("BAD_TARGET", "Pick someone else.");
+      if (target === picker) reject("BAD_TARGET", "Pick someone who isn't you.");
       break;
   }
 }
 
 /** Every living player picks every night, whatever their role, so tapping a phone gives nothing away. */
 export function pickAtNight(state: MafiaState, picker: PlayerId, target: PlayerId): MafiaState {
-  requirePhase(state, "night", "It is not night.");
+  requirePhase(state, "night", "It isn't night yet.");
   requireAlive(state, picker);
-  if (!isAlive(state, target)) reject("BAD_TARGET", "Pick someone still in the game.");
+  if (!isAlive(state, target)) reject("BAD_TARGET", "They're already out. Pick someone with a pulse.");
   refusePick(state, picker, target);
   const next = { ...state, picks: { ...state.picks, [picker]: target } };
   return nightOutstanding(next).length === 0 ? resolveNight(next) : next;
@@ -155,8 +155,8 @@ export function pickAtNight(state: MafiaState, picker: PlayerId, target: PlayerI
 
 /** Host only, for a phone locked in a pocket. Whatever was not picked resolves as nothing. */
 export function endNight(state: MafiaState, isHost: boolean): MafiaState {
-  requirePhase(state, "night", "It is not night.");
-  if (!isHost) reject("NOT_HOST", "Only the host can end the night.");
+  requirePhase(state, "night", "It isn't night yet.");
+  if (!isHost) reject("NOT_HOST", "Only the host can wake the town.");
   return resolveNight(state);
 }
 
@@ -204,27 +204,27 @@ export function resolveNight(state: MafiaState): MafiaState {
 
 /** Any living player, when the table is ready. There is no discussion timer. */
 export function callVote(state: MafiaState, caller: PlayerId): MafiaState {
-  requirePhase(state, "day", "There is nothing to vote on yet.");
+  requirePhase(state, "day", "No trial yet. Talk first.");
   requireAlive(state, caller);
   return { ...state, phase: "vote", votes: {} };
 }
 
 export function castVote(state: MafiaState, voter: PlayerId, target: VoteTarget): MafiaState {
-  requirePhase(state, "vote", "The vote is not open.");
+  requirePhase(state, "vote", "The polls aren't open.");
   requireAlive(state, voter);
-  if (target === voter) reject("SELF_VOTE", "You cannot vote for yourself.");
+  if (target === voter) reject("SELF_VOTE", "Voting for yourself? Bold. Not allowed.");
   if (target !== NO_ONE && !isAlive(state, target)) {
-    reject("BAD_TARGET", "Vote for someone still in the game.");
+    reject("BAD_TARGET", "They're already gone. Pick someone with a pulse.");
   }
-  if (state.votes[voter]) reject("ALREADY_DONE", "You have already voted.");
+  if (state.votes[voter]) reject("ALREADY_DONE", "You already voted. No take-backs.");
   const next = { ...state, votes: { ...state.votes, [voter]: target } };
   return voteOutstanding(next).length === 0 ? resolveVote(next) : next;
 }
 
 /** Host only. Missing ballots simply do not count. */
 export function closeVote(state: MafiaState, isHost: boolean): MafiaState {
-  requirePhase(state, "vote", "The vote is not open.");
-  if (!isHost) reject("NOT_HOST", "Only the host can close the vote.");
+  requirePhase(state, "vote", "The polls aren't open.");
+  if (!isHost) reject("NOT_HOST", "Only the host can close the polls.");
   return resolveVote(state);
 }
 
@@ -253,7 +253,7 @@ export function resolveVote(state: MafiaState): MafiaState {
 
 /** Any living player, once the table has finished reacting to the verdict. */
 export function fallNight(state: MafiaState, caller: PlayerId): MafiaState {
-  requirePhase(state, "verdict", "The vote has not finished.");
+  requirePhase(state, "verdict", "The verdict isn't in yet.");
   requireAlive(state, caller);
   return { ...state, phase: "night", night: state.night + 1, picks: {} };
 }

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ArrowLeft, Settings } from "lucide-react";
 import { PageCorners } from "@/components/layout/page-corners";
 import { PickableGridDemo, VotingBoardDemo } from "@/app/style/girgit-demo";
-import { NightSeatsDemo, YourCardDemo } from "@/app/style/mafia-demo";
+import { CurtainDemo, NightSeatsDemo, YourCardDemo } from "@/app/style/mafia-demo";
 import { ToastDemo } from "@/app/style/toast-demo";
 import { CategoryEmblem } from "@/components/artwork/category-emblem";
 import { Starburst } from "@/components/artwork/starburst";
@@ -52,7 +52,7 @@ const DEMO_SEATS: SeatSlip[] = [
   { id: "you", name: "Roho", you: true, open: true },
   { id: "asha", name: "Asha", open: true },
   { id: "bunty", name: "Bunty", away: true, open: true },
-  { id: "chiku", name: "Chiku", out: true, note: "Killed · Detective" },
+  { id: "chiku", name: "Chiku", out: true, stamp: "Whacked", note: "Detective" },
 ];
 
 const DEMO_NAMES: Record<string, string> = { you: "Roho", asha: "Asha", bunty: "Bunty", chiku: "Chiku" };
@@ -335,16 +335,19 @@ export default function StylePage() {
               <div className="space-y-2 p-1">
                 <p className="mb-caps text-[0.55rem] opacity-70">The verdict, then game over</p>
                 <SeatBoard
+                  palette={paletteById("cherry")}
                   slips={[
                     ...DEMO_SEATS.map((s, i) => ({ ...s, open: false, badge: i === 1 ? "3" : null })),
                     { id: "no-one", name: "No one", abstain: true, badge: "1" },
                   ]}
                 />
                 <SeatBoard
+                  palette={paletteById("cherry")}
                   slips={DEMO_SEATS.map((s, i) => ({
                     ...s,
                     open: false,
-                    note: i === 1 ? "Voted out · Mafia · 0 pts" : "Villager · 1 pt",
+                    note: i === 1 ? "Mafia · 0 pts" : i === 3 ? "Detective · 1 pt" : "Villager · 1 pt",
+                    stamp: i === 1 ? "Exiled" : s.stamp,
                     out: i === 1 || s.out,
                     badge: i === 1 ? null : "+1",
                   }))}
@@ -352,6 +355,14 @@ export default function StylePage() {
               </div>
             </div>
           </div>
+        </Row>
+
+        <Row title="Mafia — the curtain. Fades in, pushes in, fades out, same line on every phone">
+          <CurtainDemo />
+          <p className="text-sm opacity-75">
+            Each beat draws its title and line from a pool by a seed shared across the room, so the
+            table reads the same joke at the same moment and the next game draws a new one.
+          </p>
         </Row>
 
         <Row title="Mafia — your card. One button and one frame for every role">

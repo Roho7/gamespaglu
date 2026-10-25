@@ -3,13 +3,7 @@ import { HomeGameCard } from "@/components/home/home-game-card";
 import { theme } from "@/lib/palettes";
 import { SITE } from "@/lib/site-config";
 
-/**
- * Four full-screen sections that snap vertically: Who Am I?, Girgit,
- * Wavelength, and the Office Paglu banner.
- *
- * The page owns the scroll container rather than the body, so the snap points
- * are reliable and the floating bar never scrolls away.
- */
+
 export default function Home() {
   return (
     <>
@@ -54,7 +48,17 @@ export default function Home() {
           ]}
         />
 
-        <section
+        <HomeGameCard
+          href="/mafia/new"
+          help="/how-to-play/mafia"
+          palette="cherry"
+          title="Play Mafia"
+          tagline="Secret roles. No narrator. Trust nobody."
+          image="/backgrounds/mafia-1.jpg"
+          rows={[{ text: "Mafia", kind: "title" }]}
+        />
+
+        {/* <section
           {...theme("pulp")}
           className="mb-label mb-label-bleed h-full snap-start"
         >
@@ -83,7 +87,7 @@ export default function Home() {
               />
             </a>
           </div>
-        </section>
+        </section> */}
       </main>
     </>
   );

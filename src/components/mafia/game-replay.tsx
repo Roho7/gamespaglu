@@ -9,6 +9,8 @@ export function GameReplay({
   nameOf: (id: string) => string;
 }) {
   const target = (t: VoteTarget | null) => (t === null ? "nobody" : t === NO_ONE ? "No one" : nameOf(t));
+  const tried = (who: string, verb: string, t: string | null) =>
+    t ? `${who} ${verb} ${nameOf(t)}.` : `${who} never made up their mind.`;
   return (
     <ol className="space-y-3 text-sm">
       {records.map((r, i) => (
@@ -17,20 +19,21 @@ export function GameReplay({
             <>
               <p className="mb-caps text-[0.6rem] opacity-70">Night {r.night}</p>
               <p className="font-bold">
-                Mafia went for {target(r.kill)}. Doctor saved {target(r.save)}. Detective checked{" "}
-                {target(r.check)}.
+                {tried("The Mafia", "went after", r.kill)} {tried("The Doctor", "patched up", r.save)}{" "}
+                {tried("The Detective", "snooped on", r.check)}
               </p>
-              <p>{r.died ? `${nameOf(r.died)} died.` : "Nobody died."}</p>
+              <p>{r.died ? `${nameOf(r.died)} got whacked.` : "Everyone made it to morning."}</p>
               {r.suspicions.length ? (
                 <p className="opacity-80">
-                  Hunches: {r.suspicions.map((s) => `${nameOf(s.voterId)} → ${nameOf(s.targetId)}`).join(", ")}
+                  Villager hunches:{" "}
+                  {r.suspicions.map((s) => `${nameOf(s.voterId)} → ${nameOf(s.targetId)}`).join(", ")}
                 </p>
               ) : null}
             </>
           ) : r.kind === "vote" ? (
             <>
-              <p className="mb-caps text-[0.6rem] opacity-70">Day {r.day} vote</p>
-              <p className="font-bold">{r.out ? `${nameOf(r.out)} went out.` : "Nobody went out."}</p>
+              <p className="mb-caps text-[0.6rem] opacity-70">Day {r.day} trial</p>
+              <p className="font-bold">{r.out ? `${nameOf(r.out)} got the boot.` : "The town bottled it. Nobody went."}</p>
               {r.ballots.length ? (
                 <p className="opacity-80">
                   {r.ballots.map((b) => `${nameOf(b.voterId)} → ${target(b.targetId)}`).join(", ")}
@@ -38,7 +41,7 @@ export function GameReplay({
               ) : null}
             </>
           ) : (
-            <p className="font-bold">{nameOf(r.playerId)} left.</p>
+            <p className="font-bold">{nameOf(r.playerId)} walked out mid-game.</p>
           )}
         </li>
       ))}
