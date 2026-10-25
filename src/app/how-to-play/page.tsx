@@ -5,13 +5,15 @@ import { CrossPromo } from "@/components/layout/cross-promo";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { theme } from "@/lib/palettes";
 import { GUIDES } from "@/content/guides";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "How to play",
+export const metadata: Metadata = pageMetadata({
+  title: "How to play — rules for Mafia, Chameleon, Wavelength and more",
   description:
-    "Rules and how-tos for every game on Games Paglu — Who Am I? (also called Heads Up or Celebrity Head), Girgit, Wavelength and the universal Scoreboard.",
-  alternates: { canonical: "/how-to-play" },
-};
+    "Rules, tactics and house variations for every game on Games Paglu: Mafia (Werewolf), Girgit (The Chameleon), Tiktiki (Spyfall), Wavelength, Who Am I? (Heads Up) and the Scoreboard.",
+  path: "/how-to-play",
+  shareTitle: "How to play every game on Games Paglu",
+});
 
 export default function HowToPlayIndex() {
   return (

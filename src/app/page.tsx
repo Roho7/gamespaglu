@@ -1,10 +1,31 @@
+import type { Metadata } from "next";
 import { HomeGameCard } from "@/components/home/home-game-card";
 import { HomeRail } from "@/components/home/home-rail";
+import { pageMetadata } from "@/lib/seo";
+import { SITE } from "@/lib/site-config";
 
+export const metadata: Metadata = {
+  ...pageMetadata({ title: SITE.title, description: SITE.description, path: "/" }),
+  title: { absolute: SITE.title },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE.name,
+  url: SITE.url,
+  description: SITE.description,
+  inLanguage: "en",
+};
 
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <h1 className="sr-only">{SITE.name}: party games for a room full of people</h1>
       <HomeRail>
         <HomeGameCard
           more

@@ -9,6 +9,7 @@ import { CrossPromo } from "@/components/layout/cross-promo";
 import { CATEGORIES } from "@/lib/deck/categories";
 import { GUIDES, getGuide } from "@/content/guides";
 import { SITE } from "@/lib/site-config";
+import { pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return GUIDES.map((g) => ({ slug: g.slug }));
@@ -22,12 +23,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const guide = getGuide(slug);
   if (!guide) return {};
-  return {
-    title: guide.title,
+  const alias = guide.alsoCalled?.[0];
+  return pageMetadata({
+    title: alias ? `${guide.title} (${alias}): rules and tips` : guide.title,
     description: guide.summary,
-    alternates: { canonical: `/how-to-play/${guide.slug}` },
-    openGraph: { title: guide.title, description: guide.summary },
-  };
+    path: `/how-to-play/${guide.slug}`,
+    shareTitle: guide.title,
+  });
 }
 
 export default async function GuidePage({

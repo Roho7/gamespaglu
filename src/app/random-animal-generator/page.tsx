@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { GeneratorScreen } from "@/components/generator/generator-screen";
 import { CATEGORIES } from "@/lib/deck/categories";
+import { pageMetadata } from "@/lib/seo";
 
 const meta = CATEGORIES["animal"];
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: meta.seoTitle,
   description: meta.seoDescription,
-  alternates: { canonical: `/${meta.seoSlug}` },
-  openGraph: { title: meta.seoTitle, description: meta.seoDescription },
-};
+  path: `/${meta.seoSlug}`,
+});
 
 export default function Page() {
   return (

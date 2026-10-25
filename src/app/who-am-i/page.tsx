@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { CategoryHeroRail } from "@/components/home/category-hero-rail";
 import { PageCorners } from "@/components/layout/page-corners";
-import { SITE } from "@/lib/site-config";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Who Am I? — pick what to guess",
+export const metadata: Metadata = pageMetadata({
+  title: "Who Am I? — the Heads Up game on your phone",
   description:
-    "The phone-on-forehead guessing game. Pick celebrities, movies, places, animals, objects or numbers, then hold the phone up and let the room describe it.",
-  alternates: { canonical: `${SITE.url}/who-am-i` },
-};
+    "Phone on your forehead, a name on the screen, and the room answers yes or no. Pick celebrities, movies, places, animals, objects or numbers. Free, offline, no signup.",
+  path: "/who-am-i",
+});
 
 export default function WhoAmIPage() {
   return (

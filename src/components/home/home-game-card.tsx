@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
 import { HelpLink } from "@/components/layout/page-corners";
+import { SiteLogo } from "@/components/layout/site-logo";
 import { PixelChevron } from "@/components/stitch/pixel-chevron";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { homeSlideForHref } from "@/lib/home-slide";
@@ -66,6 +67,7 @@ export function HomeGameCard({
             ) : null,
           )}
         </div>
+        <SiteLogo className="absolute top-3 left-3" />
         <HelpLink href={help} className="absolute top-3 right-3" />
         {more ? (
           <PixelChevron

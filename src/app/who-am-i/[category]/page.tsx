@@ -6,6 +6,7 @@ import {
   CATEGORY_ORDER,
   isCategoryId,
 } from "@/lib/deck/categories";
+import { pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return CATEGORY_ORDER.map((category) => ({ category }));
@@ -19,11 +20,11 @@ export async function generateMetadata({
   const { category } = await params;
   if (!isCategoryId(category)) return {};
   const meta = CATEGORIES[category];
-  return {
-    title: `Who Am I? — ${meta.label}`,
-    description: `Play Who Am I? with a random ${meta.noun}. ${meta.blurb}`,
-    alternates: { canonical: `/who-am-i/${category}` },
-  };
+  return pageMetadata({
+    title: `Who Am I? — guess the ${meta.noun}`,
+    description: `Phone on your forehead, a random ${meta.noun} on the screen, and the room answers yes or no until you get it. ${meta.blurb}`,
+    path: `/who-am-i/${category}`,
+  });
 }
 
 export default async function CategoryPage({

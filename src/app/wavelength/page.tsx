@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
 import { WavelengthScreen } from "@/components/wavelength/wavelength-screen";
-import { SITE } from "@/lib/site-config";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Wavelength — the dial guessing game on one phone",
   description:
-    "One clue, one hidden target, one dial. Read your friends' minds on a spectrum between two ends. One Psychic, One Guesser or Teams, one phone, works offline.",
-  alternates: { canonical: `${SITE.url}/wavelength` },
-  openGraph: {
-    title: "Wavelength — on one phone",
-    description:
-      "One clue, one hidden target, one dial. Two or more players around one phone.",
-    url: `${SITE.url}/wavelength`,
-  },
-};
+    "One clue, one hidden target, one dial. Read your friends' minds on a spectrum as One Psychic, One Guesser or two Teams. Two to twelve players, one phone, works with no signal.",
+  path: "/wavelength",
+  shareTitle: "Wavelength, on one phone",
+});
 
 export default function WavelengthPage() {
   return <WavelengthScreen />;

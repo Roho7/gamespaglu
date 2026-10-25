@@ -31,23 +31,27 @@ const body = Montserrat({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Games Paglu — party games your phone helps you play",
-    template: "%s · Games Paglu",
+    default: SITE.title,
+    template: `%s · ${SITE.name}`,
   },
-  description:
-    "Random generators and a scoreboard for games played in person. Play Who Am I? with celebrities, movies, places, animals, objects or numbers. Works offline, no signup.",
+  description: SITE.description,
   applicationName: SITE.name,
+  category: "games",
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, title: SITE.name, statusBarStyle: "default" },
+  formatDetection: { telephone: false, address: false, email: false },
+  appleWebApp: { capable: true, title: SITE.name, statusBarStyle: "black" },
   openGraph: {
     type: "website",
     siteName: SITE.name,
-    url: SITE.url,
-    title: "Games Paglu — party games your phone helps you play",
-    description:
-      "Who Am I?, six random generators and a universal scoreboard. For games played in a room with people.",
+    locale: SITE.locale,
+    title: SITE.title,
+    description: SITE.description,
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE.title,
+    description: SITE.description,
+  },
 };
 
 export const viewport: Viewport = {
