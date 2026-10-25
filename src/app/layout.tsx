@@ -4,6 +4,7 @@ import { SITE } from "@/lib/site-config";
 import { ServiceWorkerRegistration } from "@/components/layout/service-worker-registration";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { Toaster } from "@/components/ui/sonner";
+import { HomeSlideMemory } from "@/components/home/home-rail";
 import { PageTransition } from "@/components/layout/page-transition";
 import { ditherTransitionCss } from "@/lib/dither-transition";
 import { GROUND, paletteCss, theme } from "@/lib/palettes";
@@ -78,6 +79,7 @@ export default function RootLayout({
           tone="ink"
           className="fixed inset-0 -z-10"
         />
+        <HomeSlideMemory />
         <PageTransition>{children}</PageTransition>
         <Toaster />
         <ServiceWorkerRegistration />

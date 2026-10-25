@@ -354,7 +354,7 @@ export function TiktikiRoomScreen({
   }
 
   return (
-    <div {...theme(palette)} className="flex h-dvh flex-col">
+    <div {...theme(palette)} className="mb-stage flex h-dvh flex-col">
       <TapToast message={toast} />
       <RematchCountdown key={state.startsAt ?? "idle"} startsAt={state.startsAt} palette={NEON} />
       <PhaseCurtain beat={beat && curtain === stage ? { ...beat, id: stage } : null} palette={palette} onDone={lift} />

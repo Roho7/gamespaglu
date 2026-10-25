@@ -239,7 +239,7 @@ export function WavelengthScreen() {
       : null;
 
   return (
-    <div {...theme(palette)} className="flex h-dvh flex-col">
+    <div {...theme(palette)} className="mb-stage flex h-dvh flex-col">
       <div className="mb-label mb-label-bleed flex-1">
         <PaletteGrain
           palette={palette}

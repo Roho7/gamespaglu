@@ -14,7 +14,7 @@ export function TiktikiScreens({ room }: { room: RoomHandle<"tiktiki"> }) {
     return (
       <HostOrJoinScreen
         title="Tiktiki"
-        palette="neon"
+        palette="arcade"
         rules={<TiktikiRules />}
         aside={{ title: "Scoring", body: <ScoreTable /> }}
         onCreate={(name) => void room.create(name)}

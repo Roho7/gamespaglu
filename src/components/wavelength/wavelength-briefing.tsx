@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { BackLink } from "@/components/layout/page-corners";
-import { StitchedPanel } from "@/components/stitch/stitched-panel";
+import { BriefingPanes } from "@/components/stitch/briefing-panes";
 import { Chip } from "@/components/ui/controls";
 import { WAVELENGTH_MODES } from "@/content/guides";
 import { MODES, ROUND_OPTIONS, type Mode } from "@/lib/wavelength/engine";
 import { cn } from "@/lib/utils";
 
-const LINK = "mb-caps text-sm underline decoration-2 underline-offset-4";
+const LINK = "mb-caps underline decoration-2 underline-offset-4";
 
 function times(n: number) {
   if (n === 1) return "once";
@@ -62,10 +62,10 @@ function ModeTabs({ mode, onMode }: { mode: Mode; onMode: (m: Mode) => void }) {
                 }
               />
             ) : null}
-            <span className="mb-display-sm relative text-lg leading-none">
+            <span className="mb-display-sm relative text-[1.05em] leading-none">
               {WAVELENGTH_MODES[m].name}
             </span>
-            <span className="mb-caps relative text-[0.55rem] opacity-80">
+            <span className="mb-caps relative text-[0.48em] opacity-80">
               {WAVELENGTH_MODES[m].players}
             </span>
           </button>
@@ -75,7 +75,7 @@ function ModeTabs({ mode, onMode }: { mode: Mode; onMode: (m: Mode) => void }) {
   );
 }
 
-/** The opening screen: the rules for each mode in tabs, then the round count. */
+/** The opening screen: mode rules on one tab, the round count on the other. */
 export function WavelengthBriefing({
   mode,
   rounds,
@@ -90,48 +90,62 @@ export function WavelengthBriefing({
   const rules = WAVELENGTH_MODES[mode];
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-2 p-1">
-      <BackLink className="ml-1" />
-      <StitchedPanel title="How to play" className="flex-1 basis-0">
-        <ModeTabs mode={mode} onMode={onMode} />
-        <motion.ol
-          key={mode}
-          id="mode-rules"
-          role="tabpanel"
-          aria-labelledby={`mode-tab-${mode}`}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-          className="mt-4 space-y-2 text-base leading-snug font-medium"
-        >
-          {rules.steps.map((step, i) => (
-            <li key={step} className="flex gap-2">
-              <span className="mb-display-sm text-accent w-4 shrink-0 text-lg leading-snug">
-                {i + 1}
-              </span>
-              <span>{step}</span>
-            </li>
-          ))}
-        </motion.ol>
-        <nav className="mt-4">
-          <Link href="/how-to-play/wavelength" className={LINK}>
-            Full rules
-          </Link>
-        </nav>
-      </StitchedPanel>
-      <StitchedPanel title="Rounds" className="shrink-0">
-        <div className="space-y-3">
-          <div className="flex flex-wrap gap-2">
-            {ROUND_OPTIONS.map((r) => (
-              <Chip key={r} active={r === rounds} onClick={() => onRounds(r)}>
-                {r}
-              </Chip>
-            ))}
-          </div>
-          <p className="text-sm font-medium opacity-80">
-            {roundsLine(mode, rounds)} Next, add the players to the scoreboard.
-          </p>
-        </div>
-      </StitchedPanel>
+      <BackLink className="-ml-[var(--rule-thin)]" />
+      <BriefingPanes
+        panes={[
+          {
+            id: "rules",
+            title: "How to play",
+            body: (
+              <>
+                <ModeTabs mode={mode} onMode={onMode} />
+                <motion.ol
+                  key={mode}
+                  id="mode-rules"
+                  role="tabpanel"
+                  aria-labelledby={`mode-tab-${mode}`}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="mt-[1em] flex flex-col gap-[0.65em] font-medium"
+                >
+                  {rules.steps.map((step, i) => (
+                    <li key={step} className="flex gap-2">
+                      <span className="mb-display-sm text-accent w-[1.1em] shrink-0 text-[1.15em] leading-none">
+                        {i + 1}
+                      </span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </motion.ol>
+                <nav className="mt-4">
+                  <Link href="/how-to-play/wavelength" className={LINK}>
+                    Full rules
+                  </Link>
+                </nav>
+              </>
+            ),
+          },
+          {
+            id: "rounds",
+            title: "Rounds",
+            body: (
+              <div className="space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  {ROUND_OPTIONS.map((r) => (
+                    <Chip key={r} active={r === rounds} onClick={() => onRounds(r)}>
+                      {r}
+                    </Chip>
+                  ))}
+                </div>
+                <p className="font-medium opacity-80">
+                  {roundsLine(mode, rounds)} Next, add the players to the scoreboard.
+                </p>
+              </div>
+            ),
+          },
+        ]}
+      />
     </div>
   );
 }

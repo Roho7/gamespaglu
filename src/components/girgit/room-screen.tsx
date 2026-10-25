@@ -154,7 +154,7 @@ export function RoomScreen({
   });
 
   return (
-    <div {...theme(palette)} className="flex h-dvh flex-col">
+    <div {...theme(palette)} className="mb-stage flex h-dvh flex-col">
       <TapToast message={toast} />
 
       <div className="mb-label mb-label-bleed min-h-0 flex-1">

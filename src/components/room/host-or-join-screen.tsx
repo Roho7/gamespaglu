@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { BackLink } from "@/components/layout/page-corners";
 import { StitchBorder } from "@/components/stitch/stitch-border";
-import { StitchedPanel } from "@/components/stitch/stitched-panel";
+import { BriefingPanes } from "@/components/stitch/briefing-panes";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -31,7 +31,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 /**
- * A room game's front door: a briefing in stitched panels, then Host or Join in the band. Each opens
+ * A room game's front door: a briefing in tabs, then Host or Join in the band. Each opens
  * a dialog asking only for what that door needs, and the room screen takes over once the server
  * seats you. Under a disabled button, a line names what is missing.
  */
@@ -85,7 +85,7 @@ export function HostOrJoinScreen({
   };
 
   return (
-    <main {...theme(palette)} className="flex h-dvh flex-col">
+    <main {...theme(palette)} className="mb-stage flex h-dvh flex-col">
       <div className="mb-label mb-label-bleed flex-1">
         <PaletteGrain palette={palette} tone="ink" className="absolute inset-0" />
         <div
@@ -94,7 +94,7 @@ export function HostOrJoinScreen({
         >
           <h1 className="sr-only">{title}</h1>
           <div className="flex min-h-0 flex-1 flex-col gap-2 p-1">
-            <BackLink className="ml-1" />
+            <BackLink className="-ml-[var(--rule-thin)]" />
             {online ? null : (
               <p className="relative bg-[var(--cw-primary)] px-4 py-3 text-sm font-semibold">
                 <StitchBorder variant="field" className="inset-0" />
@@ -102,12 +102,12 @@ export function HostOrJoinScreen({
                 still work offline.
               </p>
             )}
-            <StitchedPanel title="How to play" className="flex-[3] basis-0">
-              {rules}
-            </StitchedPanel>
-            <StitchedPanel title={aside.title} className="flex-[2] basis-0">
-              {aside.body}
-            </StitchedPanel>
+            <BriefingPanes
+              panes={[
+                { id: "rules", title: "How to play", body: rules },
+                { id: "aside", title: aside.title, body: aside.body },
+              ]}
+            />
           </div>
         </div>
         <div className="relative flex">

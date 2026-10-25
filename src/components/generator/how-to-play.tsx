@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CATEGORIES } from "@/lib/deck/categories";
 import type { CategoryId } from "@/lib/deck/types";
 
-const LINK = "mb-caps text-[0.65rem] underline decoration-2 underline-offset-4";
+const LINK = "mb-caps underline decoration-2 underline-offset-4";
 
 export function HowToPlay({
   category,
@@ -18,7 +18,7 @@ export function HowToPlay({
   return (
     <div className="space-y-4">
       {isGame ? (
-        <ol className="space-y-2 text-base font-medium leading-snug">
+        <ol className="flex flex-col gap-[0.65em] font-medium">
           <li>1. Everyone opens this screen on their own phone.</li>
           <li>
             2. Hit Generate. You get three seconds to turn the phone sideways

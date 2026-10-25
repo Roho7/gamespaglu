@@ -254,7 +254,7 @@ export function MafiaRoomScreen({
   }
 
   return (
-    <div {...theme(palette)} className="flex h-dvh flex-col">
+    <div {...theme(palette)} className="mb-stage flex h-dvh flex-col">
       <TapToast message={toast} />
       <RematchCountdown key={state.startsAt ?? "idle"} startsAt={state.startsAt} palette={NIGHT} />
       <PhaseCurtain

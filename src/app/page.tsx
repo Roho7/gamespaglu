@@ -1,13 +1,11 @@
-import { ArrowRight } from "lucide-react";
 import { HomeGameCard } from "@/components/home/home-game-card";
-import { theme } from "@/lib/palettes";
-import { SITE } from "@/lib/site-config";
+import { HomeRail } from "@/components/home/home-rail";
 
 
 export default function Home() {
   return (
     <>
-      <main className="h-dvh snap-y snap-mandatory overflow-x-hidden overflow-y-auto">
+      <HomeRail>
         <HomeGameCard
           more
           href="/wavelength"
@@ -35,6 +33,7 @@ export default function Home() {
             { text: "Am I?", kind: "title" },
             { text: "(Heads up)", kind: "subtitle" },
           ]}
+          originY={0.2}
         />
 
         <HomeGameCard
@@ -49,6 +48,7 @@ export default function Home() {
             { text: "Girgit", kind: "title" },
             { text: "(Chameleon)", kind: "subtitle" },
           ]}
+          originY={0.4}
         />
 
         <HomeGameCard
@@ -65,47 +65,16 @@ export default function Home() {
         <HomeGameCard
           href="/tiktiki/new"
           help="/how-to-play/tiktiki"
-          palette="neon"
+          palette="arcade"
           title="Play Tiktiki"
-          tagline="Everyone knows where we are. Except the lizard."
-          image="/places/tiktiki.jpg"
+          tagline="Find the spy who doesn't know the word"
+          image="/backgrounds/tiktiki.jpg"
           rows={[
             { text: "Tiktiki", kind: "title" },
             { text: "(Spyfall)", kind: "subtitle" },
           ]}
         />
-
-        {/* <section
-          {...theme("pulp")}
-          className="mb-label mb-label-bleed h-full snap-start"
-        >
-          <div className="mb-label-field mb-tilt relative flex min-h-0 flex-1 flex-col items-center justify-center gap-5 px-6 text-center">
-            <p className="mb-caps text-sm opacity-75">
-              From the same paglus
-            </p>
-            <h2 className="mb-display text-5xl">Office Paglu</h2>
-            <p className="max-w-xs text-sm font-semibold">
-              {SITE.sibling.pitch} Wear the joke to the party you just won.
-            </p>
-          </div>
-          <div className="mb-band px-4 pt-3 pb-9">
-            <a
-              href={SITE.sibling.url}
-              target="_blank"
-              rel="noreferrer"
-              data-analytics="cross-promo-officepaglu"
-              className="mb-btn mb-btn-primary w-full max-w-sm text-xl"
-            >
-              Shop the tees{" "}
-              <ArrowRight
-                className="size-[1em] shrink-0"
-                strokeWidth={3}
-                aria-hidden
-              />
-            </a>
-          </div>
-        </section> */}
-      </main>
+      </HomeRail>
     </>
   );
 }

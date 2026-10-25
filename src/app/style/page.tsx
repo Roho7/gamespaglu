@@ -22,6 +22,7 @@ import { RotatePhoneHint } from "@/components/generator/rotate-phone-hint";
 import { VineMarquee } from "@/components/stitch/vine-marquee";
 import { Button } from "@/components/ui/button";
 import { PixelChevron } from "@/components/stitch/pixel-chevron";
+import { BriefingPanes } from "@/components/stitch/briefing-panes";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { Input } from "@/components/ui/input";
 import { paletteById, PALETTES, theme } from "@/lib/palettes";
@@ -207,6 +208,28 @@ export default function StylePage() {
             <PixelChevron direction="down" />
             <PixelChevron direction="left" />
             <PixelChevron direction="right" />
+          </div>
+        </Row>
+
+        <Row title="Briefing tabs — one pane at a time">
+          <div
+            {...theme("arcade", { flipped: true })}
+            className="flex h-72 flex-col bg-[var(--cw-base)] p-2"
+          >
+            <BriefingPanes
+              panes={[
+                {
+                  id: "rules",
+                  title: "How to play",
+                  body: <p>Peek at the place. Ask around. Then point at the lizard.</p>,
+                },
+                {
+                  id: "score",
+                  title: "Scoring",
+                  body: <p>Catch the lizard and the table scores. Anything else, the lizard does.</p>,
+                },
+              ]}
+            />
           </div>
         </Row>
 

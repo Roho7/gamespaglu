@@ -21,7 +21,7 @@ export function Chip({
       aria-pressed={active}
       {...props}
       className={cn(
-        "mb-display-sm inline-flex items-center gap-1.5 border-[length:var(--rule-thin)] border-[var(--cw-shadow)] px-3 pt-1.5 pb-1 text-xl transition-transform active:translate-y-[1px]",
+        "mb-display-sm inline-flex items-center gap-[0.4em] border-[length:var(--rule-thin)] border-[var(--cw-shadow)] px-[0.75em] pt-[0.3em] pb-[0.2em] text-[1.25em] transition-transform active:translate-y-[1px]",
         active
           ? "bg-[var(--cw-shadow)] text-[var(--cw-base)]"
           : "bg-transparent text-[var(--cw-shadow)]",

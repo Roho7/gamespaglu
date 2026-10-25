@@ -25,7 +25,7 @@ function Setting({
 }) {
   return (
     <div className="space-y-2">
-      <p className="mb-caps text-[0.65rem]">{label}</p>
+      <p className="mb-caps text-[0.72em]">{label}</p>
       {children}
     </div>
   );
@@ -99,7 +99,7 @@ export function DeckSettings({
       ) : null}
 
       {!meta.hasRegionFilter && !meta.hasRangeFilter ? (
-        <p className="text-sm font-medium">
+        <p className="font-medium">
           One curated {meta.noun} deck. Nothing repeats until it runs out.
         </p>
       ) : null}

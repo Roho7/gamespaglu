@@ -31,7 +31,6 @@ export function SquareLink({
   );
 }
 
-/** The square back arrow: steps back through history, to wherever the player came from. */
 export function BackLink({ className }: { className?: string }) {
   const router = useRouter();
   return (
@@ -46,7 +45,6 @@ export function BackLink({ className }: { className?: string }) {
   );
 }
 
-/** The "?" that opens a game's guide. */
 export function HelpLink({
   href,
   className,
@@ -65,12 +63,7 @@ export function HelpLink({
   );
 }
 
-/**
- * The corners of an inner page: back on the left, and on the right whatever
- * the page adds plus the scoreboard, which stays one tap away mid-game. A room passes its players,
- * so the scoreboard shows the room's totals rather than this phone's.
- * Pinned to the viewport, so it never scrolls away.
- */
+
 export function PageCorners({
   extra,
   scoreboard = true,

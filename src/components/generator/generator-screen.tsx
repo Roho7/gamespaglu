@@ -7,7 +7,7 @@ import { HowToPlay } from "@/components/generator/how-to-play";
 import { RotatePhoneHint } from "@/components/generator/rotate-phone-hint";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
 import { StitchBorder } from "@/components/stitch/stitch-border";
-import { StitchedPanel } from "@/components/stitch/stitched-panel";
+import { BriefingPanes } from "@/components/stitch/briefing-panes";
 import { BackLink } from "@/components/layout/page-corners";
 import { CATEGORIES } from "@/lib/deck/categories";
 import { paletteById, theme } from "@/lib/palettes";
@@ -16,8 +16,8 @@ import { useWakeLock } from "@/lib/hooks/use-wake-lock";
 import type { CategoryId } from "@/lib/deck/types";
 
 /**
- * The play screen. Before a round it is the briefing: how to play above,
- * settings below, each in its own stitched panel. During a round it is one
+ * The play screen. Before a round it is the briefing: how to play and
+ * settings, one tab at a time. During a round it is one
  * word on a field of colour, with the photo dithered in behind it at the
  * reveal. Every draw reprints the screen in a fresh palette.
  *
@@ -58,7 +58,7 @@ export function GeneratorScreen({
   const palette = g.palette ?? paletteById(meta.palette);
 
   return (
-    <div {...theme(palette)} className="flex h-dvh flex-col">
+    <div {...theme(palette)} className="mb-stage flex h-dvh flex-col">
       <div className="mb-label mb-label-bleed flex-1">
         <div className="mb-label-field relative flex min-h-0 flex-1 flex-col">
           <h1 className="sr-only">{heading}</h1>
@@ -74,13 +74,22 @@ export function GeneratorScreen({
 
           {briefing ? (
             <div className="flex min-h-0 flex-1 flex-col gap-2 p-1">
-              <BackLink className="ml-1" />
-              <StitchedPanel title="How to play" className="flex-1 basis-0">
-                <HowToPlay category={category} isGame={isGame} about={about} />
-              </StitchedPanel>
-              <StitchedPanel title="Settings" className="flex-1 basis-0">
-                <DeckSettings category={category} generator={g} />
-              </StitchedPanel>
+              <BackLink className="-ml-[var(--rule-thin)]" />
+              <BriefingPanes
+                initial={settingsOpen ? "settings" : "rules"}
+                panes={[
+                  {
+                    id: "rules",
+                    title: "How to play",
+                    body: <HowToPlay category={category} isGame={isGame} about={about} />,
+                  },
+                  {
+                    id: "settings",
+                    title: "Settings",
+                    body: <DeckSettings category={category} generator={g} />,
+                  },
+                ]}
+              />
             </div>
           ) : (
             <div className="relative min-h-0 flex-1">

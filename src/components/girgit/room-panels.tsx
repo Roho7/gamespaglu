@@ -8,8 +8,8 @@ import { CLUE_SECONDS_OPTIONS, PACKS, type GirgitSettings } from "@shared/protoc
 /** Girgit's rules in six lines, with the full guide one tap away. */
 export function GirgitRules() {
   return (
-    <div className="space-y-3">
-      <ol className="space-y-3 text-sm font-medium">
+    <div className="flex flex-col gap-[0.85em]">
+      <ol className="flex flex-col gap-[0.65em] font-medium">
         <li>1. Everyone sees the same 16 words and the theme.</li>
         <li>
           2. Everyone can see which word is the secret one — except the Girgit,
@@ -29,7 +29,7 @@ export function GirgitRules() {
       </ol>
       <Link
         href="/how-to-play/girgit"
-        className="block text-sm font-bold underline decoration-2"
+        className="block font-bold underline decoration-2"
       >
         Full rules{" "}
         <ArrowRight
@@ -53,7 +53,7 @@ export function GirgitHostSettings({
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <p className="mb-caps text-sm">Word packs</p>
+        <p className="mb-caps text-[0.72em]">Word packs</p>
         <div className="flex flex-wrap gap-2">
           {PACKS.map((pk) => {
             const on = prefs.packs.includes(pk.id);
@@ -72,7 +72,7 @@ export function GirgitHostSettings({
         </div>
       </div>
       <div className="space-y-2">
-        <p className="mb-caps text-sm">Clue timer</p>
+        <p className="mb-caps text-[0.72em]">Clue timer</p>
         <div className="flex flex-wrap gap-2">
           {CLUE_SECONDS_OPTIONS.map((n) => (
             <Chip
@@ -85,7 +85,7 @@ export function GirgitHostSettings({
           ))}
         </div>
       </div>
-      <p className="text-sm opacity-80">
+      <p className="opacity-80">
         Used when you host. Joining someone else&apos;s room, theirs apply.
       </p>
     </div>
