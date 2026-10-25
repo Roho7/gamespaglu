@@ -7,7 +7,7 @@ WORKDIR /app
 COPY server/package.json server/package-lock.json* ./server/
 RUN cd server && npm ci
 
-COPY server/tsconfig.json ./server/
+COPY server/tsconfig.json server/tsconfig.build.json ./server/
 COPY shared ./shared
 COPY server/src ./server/src
 RUN cd server && npm run build

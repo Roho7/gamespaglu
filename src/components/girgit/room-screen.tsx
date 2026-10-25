@@ -11,13 +11,14 @@ import { GirgitRules } from "@/components/girgit/room-panels";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
 import { ClueBoard, type ClueSlip } from "@/components/girgit/clue-board";
 import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
-import { TapToast } from "@/components/girgit/tap-toast";
 import { Chip } from "@/components/ui/controls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { paletteById, roundPalette, theme } from "@/lib/palettes";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
-import type { GirgitRoom } from "@/lib/hooks/use-girgit-room";
+import { RoomLobby } from "@/components/room/room-lobby";
+import { TapToast } from "@/components/room/tap-toast";
+import type { RoomHandle } from "@/lib/hooks/use-room";
 import { useOnline } from "@/lib/hooks/use-online";
 import {
   CLUE_SECONDS_OPTIONS,
@@ -26,31 +27,25 @@ import {
   SCORE_GIRGIT_ESCAPED,
   SCORE_GIRGIT_GUESSED,
   SCORE_INNOCENT,
-  type RoomState,
+  type RoomStateOf,
 } from "@shared/protocol";
 
 const GIRGIT_PALETTE = paletteById("jungle");
 
-/** The photo behind the waiting room, dithered in Girgit's palette. */
 const LOBBY_IMAGE = "/backgrounds/chameleon.jpg";
 
 /**
- * The play surface. One label, one accent, one action in the band.
- *
- * The header is phase-driven, not theme-driven. The theme is the thing every
- * clue is judged against WHILE you are writing one, and near-irrelevant once
- * the table is arguing — so it is the headline during clues and a caption after
- * that, with the headline saying what to do or what just happened.
+ * The play surface. One label, one accent, one action in the band. The theme is never printed:
+ * sixteen words that belong together state their own category, so the headline says what to do or
+ * what just happened instead.
  */
 export function RoomScreen({
   state,
-  act,
-  leave,
+  room,
   reconnecting,
 }: {
-  state: RoomState;
-  act: GirgitRoom["act"];
-  leave: () => void;
+  state: RoomStateOf<"girgit">;
+  room: RoomHandle<"girgit">;
   reconnecting: boolean;
 }) {
   const [clue, setClue] = useState("");
@@ -85,15 +80,6 @@ export function RoomScreen({
   const word = (i: number | null | undefined) =>
     typeof i === "number" ? round?.cells[i] : null;
 
-  /**
-   * Headline and caption for the phase.
-   *
-   * The theme is deliberately never printed. Sixteen words that obviously
-   * belong together state their own category better than a label does, so the
-   * label only competed with the board directly beneath it — and it was
-   * shouting during the vote, where it is irrelevant. The headline says what to
-   * do or what just happened instead.
-   */
   function headline(): { big: string; small: string } {
     const small = round ? `Round ${round.roundNo}` : "";
     switch (phase) {
@@ -221,7 +207,7 @@ export function RoomScreen({
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {PACKS.map((pk) => {
-                        const on = state.packs.includes(pk.id);
+                        const on = state.settings.packs.includes(pk.id);
                         return (
                           <Chip
                             key={pk.id}
@@ -229,13 +215,13 @@ export function RoomScreen({
                             disabled={!isHost}
                             onClick={async () => {
                               const next = on
-                                ? state.packs.filter((p) => p !== pk.id)
-                                : [...state.packs, pk.id];
+                                ? state.settings.packs.filter((p) => p !== pk.id)
+                                : [...state.settings.packs, pk.id];
                               if (next.length === 0) {
                                 setToast("Keep at least one pack on.");
                                 return;
                               }
-                              const r = await act.setPacks(next);
+                              const r = await room.configure({ packs: next });
                               setToast(
                                 r.ok
                                   ? `${pk.label} ${on ? "off" : "on"}`
@@ -263,10 +249,10 @@ export function RoomScreen({
                       {CLUE_SECONDS_OPTIONS.map((n) => (
                         <Chip
                           key={n}
-                          active={state.clueSeconds === n}
+                          active={state.settings.clueSeconds === n}
                           disabled={!isHost}
                           onClick={async () => {
-                            const r = await act.setClueSeconds(n);
+                            const r = await room.configure({ clueSeconds: n });
                             setToast(
                               r.ok ? `Clue timer: ${n}s` : r.error.message,
                             );
@@ -288,7 +274,7 @@ export function RoomScreen({
                       <Button
                         variant="secondary"
                         size="sm"
-                        onClick={() => act.abortRound()}
+                        onClick={() => room.abort()}
                       >
                         End this round
                       </Button>
@@ -299,7 +285,7 @@ export function RoomScreen({
                     </div>
                   ) : null}
 
-                  <Button variant="tertiary" size="sm" onClick={leave}>
+                  <Button variant="tertiary" size="sm" onClick={room.leave}>
                     Leave the room
                   </Button>
                 </SideDrawer>
@@ -309,26 +295,12 @@ export function RoomScreen({
 
           <div className="relative flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pt-16 pb-3 sm:px-8">
             {lobby ? (
-              <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-3 text-center">
-                <p className="mb-caps text-sm">
-                  SHARE THIS WITH YOUR TEAMMATES
-                </p>
-                <p className="mb-display mb-shadow text-7xl tracking-[0.12em]">
-                  {state.code}
-                </p>
-                <p className="mb-caps text-sm]">
-                  {state.players.length} of {state.maxPlayers} in
-                  {short ? ` · need ${state.minPlayers}` : ""}
-                </p>
-                <ul className="flex flex-wrap justify-center gap-x-3 gap-y-1 text-base font-bold">
-                  {state.players.map((p) => (
-                    <li key={p.id} className={p.connected ? "" : "opacity-40"}>
-                      {p.name}
-                      {p.isHost ? " ★" : ""}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <RoomLobby
+                code={state.code}
+                players={state.players}
+                minPlayers={state.minPlayers}
+                maxPlayers={state.maxPlayers}
+              />
             ) : (
               <div className="mx-auto my-auto w-full max-w-md space-y-4">
                 <header className="space-y-0.5 text-center">
@@ -372,7 +344,7 @@ export function RoomScreen({
                       phase === "escape" && state.your?.isGirgit
                         ? (i) => {
                             setToast(`Locked in: ${round.cells[i]}`);
-                            void act.escapeGuess(i);
+                            void room.act({ type: "escape:guess", cellIndex: i });
                           }
                         : undefined
                     }
@@ -396,7 +368,7 @@ export function RoomScreen({
                     phase === "vote" && !hasVoted
                       ? (id) => {
                           setToast(`Voted for ${nameOf(id)}`);
-                          void act.castVote(id);
+                          void room.act({ type: "vote:cast", targetId: id });
                         }
                       : undefined
                   }
@@ -412,7 +384,7 @@ export function RoomScreen({
           <div className="relative flex">
             {isHost ? (
               <BandButton
-                onClick={() => act.startRound()}
+                onClick={() => room.start()}
                 disabled={short}
                 detail={short ? `Need ${state.minPlayers} players` : undefined}
               >
@@ -426,18 +398,18 @@ export function RoomScreen({
           </div>
         ) : !cutOff && phase === "discuss" ? (
           <div className="relative flex">
-            <BandButton onClick={() => act.callVote()}>Call the vote</BandButton>
+            <BandButton onClick={() => room.act({ type: "vote:call" })}>Call the vote</BandButton>
           </div>
         ) : !cutOff && phase === "reveal" && isHost ? (
           <div className="relative flex">
-            <BandButton onClick={() => act.startRound()}>Again</BandButton>
+            <BandButton onClick={() => room.start()}>Again</BandButton>
           </div>
         ) : (
           <div className="mb-band relative flex-col gap-2 px-4 py-3">
             {!cutOff && round?.deadlineAt ? (
               <PhaseCountdown
                 deadlineAt={round.deadlineAt}
-                totalSeconds={state.clueSeconds}
+                totalSeconds={state.settings.clueSeconds}
                 label="Clues close in"
               />
             ) : null}
@@ -471,7 +443,7 @@ export function RoomScreen({
                   />
                   <Button
                     onClick={async () => {
-                      const r = await act.submitClue(clue);
+                      const r = await room.act({ type: "clue:submit", word: clue });
                       if (r.ok) {
                         setClue("");
                         setToast("Clue in");
@@ -497,7 +469,7 @@ export function RoomScreen({
                 {isHost ? (
                   <button
                     className="mb-caps text-[0.55rem] underline opacity-70"
-                    onClick={() => act.abortRound()}
+                    onClick={() => room.abort()}
                   >
                     end round
                   </button>
@@ -515,7 +487,7 @@ export function RoomScreen({
                 {isHost ? (
                   <button
                     className="mb-caps text-[0.55rem] underline opacity-70"
-                    onClick={() => act.abortRound()}
+                    onClick={() => room.abort()}
                   >
                     end round
                   </button>

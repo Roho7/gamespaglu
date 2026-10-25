@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowLeft, Settings } from "lucide-react";
 import { PageCorners } from "@/components/layout/page-corners";
 import { PickableGridDemo, VotingBoardDemo } from "@/app/style/girgit-demo";
+import { NightSeatsDemo, YourCardDemo } from "@/app/style/mafia-demo";
 import { ToastDemo } from "@/app/style/toast-demo";
 import { CategoryEmblem } from "@/components/artwork/category-emblem";
 import { Starburst } from "@/components/artwork/starburst";
@@ -9,6 +10,8 @@ import { Chip, Panel } from "@/components/ui/controls";
 import { ClueBoard, type ClueSlip } from "@/components/girgit/clue-board";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
 import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
+import { GameReplay } from "@/components/mafia/game-replay";
+import { SeatBoard, type SeatSlip } from "@/components/mafia/seat-board";
 import { WavelengthDial } from "@/components/wavelength/wavelength-dial";
 import { MarqueeBanner } from "@/components/layout/marquee-banner";
 import { Scoreboard } from "@/components/scoreboard/scoreboard";
@@ -44,6 +47,15 @@ const DEMO_SLIPS: ClueSlip[] = [
   { id: "bunty", name: "Bunty", clue: null },
   { id: "chiku", name: "Chiku", clue: null, note: "timed out", dim: true },
 ];
+
+const DEMO_SEATS: SeatSlip[] = [
+  { id: "you", name: "Roho", you: true, open: true },
+  { id: "asha", name: "Asha", open: true },
+  { id: "bunty", name: "Bunty", away: true, open: true },
+  { id: "chiku", name: "Chiku", out: true, note: "Killed · Detective" },
+];
+
+const DEMO_NAMES: Record<string, string> = { you: "Roho", asha: "Asha", bunty: "Bunty", chiku: "Chiku" };
 
 const DEMO_CELLS = [
   "Cristiano Ronaldo",
@@ -311,6 +323,85 @@ export default function StylePage() {
             hold learns nothing from the shape of what appears.
           </p>
         </Row>
+        <Row title="Mafia — the seats. The same for every role at night">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div {...theme("cobalt", { flipped: true })} className="mb-label p-3">
+              <div className="space-y-2 p-1">
+                <p className="mb-caps text-[0.55rem] opacity-70">Night: choose a player</p>
+                <NightSeatsDemo slips={DEMO_SEATS} />
+              </div>
+            </div>
+            <div {...theme("cherry", { flipped: true })} className="mb-label p-3">
+              <div className="space-y-2 p-1">
+                <p className="mb-caps text-[0.55rem] opacity-70">The verdict, then game over</p>
+                <SeatBoard
+                  slips={[
+                    ...DEMO_SEATS.map((s, i) => ({ ...s, open: false, badge: i === 1 ? "3" : null })),
+                    { id: "no-one", name: "No one", abstain: true, badge: "1" },
+                  ]}
+                />
+                <SeatBoard
+                  slips={DEMO_SEATS.map((s, i) => ({
+                    ...s,
+                    open: false,
+                    note: i === 1 ? "Voted out · Mafia · 0 pts" : "Villager · 1 pt",
+                    out: i === 1 || s.out,
+                    badge: i === 1 ? null : "+1",
+                  }))}
+                />
+              </div>
+            </div>
+          </div>
+        </Row>
+
+        <Row title="Mafia — your card. One button and one frame for every role">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div {...theme("cobalt", { flipped: true })} className="mb-label p-3">
+              <div className="p-2">
+                <YourCardDemo role="mafia" />
+              </div>
+            </div>
+            <div {...theme("cobalt", { flipped: true })} className="mb-label p-3">
+              <div className="p-2">
+                <YourCardDemo role="detective" />
+              </div>
+            </div>
+          </div>
+          <p className="text-sm opacity-75">
+            Hold either one. The card opens in the same fixed frame whatever is on it.
+          </p>
+        </Row>
+
+        <Row title="Mafia — the replay, once the game is over">
+          <div {...theme("cherry", { flipped: true })} className="mb-label max-w-xl p-4">
+            <GameReplay
+              nameOf={(id) => DEMO_NAMES[id] ?? "Someone"}
+              records={[
+                {
+                  kind: "night",
+                  night: 1,
+                  kill: "chiku",
+                  save: "asha",
+                  check: "bunty",
+                  died: "chiku",
+                  suspicions: [{ voterId: "you", targetId: "bunty" }],
+                },
+                {
+                  kind: "vote",
+                  day: 1,
+                  ballots: [
+                    { voterId: "you", targetId: "asha" },
+                    { voterId: "bunty", targetId: "asha" },
+                    { voterId: "asha", targetId: "no-one" },
+                  ],
+                  out: "asha",
+                },
+                { kind: "exit", playerId: "bunty" },
+              ]}
+            />
+          </div>
+        </Row>
+
         <Row title="Scoreboard — the live board, shared with the sheet and /scoreboard">
           <div className="max-w-xl">
             <Scoreboard />

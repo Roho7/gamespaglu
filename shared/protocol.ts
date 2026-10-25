@@ -1,173 +1,99 @@
 /**
- * The wire contract. Imported by BOTH the Next client and the socket server.
+ * The wire contract, imported by both the Next client and the socket server, so an event name or
+ * payload the two sides disagree on is a compile error rather than a silent failure mid-game.
  *
- * This file exists because the commonest realtime bug is the two sides
- * disagreeing about an event name or a payload shape — and it fails silently,
- * at runtime, in a room, mid-game, in front of eight people. Keeping one
- * definition turns every one of those into a compile error.
- *
- * Types and constants only. No imports, no runtime dependencies: the server
- * compiles it to CommonJS and Next bundles it for the browser.
+ * Types, constants and tiny pure helpers only. Each game's half lives beside it.
  */
+import type { DeviceId, PlayerId, RoomCode } from "./ids";
+import type {
+  GirgitAction,
+  GirgitPhase,
+  GirgitPublicRound,
+  GirgitSettings,
+  GirgitYourRound,
+} from "./girgit";
+import type {
+  MafiaAction,
+  MafiaPhase,
+  MafiaPublicRound,
+  MafiaSettings,
+  MafiaYourRound,
+} from "./mafia";
 
-/** Bumped when a change is not backward compatible. Client sends it on connect. */
-export const PROTOCOL_VERSION = 1;
+export type { DeviceId, PlayerId, RoomCode } from "./ids";
+export * from "./girgit";
+export * from "./mafia";
 
-export const MIN_PLAYERS = 4;
-export const MAX_PLAYERS = 10;
+/** Bumped when a change is not backward compatible. */
+export const PROTOCOL_VERSION = 2;
+
 export const MAX_NAME_LENGTH = 16;
 export const ROOM_CODE_LENGTH = 4;
 
-/**
- * No vowels. 21^4 is still 194,481 codes, and a code can never accidentally
- * spell a word — which, on a game people show to their friends, matters.
- */
+/** No vowels, so a code can never spell a word. 21^4 is still 194,481 codes. */
 export const ROOM_CODE_ALPHABET = "BCDFGHJKLMNPQRSTVWXYZ";
 
 /** How long a room survives with nobody doing anything. */
 export const ROOM_TTL_MS = 2 * 60 * 60 * 1000;
 
-export const GRID_SIZE = 16;
+export const GAME_IDS = ["girgit", "mafia"] as const;
+export type GameId = (typeof GAME_IDS)[number];
 
-/**
- * One or two words. Not one: plenty of the best clues are naturally two ("red
- * carpet", "not real") and forcing a single word just produces hyphenation.
- * The character cap is what stops it drifting into a sentence.
- */
-export const MAX_CLUE_WORDS = 2;
-export const MAX_CLUE_LENGTH = 20;
-
-/** Girgit not caught. */
-/**
- * Only the clue phase is timed, and the room chooses how long.
- *
- * The vote and the escape guess are deliberately untimed: they are moments the
- * table is already talking through, and a clock on them rushes the part of the
- * game that is the game. The cost is real and is why `round:abort` exists — a
- * locked phone during the vote stalls the round, and the host has to end it.
- */
-/**
- * Word packs. A room picks which of these are in play, so a group can have a
- * pop-culture night or keep it to things in a kitchen.
- *
- * Every pack must hold enough grids that a session does not repeat itself
- * immediately — `check:grids` enforces a floor, because a pack of one is a
- * setting that makes the game worse the moment anybody picks it.
- */
-export const PACKS = [
-  { id: "movies-tv", label: "Movies & TV" },
-  { id: "people", label: "Famous people" },
-  { id: "characters", label: "Characters" },
-  { id: "brands", label: "Brands" },
-  { id: "everyday", label: "Everyday things" },
-  { id: "world", label: "Around the world" },
-  { id: "culture", label: "Arts & culture" },
-] as const;
-export type PackId = (typeof PACKS)[number]["id"];
-export const ALL_PACKS: PackId[] = PACKS.map((p) => p.id);
-
-export const CLUE_SECONDS_OPTIONS = [30, 60] as const;
-export type ClueSeconds = (typeof CLUE_SECONDS_OPTIONS)[number];
-export const DEFAULT_CLUE_SECONDS: ClueSeconds = 60;
-
-export const SCORE_GIRGIT_ESCAPED = 2;
-export const SCORE_GIRGIT_GUESSED = 1;
-export const SCORE_INNOCENT = 1;
-
-export type DeviceId = string;
-export type PlayerId = string;
-export type RoomCode = string;
-export type GameId = "girgit";
-
-/**
- * M1 ships only the lobby. Round phases land in M3 — listed here so the client
- * switch is exhaustive from the start rather than growing a default case.
- */
-export type RoomPhase =
-  | "lobby"
-  | "clues"
-  | "discuss"
-  | "vote"
-  | "escape"
-  | "reveal";
+/** Everything that differs per game, keyed by game, so `RoomState` narrows on `game`. */
+export type GameTypes = {
+  girgit: {
+    phase: GirgitPhase;
+    settings: GirgitSettings;
+    round: GirgitPublicRound;
+    your: GirgitYourRound;
+    action: GirgitAction;
+  };
+  mafia: {
+    phase: MafiaPhase;
+    settings: MafiaSettings;
+    round: MafiaPublicRound;
+    your: MafiaYourRound;
+    action: MafiaAction;
+  };
+};
 
 export type PublicPlayer = {
   id: PlayerId;
   name: string;
   seat: number;
-  /**
-   * False means the socket is gone, NOT that the player left. Locking your
-   * phone and putting it face-down while arguing is the single commonest thing
-   * that happens at a table, and it must not end anyone's game.
-   */
+  /** Socket presence only. A locked phone face-down on the table must never cost a seat. */
   connected: boolean;
-  pendingLeave: boolean;
   isHost: boolean;
   score: number;
 };
 
-export type Outcome =
-  | "girgit-escaped"
-  | "girgit-guessed"
-  | "girgit-caught"
-  | "aborted";
-
-
-export type PublicRound = {
-  roundNo: number;
-  theme: string;
-  cells: string[];
-  cluesIn: number;
-  cluesTotal: number;
-  clues: { playerId: PlayerId; word: string }[];
-  votedBy: PlayerId[];
-  voteCounts: Record<PlayerId, number>;
-  deadlineAt: number | null;
-  skipped: PlayerId[];
-  voteOpen: boolean;
-  votesIn: number;
-  votes: { voterId: PlayerId; targetId: PlayerId }[] | null;
-  accused: PlayerId | null;
-  outcome: Outcome | null;
-  girgitId: PlayerId | null;
-  secretIndex: number | null;
-  escapeGuess: number | null;
-};
-
-/**
- * The per-socket half. This is the entire reason this is a socket server and
- * not Supabase Realtime, whose broadcast is all-or-nothing to a channel.
- */
-export type YourRound = {
-  isGirgit: boolean;
-  secretIndex: number | null;
-  hasClued: boolean;
-  hasVoted: boolean;
-};
-
-export type RoomState = {
+export type RoomStateOf<G extends GameId> = {
+  game: G;
   code: RoomCode;
-  game: GameId;
-  phase: RoomPhase;
+  phase: "lobby" | GameTypes[G]["phase"];
   roundNo: number;
   players: PublicPlayer[];
   hostId: PlayerId;
-  /** Which of the players above is the recipient. */
+  /** Which of `players` is the recipient. */
   you: PlayerId;
   minPlayers: number;
   maxPlayers: number;
-  /** How long the clue phase runs. A room setting, changeable mid-round. */
-  clueSeconds: number;
-  /** Which word packs are in play. Never empty. */
-  packs: string[];
-  round: PublicRound | null;
-  your: YourRound | null;
+  settings: GameTypes[G]["settings"];
+  round: GameTypes[G]["round"] | null;
+  /** Null for a player seated after the deal, who waits for the next one. */
+  your: GameTypes[G]["your"] | null;
 };
+
+export type RoomState = { [G in GameId]: RoomStateOf<G> }[GameId];
 
 export type ErrorCode =
   | "BAD_CODE"
   | "BAD_NAME"
   | "BAD_DEVICE"
+  | "BAD_GAME"
+  | "BAD_ACTION"
+  | "BAD_TARGET"
+  | "WRONG_GAME"
   | "ROOM_NOT_FOUND"
   | "ROOM_FULL"
   | "NAME_TAKEN"
@@ -191,51 +117,40 @@ export type Result<T> = { ok: true; data: T } | { ok: false; error: Err };
 export type Ack<T> = (result: Result<T>) => void;
 
 export type JoinedRoom = { code: RoomCode; playerId: PlayerId };
+export type Done = { ok: true };
 
 export type ClientToServer = {
-  "room:create": (p: { deviceId: DeviceId; name: string }, ack: Ack<JoinedRoom>) => void;
-  "room:join": (
-    p: { deviceId: DeviceId; name: string; code: RoomCode },
+  "room:create": (
+    p: { deviceId: DeviceId; name: string; game: GameId; settings?: unknown },
     ack: Ack<JoinedRoom>,
   ) => void;
-  /**
-   * Reconnect after a reload, a lock screen, or a server redeploy. Distinct
-   * from join: it takes no name and never creates a seat, so a resume for a
-   * seat that is gone fails loudly instead of silently adding a stranger.
-   */
+  /** Refused with WRONG_GAME when the code belongs to a different game. */
+  "room:join": (
+    p: { deviceId: DeviceId; name: string; code: RoomCode; game: GameId },
+    ack: Ack<JoinedRoom>,
+  ) => void;
+  /** Reconnect after a reload, a lock screen or a redeploy. Never creates a seat. */
   "room:resume": (p: { deviceId: DeviceId; code: RoomCode }, ack: Ack<JoinedRoom>) => void;
-  /** Explicit departure. Applies at the next round boundary. */
-  "room:leave": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;
-  /** Host only. The escape hatch for someone who has actually gone home. */
-  "room:kick": (p: { playerId: PlayerId }, ack: Ack<{ ok: true }>) => void;
-
-  /**
-   * Host only. Takes effect immediately, including mid-clue: the deadline is
-   * recomputed from when the clue phase started, not from now, so shortening it
-   * cannot hand anybody extra time by resetting the clock.
-   */
-  "room:clueSeconds": (p: { seconds: number }, ack: Ack<{ ok: true }>) => void;
-  /** Host only. Applies to the next deal — the grid in play is already dealt. */
-  "room:packs": (p: { packs: string[] }, ack: Ack<{ ok: true }>) => void;
-
-  /** Host only. Applies queued joins and leaves, then deals. */
-  "round:start": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;
-  /**
-   * Host only. For when a player has genuinely gone home mid-round — rather
-   * than a timeout heuristic that cannot tell "left" from "in the bathroom".
-   */
-  "round:abort": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;
-  "clue:submit": (p: { word: string }, ack: Ack<{ ok: true }>) => void;
-  /** Any player. At a table somebody just says "okay, vote". */
-  "vote:call": (p: Record<string, never>, ack: Ack<{ ok: true }>) => void;
-  "vote:cast": (p: { targetId: PlayerId }, ack: Ack<{ ok: true }>) => void;
-  "escape:guess": (p: { cellIndex: number }, ack: Ack<{ ok: true }>) => void;
+  "room:leave": (p: Record<string, never>, ack: Ack<Done>) => void;
+  /** Host only. For someone who has actually gone home. */
+  "room:kick": (p: { playerId: PlayerId }, ack: Ack<Done>) => void;
+  /** Host only. Validated by the game; takes effect immediately where the game allows it. */
+  "room:settings": (p: { settings: unknown }, ack: Ack<Done>) => void;
+  /** Host only. Freezes the seated players into a new deal. */
+  "round:start": (p: Record<string, never>, ack: Ack<Done>) => void;
+  /** Host only. Ends the round with no score. */
+  "round:abort": (p: Record<string, never>, ack: Ack<Done>) => void;
+  /** Every in-game move, validated and dispatched by the room's game. */
+  "game:act": (p: { action: unknown }, ack: Ack<Done>) => void;
 };
 
 export type ServerToClient = {
   "room:state": (state: RoomState) => void;
   "room:closed": (e: Err) => void;
 };
+
+export const isGameId = (v: unknown): v is GameId =>
+  typeof v === "string" && (GAME_IDS as readonly string[]).includes(v);
 
 export const isRoomCode = (v: unknown): v is RoomCode =>
   typeof v === "string" &&
@@ -245,11 +160,7 @@ export const isRoomCode = (v: unknown): v is RoomCode =>
 export const normaliseCode = (v: string): string =>
   v.trim().toUpperCase().replace(/[^A-Z]/g, "");
 
-/**
- * The device id is minted by the client and lands in a uuid column. A corrupted
- * localStorage value must come back as a clear error the client can recover
- * from by re-minting — not as an opaque database failure.
- */
+/** The device id lands in a uuid column, so a corrupted value must fail here, clearly. */
 export const isDeviceId = (v: unknown): v is DeviceId =>
   typeof v === "string" &&
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v);

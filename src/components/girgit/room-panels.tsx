@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Chip } from "@/components/ui/controls";
+import { CLUE_SECONDS_OPTIONS, PACKS, type GirgitSettings } from "@shared/protocol";
 
 /** Girgit's rules in six lines, with the full guide one tap away. */
 export function GirgitRules() {
@@ -36,6 +38,56 @@ export function GirgitRules() {
           aria-hidden
         />
       </Link>
+    </div>
+  );
+}
+
+/** The settings a host's room starts with. Joining someone else's room, theirs apply. */
+export function GirgitHostSettings({
+  prefs,
+  onChange,
+}: {
+  prefs: GirgitSettings;
+  onChange: (next: GirgitSettings) => void;
+}) {
+  return (
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <p className="mb-caps text-[0.6rem]">Word packs</p>
+        <div className="flex flex-wrap gap-2">
+          {PACKS.map((pk) => {
+            const on = prefs.packs.includes(pk.id);
+            const next = on ? prefs.packs.filter((p) => p !== pk.id) : [...prefs.packs, pk.id];
+            return (
+              <Chip
+                key={pk.id}
+                active={on}
+                disabled={next.length === 0}
+                onClick={() => onChange({ ...prefs, packs: next })}
+              >
+                {pk.label}
+              </Chip>
+            );
+          })}
+        </div>
+      </div>
+      <div className="space-y-2">
+        <p className="mb-caps text-[0.6rem]">Clue timer</p>
+        <div className="flex flex-wrap gap-2">
+          {CLUE_SECONDS_OPTIONS.map((n) => (
+            <Chip
+              key={n}
+              active={prefs.clueSeconds === n}
+              onClick={() => onChange({ ...prefs, clueSeconds: n })}
+            >
+              {n}s
+            </Chip>
+          ))}
+        </div>
+      </div>
+      <p className="text-[0.7rem] opacity-80">
+        Used when you host. Joining someone else&apos;s room, theirs apply.
+      </p>
     </div>
   );
 }

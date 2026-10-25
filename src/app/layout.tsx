@@ -4,6 +4,8 @@ import { SITE } from "@/lib/site-config";
 import { ServiceWorkerRegistration } from "@/components/layout/service-worker-registration";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { Toaster } from "@/components/ui/sonner";
+import { PageTransition } from "@/components/layout/page-transition";
+import { ditherTransitionCss } from "@/lib/dither-transition";
 import { GROUND, paletteCss, theme } from "@/lib/palettes";
 import "./globals.css";
 
@@ -68,6 +70,7 @@ export default function RootLayout({
     >
       <head>
         <style dangerouslySetInnerHTML={{ __html: paletteCss() }} />
+        <style dangerouslySetInnerHTML={{ __html: ditherTransitionCss() }} />
       </head>
       <body className="flex min-h-full flex-col">
         <PaletteGrain
@@ -75,7 +78,7 @@ export default function RootLayout({
           tone="ink"
           className="fixed inset-0 -z-10"
         />
-        {children}
+        <PageTransition>{children}</PageTransition>
         <Toaster />
         <ServiceWorkerRegistration />
       </body>

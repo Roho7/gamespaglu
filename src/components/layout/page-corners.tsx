@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { ScoreboardDrawer } from "@/components/scoreboard/scoreboard-drawer";
+import { ditherBack } from "@/lib/dither-transition";
 import { cn } from "@/lib/utils";
 
 /** A square corner control that navigates. */
@@ -36,7 +37,7 @@ export function BackLink({ className }: { className?: string }) {
     <button
       type="button"
       aria-label="Back"
-      onClick={() => router.back()}
+      onClick={() => ditherBack(() => router.back())}
       className={cn("mb-square-btn", className)}
     >
       <ArrowLeft className="size-5" strokeWidth={3} aria-hidden />

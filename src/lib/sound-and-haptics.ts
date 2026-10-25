@@ -71,3 +71,17 @@ export function blip() {
   tone(880, 45, 0.1);
   buzz(10);
 }
+
+/** Night falls in a room game: a low fall, and the same long buzz on every phone. */
+export function nightFalls() {
+  tone(220, 180, 0.18);
+  setTimeout(() => tone(147, 420, 0.18), 160);
+  buzz([60, 40, 120]);
+}
+
+/** Morning in a room game: a bright rise. */
+export function dayBreaks() {
+  tone(523, 120, 0.14);
+  setTimeout(() => tone(784, 220, 0.14), 110);
+  buzz([20, 30, 20]);
+}

@@ -1,17 +1,17 @@
-import assert from "node:assert/strict";
-import { test } from "node:test";
+import { describe, expect, test } from "vitest";
+import { shuffle } from "../game/random";
+import { expectRefusal, fixed, seeded } from "../test/helpers";
 import {
-  RuleError,
   abortRound,
   callVote,
   castVote,
   cluesOutstanding,
-  setClueSeconds,
-  expireClues,
   dealFor,
   dealRound,
+  expireClues,
+  pickGrid,
   scoreRound,
-  shuffle,
+  setClueSeconds,
   submitClue,
   submitEscape,
   validateClue,
@@ -19,14 +19,6 @@ import {
   type RoundState,
 } from "./engine";
 
-/** Deterministic rng, so every deal in this file is replayable. */
-const seeded = (seed: number) => () => {
-  seed = (seed * 1664525 + 1013904223) % 4294967296;
-  return seed / 4294967296;
-};
-/** Picks the nth option every time — lets a test choose the Girgit exactly. */
-const fixed = (v: number) => () => v;
-/** A frozen clock. Deadlines are arithmetic, not wall time. */
 const CLOCK = () => 1_000_000;
 
 const GRID: Grid = {
@@ -37,285 +29,253 @@ const GRID: Grid = {
 };
 const P = ["a", "b", "c", "d"];
 
-function deal(rng = seeded(7)): RoundState {
-  return dealRound(P, GRID, rng, CLOCK, 60);
-}
-const throwsWith = (code: string, fn: () => unknown) =>
-  assert.throws(fn, (e: unknown) => e instanceof RuleError && e.code === code);
-
-// ------------------------------------------------------------------ deal ---
-
-test("deal produces a full grid, one Girgit, and a secret in range", () => {
-  const s = deal();
-  assert.equal(s.cells.length, 16);
-  assert.equal(new Set(s.cells).size, 16, "no cell is duplicated by the shuffle");
-  assert.ok(P.includes(s.girgit));
-  assert.ok(s.secretIndex >= 0 && s.secretIndex < 16);
-  assert.equal(s.phase, "clues");
-});
-
-test("deal refuses below the minimum player count", () => {
-  throwsWith("NOT_ENOUGH_PLAYERS", () => dealRound(["a", "b"], GRID, seeded(1), CLOCK, 60));
-});
-
-test("deal refuses a grid that is not exactly 16", () => {
-  throwsWith("INTERNAL", () =>
-    dealRound(P, { ...GRID, cells: GRID.cells.slice(0, 15) }, seeded(1), CLOCK, 60),
-  );
-});
-
-test("cell positions move between rounds, so a grid cannot be learnt by layout", () => {
-  const a = dealRound(P, GRID, seeded(3), CLOCK, 60).cells;
-  const b = dealRound(P, GRID, seeded(99), CLOCK, 60).cells;
-  assert.notDeepEqual(a, b);
-  assert.deepEqual([...a].sort(), [...b].sort(), "same 16 words, different places");
-});
-
-test("the Girgit is dealt no secret; everyone else is", () => {
-  const s = deal();
-  const innocent = P.find((p) => p !== s.girgit)!;
-  assert.equal(dealFor(s, s.girgit).secretIndex, null);
-  assert.equal(dealFor(s, s.girgit).isGirgit, true);
-  assert.equal(dealFor(s, innocent).secretIndex, s.secretIndex);
-  // The theme is public precisely so the Girgit can bluff at all.
-  assert.equal(dealFor(s, s.girgit).theme, s.theme);
-});
-
-test("shuffle keeps every element", () => {
-  const xs = [1, 2, 3, 4, 5, 6, 7, 8];
-  assert.deepEqual(shuffle(xs, seeded(5)).sort((a, b) => a - b), xs);
-});
-
-// ----------------------------------------------------------------- clues ---
-
-test("clues stay hidden until the last one lands, then reveal together", () => {
-  let s = deal();
-  s = submitClue(s, "a", "one");
-  s = submitClue(s, "b", "two");
-  s = submitClue(s, "c", "three");
-  assert.equal(s.phase, "clues", "still collecting");
-  assert.equal(cluesOutstanding(s), 1);
-  s = submitClue(s, "d", "four");
-  assert.equal(s.phase, "discuss", "all four in — reveal");
-  assert.equal(cluesOutstanding(s), 0);
-});
-
-test("two words are allowed, three are not", () => {
-  const s = deal();
-  assert.equal(validateClue(s, "  red   carpet "), "red carpet");
-  throwsWith("BAD_CLUE", () => validateClue(s, "one two three"));
-});
-
-test("a clue may not smuggle the secret word in beside another", () => {
-  // Explicit cells: dealRound shuffles, so relying on its ordering here would
-  // make the test assert against whatever the rng happened to do.
-  const s: RoundState = { ...deal(), cells: ["Titanic", ...GRID.cells.slice(1)], secretIndex: 0 };
-  throwsWith("BAD_CLUE", () => validateClue(s, "Titanic"));
-  // The case an equality check would have waved straight through.
-  throwsWith("BAD_CLUE", () => validateClue(s, "big Titanic"));
-  throwsWith("BAD_CLUE", () => validateClue(s, "TITANIC"));
-  assert.equal(validateClue(s, "iceberg"), "iceberg");
-});
-
-test("a short secret does not poison every clue that contains its letters", () => {
-  // "Up", "It" and "Us" are real titles in the deck. A raw substring check
-  // would reject "syrup" for "Up", which reads to the player as the app being
-  // broken — and they cannot see why, because they cannot see the secret.
-  const s: RoundState = { ...deal(), cells: ["Up", ...GRID.cells.slice(1)], secretIndex: 0 };
-  assert.equal(validateClue(s, "syrup"), "syrup");
-  assert.equal(validateClue(s, "upset"), "upset");
-  throwsWith("BAD_CLUE", () => validateClue(s, "up"));
-  throwsWith("BAD_CLUE", () => validateClue(s, "look up"));
-});
-
-test("clues are rejected outside the clue phase, twice, or from outsiders", () => {
-  let s = deal();
-  s = submitClue(s, "a", "one");
-  throwsWith("ALREADY_DONE", () => submitClue(s, "a", "again"));
-  throwsWith("NOT_PLAYING", () => submitClue(s, "zzz", "hello"));
-  throwsWith("BAD_CLUE", () => submitClue(s, "b", "   "));
-  throwsWith("BAD_CLUE", () => submitClue(s, "b", "x".repeat(21)));
-  const voting = callVote(
-    { ...s, clues: { a: "1", b: "2", c: "3", d: "4" }, phase: "discuss" },
-    "a",
-  );
-  throwsWith("WRONG_PHASE", () => submitClue(voting, "b", "late"));
-});
-
-// ------------------------------------------------------------------ vote ---
+const deal = (rng = seeded(7)): RoundState => dealRound(P, GRID, rng, CLOCK, 60);
 
 function toDiscuss(s: RoundState): RoundState {
   for (const p of P) s = submitClue(s, p, `clue-${p}`);
   return s;
 }
 
-test("any player can call the vote, not just the host", () => {
-  const s = callVote(toDiscuss(deal()), "c");
-  assert.equal(s.phase, "vote");
-  assert.equal(s.voteOpen, true);
-});
-
-test("you cannot vote for yourself, or twice", () => {
-  const s = callVote(toDiscuss(deal()), "a");
-  throwsWith("SELF_VOTE", () => castVote(s, "a", "a"));
-  const once = castVote(s, "a", "b");
-  throwsWith("ALREADY_DONE", () => castVote(once, "a", "c"));
-});
-
-test("a tie returns the room to discussion and clears the votes", () => {
-  let s = callVote(toDiscuss(deal()), "a");
-  s = castVote(s, "a", "b");
-  s = castVote(s, "b", "a");
-  s = castVote(s, "c", "d");
-  s = castVote(s, "d", "c");
-  assert.equal(s.phase, "discuss", "2-2-... no plurality");
-  assert.deepEqual(s.votes, {}, "a re-vote starts clean");
-  assert.equal(s.outcome, null);
-});
-
-test("accusing an innocent ends the round and the Girgit escapes", () => {
-  // fixed(0) makes player[0] the Girgit and cell 0 the secret.
-  let s = dealRound(P, GRID, fixed(0), CLOCK, 60);
-  assert.equal(s.girgit, "a");
-  s = callVote(toDiscuss(s), "a");
-  s = castVote(s, "a", "b");
-  s = castVote(s, "b", "c");
-  s = castVote(s, "c", "b");
-  s = castVote(s, "d", "b");
-  assert.equal(s.accused, "b");
-  assert.equal(s.phase, "reveal");
-  assert.equal(s.outcome, "girgit-escaped");
-  assert.deepEqual(scoreRound(s), { a: 2, b: 0, c: 0, d: 0 });
-});
-
-// ---------------------------------------------------------------- escape ---
-
 function toEscape(): RoundState {
-  let s = dealRound(P, GRID, fixed(0), CLOCK, 60); // girgit = a, secret = cell index 0
-  s = callVote(toDiscuss(s), "b");
-  s = castVote(s, "b", "a");
-  s = castVote(s, "c", "a");
-  s = castVote(s, "d", "a");
-  s = castVote(s, "a", "b");
+  let s = callVote(toDiscuss(dealRound(P, GRID, fixed(0), CLOCK, 60)), "b");
+  for (const [voter, target] of [["b", "a"], ["c", "a"], ["d", "a"], ["a", "b"]] as const) {
+    s = castVote(s, voter, target);
+  }
   return s;
 }
 
-test("catching the Girgit opens the escape guess rather than ending it", () => {
-  const s = toEscape();
-  assert.equal(s.accused, "a");
-  assert.equal(s.phase, "escape");
-  assert.equal(s.outcome, null, "nothing is decided until they guess");
+describe("deal", () => {
+  test("produces a full grid, one Girgit and a secret in range", () => {
+    const s = deal();
+    expect(s.cells).toHaveLength(16);
+    expect(new Set(s.cells).size).toBe(16);
+    expect(P).toContain(s.girgit);
+    expect(s.secretIndex).toBeGreaterThanOrEqual(0);
+    expect(s.secretIndex).toBeLessThan(16);
+    expect(s.phase).toBe("clues");
+  });
+
+  test("refuses below the minimum player count", () => {
+    expectRefusal("NOT_ENOUGH_PLAYERS", () => dealRound(["a", "b"], GRID, seeded(1), CLOCK, 60));
+  });
+
+  test("refuses a grid that is not exactly 16", () => {
+    expectRefusal("INTERNAL", () =>
+      dealRound(P, { ...GRID, cells: GRID.cells.slice(0, 15) }, seeded(1), CLOCK, 60),
+    );
+  });
+
+  test("moves cell positions between rounds, so a grid cannot be learnt by layout", () => {
+    const a = dealRound(P, GRID, seeded(3), CLOCK, 60).cells;
+    const b = dealRound(P, GRID, seeded(99), CLOCK, 60).cells;
+    expect(a).not.toEqual(b);
+    expect([...a].sort()).toEqual([...b].sort());
+  });
+
+  test("deals the Girgit no secret and everyone else the secret", () => {
+    const s = deal();
+    const innocent = P.find((p) => p !== s.girgit)!;
+    expect(dealFor(s, s.girgit)).toMatchObject({ secretIndex: null, isGirgit: true, theme: s.theme });
+    expect(dealFor(s, innocent).secretIndex).toBe(s.secretIndex);
+  });
+
+  test("records the grid among those used", () => {
+    expect(dealRound(P, GRID, seeded(1), CLOCK, 60, ["old"]).usedGridIds).toEqual(["old", "test"]);
+    expect(dealRound(P, GRID, seeded(1), CLOCK, 60, ["test"]).usedGridIds).toEqual(["test"]);
+  });
+
+  test("shuffle keeps every element", () => {
+    const xs = [1, 2, 3, 4, 5, 6, 7, 8];
+    expect(shuffle(xs, seeded(5)).sort((a, b) => a - b)).toEqual(xs);
+  });
 });
 
-test("only the Girgit may guess, and only a real cell", () => {
-  const s = toEscape();
-  throwsWith("NOT_PLAYING", () => submitEscape(s, "b", 0));
-  throwsWith("INTERNAL", () => submitEscape(s, "a", 16));
-  throwsWith("INTERNAL", () => submitEscape(s, "a", -1));
-  throwsWith("INTERNAL", () => submitEscape(s, "a", 1.5));
+describe("pickGrid", () => {
+  const grid = (id: string, pack: Grid["pack"] = "everyday"): Grid => ({ ...GRID, id, pack });
+  const grids = [grid("a"), grid("b"), grid("c", "brands")];
+
+  test("only deals from the packs in play", () => {
+    for (const seed of [1, 2, 3, 4, 5]) {
+      expect(pickGrid(grids, ["brands"], [], null, seeded(seed)).id).toBe("c");
+    }
+  });
+
+  test("never repeats a grid until the packs are exhausted", () => {
+    expect(pickGrid(grids, ["everyday"], ["a"], "a", seeded(1)).id).toBe("b");
+  });
+
+  test("refills without repeating the grid just played", () => {
+    for (const seed of [1, 2, 3, 4, 5]) {
+      expect(pickGrid(grids, ["everyday"], ["a", "b"], "b", seeded(seed)).id).toBe("a");
+    }
+  });
+
+  test("repeats a lone grid rather than dealing nothing", () => {
+    expect(pickGrid(grids, ["brands"], ["c"], "c", seeded(1)).id).toBe("c");
+  });
+
+  test("refuses packs with no grids", () => {
+    expectRefusal("BAD_SETTING", () => pickGrid(grids, ["culture"], [], null, seeded(1)));
+  });
 });
 
-test("a correct guess escapes for 1; a wrong one pays every innocent", () => {
-  const s = toEscape();
-  const right = submitEscape(s, "a", s.secretIndex);
-  assert.equal(right.outcome, "girgit-guessed");
-  assert.deepEqual(scoreRound(right), { a: 1, b: 0, c: 0, d: 0 });
+describe("clues", () => {
+  test("stay hidden until the last one lands, then reveal together", () => {
+    let s = deal();
+    s = submitClue(s, "a", "one");
+    s = submitClue(s, "b", "two");
+    s = submitClue(s, "c", "three");
+    expect(s.phase).toBe("clues");
+    expect(cluesOutstanding(s)).toBe(1);
+    s = submitClue(s, "d", "four");
+    expect(s.phase).toBe("discuss");
+    expect(cluesOutstanding(s)).toBe(0);
+  });
 
-  const wrong = submitEscape(s, "a", (s.secretIndex + 1) % 16);
-  assert.equal(wrong.outcome, "girgit-caught");
-  assert.deepEqual(scoreRound(wrong), { a: 0, b: 1, c: 1, d: 1 });
+  test("allow two words but not three", () => {
+    const s = deal();
+    expect(validateClue(s, "  red   carpet ")).toBe("red carpet");
+    expectRefusal("BAD_CLUE", () => validateClue(s, "one two three"));
+  });
+
+  test("may not smuggle the secret in beside another word", () => {
+    const s: RoundState = { ...deal(), cells: ["Titanic", ...GRID.cells.slice(1)], secretIndex: 0 };
+    expectRefusal("BAD_CLUE", () => validateClue(s, "Titanic"));
+    expectRefusal("BAD_CLUE", () => validateClue(s, "big Titanic"));
+    expectRefusal("BAD_CLUE", () => validateClue(s, "TITANIC"));
+    expect(validateClue(s, "iceberg")).toBe("iceberg");
+  });
+
+  test("a short secret does not poison every clue containing its letters", () => {
+    const s: RoundState = { ...deal(), cells: ["Up", ...GRID.cells.slice(1)], secretIndex: 0 };
+    expect(validateClue(s, "syrup")).toBe("syrup");
+    expect(validateClue(s, "upset")).toBe("upset");
+    expectRefusal("BAD_CLUE", () => validateClue(s, "up"));
+    expectRefusal("BAD_CLUE", () => validateClue(s, "look up"));
+  });
+
+  test("are refused out of phase, twice, empty, too long, or from outsiders", () => {
+    const s = submitClue(deal(), "a", "one");
+    expectRefusal("ALREADY_DONE", () => submitClue(s, "a", "again"));
+    expectRefusal("NOT_PLAYING", () => submitClue(s, "zzz", "hello"));
+    expectRefusal("BAD_CLUE", () => submitClue(s, "b", "   "));
+    expectRefusal("BAD_CLUE", () => submitClue(s, "b", "x".repeat(21)));
+    expectRefusal("WRONG_PHASE", () => submitClue(callVote(toDiscuss(deal()), "a"), "b", "late"));
+  });
 });
 
-test("an aborted round scores nothing for anybody", () => {
-  const s = abortRound(toEscape());
-  assert.equal(s.outcome, "aborted");
-  assert.deepEqual(scoreRound(s), { a: 0, b: 0, c: 0, d: 0 });
+describe("vote", () => {
+  test("can be called by any player", () => {
+    const s = callVote(toDiscuss(deal()), "c");
+    expect(s.phase).toBe("vote");
+    expect(s.voteOpen).toBe(true);
+  });
+
+  test("refuses a self vote and a second vote", () => {
+    const s = callVote(toDiscuss(deal()), "a");
+    expectRefusal("SELF_VOTE", () => castVote(s, "a", "a"));
+    expectRefusal("ALREADY_DONE", () => castVote(castVote(s, "a", "b"), "a", "c"));
+  });
+
+  test("a tie returns to discussion with the votes cleared", () => {
+    let s = callVote(toDiscuss(deal()), "a");
+    for (const [voter, target] of [["a", "b"], ["b", "a"], ["c", "d"], ["d", "c"]] as const) {
+      s = castVote(s, voter, target);
+    }
+    expect(s.phase).toBe("discuss");
+    expect(s.votes).toEqual({});
+    expect(s.outcome).toBeNull();
+  });
+
+  test("accusing an innocent ends the round with the Girgit escaping", () => {
+    let s = callVote(toDiscuss(dealRound(P, GRID, fixed(0), CLOCK, 60)), "a");
+    expect(s.girgit).toBe("a");
+    for (const [voter, target] of [["a", "b"], ["b", "c"], ["c", "b"], ["d", "b"]] as const) {
+      s = castVote(s, voter, target);
+    }
+    expect(s).toMatchObject({ accused: "b", phase: "reveal", outcome: "girgit-escaped" });
+    expect(scoreRound(s)).toEqual({ a: 2, b: 0, c: 0, d: 0 });
+  });
 });
 
-// ----------------------------------------------------------------- misc ---
+describe("escape", () => {
+  test("catching the Girgit opens the guess rather than ending the round", () => {
+    expect(toEscape()).toMatchObject({ accused: "a", phase: "escape", outcome: null });
+  });
 
-test("transitions never mutate the state handed in", () => {
-  const s = deal();
-  const snapshot = JSON.stringify(s);
-  submitClue(s, "a", "hello");
-  assert.equal(JSON.stringify(s), snapshot);
+  test("only the Girgit may guess, and only a real cell", () => {
+    const s = toEscape();
+    expectRefusal("NOT_PLAYING", () => submitEscape(s, "b", 0));
+    for (const bad of [16, -1, 1.5]) expectRefusal("INTERNAL", () => submitEscape(s, "a", bad));
+  });
+
+  test("a right guess scores the Girgit 1; a wrong one pays every innocent", () => {
+    const s = toEscape();
+    const right = submitEscape(s, "a", s.secretIndex);
+    expect(right.outcome).toBe("girgit-guessed");
+    expect(scoreRound(right)).toEqual({ a: 1, b: 0, c: 0, d: 0 });
+
+    const wrong = submitEscape(s, "a", (s.secretIndex + 1) % 16);
+    expect(wrong.outcome).toBe("girgit-caught");
+    expect(scoreRound(wrong)).toEqual({ a: 0, b: 1, c: 1, d: 1 });
+  });
+
+  test("an aborted round scores nothing", () => {
+    const s = abortRound(toEscape());
+    expect(s.outcome).toBe("aborted");
+    expect(scoreRound(s)).toEqual({ a: 0, b: 0, c: 0, d: 0 });
+  });
 });
 
-test("a full round can be played with no server, database or clock", () => {
-  let s = dealRound(P, GRID, fixed(0), CLOCK, 60);
-  for (const p of P) s = submitClue(s, p, `c-${p}`);
-  s = callVote(s, "d");
-  for (const [v, t] of [["b", "a"], ["c", "a"], ["d", "a"], ["a", "c"]] as const) {
-    s = castVote(s, v, t);
-  }
-  s = submitEscape(s, "a", s.secretIndex);
-  assert.equal(s.phase, "reveal");
-  assert.equal(scoreRound(s).a, 1);
+describe("purity", () => {
+  test("transitions never mutate the state handed in", () => {
+    const s = deal();
+    const snapshot = JSON.stringify(s);
+    submitClue(s, "a", "hello");
+    expect(JSON.stringify(s)).toBe(snapshot);
+  });
+
+  test("a full round plays with no server, database or clock", () => {
+    let s = toEscape();
+    s = submitEscape(s, "a", s.secretIndex);
+    expect(s.phase).toBe("reveal");
+    expect(scoreRound(s).a).toBe(1);
+  });
 });
 
-// --------------------------------------------------- deadlines and stalls ---
-//
-// These exist because of a real game: two players locked their phones during
-// the vote, advancing required everybody to act, and the round could never
-// finish. A held SEAT is forever; a held PHASE is not.
+describe("deadlines", () => {
+  test("a locked phone cannot stall the clue phase", () => {
+    let s = submitClue(submitClue(deal(), "a", "one"), "b", "two");
+    expect(s.phase).toBe("clues");
+    s = expireClues(s);
+    expect(s.phase).toBe("discuss");
+    expect([...s.skipped].sort()).toEqual(["c", "d"]);
+    expect(Object.keys(s.clues).sort()).toEqual(["a", "b"]);
+  });
 
-test("a locked phone cannot stall the clue phase forever", () => {
-  let s = deal();
-  s = submitClue(s, "a", "one");
-  s = submitClue(s, "b", "two");
-  assert.equal(s.phase, "clues", "still waiting on c and d");
+  test("only the clue phase carries one", () => {
+    let s = deal();
+    expect(typeof s.deadlineAt).toBe("number");
+    s = toDiscuss(s);
+    expect(s.deadlineAt).toBeNull();
+    s = callVote(s, "a");
+    expect(s.deadlineAt).toBeNull();
+  });
 
-  s = expireClues(s);
-  assert.equal(s.phase, "discuss");
-  assert.deepEqual(s.skipped.sort(), ["c", "d"]);
-  // The clues that WERE given still stand and still reveal.
-  assert.deepEqual(Object.keys(s.clues).sort(), ["a", "b"]);
-});
+  test("a timer change mid-clue is measured from when clues opened", () => {
+    let t = 1_000_000;
+    const s = dealRound(P, GRID, seeded(7), () => t, 60);
+    const opened = s.cluesStartedAt;
+    expect(s.deadlineAt).toBe(opened + 60_000);
+    t += 25_000;
+    const shorter = setClueSeconds(s, 30);
+    expect(shorter.deadlineAt).toBe(opened + 30_000);
+    expect(shorter.deadlineAt).not.toBe(t + 30_000);
+    expect(setClueSeconds(shorter, 60).deadlineAt).toBe(opened + 60_000);
+  });
 
-
-
-
-
-
-test("only the clue phase carries a deadline", () => {
-  let s = deal();
-  assert.equal(typeof s.deadlineAt, "number", "clues are timed");
-
-  for (const p of P) s = submitClue(s, p, `c-${p}`);
-  assert.equal(s.deadlineAt, null, "discussion is not");
-
-  s = callVote(s, "a");
-  assert.equal(s.deadlineAt, null, "the vote is not timed — the table is talking");
-
-  s = castVote(s, "a", "b");
-  s = castVote(s, "b", "a");
-  s = castVote(s, "c", "a");
-  s = castVote(s, "d", "a");
-  assert.equal(s.phase, "escape");
-  assert.equal(s.deadlineAt, null, "nor is the guess");
-});
-
-test("the room timer can be changed mid-clue, measured from when clues opened", () => {
-  // A clock that actually advances, so "from the start" and "from now" differ.
-  let t = 1_000_000;
-  const clock = () => t;
-  const s = dealRound(P, GRID, seeded(7), clock, 60);
-  const opened = s.cluesStartedAt;
-  assert.equal(s.deadlineAt, opened + 60_000);
-
-  t += 25_000; // twenty-five seconds of the phase have gone by
-
-  const shorter = setClueSeconds(s, 30);
-  assert.equal(shorter.deadlineAt, opened + 30_000, "recomputed from the start");
-  // Not `now + 30s`. Restarting the clock on every change would let anyone
-  // extend the phase indefinitely by nudging the setting.
-  assert.notEqual(shorter.deadlineAt, t + 30_000);
-
-  assert.equal(setClueSeconds(shorter, 60).deadlineAt, opened + 60_000, "and back");
-});
-
-test("changing the timer outside the clue phase does nothing", () => {
-  let s = deal();
-  for (const p of P) s = submitClue(s, p, `c-${p}`);
-  assert.deepEqual(setClueSeconds(s, 30), s);
+  test("changing the timer outside the clue phase does nothing", () => {
+    const s = toDiscuss(deal());
+    expect(setClueSeconds(s, 30)).toEqual(s);
+  });
 });

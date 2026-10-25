@@ -1,9 +1,12 @@
 "use client";
 
+import { girgitBrain } from "@server/girgit/bot";
 import { GirgitScreens } from "@/components/girgit/girgit-app";
-import { useLocalGirgitRoom } from "@/lib/hooks/use-local-girgit-room";
+import { useLocalRoom } from "@/lib/hooks/use-local-room";
+
+const BOTS = { brain: girgitBrain, names: ["Asha", "Bunty", "Chiku", "Dolly"] } as const;
 
 /** Girgit against bots, entirely in the browser. Development only. */
 export default function LocalGirgitApp() {
-  return <GirgitScreens room={useLocalGirgitRoom()} />;
+  return <GirgitScreens room={useLocalRoom("girgit", BOTS)} />;
 }

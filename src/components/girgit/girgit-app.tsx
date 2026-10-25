@@ -1,42 +1,33 @@
 "use client";
 
-import { HostOrJoinScreen } from "@/components/girgit/host-or-join-screen";
+import { GirgitHostSettings, GirgitRules } from "@/components/girgit/room-panels";
 import { RoomScreen } from "@/components/girgit/room-screen";
-import { useGirgitRoom, type GirgitRoom } from "@/lib/hooks/use-girgit-room";
-import { ALL_PACKS, DEFAULT_CLUE_SECONDS } from "@shared/protocol";
-
+import { HostOrJoinScreen } from "@/components/room/host-or-join-screen";
+import { usePersisted } from "@/lib/hooks/use-persisted";
+import { useRoom, type RoomHandle } from "@/lib/hooks/use-room";
+import { DEFAULT_GIRGIT_SETTINGS, type GirgitSettings } from "@shared/protocol";
 
 export function GirgitApp() {
-  return <GirgitScreens room={useGirgitRoom()} />;
+  return <GirgitScreens room={useRoom("girgit")} />;
 }
 
-export function GirgitScreens({ room }: { room: GirgitRoom }) {
-  const { state, status, error, create, join, leave, act } = room;
+export function GirgitScreens({ room }: { room: RoomHandle<"girgit"> }) {
+  const [prefs, setPrefs] = usePersisted<GirgitSettings>("girgit:host-prefs", DEFAULT_GIRGIT_SETTINGS);
 
-  if (!state) {
+  if (!room.state) {
     return (
       <HostOrJoinScreen
-        onCreate={async (name, prefs) => {
-          const r = await create(name);
-          if (!r.ok) return;
-          if (prefs.packs.length !== ALL_PACKS.length)
-            await act.setPacks(prefs.packs);
-          if (prefs.clueSeconds !== DEFAULT_CLUE_SECONDS)
-            await act.setClueSeconds(prefs.clueSeconds);
-        }}
-        onJoin={join}
-        busy={status === "connecting"}
-        error={error}
+        title="Girgit"
+        palette="jungle"
+        rules={<GirgitRules />}
+        aside={{ title: "Settings", body: <GirgitHostSettings prefs={prefs} onChange={setPrefs} /> }}
+        onCreate={(name) => void room.create(name, prefs)}
+        onJoin={room.join}
+        busy={room.status === "connecting"}
+        error={room.error}
       />
     );
   }
 
-  return (
-    <RoomScreen
-      state={state}
-      act={act}
-      leave={leave}
-      reconnecting={status === "connecting"}
-    />
-  );
+  return <RoomScreen state={room.state} room={room} reconnecting={room.status === "connecting"} />;
 }

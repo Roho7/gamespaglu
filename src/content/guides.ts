@@ -268,7 +268,7 @@ export const GUIDES: Guide[] = [
       },
       {
         q: "What if my phone dies or I lose signal?",
-        a: "Your seat, your role and your word are held on the server, not on your phone. Come back and you drop straight into whatever the room is doing. Girgit is the one part of this site that genuinely needs a connection \u2014 everything else works with no signal at all.",
+        a: "Your seat, your role and your word are held on the server, not on your phone. Come back and you drop straight into whatever the room is doing. Girgit and Mafia are the parts of this site that genuinely need a connection \u2014 everything else works with no signal at all.",
       },
       {
         q: "Does the Girgit know they are the Girgit?",
@@ -281,6 +281,89 @@ export const GUIDES: Guide[] = [
     ],
   },
 
+  {
+    slug: "mafia",
+    title: "How to play Mafia",
+    summary:
+      "Secret roles, silent nights, loud days. The classic party game for five to twelve, where every phone is the narrator so nobody has to sit out.",
+    palette: "cherry",
+    players: "5 to 12",
+    time: "About twenty minutes a game",
+    needs: "A phone each, everyone in the same room",
+    playRoute: "/mafia/new",
+    alsoCalled: ["Werewolf", "Mafia party game", "Mafia card game"],
+    intro: [
+      "Mafia is the social deduction game every college trip and office offsite has played at least once. A few players are secretly the Mafia. Everyone else is the town. At night the Mafia kill someone; by day the town argues about who did it and votes somebody out.",
+      "Around a table it needs a narrator: one person who sits out, deals the roles on scraps of paper and walks everyone through the night with their eyes shut. Here every phone does that job. Roles are dealt to each phone, the night happens on the screens, and the narrator gets to play.",
+      "Nobody closes their eyes. Every living player taps their phone every night, whatever their role, and every screen says the same thing \u2014 so the person tapping next to you could be anyone.",
+    ],
+    steps: [
+      {
+        title: "Everyone joins one room",
+        body: "One person taps Host and reads out the four-letter code. Everyone else types it in on their own phone. The lobby shows the roles your headcount will deal: one Mafia for five or six players, two for seven to nine, three for ten to twelve, plus a Doctor and a Detective. Everyone else is a Villager.",
+      },
+      {
+        title: "Check your card",
+        body: "Press and hold the card button to see your role, and let go to hide it. The card opens in the same frame for every role, so nobody learns anything from watching you. Mafia also see who the rest of their team is.",
+      },
+      {
+        title: "Night: everyone chooses a player",
+        body: "Every living phone says the same thing: choose a player. The Mafia choose who to kill, and all of them have to agree. The Doctor chooses someone to save, themselves included, but never the same player two nights running. The Detective chooses someone to check. Villagers choose whoever they suspect. You can change your pick until the night ends, which happens the moment everyone has locked in and the Mafia agree.",
+      },
+      {
+        title: "Morning: the news",
+        body: "Every phone shows who died in the night, and what they were. If the Doctor saved the right person, nobody died. The Detective's answer arrives on their card: Mafia, or not Mafia.",
+      },
+      {
+        title: "Day: argue, then vote",
+        body: "Talk. Accuse. Defend. When the table is ready, anyone still in taps Call the vote. Everyone votes in secret for a living player or for No one, and every ballot is shown with who cast it once they are all in. The single most-voted player goes out and their role is revealed. A tie, or No one winning, sends nobody out.",
+      },
+      {
+        title: "Until one side wins",
+        body: "Anyone still in taps Night falls and it starts again. The town wins when every Mafia is out. The Mafia win the moment they equal or outnumber everyone else. Then every role is revealed, with a replay of who went for whom every night.",
+      },
+    ],
+    variations: [
+      {
+        title: "Scoring",
+        body: "Everyone on the winning side scores a point, including the players who died along the way: dying for the town is still winning. The end of every game shows the running tally, so a night of five games has a real leader.",
+      },
+      {
+        title: "A phone goes quiet",
+        body: "Locking your phone does not lose your seat; you show as away. If the night is stuck on somebody who has wandered off, the host can end it from the room menu: any pick not made counts as nothing. The host can close a stalled vote the same way.",
+      },
+      {
+        title: "Someone goes home",
+        body: "Leaving mid-game, or being removed by the host, counts as going out: the role is revealed and the game checks whether either side has just won. People who join mid-game watch until the next deal.",
+      },
+      {
+        title: "When you are out",
+        body: "Dead players keep watching the board and the votes but see nothing secret, so there is nothing to give away. The polite thing is to stay quiet.",
+      },
+    ],
+    faq: [
+      {
+        q: "Does everyone need their own phone?",
+        a: "Yes. Every player's role and every night pick is private, so one phone passed around would give the game away.",
+      },
+      {
+        q: "Do we need a narrator?",
+        a: "No. The phones deal the roles, run the night and announce the morning, so everybody plays, including the person who would usually sit out.",
+      },
+      {
+        q: "Why does everyone tap at night, even Villagers?",
+        a: "Cover. If only the Mafia, the Doctor and the Detective touched their phones at night, you could find them by watching hands. Villagers pick a suspect instead, and those hunches show up in the replay at the end.",
+      },
+      {
+        q: "Is this the same as Werewolf?",
+        a: "Werewolf is Mafia with wolves. Same game, same roles under different names, and if you know one you know the other.",
+      },
+      {
+        q: "How many players do we need?",
+        a: "Five at least and twelve at most. Seven to nine is the sweet spot: two Mafia, a Doctor, a Detective and enough Villagers to argue.",
+      },
+    ],
+  },
   {
     slug: "scoreboard",
     title: "How to use the Scoreboard",

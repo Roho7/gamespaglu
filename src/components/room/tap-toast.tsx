@@ -1,12 +1,8 @@
 "use client";
 
 /**
- * A brief confirmation that a tap landed.
- *
- * Every action here is a round trip to a server in another country, so there is
- * a real gap between tapping and the screen changing. Without something in that
- * gap the tap reads as ignored — which is exactly what happened with the
- * Girgit's guess.
+ * A brief confirmation that a tap landed. Every room action is a round trip to a server, and without
+ * something in that gap the tap reads as ignored.
  */
 export function TapToast({ message }: { message: string | null }) {
   if (!message) return null;
