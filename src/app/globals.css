@@ -67,7 +67,7 @@
   --rule: 3px;
   --rule-thin: 2px;
   --dot-inset: 7px;
-  --shadow-offset: 4px;
+  --shadow-offset: 2px;
 }
 
 @layer base {
@@ -129,7 +129,7 @@
     line-height: 1;
   }
   .mb-shadow {
-    text-shadow: 2px 2px 0 var(--cw-highlight, var(--shadow-ink));
+    text-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--cw-highlight, var(--shadow-ink));
   }
   .mb-caps {
     font-family: var(--font-poster), sans-serif;

@@ -2,11 +2,11 @@
 
 `gamespaglu.com`. Phone-as-aid for games played **in person**. Sibling of officepaglu.com.
 Specs live in the Obsidian vault (`~/Documents/MAIN/OBSIDIAN/OB_BRAIN/Cards/`): `Games Paglu Spec.md`,
-plus one spec per game (`Girgit Spec.md`, `Wavelength Spec.md`), which override the parent spec.
+plus one spec per game (`Girgit Spec.md`, `Wavelength Spec.md`, `Mafia Spec.md`, `Tiktiki Spec.md`), which override the parent spec.
 
 Next.js (App Router) · TypeScript · Tailwind v4 · shadcn/ui · no accounts · **offline-first, except rooms**.
 
-Rooms (Girgit, Mafia) use a Socket.IO server on Fly (`server/`) and Upstash Redis in Singapore.
+Rooms (Girgit, Mafia, Tiktiki) use a Socket.IO server on Fly (`server/`) and Upstash Redis in Singapore.
 `server/scripts/drop-gp.sql` removes the old `gp` schema from the shared officepaglu database.
 Everything else is backendless and works with no signal.
 

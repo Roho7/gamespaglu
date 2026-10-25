@@ -11,12 +11,18 @@ export function DitheredPhoto({
   palette,
   className,
   originY,
+  grain = 1.5,
+  steps = 2,
 }: {
   image: string;
   palette: Palette;
   className?: string;
   /** 0.5 centers the crop. -0.5 pins the top of the photo to the top of the frame. */
   originY?: number;
+  /** Dither cell size. Smaller keeps more of the picture, for photos a player has to recognise. */
+  grain?: number;
+  /** Tones per ink. More keeps more of the picture. */
+  steps?: number;
 }) {
   return (
     <ImageDithering
@@ -30,8 +36,8 @@ export function DitheredPhoto({
       originalColors={false}
       inverted={false}
       type="8x8"
-      size={1.5}
-      colorSteps={2}
+      size={grain}
+      colorSteps={steps}
       fit="cover"
       originY={originY}
     />

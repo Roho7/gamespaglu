@@ -7,7 +7,7 @@ type Pools = { titles: readonly string[]; lines: readonly string[] };
 const DEAL: Pools = {
   titles: ["Where are we?", "Look around", "Somebody's listening", "Walls have ears", "Act like you belong"],
   lines: [
-    "{name} asks first. Ask anyone, about the place. No asking back.",
+    "{name} asks first. Ask anyone about the place. No asking back.",
     "{name} kicks it off. One question to anyone, then they ask the next.",
     "{name}, you're up. Ask someone a question only a local could answer.",
     "{name} starts. Keep it vague enough to fool the Tiktiki, sharp enough to catch them.",
@@ -26,9 +26,9 @@ const TRIAL: Pools = {
 const ACQUITTED: Pools = {
   titles: ["Not guilty", "Case dismissed", "{accused} walks", "Hung jury"],
   lines: [
-    "{noes} said no. The clock's running again.",
-    "{noes} wasn't having it. Back to the questions.",
-    "{noes} broke the tie. Suspicious? Maybe. Keep asking.",
+    "A no from {noes}. The clock's running again.",
+    "Not convinced: {noes}. Back to the questions.",
+    "Blocked by {noes}. Suspicious? Maybe. Keep asking.",
   ],
 };
 

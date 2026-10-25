@@ -5,7 +5,6 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Eye } from "lucide-react";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { DitheredPhoto } from "@/components/home/dithered-photo";
-import { StitchBorder } from "@/components/stitch/stitch-border";
 import { TIKTIKI_ART, placeArt } from "@/content/place-art";
 import { TIKTIKI_LABEL } from "@/content/tiktiki-copy";
 import { useImageReady } from "@/lib/hooks/use-image-ready";
@@ -20,7 +19,7 @@ function CardPhoto({ face, palette }: { face: CardFace; palette: Palette }) {
   const art = face ? placeArt(face) : TIKTIKI_ART;
   const ready = useImageReady(art);
   return ready ? (
-    <DitheredPhoto image={art} palette={palette} className="absolute inset-0" />
+    <DitheredPhoto image={art} palette={palette} grain={1} steps={4} className="absolute inset-0" />
   ) : (
     <PaletteGrain palette={palette} tone="field" className="absolute inset-0" />
   );
@@ -29,7 +28,7 @@ function CardPhoto({ face, palette }: { face: CardFace; palette: Palette }) {
 /** A card face: the picture takes 80%, the name sits in the band under it. */
 export function PlaceCardFace({ face, palette, className }: { face: CardFace; palette: Palette; className?: string }) {
   return (
-    <div className={cn("mb-label aspect-[5/7] p-2.5", className)}>
+    <div className={cn("mb-label @container aspect-[5/7] p-2.5", className)}>
       <div
         {...theme(palette, { flipped: true })}
         className="mb-label-field relative m-0 flex h-full flex-col overflow-hidden"
@@ -38,8 +37,7 @@ export function PlaceCardFace({ face, palette, className }: { face: CardFace; pa
           <CardPhoto face={face} palette={palette} />
         </div>
         <div className="relative flex flex-1 items-center justify-center px-4 text-center">
-          <StitchBorder className="inset-1.5" />
-          <p className="mb-display text-3xl leading-none text-balance">{face ? placeName(face) : TIKTIKI_LABEL}</p>
+          <p className="mb-display mb-shadow text-[15cqw] leading-[0.95] text-balance">{face ? placeName(face) : TIKTIKI_LABEL}</p>
         </div>
       </div>
     </div>

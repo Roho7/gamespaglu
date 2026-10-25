@@ -46,6 +46,8 @@ const PLACE_NAMES = Object.fromEntries(TIKTIKI_PLACES.map((p) => [p.id, p.name])
   string
 >;
 export const placeName = (id: PlaceId): string => PLACE_NAMES[id];
+/** The place as it reads mid-sentence: "the swimming pool". */
+export const thePlace = (id: PlaceId): string => `the ${PLACE_NAMES[id].toLowerCase()}`;
 export const isPlaceId = (v: unknown): v is PlaceId => PLACE_IDS.includes(v as PlaceId);
 
 /** How the questioning ended. Every ending goes on to the Tiktiki's guess. */

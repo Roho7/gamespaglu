@@ -10,6 +10,7 @@ import { SideDrawer } from "@/components/layout/side-drawer";
 import { PhaseCurtain } from "@/components/mafia/phase-curtain";
 import { RematchCountdown } from "@/components/mafia/rematch-countdown";
 import { SeatBoard, type SeatSlip } from "@/components/mafia/seat-board";
+import { PlayerAvatar } from "@/components/room/player-avatar";
 import { RoomLobby } from "@/components/room/room-lobby";
 import { TapToast } from "@/components/room/tap-toast";
 import { AccuseDrawer } from "@/components/tiktiki/accuse-drawer";
@@ -29,6 +30,7 @@ import { dayBreaks, gavel, primeAudio, revealHit } from "@/lib/sound-and-haptics
 import {
   ROUND_MINUTES_OPTIONS,
   placeName,
+  thePlace,
   type Done,
   type PlaceId,
   type Result,
@@ -79,8 +81,8 @@ function beatFor(phase: TiktikiRoom["phase"], round: TiktikiPublicRound, seed: s
       if (round.outcome === "aborted" || !round.placeId) return tiktikiBeats.over(seed, "aborted", {});
       return tiktikiBeats.over(seed, townWon(round) ? "town" : "escaped", {
         tiktiki,
-        place: placeName(round.placeId),
-        guess: round.guessId ? placeName(round.guessId) : "nothing at all",
+        place: thePlace(round.placeId),
+        guess: round.guessId ? thePlace(round.guessId) : "nothing at all",
       });
     default:
       return null;
@@ -216,15 +218,11 @@ export function TiktikiRoomScreen({
         }
         return (
           <>
-            <BandButton
-              className="flex-[3]"
-              onClick={() => void send({ type: "verdict", guilty: true }, "Guilty, says you")}
-              detail={votesIn}
-            >
+            <BandButton onClick={() => void send({ type: "verdict", guilty: true }, "Guilty, says you")} detail="Lock 'em up">
               Guilty
             </BandButton>
-            <BandButton className="flex-[2]" onClick={() => void send({ type: "verdict", guilty: false }, "Not guilty, says you")}>
-              Not guilty
+            <BandButton onClick={() => void send({ type: "verdict", guilty: false }, "Innocent, says you")} detail="Let 'em go">
+              Innocent
             </BandButton>
           </>
         );
@@ -286,19 +284,21 @@ export function TiktikiRoomScreen({
         );
       case "accusation": {
         const accused = round.roster.find((p) => p.id === trial?.accusedId);
-        const slips: SeatSlip[] = accused
-          ? [{ id: accused.id, name: accused.name, you: accused.id === state.you, note: "on trial" }]
-          : [];
         return (
-          <div className="mx-auto my-auto flex w-full max-w-md flex-col items-center gap-6">
+          <div className="mx-auto my-auto flex w-full max-w-md flex-col items-center gap-6 text-center">
             <RoundClock deadlineAt={null} msLeft={round.msLeft} roundMs={round.roundMs} />
-            <header className="space-y-1.5 text-center">
+            {accused ? (
+              <div className="flex flex-col items-center gap-2">
+                <span className="size-24 overflow-hidden border-[length:var(--rule-thin)] border-[color:var(--cw-secondary)] bg-[var(--loud)] shadow-[5px_5px_0_var(--shadow-ink)]">
+                  <PlayerAvatar seed={accused.name} palette={palette} className="size-full scale-125" />
+                </span>
+                <span className="mb-caps text-sm">{accused.id === state.you ? "You're on trial" : "On trial"}</span>
+              </div>
+            ) : null}
+            <header className="space-y-1.5">
               <h2 className="mb-display mb-shadow text-4xl leading-none">{beat?.title}</h2>
               <p className="text-sm font-semibold opacity-85">{votesIn}. One no and they walk.</p>
             </header>
-            <div className="w-full max-w-60">
-              <SeatBoard slips={slips} palette={palette} />
-            </div>
             {card}
           </div>
         );
