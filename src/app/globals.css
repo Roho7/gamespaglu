@@ -98,6 +98,9 @@
     outline: var(--rule) solid var(--shadow-ink);
     outline-offset: 2px;
   }
+  button {
+    cursor: pointer;
+  }
 }
 
 @layer components {
@@ -388,19 +391,36 @@
   animation: mb-bob 2.2s ease-in-out infinite;
 }
 
-@keyframes mb-nudge {
-  0%,
-  100% {
-    transform: translateY(-3px);
-    opacity: 0.35;
+/* A stitch sewn in at its rank, half-size then whole, and unpicked the same way half a cycle later. */
+@keyframes mb-sew {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
   }
-  50% {
-    transform: translateY(4px);
+  3% {
     opacity: 1;
+    transform: scale(0.5);
+  }
+  6%,
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  53% {
+    opacity: 1;
+    transform: scale(0.5);
+  }
+  56%,
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
   }
 }
-.animate-nudge {
-  animation: mb-nudge 1.4s steps(6, end) infinite;
+.mb-sew {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mb-sew 2.2s steps(1, end) backwards infinite;
+  animation-delay: calc(var(--rank) * 110ms);
 }
 
 /* Rotate-your-phone nudge. */
@@ -442,7 +462,7 @@
   .animate-stamp,
   .animate-rotate-hint,
   .animate-bob,
-  .animate-nudge {
+  .mb-sew {
     animation: none;
   }
   .mb-btn:active:not(:disabled),

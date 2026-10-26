@@ -1,4 +1,5 @@
 import type { ComponentProps, CSSProperties } from "react";
+import { DitheredRules } from "@/components/stitch/dithered-rules";
 import { FLOWER } from "@/components/stitch/vine-tile";
 import { cn } from "@/lib/utils";
 
@@ -75,6 +76,7 @@ function frame(corners: Pattern[]) {
   const clear = `calc(var(--stitch) * ${cells + 1})`;
   const stitch = "var(--stitch)";
   return {
+    clear,
     cross: stitched(CROSS, size),
     corners: corners.map((p, i): CSSProperties => ({
       ...CORNERS[i],
@@ -101,21 +103,23 @@ const FRAMES = Object.fromEntries(
  * `closeButton` makes the top-right corner a stitched cross that closes
  * whatever the frame is on; its props (onClick, a dialog's close handlers) go
  * straight onto the button. A link frame's arrow nudges toward its target when
- * the nearest `group` is hovered.
+ * the nearest `group` is hovered. `dithered` prints the rules as a moving
+ * dither instead of solid lines, for the band actions.
  */
 export function StitchBorder({
   variant = "card",
   stitch,
   closeButton,
+  dithered,
   className,
 }: {
   variant?: StitchVariant;
-  /** Size of one stitch in pixels; each variant has its own default. */
   stitch?: number;
   closeButton?: ComponentProps<"button">;
+  dithered?: boolean;
   className?: string;
 }) {
-  const { corners, rules, cross } = FRAMES[variant];
+  const { corners, rules, cross, clear } = FRAMES[variant];
   return (
     <div
       className={cn("pointer-events-none absolute", className)}
@@ -123,9 +127,18 @@ export function StitchBorder({
         ["--stitch" as string]: `${stitch ?? VARIANTS[variant].stitch}px`,
       }}
     >
-      {rules.map((at, i) => (
-        <span key={i} aria-hidden className="absolute bg-current" style={at} />
-      ))}
+      {dithered ? (
+        <DitheredRules clear={clear} />
+      ) : (
+        rules.map((at, i) => (
+          <span
+            key={i}
+            aria-hidden
+            className="absolute bg-current"
+            style={at}
+          />
+        ))
+      )}
       {corners.map((at, i) =>
         i === 1 && closeButton ? (
           <button
@@ -147,8 +160,8 @@ export function StitchBorder({
             className={cn(
               "absolute",
               i === 1 &&
-                variant === "link" &&
-                "transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1",
+              variant === "link" &&
+              "transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1",
             )}
             style={at}
           />

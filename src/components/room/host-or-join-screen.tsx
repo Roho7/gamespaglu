@@ -118,7 +118,7 @@ export function HostOrJoinScreen({
               onClick={() => setDoor(d)}
               className="mb-band-action flex-1 py-10"
             >
-              <StitchBorder className="inset-3" />
+              <StitchBorder dithered className="inset-3" />
               <span className="mb-display-sm text-4xl">{d === "host" ? "Host" : "Join"}</span>
             </button>
           ))}

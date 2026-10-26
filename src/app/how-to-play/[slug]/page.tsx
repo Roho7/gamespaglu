@@ -202,7 +202,7 @@ export default async function GuidePage({
       {guide.playRoute ? (
         <div className="fixed inset-x-0 bottom-0 z-30 flex">
           <Link href={guide.playRoute} className="mb-band-action flex-1 py-8">
-            <StitchBorder className="inset-3" />
+            <StitchBorder dithered className="inset-3" />
             <span className="mb-display-sm text-4xl">Play it now</span>
           </Link>
         </div>

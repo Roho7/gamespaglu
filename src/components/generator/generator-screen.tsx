@@ -136,7 +136,7 @@ export function GeneratorScreen({
             disabled={nothingToDraw}
             className="mb-band-action flex-[3] py-10"
           >
-            <StitchBorder className="inset-3" />
+            <StitchBorder dithered className="inset-3" />
             <span className="mb-display-sm text-4xl">
               {g.phase === "idle" ? "Generate" : "Regenerate"}
             </span>
@@ -147,7 +147,7 @@ export function GeneratorScreen({
               onClick={canGoBack ? () => setSettingsOpen(false) : openSettings}
               className="mb-band-action flex-[2] py-10"
             >
-              <StitchBorder className="inset-3" />
+              <StitchBorder dithered className="inset-3" />
               <span className="mb-display-sm text-4xl">
                 {canGoBack ? "Back" : "Settings"}
               </span>

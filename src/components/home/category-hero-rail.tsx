@@ -75,7 +75,7 @@ export function CategoryHeroRail() {
               </div>
 
               <Link href={`/who-am-i/${c.id}`} className="mb-band-action p-10">
-                <StitchBorder className="inset-3" />
+                <StitchBorder dithered className="inset-3" />
                 <span className="text-sm font-light">Generate Random </span>
                 <span className="mb-display-sm text-5xl">{c.label}</span>
               </Link>

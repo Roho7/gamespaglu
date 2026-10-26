@@ -1,33 +1,39 @@
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 
-const CHEVRON = ["##.....##", ".##...##.", "..##.##..", "...###...", "....#...."];
+const CHEVRON = [
+  "##.....##",
+  ".##...##.",
+  "..##.##..",
+  "...###...",
+  "....#....",
+];
 
-const TURN = { down: "", up: "rotate-180", left: "rotate-90", right: "-rotate-90" } as const;
+const TRAIL = 2;
+
+const STITCHES = Array.from({ length: TRAIL }, (_, n) =>
+  CHEVRON.flatMap((row, y) =>
+    [...row].flatMap((cell, x) =>
+      cell === "#"
+        ? [{ x, y: y + n * (CHEVRON.length + 1), rank: y + n * CHEVRON.length }]
+        : [],
+    ),
+  ),
+).flat();
+
+const TURN = {
+  down: "",
+  up: "rotate-180",
+  left: "rotate-90",
+  right: "-rotate-90",
+} as const;
 
 export type ChevronDirection = keyof typeof TURN;
 
-function Pixels() {
-  return (
-    <svg
-      viewBox={`0 0 ${CHEVRON[0].length} ${CHEVRON.length}`}
-      shapeRendering="crispEdges"
-      aria-hidden
-      focusable="false"
-      className="block w-full"
-      fill="currentColor"
-    >
-      {CHEVRON.flatMap((row, y) =>
-        [...row].map((cell, x) =>
-          cell === "#" ? <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" /> : null,
-        ),
-      )}
-    </svg>
-  );
-}
-
 /**
- * A chevron stitched on the same pixel grid as the frame corners, doubled into a trail that pulses
- * the way it points, so it reads as "swipe this way" rather than as a button.
+ * A chevron stitched on the same pixel grid as the frame corners, doubled into a trail. It sews
+ * itself in a row at a time toward the point and unpicks the same way, like the vine marquee's
+ * blooms, so it reads as "swipe this way" rather than as a button.
  */
 export function PixelChevron({
   direction,
@@ -40,17 +46,30 @@ export function PixelChevron({
     <span
       aria-hidden
       className={cn(
-        "flex w-7 flex-col items-center gap-1 [filter:drop-shadow(2px_2px_0_var(--shadow-ink))]",
+        "block w-7 [filter:drop-shadow(2px_2px_0_var(--shadow-ink))]",
         TURN[direction],
         className,
       )}
     >
-      <span className="animate-nudge w-full">
-        <Pixels />
-      </span>
-      <span className="animate-nudge w-full [animation-delay:180ms]">
-        <Pixels />
-      </span>
+      <svg
+        viewBox={`0 0 ${CHEVRON[0].length} ${TRAIL * (CHEVRON.length + 1) - 1}`}
+        shapeRendering="crispEdges"
+        focusable="false"
+        className="block w-full"
+        fill="currentColor"
+      >
+        {STITCHES.map(({ x, y, rank }) => (
+          <rect
+            key={`${x}-${y}`}
+            x={x}
+            y={y}
+            width="1"
+            height="1"
+            className="mb-sew"
+            style={{ "--rank": rank } as CSSProperties}
+          />
+        ))}
+      </svg>
     </span>
   );
 }

@@ -45,7 +45,7 @@ export function AccuseDrawer({
   return (
     <Drawer open={open} onOpenChange={setOpen} swipeDirection="down">
       <DrawerTrigger className="mb-band-action flex-1 py-10">
-        <StitchBorder className="inset-3" />
+        <StitchBorder dithered className="inset-3" />
         <span className="mb-display-sm inline-flex items-center gap-2 text-4xl">Accuse</span>
         <span className="mb-caps text-sm">One shot a round. Make it count.</span>
       </DrawerTrigger>

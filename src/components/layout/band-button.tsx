@@ -16,7 +16,6 @@ export function BandButton({
   children: React.ReactNode;
   onClick: () => void;
   disabled?: boolean;
-  /** A caps line under the label, e.g. why it is disabled. */
   detail?: string;
   className?: string;
 }) {
@@ -25,10 +24,10 @@ export function BandButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={cn("mb-band-action py-10", className)}
+      className={cn("mb-band-action py-10 cursor-pointer", className)}
     >
-      <StitchBorder className="inset-3" />
-      <span className="mb-display-sm inline-flex items-center gap-2 text-4xl">
+      <StitchBorder dithered className="inset-3" />
+      <span className="mb-display-sm inline-flex items-center gap-2 text-4xl cursor-pointer">
         {children}
       </span>
       {detail ? <span className="mb-caps text-sm">{detail}</span> : null}

@@ -203,7 +203,7 @@ export default function StylePage() {
           </div>
         </Row>
 
-        <Row title="Pixel chevron — swipe this way, on the stitch grid, pulsing where it points">
+        <Row title="Pixel chevron — swipe this way, sewn a row at a time toward where it points">
           <div {...theme("tangerine")} className="mb-label flex-row justify-around p-6 text-[var(--cw-shadow)]">
             <PixelChevron direction="down" />
             <PixelChevron direction="left" />
@@ -237,6 +237,13 @@ export default function StylePage() {
           <div className="mb-band relative h-28 px-4 font-extrabold">
             <StitchBorder className="inset-3" />
             Framed band
+          </div>
+        </Row>
+
+        <Row title="Dithered stitch border — the band action's frame, its rules a moving dither">
+          <div className="mb-band-action py-10">
+            <StitchBorder dithered className="inset-3" />
+            <span className="mb-display-sm text-4xl">Band action</span>
           </div>
         </Row>
 

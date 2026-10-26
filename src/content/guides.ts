@@ -372,7 +372,7 @@ export const GUIDES: Guide[] = [
     title: "How to play Tiktiki",
     summary:
       "Everyone knows where you are except one: the Tiktiki, the lizard on the wall. Ask sneaky questions, catch the spy, or bluff your way to the place. Four to twelve players, a phone each.",
-    palette: "neon",
+    palette: "arcade",
     players: "4 to 12",
     time: "Six to ten minutes a round",
     needs: "A phone each, everyone in the same room",
@@ -486,7 +486,6 @@ export function getGuide(slug: string) {
   return GUIDES.find((g) => g.slug === slug);
 }
 
-/** The three Wavelength modes as the briefing's tabs show them. */
 export const WAVELENGTH_MODES: Record<
   Mode,
   { name: string; players: string; minPlayers: number; steps: string[] }

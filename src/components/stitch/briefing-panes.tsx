@@ -12,17 +12,12 @@ export type BriefingPane = {
   body: React.ReactNode;
 };
 
-/**
- * The two halves of a briefing, one at a time. Tabs sit on top of a single
- * stitched frame, and the frame scrolls whichever pane is open.
- */
 export function BriefingPanes({
   panes,
   initial,
   label = "Briefing",
 }: {
   panes: readonly BriefingPane[];
-  /** Which pane is open first. After that, the player owns the tab. */
   initial?: string;
   label?: string;
 }) {
@@ -65,7 +60,7 @@ export function BriefingPanes({
               tabIndex={on ? 0 : -1}
               onClick={() => setActive(item.id)}
               className={cn(
-                "relative flex-1 bg-transparent px-2 pt-3 pb-2.5 text-center transition-transform active:translate-y-px",
+                "relative flex-1 bg-transparent px-2 pt-3 pb-2.5 text-center transition-transform active:translate-y-px cursor-pointer",
                 on ? "text-[var(--cw-base)]" : "text-[var(--cw-shadow)]",
               )}
             >
