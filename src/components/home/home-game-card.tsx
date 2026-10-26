@@ -10,7 +10,7 @@ import { paletteById, type PaletteId, theme } from "@/lib/palettes";
 export type PosterRow = { text: string; kind: "title" | "subtitle" };
 
 const ROW_SIZE: Record<PosterRow["kind"], string> = {
-  title: "text-[min(40vw,15rem)] lg:text-[min(45vw,25rem)]",
+  title: "text-[min(40vw,15rem)] lg:text-[min(24vw,23rem)]",
   subtitle: "text-[min(15vw,7rem)] lg:self-end! lg:absolute lg:top-2",
 };
 

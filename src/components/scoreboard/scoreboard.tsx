@@ -136,16 +136,15 @@ export function Scoreboard() {
 
       {players.length === 0 ? (
         <div
-          {...theme(PALETTES[0])}
+          {...theme(PALETTES[7])}
           className="mb-label relative px-8 py-12 text-center"
         >
           <StitchBorder className="inset-2" />
           <p className="mb-display mb-shadow text-4xl">
-            Nobody&apos;s winning yet
+            Nobody&apos;s added
           </p>
           <p className="mt-3 text-sm font-semibold">
-            Add players or teams above. Works for cards, carrom, antakshari —
-            anything.
+            Add players or teams here to track scores.
           </p>
         </div>
       ) : (

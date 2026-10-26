@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 
-/** The Games Paglu wordmark, printed in the surrounding palette's dark ink. */
 export function SiteLogo({ className }: { className?: string }) {
   return (
     <span

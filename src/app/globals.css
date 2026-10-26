@@ -58,7 +58,6 @@
   --band: #17110c;
   --band-ink: #fff8e7;
   --shadow-ink: #17110c;
-  /* Printer's red. Fixed, so a fate stamp reads the same in every palette. */
   --destructive: #c4121a;
   --on-destructive: #fff6e4;
 

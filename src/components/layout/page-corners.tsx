@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { ScoreboardDrawer } from "@/components/scoreboard/scoreboard-drawer";
 import { ditherBack } from "@/lib/dither-transition";
+import { hasInAppHistory } from "@/lib/history-depth";
 import { cn } from "@/lib/utils";
 import type { PublicPlayer } from "@shared/protocol";
 
@@ -31,13 +32,16 @@ export function SquareLink({
   );
 }
 
+/** Goes back a page, or home when this tab landed here from outside the app. */
 export function BackLink({ className }: { className?: string }) {
   const router = useRouter();
   return (
     <button
       type="button"
       aria-label="Back"
-      onClick={() => ditherBack(() => router.back())}
+      onClick={() =>
+        hasInAppHistory() ? ditherBack(() => router.back()) : router.push("/")
+      }
       className={cn("mb-square-btn", className)}
     >
       <ArrowLeft className="size-5" strokeWidth={3} aria-hidden />

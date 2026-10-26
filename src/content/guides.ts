@@ -303,7 +303,7 @@ export const GUIDES: Guide[] = [
     steps: [
       {
         title: "Gather the suspects",
-        body: "One person hosts and reads out the four-letter code. Everyone else types it in on their own phone. The lobby tells you what the table will be dealt: one Mafia for five or six players, two for seven to nine, three for ten to twelve, plus a Doctor. Everyone else is a Villager. No powers, all opinions.",
+        body: "One person hosts and reads out the four-letter code. Everyone else types it in on their own phone. The lobby tells you what the table will be dealt: one Mafia for five or six players, two for seven to nine, three for ten to twelve, plus a Doctor. Everyone else is a Villager. No powers",
       },
       {
         title: "Peek at your card",

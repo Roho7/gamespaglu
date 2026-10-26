@@ -75,7 +75,7 @@ export function RoleTable() {
           ))}
         </tbody>
       </table>
-      <p className="opacity-80">Everyone else is a Villager. No powers, all opinions.</p>
+      <p className="opacity-80">Everyone else is a Villager. No powers</p>
     </div>
   );
 }

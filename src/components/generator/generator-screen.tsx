@@ -15,15 +15,7 @@ import { useGenerator } from "@/lib/hooks/use-generator";
 import { useWakeLock } from "@/lib/hooks/use-wake-lock";
 import type { CategoryId } from "@/lib/deck/types";
 
-/**
- * The play screen. Before a round it is the briefing: how to play and
- * settings, one tab at a time. During a round it is one
- * word on a field of colour, with the photo dithered in behind it at the
- * reveal. Every draw reprints the screen in a fresh palette.
- *
- * mode="game" adds the 3-second countdown, the window to get the phone onto a
- * forehead. mode="tool" reveals instantly for the standalone generator routes.
- */
+
 export function GeneratorScreen({
   category,
   mode,

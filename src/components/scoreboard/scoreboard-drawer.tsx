@@ -13,12 +13,7 @@ import { RoomScoreboard } from "@/components/scoreboard/room-scoreboard";
 import { Scoreboard } from "@/components/scoreboard/scoreboard";
 import type { PublicPlayer } from "@shared/protocol";
 
-/**
- * Keeping score happens *during* a game, so the scoreboard is a bottom sheet
- * reachable from a corner button on every inner screen rather than a page you leave the
- * game to visit. Same persisted board as /scoreboard, except in a room, where it shows the room's
- * own totals instead.
- */
+
 export function ScoreboardDrawer({ room }: { room?: PublicPlayer[] }) {
   const [open, setOpen] = useState(false);
 

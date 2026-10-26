@@ -6,6 +6,7 @@ import { PaletteGrain } from "@/components/artwork/palette-grain";
 import { Toaster } from "@/components/ui/sonner";
 import { HomeSlideMemory } from "@/components/home/home-rail";
 import { PageTransition } from "@/components/layout/page-transition";
+import { HistoryDepthMemory } from "@/components/layout/history-depth-memory";
 import { ditherTransitionCss } from "@/lib/dither-transition";
 import { GROUND, paletteCss, theme } from "@/lib/palettes";
 import "./globals.css";
@@ -84,6 +85,7 @@ export default function RootLayout({
           className="fixed inset-0 -z-10"
         />
         <HomeSlideMemory />
+        <HistoryDepthMemory />
         <PageTransition>{children}</PageTransition>
         <Toaster />
         <ServiceWorkerRegistration />
