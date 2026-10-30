@@ -10,6 +10,7 @@ import { CATEGORIES } from "@/lib/deck/categories";
 import { GUIDES, getGuide } from "@/content/guides";
 import { SITE } from "@/lib/site-config";
 import { pageMetadata } from "@/lib/seo";
+import { PaletteGrain } from "@/components/artwork/palette-grain";
 
 export function generateStaticParams() {
   return GUIDES.map((g) => ({ slug: g.slug }));
@@ -43,14 +44,7 @@ export default async function GuidePage({
 
   const cw = paletteById(guide.palette);
 
-  /**
-   * Two separate entities, not one.
-   *
-   * The FAQ used to be hung off the HowTo as `mainEntity`, which is not valid:
-   * FAQ rich results require an `FAQPage`, so the FAQPage markup the spec claims
-   * to ship was never actually eligible on any guide. An array is legal JSON-LD
-   * and keeps both.
-   */
+
   const jsonLd: object[] = [
     {
       "@context": "https://schema.org",
@@ -80,15 +74,16 @@ export default async function GuidePage({
   return (
     <main
       {...theme(cw)}
-      className="min-h-dvh bg-[var(--cw-base)] text-[var(--cw-shadow)]"
+      className="min-h-dvh bg-[var(--cw-base)] text-[var(--cw-base)] relative"
     >
       <PageCorners />
+      <PaletteGrain palette={cw} tone="ink" className="fixed inset-0 max-h-screen" />
 
       <article
-        className={`mx-auto w-full max-w-2xl space-y-3 px-3 pt-20 ${guide.playRoute ? "pb-36" : "pb-10"}`}
+        className={`mx-auto w-full max-w-2xl space-y-3 px-3 pt-20 z-10 ${guide.playRoute ? "pb-36" : "pb-10"}`}
       >
         <header className="mb-tilt space-y-3 px-4 pb-4 text-center">
-          <h1 className="mb-display mb-shadow text-5xl leading-none">
+          <h1 className="mb-display-flipped text-5xl leading-none text-[var(--cw-highlight)]">
             {guide.title}
           </h1>
           <p className="mb-caps flex flex-wrap justify-center gap-x-4 gap-y-1 text-[1rem] opacity-80">
@@ -102,6 +97,7 @@ export default async function GuidePage({
           ) : null}
         </header>
 
+
         <StitchedPanel title="The game">
           <div className="space-y-3 text-base leading-relaxed font-medium">
             {guide.intro.map((p) => (
@@ -114,7 +110,7 @@ export default async function GuidePage({
           <ol className="space-y-5">
             {guide.steps.map((s, i) => (
               <li key={s.title} className="flex gap-4">
-                <span className="mb-display-sm w-6 shrink-0 text-3xl leading-none">
+                <span className="mb-display-sm w-6 shrink-0 text-3xl leading-none text-[var(--cw-highlight)]">
                   {i + 1}
                 </span>
                 <div>
@@ -196,7 +192,7 @@ export default async function GuidePage({
           </StitchedPanel>
         ) : null}
 
-        <CrossPromo />
+        {/* <CrossPromo /> */}
       </article>
 
       {guide.playRoute ? (

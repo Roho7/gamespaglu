@@ -5,7 +5,7 @@ import { useHydrated, usePersisted } from "@/lib/hooks/use-persisted";
 import { clampRange, drawEntry, drawNumber, filterPool } from "@/lib/deck/draw";
 import { availableTypes } from "@/lib/deck/entries";
 import { DEFAULT_COUNTRIES } from "@/lib/deck/countries";
-import { ALL_TYPES } from "@/lib/deck/celebrity-filters";
+import { DEFAULT_TYPES } from "@/lib/deck/celebrity-filters";
 import { primeAudio, revealHit, tick } from "@/lib/sound-and-haptics";
 import { type Palette, randomPalette } from "@/lib/palettes";
 import type { EntryImage } from "@/lib/deck/entry-images";
@@ -24,7 +24,7 @@ const COUNTDOWN_FROM = 3;
  * `v` is a migration stamp, not a preference. Bump it whenever a stored shape
  * stops meaning what it used to.
  */
-const PREFS_VERSION = 2;
+const PREFS_VERSION = 3;
 
 type Prefs = {
   v: number;
@@ -39,9 +39,9 @@ type Prefs = {
 const DEFAULT_PREFS: Prefs = {
   v: PREFS_VERSION,
   countries: [...DEFAULT_COUNTRIES],
-  types: [...ALL_TYPES],
+  types: [...DEFAULT_TYPES],
   spicy: false,
-  era: "both",
+  era: "modern",
   min: 1,
   max: 100,
 };
@@ -57,14 +57,20 @@ const DEFAULT_PREFS: Prefs = {
  * first time any other setting was touched. Carrying either one forward leaves
  * a returning player on a silently narrowed deck, which is the empty-pool bug
  * this repo has already shipped once.
+ *
+ * v2 → v3 made the default deck modern, with anime and superheroes opt-in. The
+ * saved types and era were almost always the old everything-on default written
+ * back by an unrelated tap, so they reset rather than pinning a returning
+ * player to the deck the new default exists to fix. A v2 `era: "classic"` has
+ * no meaning any more either.
  */
 function migrate(stored: Partial<Prefs>): Prefs {
   if (stored.v === PREFS_VERSION) return { ...DEFAULT_PREFS, ...stored };
-  const { types, era, min, max } = stored;
+  const { countries, spicy, min, max } = stored;
   return {
     ...DEFAULT_PREFS,
-    ...(types?.length ? { types } : {}),
-    ...(era ? { era } : {}),
+    ...(stored.v === 2 && countries?.length ? { countries } : {}),
+    ...(stored.v === 2 && spicy !== undefined ? { spicy } : {}),
     ...(min !== undefined ? { min } : {}),
     ...(max !== undefined ? { max } : {}),
   };

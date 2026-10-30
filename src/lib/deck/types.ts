@@ -43,8 +43,11 @@ export type TypeKey =
   | "superhero";
 
 export type Era = "classic" | "modern" | "evergreen";
-/** What the user can choose. "both" is the default. */
-export type EraFilter = "classic" | "modern" | "both";
+/**
+ * What the user can choose: modern only by default, or "both" once historical
+ * figures are let in. There is no classic-only deck.
+ */
+export type EraFilter = "modern" | "both";
 
 /**
  * Where something is a *household name* — not where it came from. A film that

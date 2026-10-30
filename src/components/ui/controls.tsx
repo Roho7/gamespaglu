@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -29,6 +30,45 @@ export function Chip({
       )}
     >
       {children}
+    </button>
+  );
+}
+
+/** A yes/no setting. The box fills with the dark ink and a tick when checked. */
+export function Checkbox({
+  checked,
+  onCheckedChange,
+  children,
+  className,
+}: {
+  checked: boolean;
+  onCheckedChange: (v: boolean) => void;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      role="checkbox"
+      aria-checked={checked}
+      onClick={() => onCheckedChange(!checked)}
+      className={cn(
+        "mb-display-sm inline-flex items-center gap-[0.5em] text-left text-[1.25em] text-[var(--cw-shadow)] transition-transform active:translate-y-[1px]",
+        className,
+      )}
+    >
+      <span
+        aria-hidden
+        className={cn(
+          "grid size-[1.4em] shrink-0 place-items-center border-[length:var(--rule-thin)] border-[var(--cw-shadow)]",
+          checked
+            ? "bg-[var(--cw-shadow)] text-[var(--cw-base)]"
+            : "bg-transparent",
+        )}
+      >
+        {checked ? <Check className="size-[1em]" strokeWidth={3} /> : null}
+      </span>
+      <span className="pt-[0.15em]">{children}</span>
     </button>
   );
 }

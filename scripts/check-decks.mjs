@@ -25,7 +25,9 @@ const DATA = {
 };
 const HAS_REGION = { celebrity: true, movie: true, place: true, animal: false, object: false };
 const HAS_TYPES = { celebrity: true };
-const ERAS = ["both", "classic", "modern"];
+const ERAS = ["modern", "both"];
+// Mirrors DEFAULT_TYPES and the modern default in src/lib/hooks/use-generator.ts.
+const OPT_IN_TYPES = ["anime", "superhero"];
 
 const uniq = (xs) => [...new Set(xs)];
 // eslint-disable-next-line no-unused-vars
@@ -42,12 +44,12 @@ const availableTypes = (cat, era = "both", spicy = false) =>
 
 function filterPool(cat, { countries, types, era = "both", spicy = false } = {}) {
   const all = DATA[cat];
-  if (!HAS_REGION[cat]) return all;
   const cs = countries ?? availableCountries(cat);
   const ts = types ?? availableTypes(cat);
   return all.filter((e) => {
     if (e.spicy && !spicy) return false;
-    if (!e.countries.some((c) => cs.includes(c))) return false;
+    if (HAS_REGION[cat] && !e.countries.some((c) => cs.includes(c))) return false;
+    if (!HAS_TYPES[cat]) return true;
     if (e.types?.length && !e.types.some((t) => ts.includes(t))) return false;
     if (era !== "both" && e.era && e.era !== "evergreen" && e.era !== era) return false;
     return true;
@@ -82,7 +84,13 @@ const fail = (msg) => {
 
 console.log("-- defaults --");
 for (const cat of Object.keys(DATA)) {
-  const n = filterPool(cat).length;
+  const defaults = HAS_TYPES[cat]
+    ? {
+        era: "modern",
+        types: availableTypes(cat).filter((t) => !OPT_IN_TYPES.includes(t)),
+      }
+    : {};
+  const n = filterPool(cat, defaults).length;
   console.log(`${(n > 0 ? "ok  " : "FAIL")} ${cat.padEnd(10)} default -> ${String(n).padStart(3)}`);
   if (n === 0) bad++;
 }

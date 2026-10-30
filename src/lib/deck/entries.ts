@@ -3,6 +3,7 @@ import objectsRaw from "@shared/data/objects.json";
 import placesRaw from "@shared/data/places.json";
 import moviesRaw from "@shared/data/movies.json";
 import celebritiesRaw from "@shared/data/celebrities.json";
+import { CATEGORIES } from "@/lib/deck/categories";
 import type {
   CategoryId,
   CountryKey,
@@ -82,7 +83,9 @@ export function availableTypes(
   category: CategoryId,
   filters?: { countries?: CountryKey[]; era?: EraFilter; spicy?: boolean },
 ): TypeKey[] {
-  const countries = filters?.countries;
+  const countries = CATEGORIES[category].hasRegionFilter
+    ? filters?.countries
+    : undefined;
   const era = filters?.era ?? "both";
 
   const seen = new Set<TypeKey>();

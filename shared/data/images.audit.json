@@ -911,72 +911,6 @@
   "description": "English playwright and poet (1564–1616)",
   "file": "Shakespeare.jpg"
  },
- "celebrity:bong-joon-ho": {
-  "label": "Bong Joon-ho",
-  "wikidata": "Q495980",
-  "description": "South Korean filmmaker (born 1969)",
-  "file": "Bong Joon Ho - Okja.jpg"
- },
- "celebrity:song-joong-ki": {
-  "label": "Song Joong-ki",
-  "wikidata": "Q485517",
-  "description": "South Korean actor",
-  "file": "Song Joong Ki Blue Dragon.jpg"
- },
- "celebrity:lee-min-ho": {
-  "label": "Lee Min-ho",
-  "wikidata": "Q80758",
-  "description": "South Korean actor, singer and model",
-  "file": "Lee Min-ho in June 2026.png"
- },
- "celebrity:rm-bts": {
-  "label": "RM (BTS)",
-  "wikidata": "Q20514446",
-  "description": "South Korean rapper, singer, songwriter, record producer, and leader of the boy band BTS",
-  "file": "RM at W Korea Love Your W, November 2023.jpg"
- },
- "celebrity:psy": {
-  "label": "Psy",
-  "wikidata": "Q20150",
-  "description": "South Korean singer (born 1977)",
-  "file": "PSY(싸이) at 2015 Summer K-POP Festival.jpg"
- },
- "celebrity:hayao-miyazaki": {
-  "label": "Hayao Miyazaki",
-  "wikidata": "Q55400",
-  "description": "Japanese animator, filmmaker, and mangaka (born 1941)",
-  "file": "HayaoMiyazakiCCJuly09.jpg"
- },
- "celebrity:akira-kurosawa": {
-  "label": "Akira Kurosawa",
-  "wikidata": "Q8006",
-  "description": "Japanese filmmaker (1910–1998)",
-  "file": "Akirakurosawa-onthesetof7samurai-1953-page88.jpg"
- },
- "celebrity:shigeru-miyamoto": {
-  "label": "Shigeru Miyamoto",
-  "wikidata": "Q12382",
-  "description": "Japanese video game designer (born 1952)",
-  "file": "Shigeru Miyamoto 20150610 (cropped).jpg"
- },
- "celebrity:naomi-osaka": {
-  "label": "Naomi Osaka",
-  "wikidata": "Q17466583",
-  "description": "Japanese tennis player (born 1997)",
-  "file": "Naomi Osaka 2017 Wimbledon.jpg"
- },
- "celebrity:shohei-ohtani": {
-  "label": "Shohei Ohtani",
-  "wikidata": "Q4391858",
-  "description": "Japanese professional baseball player",
-  "file": "2026 Shohei Ohtani (cropped).jpg"
- },
- "celebrity:marie-kondo": {
-  "label": "Marie Kondo",
-  "wikidata": "Q11638963",
-  "description": "Japanese organizing consultant, author and television show host (1984-)",
-  "file": "Marie Kondō, 2016 (cropped).jpg"
- },
  "celebrity:albert-einstein": {
   "label": "Albert Einstein",
   "wikidata": "Q937",
@@ -1823,48 +1757,6 @@
   "description": "Chinese-Singaporean martial artist and actor",
   "file": "Jet Li cropped.JPG"
  },
- "celebrity:ken-watanabe": {
-  "label": "Ken Watanabe",
-  "wikidata": "Q211553",
-  "description": "Japanese actor (1959-)",
-  "file": "Ken Watanabe 2007 (cropped).jpg"
- },
- "celebrity:takeshi-kitano": {
-  "label": "Takeshi Kitano",
-  "wikidata": "Q26372",
-  "description": "Japanese film director, comedian, singer, actor, film editor, presenter, screenwriter, author, poet, painter and video game designer (born 1947)",
-  "file": "TakeshiKitano.jpg"
- },
- "celebrity:toshiro-mifune": {
-  "label": "Toshiro Mifune",
-  "wikidata": "Q37001",
-  "description": "Japanese actor (1920–1997)",
-  "file": "Toshiro Mifune 1954 Scan10003 160913.jpg"
- },
- "celebrity:lee-jung-jae": {
-  "label": "Lee Jung-jae",
-  "wikidata": "Q491318",
-  "description": "South Korean actor and businessman (born 1972)",
-  "file": "210305 이정재 (cropped).jpg"
- },
- "celebrity:gong-yoo": {
-  "label": "Gong Yoo",
-  "wikidata": "Q623436",
-  "description": "South Korean actor Beautiful",
-  "file": "Gong yoo.png"
- },
- "celebrity:park-seo-joon": {
-  "label": "Park Seo-joon",
-  "wikidata": "Q5116234",
-  "description": "South Korean actor",
-  "file": "Park Seo-joon in June 2019.png"
- },
- "celebrity:ma-dong-seok": {
-  "label": "Ma Dong-seok",
-  "wikidata": "Q498374",
-  "description": "South Korean-American actor",
-  "file": "Don Lee by Gage Skidmore.jpg"
- },
  "celebrity:ksi": {
   "label": "KSI",
   "wikidata": "Q16235544",
@@ -2020,24 +1912,6 @@
   "wikidata": "Q40912",
   "description": "American singer and actor (1915–1998)",
   "file": "Frank Sinatra '57.jpg"
- },
- "celebrity:iu": {
-  "label": "IU",
-  "wikidata": "Q20145",
-  "description": "South Korean singer, songwriter and actress",
-  "file": "250718 Lee Ji-eun (이지은).png"
- },
- "celebrity:v-bts": {
-  "label": "V (BTS)",
-  "wikidata": "Q18388296",
-  "description": "South Korean singer, actor and dancer",
-  "file": "V at W Korea Breast Cancer Campaign, 15 October 2025.png"
- },
- "celebrity:jimin-bts": {
-  "label": "Jimin (BTS)",
-  "wikidata": "Q20947093",
-  "description": "South Korean singer and dancer (BTS)",
-  "file": "Jimin on the way to SBS Radio, 31 March 2023 (2).jpg"
  },
  "celebrity:neymar": {
   "label": "Neymar",

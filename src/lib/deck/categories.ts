@@ -35,12 +35,12 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     seoSlug: "random-celebrity-generator",
     seoTitle: "Random Celebrity Generator",
     seoDescription:
-      "Pick a random famous name — actors, cricketers, singers, leaders, YouTubers, cartoon characters, anime characters and superheroes. Filter by country, kind and era. Free and offline.",
+      "Pick a random famous name — actors, cricketers, singers, leaders, YouTubers, cartoon characters, anime characters and superheroes. Indian names, worldwide names or both, filtered by kind and era. Free and offline.",
     hasRegionFilter: true,
     hasTypeFilter: true,
     hasRangeFilter: false,
     blurb:
-      "Actors, cricketers, singers, leaders, YouTubers — plus cartoons, anime and superheroes. Filter by who, where and which era.",
+      "Actors, cricketers, singers, leaders, YouTubers — plus cartoons, anime and superheroes. Indian, worldwide or both.",
   },
   movie: {
     id: "movie",

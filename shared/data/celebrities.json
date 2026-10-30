@@ -952,7 +952,7 @@
   {
     "label": "Tom Cruise",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -962,7 +962,7 @@
   {
     "label": "Leonardo DiCaprio",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -972,7 +972,7 @@
   {
     "label": "Brad Pitt",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -982,7 +982,7 @@
   {
     "label": "Johnny Depp",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -992,7 +992,7 @@
   {
     "label": "Will Smith",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1002,7 +1002,7 @@
   {
     "label": "Dwayne Johnson",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1012,7 +1012,7 @@
   {
     "label": "Robert Downey Jr.",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1022,7 +1022,7 @@
   {
     "label": "Scarlett Johansson",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1032,7 +1032,7 @@
   {
     "label": "Angelina Jolie",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1042,7 +1042,7 @@
   {
     "label": "Jennifer Lawrence",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1052,7 +1052,7 @@
   {
     "label": "Meryl Streep",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1062,7 +1062,7 @@
   {
     "label": "Denzel Washington",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1072,7 +1072,7 @@
   {
     "label": "Morgan Freeman",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1082,7 +1082,7 @@
   {
     "label": "Samuel L. Jackson",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1092,7 +1092,7 @@
   {
     "label": "Tom Hanks",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1102,7 +1102,7 @@
   {
     "label": "Keanu Reeves",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1112,7 +1112,7 @@
   {
     "label": "Julia Roberts",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1122,7 +1122,7 @@
   {
     "label": "Marilyn Monroe",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1132,7 +1132,7 @@
   {
     "label": "Michael Jackson",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1142,7 +1142,7 @@
   {
     "label": "Beyoncé",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1152,7 +1152,7 @@
   {
     "label": "Taylor Swift",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1162,7 +1162,7 @@
   {
     "label": "Eminem",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1172,7 +1172,7 @@
   {
     "label": "Rihanna",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1182,7 +1182,7 @@
   {
     "label": "Lady Gaga",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1192,7 +1192,7 @@
   {
     "label": "Snoop Dogg",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1202,7 +1202,7 @@
   {
     "label": "Elvis Presley",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1212,7 +1212,7 @@
   {
     "label": "Drake",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1222,7 +1222,7 @@
   {
     "label": "Billie Eilish",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1232,7 +1232,7 @@
   {
     "label": "The Weeknd",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1242,7 +1242,7 @@
   {
     "label": "Oprah Winfrey",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -1252,7 +1252,7 @@
   {
     "label": "Michael Jordan",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -1262,7 +1262,7 @@
   {
     "label": "LeBron James",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -1272,7 +1272,7 @@
   {
     "label": "Serena Williams",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -1282,7 +1282,7 @@
   {
     "label": "Muhammad Ali",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -1292,7 +1292,7 @@
   {
     "label": "Elon Musk",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -1302,7 +1302,7 @@
   {
     "label": "Bill Gates",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -1312,7 +1312,7 @@
   {
     "label": "Steve Jobs",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -1322,7 +1322,7 @@
   {
     "label": "Barack Obama",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -1332,7 +1332,7 @@
   {
     "label": "Donald Trump",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -1342,7 +1342,7 @@
   {
     "label": "Abraham Lincoln",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -1352,7 +1352,7 @@
   {
     "label": "MrBeast",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -1362,7 +1362,7 @@
   {
     "label": "PewDiePie",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -1372,7 +1372,7 @@
   {
     "label": "Kim Kardashian",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -1382,7 +1382,7 @@
   {
     "label": "Logan Paul",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -1392,7 +1392,7 @@
   {
     "label": "IShowSpeed",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -1402,7 +1402,7 @@
   {
     "label": "Kylie Jenner",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -1412,7 +1412,7 @@
   {
     "label": "Joe Rogan",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -1422,7 +1422,7 @@
   {
     "label": "Daniel Radcliffe",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1432,7 +1432,7 @@
   {
     "label": "Emma Watson",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1442,7 +1442,7 @@
   {
     "label": "Benedict Cumberbatch",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1452,7 +1452,7 @@
   {
     "label": "Tom Holland",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1462,7 +1462,7 @@
   {
     "label": "Idris Elba",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1472,7 +1472,7 @@
   {
     "label": "Mr Bean (Rowan Atkinson)",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1482,7 +1482,7 @@
   {
     "label": "Charlie Chaplin",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -1492,7 +1492,7 @@
   {
     "label": "Adele",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1502,7 +1502,7 @@
   {
     "label": "Ed Sheeran",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1512,7 +1512,7 @@
   {
     "label": "Freddie Mercury",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -1522,7 +1522,7 @@
   {
     "label": "David Beckham",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -1532,7 +1532,7 @@
   {
     "label": "Queen Elizabeth II",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -1542,7 +1542,7 @@
   {
     "label": "Winston Churchill",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -1552,7 +1552,7 @@
   {
     "label": "Isaac Newton",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -1562,152 +1562,12 @@
   {
     "label": "William Shakespeare",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "icon"
     ],
     "era": "classic"
-  },
-  {
-    "label": "Bong Joon-ho",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Song Joong-ki",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Lee Min-ho",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Jungkook (BTS)",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "music"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "RM (BTS)",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "music"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Jennie (BLACKPINK)",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "music"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Lisa (BLACKPINK)",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "music"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Psy",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "music"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Hayao Miyazaki",
-    "countries": [
-      "jp"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "evergreen"
-  },
-  {
-    "label": "Akira Kurosawa",
-    "countries": [
-      "jp"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "classic"
-  },
-  {
-    "label": "Shigeru Miyamoto",
-    "countries": [
-      "jp"
-    ],
-    "types": [
-      "icon"
-    ],
-    "era": "evergreen"
-  },
-  {
-    "label": "Naomi Osaka",
-    "countries": [
-      "jp"
-    ],
-    "types": [
-      "sport"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Shohei Ohtani",
-    "countries": [
-      "jp"
-    ],
-    "types": [
-      "sport"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Marie Kondo",
-    "countries": [
-      "jp"
-    ],
-    "types": [
-      "internet"
-    ],
-    "era": "modern"
   },
   {
     "label": "Albert Einstein",
@@ -1903,7 +1763,7 @@
     "label": "Doraemon",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -1914,7 +1774,7 @@
     "label": "Nobita",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -1925,7 +1785,7 @@
     "label": "Shinchan",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -1936,7 +1796,7 @@
     "label": "Ninja Hattori",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -1947,7 +1807,7 @@
     "label": "Perman",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -1958,7 +1818,7 @@
     "label": "Kiteretsu",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2009,7 +1869,7 @@
     "label": "Mickey Mouse",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2020,7 +1880,7 @@
     "label": "Donald Duck",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2031,7 +1891,7 @@
     "label": "Tom and Jerry",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2042,7 +1902,7 @@
     "label": "Scooby-Doo",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2053,7 +1913,7 @@
     "label": "Popeye",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2064,7 +1924,7 @@
     "label": "Bugs Bunny",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2075,7 +1935,7 @@
     "label": "SpongeBob SquarePants",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2085,7 +1945,7 @@
   {
     "label": "Homer Simpson",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2095,7 +1955,7 @@
   {
     "label": "Bart Simpson",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2106,7 +1966,7 @@
     "label": "Peppa Pig",
     "countries": [
       "in",
-      "gb"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2117,7 +1977,7 @@
     "label": "Thomas the Tank Engine",
     "countries": [
       "in",
-      "gb"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2128,7 +1988,7 @@
     "label": "Oswald",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2139,7 +1999,7 @@
     "label": "Dora the Explorer",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2150,7 +2010,7 @@
     "label": "Ben 10",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2161,7 +2021,7 @@
     "label": "Johnny Bravo",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2172,7 +2032,7 @@
     "label": "Dexter",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2183,7 +2043,7 @@
     "label": "Powerpuff Girls",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2194,7 +2054,7 @@
     "label": "Courage the Cowardly Dog",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2205,7 +2065,7 @@
     "label": "Pink Panther",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2216,7 +2076,7 @@
     "label": "Woody Woodpecker",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2227,7 +2087,7 @@
     "label": "Richie Rich",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2248,7 +2108,7 @@
     "label": "Shaun the Sheep",
     "countries": [
       "in",
-      "gb"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2259,7 +2119,7 @@
     "label": "Mr Bean (cartoon)",
     "countries": [
       "in",
-      "gb"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2270,7 +2130,7 @@
     "label": "Kung Fu Panda",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2281,7 +2141,7 @@
     "label": "Shrek",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2292,7 +2152,7 @@
     "label": "Elsa",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2303,7 +2163,7 @@
     "label": "Simba",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2314,7 +2174,7 @@
     "label": "Winnie the Pooh",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2325,7 +2185,7 @@
     "label": "Minions",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -2336,7 +2196,7 @@
     "label": "Goku",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2347,7 +2207,7 @@
     "label": "Vegeta",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2358,7 +2218,7 @@
     "label": "Naruto",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2369,7 +2229,7 @@
     "label": "Sasuke",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2380,7 +2240,7 @@
     "label": "Kakashi",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2391,7 +2251,7 @@
     "label": "Itachi",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2402,7 +2262,7 @@
     "label": "Monkey D. Luffy",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2413,7 +2273,7 @@
     "label": "Zoro",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2424,7 +2284,7 @@
     "label": "Pikachu",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2435,7 +2295,7 @@
     "label": "Ash Ketchum",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2446,7 +2306,7 @@
     "label": "Light Yagami",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2457,7 +2317,7 @@
     "label": "L (Death Note)",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2468,7 +2328,7 @@
     "label": "Eren Yeager",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2479,7 +2339,7 @@
     "label": "Levi Ackerman",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2490,7 +2350,7 @@
     "label": "Tanjiro",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2501,7 +2361,7 @@
     "label": "Nezuko",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2512,7 +2372,7 @@
     "label": "Gojo Satoru",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2523,7 +2383,7 @@
     "label": "Saitama",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2534,7 +2394,7 @@
     "label": "Ichigo Kurosaki",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2545,7 +2405,7 @@
     "label": "Edward Elric",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2556,7 +2416,7 @@
     "label": "Sailor Moon",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2566,7 +2426,7 @@
   {
     "label": "Astro Boy",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2577,7 +2437,7 @@
     "label": "Totoro",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2588,7 +2448,7 @@
     "label": "Inuyasha",
     "countries": [
       "in",
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -2599,7 +2459,7 @@
     "label": "Batman",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2610,7 +2470,7 @@
     "label": "Superman",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2621,7 +2481,7 @@
     "label": "Spider-Man",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2632,7 +2492,7 @@
     "label": "Iron Man",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2643,7 +2503,7 @@
     "label": "Captain America",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2654,7 +2514,7 @@
     "label": "Thor",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2665,7 +2525,7 @@
     "label": "Hulk",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2676,7 +2536,7 @@
     "label": "Black Widow",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2687,7 +2547,7 @@
     "label": "Wonder Woman",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2698,7 +2558,7 @@
     "label": "The Joker",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2709,7 +2569,7 @@
     "label": "Thanos",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2720,7 +2580,7 @@
     "label": "Deadpool",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2731,7 +2591,7 @@
     "label": "Wolverine",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2742,7 +2602,7 @@
     "label": "Black Panther",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2753,7 +2613,7 @@
     "label": "Doctor Strange",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2764,7 +2624,7 @@
     "label": "Aquaman",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2775,7 +2635,7 @@
     "label": "The Flash",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2786,7 +2646,7 @@
     "label": "Captain Marvel",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -2896,7 +2756,7 @@
   {
     "label": "Joe Biden",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -2906,7 +2766,7 @@
   {
     "label": "Kamala Harris",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -2937,7 +2797,7 @@
     "label": "Sundar Pichai",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -2948,7 +2808,7 @@
     "label": "Satya Nadella",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -3029,7 +2889,7 @@
     "label": "Sunita Williams",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -3039,7 +2899,7 @@
   {
     "label": "Mark Zuckerberg",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -3049,7 +2909,7 @@
   {
     "label": "Jeff Bezos",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -3059,7 +2919,7 @@
   {
     "label": "Warren Buffett",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -3099,7 +2959,7 @@
   {
     "label": "Al Pacino",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3109,7 +2969,7 @@
   {
     "label": "Robert De Niro",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3119,7 +2979,7 @@
   {
     "label": "Anthony Hopkins",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3129,7 +2989,7 @@
   {
     "label": "Harrison Ford",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3139,7 +2999,7 @@
   {
     "label": "Arnold Schwarzenegger",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3149,7 +3009,7 @@
   {
     "label": "Sylvester Stallone",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3159,7 +3019,7 @@
   {
     "label": "Clint Eastwood",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3169,7 +3029,7 @@
   {
     "label": "Audrey Hepburn",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3179,7 +3039,7 @@
   {
     "label": "Sean Connery",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3189,7 +3049,7 @@
   {
     "label": "Michael Caine",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3199,7 +3059,7 @@
   {
     "label": "Jim Carrey",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3209,7 +3069,7 @@
   {
     "label": "Eddie Murphy",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3219,7 +3079,7 @@
   {
     "label": "Adam Sandler",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3229,7 +3089,7 @@
   {
     "label": "Sandra Bullock",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3239,7 +3099,7 @@
   {
     "label": "Nicole Kidman",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3249,7 +3109,7 @@
   {
     "label": "Natalie Portman",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3259,7 +3119,7 @@
   {
     "label": "Anne Hathaway",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3269,7 +3129,7 @@
   {
     "label": "Emma Stone",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3279,7 +3139,7 @@
   {
     "label": "Margot Robbie",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3289,7 +3149,7 @@
   {
     "label": "Zendaya",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3299,7 +3159,7 @@
   {
     "label": "Timothée Chalamet",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3309,7 +3169,7 @@
   {
     "label": "Ryan Gosling",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3319,7 +3179,7 @@
   {
     "label": "Ryan Reynolds",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3329,7 +3189,7 @@
   {
     "label": "Hugh Jackman",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3339,7 +3199,7 @@
   {
     "label": "Christian Bale",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3349,7 +3209,7 @@
   {
     "label": "Chris Hemsworth",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3359,7 +3219,7 @@
   {
     "label": "Chris Evans",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3369,7 +3229,7 @@
   {
     "label": "Matt Damon",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3379,7 +3239,7 @@
   {
     "label": "Ben Affleck",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3389,7 +3249,7 @@
   {
     "label": "Daniel Craig",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3399,7 +3259,7 @@
   {
     "label": "Kate Winslet",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3409,7 +3269,7 @@
   {
     "label": "Hugh Grant",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3419,7 +3279,7 @@
   {
     "label": "Ian McKellen",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3429,7 +3289,7 @@
   {
     "label": "Judi Dench",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3439,7 +3299,7 @@
   {
     "label": "Florence Pugh",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3449,7 +3309,7 @@
   {
     "label": "Henry Cavill",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3459,7 +3319,7 @@
   {
     "label": "Steven Spielberg",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3469,7 +3329,7 @@
   {
     "label": "Christopher Nolan",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3479,7 +3339,7 @@
   {
     "label": "Quentin Tarantino",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3489,7 +3349,7 @@
   {
     "label": "Martin Scorsese",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3499,7 +3359,7 @@
   {
     "label": "Alfred Hitchcock",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -3517,79 +3377,9 @@
     "era": "evergreen"
   },
   {
-    "label": "Ken Watanabe",
-    "countries": [
-      "jp"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Takeshi Kitano",
-    "countries": [
-      "jp"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "evergreen"
-  },
-  {
-    "label": "Toshiro Mifune",
-    "countries": [
-      "jp"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "classic"
-  },
-  {
-    "label": "Lee Jung-jae",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Gong Yoo",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Park Seo-joon",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Ma Dong-seok",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "film"
-    ],
-    "era": "modern"
-  },
-  {
     "label": "KSI",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3599,7 +3389,7 @@
   {
     "label": "Marques Brownlee",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3609,7 +3399,7 @@
   {
     "label": "Casey Neistat",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3619,7 +3409,7 @@
   {
     "label": "Markiplier",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3629,7 +3419,7 @@
   {
     "label": "Jacksepticeye",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3639,7 +3429,7 @@
   {
     "label": "Ninja",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3649,7 +3439,7 @@
   {
     "label": "Dream",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3659,7 +3449,7 @@
   {
     "label": "Charli D'Amelio",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3669,7 +3459,7 @@
   {
     "label": "Mark Rober",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3679,7 +3469,7 @@
   {
     "label": "Dude Perfect",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3689,7 +3479,7 @@
   {
     "label": "Emma Chamberlain",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3699,7 +3489,7 @@
   {
     "label": "Lilly Singh",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3709,7 +3499,7 @@
   {
     "label": "Sidemen",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3719,7 +3509,7 @@
   {
     "label": "Jake Paul",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "internet"
@@ -3729,7 +3519,7 @@
   {
     "label": "Ariana Grande",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3739,7 +3529,7 @@
   {
     "label": "Bruno Mars",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3749,7 +3539,7 @@
   {
     "label": "Justin Bieber",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3759,7 +3549,7 @@
   {
     "label": "Dua Lipa",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3779,7 +3569,7 @@
   {
     "label": "Post Malone",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3789,7 +3579,7 @@
   {
     "label": "Kendrick Lamar",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3799,7 +3589,7 @@
   {
     "label": "Olivia Rodrigo",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3809,7 +3599,7 @@
   {
     "label": "Harry Styles",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3819,7 +3609,7 @@
   {
     "label": "The Beatles",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3839,7 +3629,7 @@
   {
     "label": "Bob Dylan",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3849,7 +3639,7 @@
   {
     "label": "Madonna",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3859,7 +3649,7 @@
   {
     "label": "Whitney Houston",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -3869,42 +3659,12 @@
   {
     "label": "Frank Sinatra",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
     ],
     "era": "classic"
-  },
-  {
-    "label": "IU",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "music"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "V (BTS)",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "music"
-    ],
-    "era": "modern"
-  },
-  {
-    "label": "Jimin (BTS)",
-    "countries": [
-      "kr"
-    ],
-    "types": [
-      "music"
-    ],
-    "era": "modern"
   },
   {
     "label": "Neymar",
@@ -3939,7 +3699,7 @@
   {
     "label": "Kobe Bryant",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -3949,7 +3709,7 @@
   {
     "label": "Stephen Curry",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -3959,7 +3719,7 @@
   {
     "label": "Tiger Woods",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -3989,7 +3749,7 @@
   {
     "label": "Tom Brady",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -3999,7 +3759,7 @@
   {
     "label": "Simone Biles",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -4009,7 +3769,7 @@
   {
     "label": "Michael Phelps",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -4019,7 +3779,7 @@
   {
     "label": "Lewis Hamilton",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -4049,7 +3809,7 @@
   {
     "label": "Sam Altman",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4059,7 +3819,7 @@
   {
     "label": "Tim Cook",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4069,7 +3829,7 @@
   {
     "label": "Richard Branson",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4079,7 +3839,7 @@
   {
     "label": "Walt Disney",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4089,7 +3849,7 @@
   {
     "label": "Stan Lee",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4099,7 +3859,7 @@
   {
     "label": "Neil Armstrong",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4109,7 +3869,7 @@
   {
     "label": "Alan Turing",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4119,7 +3879,7 @@
   {
     "label": "Ada Lovelace",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4209,7 +3969,7 @@
   {
     "label": "Rick Sanchez",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -4219,7 +3979,7 @@
   {
     "label": "Patrick Star",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -4229,7 +3989,7 @@
   {
     "label": "Squidward",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -4239,7 +3999,7 @@
   {
     "label": "Phineas and Ferb",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -4249,7 +4009,7 @@
   {
     "label": "Timmy Turner",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -4259,7 +4019,7 @@
   {
     "label": "Aang",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -4279,7 +4039,7 @@
   {
     "label": "Gumball",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -4289,7 +4049,7 @@
   {
     "label": "Anya Forger",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4299,7 +4059,7 @@
   {
     "label": "Denji",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4309,7 +4069,7 @@
   {
     "label": "Killua Zoldyck",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4319,7 +4079,7 @@
   {
     "label": "Yuji Itadori",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4329,7 +4089,7 @@
   {
     "label": "Makima",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4339,7 +4099,7 @@
   {
     "label": "All Might",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4349,7 +4109,7 @@
   {
     "label": "Izuku Midoriya",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4359,7 +4119,7 @@
   {
     "label": "Hinata Hyuga",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4369,7 +4129,7 @@
   {
     "label": "Shanks",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4379,7 +4139,7 @@
   {
     "label": "Sanji",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4389,7 +4149,7 @@
   {
     "label": "Nami",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4399,7 +4159,7 @@
   {
     "label": "Zenitsu",
     "countries": [
-      "jp"
+      "worldwide"
     ],
     "types": [
       "anime"
@@ -4409,7 +4169,7 @@
   {
     "label": "Jeffrey Epstein",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4420,7 +4180,7 @@
   {
     "label": "Sean \"Diddy\" Combs",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -4431,7 +4191,7 @@
   {
     "label": "Harvey Weinstein",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "film"
@@ -4453,7 +4213,7 @@
   {
     "label": "Elizabeth Holmes",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4464,7 +4224,7 @@
   {
     "label": "Sam Bankman-Fried",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4475,7 +4235,7 @@
   {
     "label": "Bernie Madoff",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4486,7 +4246,7 @@
   {
     "label": "Martin Shkreli",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4497,7 +4257,7 @@
   {
     "label": "Ghislaine Maxwell",
     "countries": [
-      "gb"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4508,7 +4268,7 @@
   {
     "label": "R. Kelly",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "music"
@@ -4552,7 +4312,7 @@
   {
     "label": "Anna Delvey",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -4563,7 +4323,7 @@
   {
     "label": "Lance Armstrong",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "sport"
@@ -4984,7 +4744,7 @@
   {
     "label": "George Washington",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -5004,7 +4764,7 @@
   {
     "label": "Bill Clinton",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -5014,7 +4774,7 @@
   {
     "label": "Ronald Reagan",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -5024,7 +4784,7 @@
   {
     "label": "Theodore Roosevelt",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -5034,7 +4794,7 @@
   {
     "label": "Thomas Jefferson",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "icon"
@@ -5145,7 +4905,7 @@
     "label": "Garfield",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -5155,7 +4915,7 @@
   {
     "label": "Snoopy",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -5166,7 +4926,7 @@
     "label": "Daffy Duck",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -5177,7 +4937,7 @@
     "label": "Tweety",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -5188,7 +4948,7 @@
     "label": "Road Runner",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -5198,7 +4958,7 @@
   {
     "label": "Wile E. Coyote",
     "countries": [
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -5219,7 +4979,7 @@
     "label": "Courage",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "cartoon"
@@ -5550,7 +5310,7 @@
     "label": "Hawkeye",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -5561,7 +5321,7 @@
     "label": "Ant-Man",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -5572,7 +5332,7 @@
     "label": "Scarlet Witch",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -5583,7 +5343,7 @@
     "label": "Groot",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"
@@ -5594,7 +5354,7 @@
     "label": "Star-Lord",
     "countries": [
       "in",
-      "us"
+      "worldwide"
     ],
     "types": [
       "superhero"

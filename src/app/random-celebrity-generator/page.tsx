@@ -26,9 +26,10 @@ export default function Page() {
             its own is a ready-made round for kids.
           </p>
           <p>
-            A separate era toggle switches between classic and modern, so you
-            can have a round of Gandhi and Marilyn Monroe or a round of MrBeast
-            and Drake. Filter by country, kind of famous and era.
+            The deck starts with the names everyone knows right now, like
+            MrBeast and Drake. Anime and superheroes are a tap away, and one
+            checkbox lets Gandhi and Marilyn Monroe in too. Play India,
+            Worldwide or both: Worldwide never deals an India-only name.
           </p>
           <p>
             Every name is hand-checked to be someone a room will actually

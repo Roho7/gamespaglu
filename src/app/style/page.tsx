@@ -9,6 +9,7 @@ import { PlaceList } from "@/components/tiktiki/place-list";
 import { RoundClock } from "@/components/tiktiki/round-clock";
 import { ToastDemo } from "@/app/style/toast-demo";
 import { Chip, Panel } from "@/components/ui/controls";
+import { CheckboxDemo } from "@/app/style/checkbox-demo";
 import { ClueBoard, type ClueSlip } from "@/components/girgit/clue-board";
 import { GirgitGrid } from "@/components/girgit/girgit-grid";
 import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
@@ -175,6 +176,7 @@ export default function StylePage() {
             </span>
             <Chip active>Selected</Chip>
             <Chip>Unselected</Chip>
+            <CheckboxDemo />
             <div className="w-40">
               <Input placeholder="Add player or team" />
             </div>

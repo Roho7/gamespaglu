@@ -1,5 +1,6 @@
 import {
-  EraPicker,
+  HistoricalToggle,
+  PoolSize,
   RangePicker,
   RegionPicker,
   SpicyToggle,
@@ -57,7 +58,7 @@ export function DeckSettings({
             />
           </Setting>
           <Setting label="Era">
-            <EraPicker
+            <HistoricalToggle
               era={g.prefs.era}
               onEra={(era) => g.savePrefs({ era })}
             />
@@ -70,10 +71,13 @@ export function DeckSettings({
           <RegionPicker
             countries={g.prefs.countries}
             onCountries={(countries) => g.savePrefs({ countries })}
-            poolSize={g.poolSize}
             availableCountries={availableCountries(category)}
           />
         </Setting>
+      ) : null}
+
+      {g.hydrated && (meta.hasTypeFilter || meta.hasRegionFilter) ? (
+        <PoolSize size={g.poolSize} />
       ) : null}
 
       {g.hydrated && hasSpicy(category) ? (
@@ -98,7 +102,7 @@ export function DeckSettings({
         </Setting>
       ) : null}
 
-      {!meta.hasRegionFilter && !meta.hasRangeFilter ? (
+      {!meta.hasRegionFilter && !meta.hasTypeFilter && !meta.hasRangeFilter ? (
         <p className="font-medium">
           One curated {meta.noun} deck. Nothing repeats until it runs out.
         </p>

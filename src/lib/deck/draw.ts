@@ -24,21 +24,24 @@ export function filterPool(
   filters: Filters,
 ): Entry[] {
   const all = ENTRIES[category];
+  const meta = CATEGORIES[category];
 
-  if (!CATEGORIES[category].hasRegionFilter) return all;
   const countries = filters.countries?.length
     ? filters.countries
     : (["worldwide"] as CountryKey[]);
-
   const types = filters.types?.length ? filters.types : ALL_TYPES;
   const era = filters.era ?? "both";
-
   const spicy = filters.spicy ?? false;
 
   return all.filter((e) => {
     if (e.spicy && !spicy) return false;
-    const countryHit = e.countries.some((c) => countries.includes(c));
-    if (!countryHit) return false;
+    if (
+      meta.hasRegionFilter &&
+      !e.countries.some((c) => countries.includes(c))
+    ) {
+      return false;
+    }
+    if (!meta.hasTypeFilter) return true;
 
     if (e.types?.length) {
       if (!e.types.some((t) => types.includes(t as TypeKey))) return false;
@@ -55,8 +58,11 @@ function poolSignature(category: CategoryId, filters: Filters): string {
   if (category === "number") {
     return `number:${filters.min ?? 1}-${filters.max ?? 100}`;
   }
-  if (!CATEGORIES[category].hasRegionFilter) return `${category}:all`;
-  const c = [...(filters.countries ?? [])].sort().join(",");
+  const meta = CATEGORIES[category];
+  if (!meta.hasRegionFilter && !meta.hasTypeFilter) return `${category}:all`;
+  const c = meta.hasRegionFilter
+    ? [...(filters.countries ?? [])].sort().join(",")
+    : "any";
   const t = [...(filters.types ?? [])].sort().join(",");
   const s = filters.spicy ? "spicy" : "clean";
   return `${category}:${c}|${t}|${filters.era ?? "both"}|${s}`;

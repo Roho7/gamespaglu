@@ -1,50 +1,48 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { Chip } from "@/components/ui/controls";
+import { Checkbox, Chip } from "@/components/ui/controls";
 import { Input } from "@/components/ui/input";
 import { COUNTRIES } from "@/lib/deck/countries";
-import { CELEB_TYPES, ERAS } from "@/lib/deck/celebrity-filters";
+import { CELEB_TYPES } from "@/lib/deck/celebrity-filters";
 import type { CountryKey, EraFilter, TypeKey } from "@/lib/deck/types";
 
 export function RegionPicker({
   countries,
   onCountries,
-  poolSize,
   availableCountries,
 }: {
   countries: CountryKey[];
   onCountries: (v: CountryKey[]) => void;
-  poolSize: number;
   /** Only chips backed by real entries are offered. */
   availableCountries: CountryKey[];
 }) {
   const toggleCountry = (key: CountryKey) => {
-    const on = countries.includes(key);
-    if (on && countries.length === 1) return;
-    onCountries(on ? countries.filter((c) => c !== key) : [...countries, key]);
+    const offered = countries.filter((c) => availableCountries.includes(c));
+    const on = offered.includes(key);
+    if (on && offered.length === 1) return;
+    onCountries(on ? offered.filter((c) => c !== key) : [...offered, key]);
   };
 
   return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap gap-2">
-        {COUNTRIES.filter((c) => availableCountries.includes(c.key)).map(
-          (c) => (
-            <Chip
-              key={c.key}
-              active={countries.includes(c.key)}
-              onClick={() => toggleCountry(c.key)}
-            >
-              <span aria-hidden>{c.flag}</span>
-              {c.label}
-            </Chip>
-          ),
-        )}
-      </div>
-
-      <p className="mb-caps text-sm opacity-60">{poolSize} in the deck</p>
+    <div className="flex flex-wrap gap-2">
+      {COUNTRIES.filter((c) => availableCountries.includes(c.key)).map((c) => (
+        <Chip
+          key={c.key}
+          active={countries.includes(c.key)}
+          onClick={() => toggleCountry(c.key)}
+        >
+          <span aria-hidden>{c.flag}</span>
+          {c.label}
+        </Chip>
+      ))}
     </div>
   );
+}
+
+/** How many names the active filters leave in the deck. */
+export function PoolSize({ size }: { size: number }) {
+  return <p className="mb-caps text-sm opacity-60">{size} in the deck</p>;
 }
 
 /**
@@ -63,9 +61,7 @@ export function SpicyToggle({
       <Chip active={spicy} onClick={() => onSpicy(!spicy)}>
         {spicy ? "Spicy on" : "Spicy off"}
       </Chip>
-      <p className="text-sm opacity-70">
-        Adds people famous for crime and scandal. Off unless you want it.
-      </p>
+      <p className="text-sm opacity-70">Adds famous controversial people.</p>
     </div>
   );
 }
@@ -189,10 +185,10 @@ export function TypePicker({
 
 /**
  * When they were famous. Separate from type on purpose: Drake is Music +
- * Modern, not a "recent people" bucket duplicated across every domain.
- * Entries marked evergreen answer to both.
+ * Modern, not a "recent people" bucket duplicated across every domain. The deck
+ * is modern by default; this lets classic names in alongside, never instead.
  */
-export function EraPicker({
+export function HistoricalToggle({
   era,
   onEra,
 }: {
@@ -200,12 +196,11 @@ export function EraPicker({
   onEra: (v: EraFilter) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {ERAS.map((e) => (
-        <Chip key={e.key} active={era === e.key} onClick={() => onEra(e.key)}>
-          {e.label}
-        </Chip>
-      ))}
-    </div>
+    <Checkbox
+      checked={era === "both"}
+      onCheckedChange={(on) => onEra(on ? "both" : "modern")}
+    >
+      Include historical figures?
+    </Checkbox>
   );
 }

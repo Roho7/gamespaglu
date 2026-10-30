@@ -154,12 +154,12 @@ export const GUIDES: Guide[] = [
         body: "Everyone draws a number from 1 to 100 instead of a name. Now the questions are mathematical: am I even? Am I bigger than yours? It plays completely differently and it's the fastest version to teach.",
       },
       {
-        title: "Mixed-nationality rooms",
-        body: "Turn on more than one country in the settings drawer. A room of Indian and American friends should have both India and USA lit up, or half the room will be guessing names they've never heard.",
+        title: "Friends from abroad",
+        body: "Switch India off in the settings drawer and only worldwide names come up. Nobody at the table gets stuck guessing a Bollywood star they've never heard of.",
       },
       {
-        title: "One-industry rounds",
-        body: "In the settings drawer, switch on only Tamil, or only Malayalam. A Bollywood-only round and a Kollywood-only round are genuinely different games with different experts in the room.",
+        title: "One-kind rounds",
+        body: "In the settings drawer, tap one chip under Who counts. A sport-only round and a music-only round are genuinely different games with different experts in the room.",
       },
       {
         title: "Kids mode — cartoons only",
@@ -170,8 +170,8 @@ export const GUIDES: Guide[] = [
         body: "Tap Internet for a deck of YouTubers and influencers — MrBeast, CarryMinati, Bhuvan Bam, PewDiePie. Ruthless on anyone over thirty, which is the point.",
       },
       {
-        title: "Classic vs modern",
-        body: "The era toggle is separate from who-counts, so Music + Classic gives you Kishore Kumar and Elvis, while Music + Modern gives you Arijit Singh and Drake. Names that never went away — Batman, Sachin, Mickey Mouse — answer to both.",
+        title: "Bring back the legends",
+        body: "The deck starts modern: Arijit Singh and Drake, not Kishore Kumar and Elvis. Tick Include historical figures in the settings drawer to let the legends back in. Names that never went away, like Batman, Sachin and Mickey Mouse, are in either way.",
       },
       {
         title: "Team play",
