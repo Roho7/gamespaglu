@@ -288,17 +288,19 @@ export function TiktikiRoomScreen({
           <div className="mx-auto my-auto flex w-full max-w-md flex-col items-center gap-6 text-center">
             <RoundClock deadlineAt={null} msLeft={round.msLeft} roundMs={round.roundMs} />
             {accused ? (
-              <div className="flex flex-col items-center gap-2">
-                <span className="size-24 overflow-hidden border-[length:var(--rule-thin)] border-[color:var(--cw-secondary)] bg-[var(--loud)] shadow-[5px_5px_0_var(--shadow-ink)]">
-                  <PlayerAvatar seed={accused.name} palette={palette} className="size-full scale-125" />
-                </span>
-                <span className="mb-caps text-sm">{accused.id === state.you ? "You're on trial" : "On trial"}</span>
-              </div>
+              <>
+                <div className="flex flex-col items-center gap-2">
+                  <span className="size-24 overflow-hidden border-[length:var(--rule-thin)] border-[color:var(--cw-secondary)] bg-[var(--loud)] shadow-[5px_5px_0_var(--shadow-ink)]">
+                    <PlayerAvatar seed={accused.name} palette={palette} className="size-full scale-125" />
+                  </span>
+                  <span className="mb-caps text-sm">{beat?.title}</span>
+                </div>
+                <header className="space-y-1.5">
+                  <h2 className="mb-display mb-shadow text-4xl leading-none">{accused.id === state.you ? "You're on trial" : `${accused.name} is On trial`}</h2>
+                  <p className="text-sm font-semibold opacity-85">{votesIn}.</p>
+                </header>
+              </>
             ) : null}
-            <header className="space-y-1.5">
-              <h2 className="mb-display mb-shadow text-4xl leading-none">{beat?.title}</h2>
-              <p className="text-sm font-semibold opacity-85">{votesIn}. One no and they walk.</p>
-            </header>
             {card}
           </div>
         );
@@ -307,8 +309,8 @@ export function TiktikiRoomScreen({
         return your?.tiktiki ? (
           <div className="mx-auto w-full max-w-md space-y-4">
             <header className="space-y-1.5 text-center">
-              <h2 className="mb-display mb-shadow text-4xl leading-none">Name the place</h2>
-              <p className="text-sm font-semibold opacity-85">One guess. Get it right for two more points.</p>
+              <h2 className="mb-display mb-shadow text-4xl leading-none">The Tiktiki is guessing</h2>
+              <p className="text-sm font-semibold opacity-85">+2 points</p>
             </header>
             <PlaceList places={round.suspects} selected={chosenPlace} onTap={(id) => setGuess({ stage, id })} />
           </div>

@@ -17,10 +17,10 @@ const NIGHT: Pools = {
   lines: [
     "Everyone picks someone. Act natural.",
     "Phones out, poker faces on.",
-    "The streets are quiet. Too quiet. Tap a name.",
+    "The streets are quiet. Too quiet.",
     "Somebody at this table is up to no good tonight.",
-    "Don't look at your neighbour's screen. Don't look guilty either.",
-    "Choose wisely. Or at least choose quickly.",
+    "Don't look at your neighbour's screen.",
+    "Choose wisely.",
   ],
 };
 
@@ -34,7 +34,7 @@ const DEATH: Pools = {
     "Goodnight, {name}",
   ],
   lines: [
-    "They were {role}. Somebody here knows exactly why.",
+    "They were a {role}. Somebody here knows exactly why.",
     "Turns out they were {role}. Pour one out.",
     "They were {role}. Look around. Who's sweating?",
     "They were {role}. The Mafia send their regards.",

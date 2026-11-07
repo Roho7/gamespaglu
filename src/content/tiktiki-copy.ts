@@ -7,28 +7,26 @@ type Pools = { titles: readonly string[]; lines: readonly string[] };
 const DEAL: Pools = {
   titles: ["Where are we?", "Look around", "Somebody's listening", "Walls have ears", "Act like you belong"],
   lines: [
-    "{name} asks first. Ask anyone about the place. No asking back.",
-    "{name} kicks it off. One question to anyone, then they ask the next.",
-    "{name}, you're up. Ask someone a question only a local could answer.",
-    "{name} starts. Keep it vague enough to fool the Tiktiki, sharp enough to catch them.",
+    "Starting from {name}, ask someone about the place.",
+    "{name} is the first to ask. Ask someone about the place.",
   ],
 };
 
 const TRIAL: Pools = {
-  titles: ["{accuser} points at {accused}", "J'accuse!", "Order in the court", "Hands where we can see them"],
+  titles: ["Accused!", "J'accuse!", "Somebody is sus!", "Hmm...."],
   lines: [
-    "{accuser} thinks {accused} is the Tiktiki. Everyone else: guilty or not? It has to be unanimous.",
-    "Guilty or not guilty. One no and {accused} walks.",
-    "The clock's frozen. Look {accused} in the eye and vote.",
+    "{accuser} thinks {accused} is the Tiktiki.",
+    "{accuser} has put {accused} on trial.",
+    "{accused} has been accused by {accuser}.",
   ],
 };
 
 const ACQUITTED: Pools = {
-  titles: ["Not guilty", "Case dismissed", "{accused} walks", "Hung jury"],
+  titles: ["Not guilty", "Case dismissed", "{accused} walks", "Not today"],
   lines: [
-    "A no from {noes}. The clock's running again.",
-    "Not convinced: {noes}. Back to the questions.",
-    "Blocked by {noes}. Suspicious? Maybe. Keep asking.",
+    "Inconclusive. {noes} voted NO.",
+    "Not convinced. Back to the questions.",
+    "Keep asking questions.",
   ],
 };
 
@@ -36,22 +34,22 @@ const UNMASKED: Record<TiktikiEnding, Pools> = {
   caught: {
     titles: ["Gotcha, {tiktiki}", "Caught on the wall", "Lizard spotted", "Busted"],
     lines: [
-      "{tiktiki} was the Tiktiki. One guess at the place to wriggle free.",
-      "Nailed it. But if {tiktiki} names the place, they still slip away.",
+      "{tiktiki} was the Tiktiki. If they guess the place, they still win.",
+      "{tiktiki} got caught. But if they guess correctly, they win.",
     ],
   },
   framed: {
     titles: ["Wrong lizard", "Oops", "Innocent!", "Framed"],
     lines: [
-      "{accused} was innocent. {tiktiki} was the Tiktiki all along, and now they guess the place for a bonus.",
-      "You convicted {accused}. {tiktiki} is laughing. Now they get a shot at the place too.",
+      "{accused} was innocent. {tiktiki} was the Tiktiki all along.",
+      "You convicted {accused}. {tiktiki} is laughing.",
     ],
   },
   clock: {
     titles: ["Time's up", "Out of time", "The clock wins"],
     lines: [
-      "Nobody caught {tiktiki}. They were the Tiktiki, and now they guess the place.",
-      "{tiktiki} survived the whole round. One guess for the bonus.",
+      "Nobody caught {tiktiki}. They escaped like a spy.",
+      "{tiktiki} survived the whole round.",
     ],
   },
 };
@@ -59,16 +57,15 @@ const UNMASKED: Record<TiktikiEnding, Pools> = {
 const OVER = {
   town: {
     titles: ["The table wins", "Squashed", "Off the wall", "Lizard down"],
-    lines: ["{tiktiki} guessed {guess}. We were at {place}. Everyone else scores."],
+    lines: ["{tiktiki} guessed {guess}. We were at {place}."],
   },
   escaped: {
-    titles: ["The Tiktiki wins", "Slithered away", "Clean getaway", "Nobody's safe"],
+    titles: ["The Tiktiki wins", "Clean getaway", "Smooth criminal"],
     lines: [
-      "We were at {place}. {tiktiki} guessed {guess}.",
-      "{tiktiki} was the Tiktiki. We were at {place}, and they said {guess}.",
+      "{tiktiki} guessed {guess}. They're smart!",
     ],
   },
-  aborted: { titles: ["Round called off", "Everybody go home"], lines: ["Nobody scores. Nobody heard anything."] },
+  aborted: { titles: ["Round called off", "Everybody go home"], lines: ["Nobody scores."] },
 };
 
 const beat = (pools: Pools, seed: string, slots: Record<string, string> = {}): Beat => ({
@@ -87,6 +84,6 @@ export const tiktikiBeats = {
 };
 
 /** The marquee during questioning. The same on every phone. */
-export const ASK_RULE = "Ask anyone. No asking back.";
+export const ASK_RULE = "No asking back.";
 
 export const TIKTIKI_LABEL = "You're the Tiktiki";
