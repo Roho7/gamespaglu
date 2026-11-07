@@ -5,6 +5,10 @@ import type {
 } from "../../../shared/protocol";
 import { tally, type RoundState } from "./engine";
 
+/** Mid-ballot the room sees only the standoff that forced a revote, never who is leading. */
+const contested = (state: RoundState): Record<PlayerId, number> =>
+  Object.fromEntries((state.candidates ?? []).map((p) => [p, state.tieVotes]));
+
 /** Everything the room may see. The secret and the Girgit appear only at the reveal. */
 export function publicRound(state: RoundState, roundNo: number): GirgitPublicRound {
   const revealed = state.phase === "reveal";
@@ -17,12 +21,18 @@ export function publicRound(state: RoundState, roundNo: number): GirgitPublicRou
     clues: state.players
       .filter((p) => state.clues[p])
       .map((p) => ({ playerId: p, word: state.clues[p] })),
-    votedBy: state.players.filter((p) => state.votes[p]),
-    voteCounts: tally(state),
+    votedBy: state.voteOpen ? state.players.filter((p) => !state.pending.includes(p)) : state.players,
+    voteCounts: state.voteOpen ? contested(state) : tally(state),
     deadlineAt: state.deadlineAt,
     skipped: state.skipped,
     voteOpen: state.voteOpen,
-    votesIn: Object.keys(state.votes).length,
+    votesIn: state.players.length - state.pending.length,
+    revote: state.revoted && state.voteOpen
+      ? {
+          kind: state.candidates ? "split" : "dead-heat",
+          candidates: state.candidates ?? [],
+        }
+      : null,
     votes: state.voteOpen
       ? null
       : Object.entries(state.votes).map(([voterId, targetId]) => ({ voterId, targetId })),
@@ -40,6 +50,7 @@ export function yourRound(state: RoundState, playerId: PlayerId): GirgitYourRoun
     isGirgit,
     secretIndex: isGirgit ? null : state.secretIndex,
     hasClued: Boolean(state.clues[playerId]),
-    hasVoted: Boolean(state.votes[playerId]),
+    hasVoted: state.voteOpen ? !state.pending.includes(playerId) : true,
+    canStay: state.voteOpen && state.candidates !== null && state.pending.includes(playerId),
   };
 }

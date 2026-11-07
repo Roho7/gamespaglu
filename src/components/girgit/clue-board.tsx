@@ -17,6 +17,8 @@ export type ClueSlip = {
   /** The Girgit, once revealed. */
   marked?: boolean;
   dim?: boolean;
+  /** The name you have picked but not locked in. */
+  selected?: boolean;
 };
 
 /**
@@ -58,6 +60,7 @@ export function ClueBoard({
                   : s.clue
                     ? "border-[color:var(--cw-secondary)]"
                     : "border-dashed border-[color:var(--cw-secondary)]",
+                s.selected && "bg-[var(--loud)] text-[var(--on-loud)]",
                 selectable &&
                 "border-[color:var(--loud)] shadow-[3px_3px_0_var(--loud)] transition-transform active:translate-[3px] active:shadow-none",
               )}

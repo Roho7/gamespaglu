@@ -50,6 +50,7 @@ export function RoomScreen({
 }) {
   const [clue, setClue] = useState("");
   const [toast, setToast] = useState<string | null>(null);
+  const [choice, setChoice] = useState<{ ballot: string; id: string } | null>(null);
 
   useEffect(() => {
     if (!toast) return;
@@ -69,6 +70,17 @@ export function RoomScreen({
 
   const hasClued = state.your?.hasClued ?? false;
   const hasVoted = state.your?.hasVoted ?? false;
+  const canStay = state.your?.canStay ?? false;
+  const revote = round?.revote ?? null;
+  const ballot = `${round?.roundNo}:${revote?.kind ?? "first"}`;
+  const chosen = choice?.ballot === ballot ? choice.id : null;
+  const picking = phase === "vote" && !hasVoted;
+  const unpickable = [
+    state.you,
+    ...(revote?.kind === "split"
+      ? state.players.map((p) => p.id).filter((id) => !revote.candidates.includes(id))
+      : []),
+  ];
   const lobby = phase === "lobby" || !round;
   const short = state.players.length < state.minPlayers;
   const palette = lobby
@@ -88,7 +100,15 @@ export function RoomScreen({
       case "discuss":
         return { big: "Find the Girgit", small };
       case "vote":
-        return { big: "Who is the Girgit?", small };
+        return {
+          big:
+            revote?.kind === "dead-heat"
+              ? "Dead heat. Everybody votes again"
+              : revote?.kind === "split"
+                ? "Tied. Pick one of the tied, or stand your ground"
+                : "Who is the Girgit?",
+          small,
+        };
       case "escape":
         return {
           big: state.your?.isGirgit
@@ -143,6 +163,7 @@ export function RoomScreen({
         : phase === "vote" && votes > 0
           ? `${votes}`
           : null,
+      selected: picking && chosen === p.id,
       note: revealed
         ? `${p.id === round?.girgitId ? "Girgit · " : ""}${p.score} ${p.score === 1 ? "pt" : "pts"}`
         : skipped
@@ -366,14 +387,9 @@ export function RoomScreen({
                 <ClueBoard
                   slips={slips}
                   onSelect={
-                    phase === "vote" && !hasVoted
-                      ? (id) => {
-                        setToast(`Voted for ${nameOf(id)}`);
-                        void room.act({ type: "vote:cast", targetId: id });
-                      }
-                      : undefined
+                    picking && !cutOff ? (id) => setChoice({ ballot, id }) : undefined
                   }
-                  disabledIds={phase === "vote" ? [state.you] : []}
+                  disabledIds={phase === "vote" ? unpickable : []}
                 />
 
               </div>
@@ -400,6 +416,32 @@ export function RoomScreen({
         ) : !cutOff && phase === "discuss" ? (
           <div className="relative flex">
             <BandButton onClick={() => room.act({ type: "vote:call" })}>Call the vote</BandButton>
+          </div>
+        ) : !cutOff && picking && round ? (
+          <div className="relative flex">
+            <BandButton
+              onClick={async () => {
+                if (!chosen) return;
+                const r = await room.act({ type: "vote:cast", targetId: chosen });
+                setToast(r.ok ? `Locked in: ${nameOf(chosen)}` : r.error.message);
+              }}
+              disabled={!chosen}
+              detail={`${round.votesIn} of ${round.cluesTotal} locked in`}
+              className="flex-[3]"
+            >
+              Lock it in
+            </BandButton>
+            {canStay ? (
+              <BandButton
+                onClick={async () => {
+                  const r = await room.act({ type: "vote:stay" });
+                  setToast(r.ok ? "Standing your ground" : r.error.message);
+                }}
+                className="flex-[2]"
+              >
+                Stay
+              </BandButton>
+            ) : null}
           </div>
         ) : !cutOff && phase === "reveal" && isHost ? (
           <div className="relative flex">
@@ -463,9 +505,7 @@ export function RoomScreen({
             {!cutOff && phase === "vote" && round ? (
               <div className="flex w-full max-w-sm items-center justify-between gap-3">
                 <span className="mb-caps text-sm opacity-80">
-                  {hasVoted
-                    ? "Locked in"
-                    : `${round.votesIn} of ${round.cluesTotal} voted`}
+                  {`Locked in · ${round.votesIn} of ${round.cluesTotal}`}
                 </span>
                 {isHost ? (
                   <button

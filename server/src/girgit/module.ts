@@ -16,6 +16,7 @@ import {
   abortRound,
   callVote,
   castVote,
+  stayPut,
   dealRound,
   expireClues,
   pickGrid,
@@ -55,6 +56,8 @@ function parseAction(raw: unknown): GirgitAction {
       return { type: "vote:call" };
     case "vote:cast":
       return { type: "vote:cast", targetId: String(field(raw, "targetId") ?? "") };
+    case "vote:stay":
+      return { type: "vote:stay" };
     case "escape:guess":
       return { type: "escape:guess", cellIndex: Number(field(raw, "cellIndex")) };
     default:
@@ -86,6 +89,8 @@ export function girgitModule(grids: readonly Grid[]): GameModule<"girgit", Round
           return callVote(state, playerId);
         case "vote:cast":
           return castVote(state, playerId, action.targetId);
+        case "vote:stay":
+          return stayPut(state, playerId);
         case "escape:guess":
           return submitEscape(state, playerId, action.cellIndex);
       }

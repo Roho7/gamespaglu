@@ -239,7 +239,7 @@ export const GUIDES: Guide[] = [
       },
       {
         title: "Call the vote",
-        body: "Anybody can call it \u2014 you do not need to be the host. Everyone taps a name, nobody sees the votes until they are all in, and then every vote is shown with who cast it. A tie sends you back to arguing, which is exactly what would happen at a table anyway.",
+        body: "Anybody can call it \u2014 you do not need to be the host. Everyone taps a name, then locks it in; nobody sees the votes until they are all in, and then every vote is shown with who cast it. If everybody is tied, everybody votes again. If only some are tied, the votes already on them stay, and the rest can move to one of the tied or stand their ground. Tied a second time, and the Girgit walks.",
       },
       {
         title: "The escape",

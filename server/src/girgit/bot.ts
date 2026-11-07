@@ -18,10 +18,10 @@ export const girgitBrain: BotBrain = (room, bot, you, rng) => {
         : { action: { type: "clue:submit", word: pickOne(CLUES, rng) }, delayMs: between(1500, 6500, rng) };
     case "vote": {
       const yours = s.votes[you];
-      if (s.votes[bot] || !yours) return null;
+      if (!s.pending.includes(bot) || s.pending.includes(you) || !yours) return null;
+      const pool = (s.candidates ?? s.players).filter((p) => p !== bot);
       const wanted = s.girgit === you ? you : yours;
-      const others = s.players.filter((p) => p !== bot && p !== you);
-      const targetId = wanted !== bot ? wanted : pickOne(others, rng);
+      const targetId = pool.includes(wanted) ? wanted : pickOne(pool, rng);
       return { action: { type: "vote:cast", targetId }, delayMs: between(600, 2000, rng) };
     }
     case "escape": {

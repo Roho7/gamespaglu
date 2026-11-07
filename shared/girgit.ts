@@ -51,6 +51,7 @@ export type GirgitAction =
   | { type: "clue:submit"; word: string }
   | { type: "vote:call" }
   | { type: "vote:cast"; targetId: PlayerId }
+  | { type: "vote:stay" }
   | { type: "escape:guess"; cellIndex: number };
 
 export type GirgitPublicRound = {
@@ -66,6 +67,7 @@ export type GirgitPublicRound = {
   skipped: PlayerId[];
   voteOpen: boolean;
   votesIn: number;
+  revote: { kind: "dead-heat" | "split"; candidates: PlayerId[] } | null;
   votes: { voterId: PlayerId; targetId: PlayerId }[] | null;
   accused: PlayerId | null;
   outcome: GirgitOutcome | null;
@@ -80,4 +82,5 @@ export type GirgitYourRound = {
   secretIndex: number | null;
   hasClued: boolean;
   hasVoted: boolean;
+  canStay: boolean;
 };

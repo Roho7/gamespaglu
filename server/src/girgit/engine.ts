@@ -47,6 +47,14 @@ export type RoundState = {
   skipped: PlayerId[];
   voteOpen: boolean;
   votes: Record<PlayerId, PlayerId>;
+  /** Players who have not locked in this ballot yet. The ballot resolves when it empties. */
+  pending: PlayerId[];
+  /** After a split, the tied players: the only ones a revote may name. Null means anyone. */
+  candidates: PlayerId[] | null;
+  /** The table gets one revote per round. A second split lets the Girgit walk. */
+  revoted: boolean;
+  /** The count each tied player is stuck on. */
+  tieVotes: number;
   accused: PlayerId | null;
   escapeGuess: number | null;
   outcome: GirgitOutcome | null;
@@ -101,6 +109,10 @@ export function dealRound(
     skipped: [],
     voteOpen: false,
     votes: {},
+    pending: [],
+    candidates: null,
+    revoted: false,
+    tieVotes: 0,
     accused: null,
     escapeGuess: null,
     outcome: null,
@@ -183,21 +195,49 @@ export const cluesOutstanding = (state: RoundState): number =>
 export function callVote(state: RoundState, playerId: PlayerId): RoundState {
   if (state.phase !== "discuss") reject("WRONG_PHASE", "There is nothing to vote on yet.");
   requirePlayer(state, playerId);
-  return { ...state, phase: "vote", voteOpen: true, votes: {}, deadlineAt: null };
+  return {
+    ...state,
+    phase: "vote",
+    voteOpen: true,
+    votes: {},
+    pending: [...state.players],
+    candidates: null,
+    revoted: false,
+    tieVotes: 0,
+    deadlineAt: null,
+  };
 }
 
-export function castVote(state: RoundState, voter: PlayerId, target: PlayerId): RoundState {
+const settle = (state: RoundState, voter: PlayerId): RoundState => {
+  const next = { ...state, pending: state.pending.filter((p) => p !== voter) };
+  return next.pending.length === 0 ? resolveVote(next) : next;
+};
+
+const requirePending = (state: RoundState, voter: PlayerId) => {
   if (state.phase !== "vote") reject("WRONG_PHASE", "The vote is not open.");
   requirePlayer(state, voter);
+  if (!state.pending.includes(voter)) reject("ALREADY_DONE", "Your vote is already locked in.");
+};
+
+/** Locks a vote in. The tap that picks a name is the client's; only the lock-in reaches here. */
+export function castVote(state: RoundState, voter: PlayerId, target: PlayerId): RoundState {
+  requirePending(state, voter);
   if (!state.players.includes(target)) reject("NOT_PLAYING", "They are not in this round.");
   if (voter === target) reject("SELF_VOTE", "You cannot vote for yourself.");
-  if (state.votes[voter]) reject("ALREADY_DONE", "You have already voted.");
-
-  const votes = { ...state.votes, [voter]: target };
-  if (state.players.some((p) => !votes[p])) return { ...state, votes };
-  return resolveVote({ ...state, votes });
+  if (state.candidates && !state.candidates.includes(target)) {
+    reject("NOT_PLAYING", "Only the tied players are up for it.");
+  }
+  return settle({ ...state, votes: { ...state.votes, [voter]: target } }, voter);
 }
 
+/** In a revote, standing by the vote you already cast. */
+export function stayPut(state: RoundState, voter: PlayerId): RoundState {
+  requirePending(state, voter);
+  if (!state.candidates || !state.votes[voter]) reject("WRONG_PHASE", "You have no earlier vote to keep.");
+  return settle(state, voter);
+}
+
+/** Raw counts of every locked vote. */
 export function tally(state: RoundState): Record<PlayerId, number> {
   const counts: Record<PlayerId, number> = {};
   for (const p of state.players) counts[p] = 0;
@@ -205,30 +245,55 @@ export function tally(state: RoundState): Record<PlayerId, number> {
   return counts;
 }
 
+const girgitWalks = (state: RoundState): RoundState => ({
+  ...state,
+  phase: "reveal",
+  voteOpen: false,
+  pending: [],
+  accused: null,
+  deadlineAt: null,
+  outcome: "girgit-escaped",
+});
+
 /**
- * Plurality. A tie goes back to discussion and the vote can be called again; deciding the round
- * on a coin toss would be worse than letting the table sort it out.
+ * Plurality among the players the ballot was about. A split gets one revote per round.
+ * A dead heat (every player with a vote is tied) wipes the ballot and everyone votes again.
+ * A partial split locks the votes already on a tied player; everyone else may move to one of the
+ * tied players or stand by their vote. A second split lets the Girgit walk.
  */
 export function resolveVote(state: RoundState): RoundState {
   const counts = tally(state);
-  const top = Math.max(0, ...Object.values(counts));
-  const leaders = state.players.filter((p) => counts[p] === top);
+  const pool = state.candidates ?? state.players;
+  const top = Math.max(0, ...pool.map((p) => counts[p]));
+  const leaders = pool.filter((p) => counts[p] === top);
 
-  if (top === 0 || leaders.length !== 1) {
-    return { ...state, phase: "discuss", voteOpen: false, votes: {}, deadlineAt: null };
+  if (top > 0 && leaders.length === 1) {
+    const accused = leaders[0];
+    const settled = { ...state, voteOpen: false, pending: [], accused, deadlineAt: null };
+    return accused === state.girgit
+      ? { ...settled, phase: "escape" }
+      : { ...settled, phase: "reveal", outcome: "girgit-escaped" };
   }
 
-  const accused = leaders[0];
-  if (accused === state.girgit) {
-    return { ...state, phase: "escape", voteOpen: false, accused, deadlineAt: null };
+  if (state.revoted || top === 0) return girgitWalks(state);
+
+  const voted = state.players.filter((p) => counts[p] > 0);
+  if (leaders.length === voted.length) {
+    return {
+      ...state,
+      votes: {},
+      pending: [...state.players],
+      candidates: null,
+      revoted: true,
+      tieVotes: top,
+    };
   }
   return {
     ...state,
-    phase: "reveal",
-    voteOpen: false,
-    accused,
-    deadlineAt: null,
-    outcome: "girgit-escaped",
+    pending: state.players.filter((p) => !leaders.includes(state.votes[p])),
+    candidates: leaders,
+    revoted: true,
+    tieVotes: top,
   };
 }
 

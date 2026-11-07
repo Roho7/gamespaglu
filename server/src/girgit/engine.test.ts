@@ -5,6 +5,7 @@ import {
   abortRound,
   callVote,
   castVote,
+  stayPut,
   cluesOutstanding,
   dealFor,
   dealRound,
@@ -177,14 +178,52 @@ describe("vote", () => {
     expectRefusal("ALREADY_DONE", () => castVote(castVote(s, "a", "b"), "a", "c"));
   });
 
-  test("a tie returns to discussion with the votes cleared", () => {
+  const P6 = ["a", "b", "c", "d", "e", "f"];
+  const open6 = () => {
+    let s = dealRound(P6, GRID, fixed(0), CLOCK, 60);
+    for (const p of P6) s = submitClue(s, p, `clue-${p}`);
+    return callVote(s, "a");
+  };
+  const cast = (s: RoundState, ballots: [string, string][]) =>
+    ballots.reduce((acc, [voter, target]) => castVote(acc, voter, target), s);
+
+  test("a dead heat wipes the ballot and everyone votes again", () => {
     let s = callVote(toDiscuss(deal()), "a");
-    for (const [voter, target] of [["a", "b"], ["b", "a"], ["c", "d"], ["d", "c"]] as const) {
-      s = castVote(s, voter, target);
-    }
-    expect(s.phase).toBe("discuss");
-    expect(s.votes).toEqual({});
-    expect(s.outcome).toBeNull();
+    s = cast(s, [["a", "b"], ["b", "a"], ["c", "d"], ["d", "c"]]);
+    expect(s).toMatchObject({ phase: "vote", voteOpen: true, votes: {}, candidates: null, revoted: true });
+    expect(s.pending).toEqual(P);
+  });
+
+  test("a second dead heat lets the Girgit walk", () => {
+    let s = callVote(toDiscuss(dealRound(P, GRID, fixed(0), CLOCK, 60)), "a");
+    s = cast(s, [["a", "b"], ["b", "a"], ["c", "d"], ["d", "c"]]);
+    s = cast(s, [["a", "c"], ["b", "d"], ["c", "a"], ["d", "b"]]);
+    expect(s).toMatchObject({ phase: "reveal", accused: null, outcome: "girgit-escaped" });
+  });
+
+  test("a partial split keeps votes on the tied players and reopens the rest", () => {
+    let s = cast(open6(), [["a", "b"], ["b", "a"], ["c", "a"], ["d", "b"], ["e", "f"], ["f", "e"]]);
+    expect(s).toMatchObject({ phase: "vote", candidates: ["a", "b"], tieVotes: 2 });
+    expect([...s.pending].sort()).toEqual(["e", "f"]);
+    expectRefusal("ALREADY_DONE", () => castVote(s, "c", "b"));
+    expectRefusal("NOT_PLAYING", () => castVote(s, "e", "f"));
+    s = castVote(s, "e", "a");
+    s = castVote(s, "f", "a");
+    expect(s).toMatchObject({ phase: "escape", accused: "a" });
+  });
+
+  test("a voter may stand by their earlier vote, and a tied player may switch to the other", () => {
+    let s = cast(open6(), [["a", "b"], ["b", "a"], ["c", "a"], ["d", "b"], ["e", "f"], ["f", "e"]]);
+    s = stayPut(s, "e");
+    s = stayPut(s, "f");
+    expect(s).toMatchObject({ phase: "reveal", accused: null, outcome: "girgit-escaped" });
+    expectRefusal("WRONG_PHASE", () => stayPut(callVote(toDiscuss(deal()), "a"), "a"));
+  });
+
+  test("a vote that has no earlier ballot cannot be kept", () => {
+    const s = cast(open6(), [["a", "b"], ["b", "c"], ["c", "b"], ["d", "e"], ["e", "d"]]);
+    expect(s.phase).toBe("vote");
+    expectRefusal("WRONG_PHASE", () => stayPut(s, "f"));
   });
 
   test("accusing an innocent ends the round with the Girgit escaping", () => {
