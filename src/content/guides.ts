@@ -68,10 +68,6 @@ export const GUIDES: Guide[] = [
         body: "The Psychic's team talks it over and drags the dial to where they think the clue lives. The Psychic keeps a straight face. When the team agrees, lock it in.",
       },
       {
-        title: "The other team calls left or right",
-        body: "With two teams, the other side now guesses whether the target is left or right of the dial. They get a point if they are right, unless the dial landed dead centre.",
-      },
-      {
         title: "Reveal and score",
         body: "The target appears. Dead centre scores 4, the bands either side 2, the next ones out 1, anything else nothing. The points go straight onto the scoreboard, and the banner over the dial says who takes the phone next.",
       },
@@ -87,7 +83,7 @@ export const GUIDES: Guide[] = [
       },
       {
         title: "Teams",
-        body: "Two teams take turns, each with its own Psychic. After the dial is locked the other team calls left or right for a bonus point, unless the dial landed dead centre. The highest score after the last round wins.",
+        body: "Two teams take turns, each with its own Psychic. The other team keeps quiet and waits for their turn. The highest score after the last round wins.",
       },
       {
         title: "Rounds",
@@ -520,7 +516,6 @@ export const WAVELENGTH_MODES: Record<
       "The active team's Psychic holds the dial to see the target.",
       "They give one clue out loud, and can type it for the table.",
       "Their team talks it over, turns the dial and locks it in.",
-      "The other team calls left or right of the dial for a bonus point.",
       "Reveal. The active team scores 4, 2 or 1, then the turn passes.",
     ],
   },

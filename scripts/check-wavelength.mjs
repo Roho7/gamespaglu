@@ -144,49 +144,19 @@ expect("clue-givers all peek", roles(g).peeker, null);
 g = started("teams", TEAMS, 60);
 expect(
   "team A's first psychic",
-  [roles(g).active.id, roles(g).peeker, roles(g).caller.id],
-  ["a", "ana", "b"],
+  [roles(g).active.id, roles(g).peeker],
+  ["a", "ana"],
 );
 g = guess(g, 55);
-expect("teams wait for the call", g.phase.kind, "call");
-expect(
-  "right call scores 1",
-  points(reduce(g, { type: "call", side: "right" })),
-  { a: 2, b: 1 },
-);
-expect(
-  "wrong call scores nothing",
-  points(reduce(g, { type: "call", side: "left" })),
-  { a: 2, b: 0 },
-);
-g = reduce(guess(started("teams", TEAMS, 40), 55), {
-  type: "call",
-  side: "left",
-});
-expect("call reads the locked dial", points(g), { a: 0, b: 1 });
-expect(
-  "bullseye denies the call",
-  points(
-    reduce(guess(started("teams", TEAMS, 50), 50), {
-      type: "call",
-      side: "right",
-    }),
-  ),
-  { a: 4, b: 0 },
-);
-g = reduce(reduce(g, { type: "call", side: "left" }), {
-  type: "next",
-  card: card(40),
-});
+expect("teams reveal straight after the lock", g.phase.kind, "reveal");
+expect("only the active team scores", points(g), { a: 2 });
+g = reduce(g, { type: "next", card: card(40) });
 expect(
   "turn passes to team B",
   [roles(g).active.id, roles(g).peeker],
   ["b", "cara"],
 );
-g = reduce(reduce(guess(g, 40), { type: "call", side: "left" }), {
-  type: "next",
-  card: card(40),
-});
+g = reduce(guess(g, 40), { type: "next", card: card(40) });
 expect(
   "psychic rotates inside the team",
   [roles(g).active.id, roles(g).peeker],

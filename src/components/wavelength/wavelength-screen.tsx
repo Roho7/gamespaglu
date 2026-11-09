@@ -24,7 +24,6 @@ import { useWakeLock } from "@/lib/hooks/use-wake-lock";
 import { paletteById, roundPalette, theme } from "@/lib/palettes";
 import { blip, revealHit } from "@/lib/sound-and-haptics";
 import {
-  BULLSEYE,
   CLUE_MAX,
   NEW_GAME,
   TARGET_MAX,
@@ -55,7 +54,7 @@ function deal(): Card {
 function bannerFor(game: Game): { headline: string; detail: string } | null {
   const { phase } = game;
   if (!("card" in phase)) return null;
-  const { active, peeker, guessers, caller } = roles(game);
+  const { active, peeker, guessers } = roles(game);
   switch (phase.kind) {
     case "psychic":
       if (game.mode === "guesser")
@@ -88,11 +87,6 @@ function bannerFor(game: Game): { headline: string; detail: string } | null {
             : "Turn the dial to the clue.",
       };
     }
-    case "call":
-      return {
-        headline: `${caller?.name}: left or right?`,
-        detail: `Is the target left or right of ${active.name}'s dial?`,
-      };
     case "reveal": {
       if (isLastTurn(game))
         return { headline: "Last card", detail: "Tap for the final score." };
@@ -165,7 +159,7 @@ function ScoreStrip({
 }
 
 export function WavelengthScreen() {
-  const [game, setGame] = usePersisted<Game>("wavelength:game:v2", NEW_GAME);
+  const [game, setGame] = usePersisted<Game>("wavelength:game:v3", NEW_GAME);
   const [roster, setRoster] = usePersisted<RosterPlayer[]>(
     "wavelength:roster",
     [],
@@ -231,8 +225,7 @@ export function WavelengthScreen() {
   const shownClue = "clue" in phase ? phase.clue : "";
 
   const dial = phase.kind === "guess" ? phase.dial : null;
-  const locked =
-    phase.kind === "call" || phase.kind === "reveal" ? phase.guesses : [];
+  const locked = phase.kind === "reveal" ? phase.guesses : [];
   const target =
     phase.kind === "reveal" || (phase.kind === "psychic" && peeking)
       ? (card?.target ?? null)
@@ -380,25 +373,6 @@ export function WavelengthScreen() {
             <BandButton onClick={() => act({ type: "lock" })}>
               Lock it in
             </BandButton>
-          ) : phase.kind === "call" ? (
-            <>
-              <BandButton onClick={() => act({ type: "call", side: "left" })}>
-                <ArrowLeft
-                  className="size-[1em] shrink-0"
-                  strokeWidth={3}
-                  aria-hidden
-                />{" "}
-                Left
-              </BandButton>
-              <BandButton onClick={() => act({ type: "call", side: "right" })}>
-                Right{" "}
-                <ArrowRight
-                  className="size-[1em] shrink-0"
-                  strokeWidth={3}
-                  aria-hidden
-                />
-              </BandButton>
-            </>
           ) : phase.kind === "reveal" ? (
             <BandButton onClick={() => act({ type: "next", card: deal() })}>
               {isLastTurn(game) ? "Final score" : "Next card"}
@@ -427,7 +401,7 @@ export function WavelengthScreen() {
 
 function RevealScore({ game }: { game: Game }) {
   if (game.phase.kind !== "reveal") return null;
-  const { awards, call } = game.phase;
+  const { awards } = game.phase;
   const nameOf = (id: string) =>
     game.seats.find((s) => s.id === id)?.name ?? "";
 
@@ -448,11 +422,6 @@ function RevealScore({ game }: { game: Game }) {
   }
 
   const main = awards.find((a) => a.role === "guess");
-  const bonus = awards.find((a) => a.role === "call");
-  const callLine =
-    bonus && call && main && main.points < BULLSEYE
-      ? ` · ${nameOf(bonus.seat)} ${bonus.points ? "+1 for the call" : "called it wrong"}`
-      : "";
   return (
     <div className="animate-punch text-center">
       <p className="mb-display mb-shadow text-5xl">
@@ -460,7 +429,6 @@ function RevealScore({ game }: { game: Game }) {
       </p>
       <p className="mb-caps text-sm">
         {main ? nameOf(main.seat) : ""} scores {main?.points ?? 0}
-        {callLine}
       </p>
     </div>
   );

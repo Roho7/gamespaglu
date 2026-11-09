@@ -13,29 +13,26 @@ export type Card = { spectrum: Spectrum; target: number };
 /**
  * `psychic`: one Psychic a card, everyone else guesses in secret.
  * `guesser`: everyone else gives clues, one player guesses.
- * `teams`: two teams take turns; the other team calls left or right.
+ * `teams`: two teams take turns, each with its own Psychic.
  */
 export type Mode = "psychic" | "guesser" | "teams";
-export type Side = "left" | "right";
 
 /** One scoreboard row: a player, or in Teams a team and its members. */
 export type Seat = { id: string; name: string; members: string[] };
 export type Guess = { seat: string; dial: number };
 export type Award = { seat: string; points: number; role: Role };
-export type Role = "guess" | "psychic" | "call";
+export type Role = "guess" | "psychic";
 
 export type Phase =
   | { kind: "briefing" }
   | { kind: "players" }
   | { kind: "psychic"; card: Card }
   | { kind: "guess"; card: Card; clue: string; dial: number; guesses: Guess[] }
-  | { kind: "call"; card: Card; clue: string; guesses: Guess[] }
   | {
       kind: "reveal";
       card: Card;
       clue: string;
       guesses: Guess[];
-      call: Side | null;
       awards: Award[];
     }
   | { kind: "over" };
@@ -57,7 +54,6 @@ export type Action =
   | { type: "clue"; text: string }
   | { type: "move"; dial: number }
   | { type: "lock" }
-  | { type: "call"; side: Side }
   | { type: "next"; card: Card }
   | { type: "reset" };
 
@@ -74,7 +70,6 @@ export const BANDS = [
   { points: 2, reach: 7.5 },
   { points: 1, reach: 12.5 },
 ] as const;
-export const BULLSEYE = BANDS[0].points;
 
 export const NEW_GAME: Game = {
   mode: "psychic",
@@ -91,10 +86,6 @@ export function clampDial(value: number): number {
 export function bandPoints(dial: number, target: number): number {
   const distance = Math.abs(dial - target);
   return BANDS.find((b) => distance <= b.reach)?.points ?? 0;
-}
-
-export function targetSide(dial: number, target: number): Side {
-  return target < dial ? "left" : "right";
 }
 
 /** Why a roster can't start this mode, or null when it can. */
@@ -128,7 +119,6 @@ export type TurnRoles = {
   active: Seat;
   peeker: string | null;
   guessers: Seat[];
-  caller: Seat | null;
 };
 
 export function rolesAt(game: Game, turn: number): TurnRoles {
@@ -141,18 +131,16 @@ export function rolesAt(game: Game, turn: number): TurnRoles {
         active,
         peeker: active.name,
         guessers: [...seats.slice(i + 1), ...seats.slice(0, i)],
-        caller: null,
       };
     }
     case "guesser":
-      return { active, peeker: null, guessers: [active], caller: null };
+      return { active, peeker: null, guessers: [active] };
     case "teams": {
       const lap = Math.floor(turn / seats.length);
       return {
         active,
         peeker: active.members[lap % active.members.length],
         guessers: [active],
-        caller: seats[(turn + 1) % seats.length],
       };
     }
   }
@@ -167,9 +155,8 @@ export function awardsFor(
   game: Game,
   card: Card,
   guesses: Guess[],
-  call: Side | null,
 ): Award[] {
-  const { active, caller } = roles(game);
+  const { active } = roles(game);
   const scored = guesses.map((g): Award => ({
     seat: g.seat,
     points: bandPoints(g.dial, card.target),
@@ -183,16 +170,6 @@ export function awardsFor(
       { seat: active.id, points: Math.round(average), role: "psychic" },
     ];
   }
-  if (game.mode === "teams" && caller && call) {
-    const [main] = scored;
-    const right =
-      main.points < BULLSEYE &&
-      call === targetSide(guesses[0].dial, card.target);
-    return [
-      ...scored,
-      { seat: caller.id, points: right ? 1 : 0, role: "call" },
-    ];
-  }
   return scored;
 }
 
@@ -201,7 +178,6 @@ function reveal(
   card: Card,
   clue: string,
   guesses: Guess[],
-  call: Side | null,
 ): Game {
   return {
     ...game,
@@ -210,8 +186,7 @@ function reveal(
       card,
       clue,
       guesses,
-      call,
-      awards: awardsFor(game, card, guesses, call),
+      awards: awardsFor(game, card, guesses),
     },
   };
 }
@@ -272,17 +247,8 @@ export function reduce(game: Game, action: Action): Game {
       ];
       if (guesses.length < guessers.length)
         return { ...game, phase: { ...phase, dial: DIAL_START, guesses } };
-      if (game.mode === "teams")
-        return {
-          ...game,
-          phase: { kind: "call", card: phase.card, clue: phase.clue, guesses },
-        };
-      return reveal(game, phase.card, phase.clue, guesses, null);
+      return reveal(game, phase.card, phase.clue, guesses);
     }
-    case "call":
-      return phase.kind === "call"
-        ? reveal(game, phase.card, phase.clue, phase.guesses, action.side)
-        : game;
     case "next":
       if (phase.kind !== "reveal") return game;
       if (isLastTurn(game)) return { ...game, phase: { kind: "over" } };
