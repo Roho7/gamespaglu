@@ -8,7 +8,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# Games Paglu — working notes for Claude
+# Games Paglu — agent working notes
 
 `gamespaglu.com`. Phone-as-aid for games played **in person**. Sibling of officepaglu.com.
 Specs live in the Obsidian vault (`~/Documents/MAIN/OBSIDIAN/OB_BRAIN/Cards/`): `Games Paglu Spec.md`,
