@@ -3,7 +3,6 @@ import { between, pickOne, type BotBrain } from "../game/bot";
 import type { Rng } from "../game/module";
 import { agreedKill, isAlive, living, livingWith, type MafiaState } from "./engine";
 
-/** The Mafia's pick every bot on the team falls in behind: yours if you are Mafia, else the first made. */
 function teamLead(s: MafiaState, you: PlayerId): PlayerId | null {
   const team = livingWith(s, "mafia");
   if (team.includes(you) && s.picks[you]) return s.picks[you];

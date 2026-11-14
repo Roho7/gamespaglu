@@ -20,10 +20,6 @@ export type Phase = "idle" | "countdown" | "reveal";
 
 const COUNTDOWN_FROM = 3;
 
-/**
- * `v` is a migration stamp, not a preference. Bump it whenever a stored shape
- * stops meaning what it used to.
- */
 const PREFS_VERSION = 3;
 
 type Prefs = {
@@ -46,24 +42,6 @@ const DEFAULT_PREFS: Prefs = {
   max: 100,
 };
 
-/**
- * Stored preferences are migrated on *read*, purely — never copied into state
- * inside an effect (see use-persisted).
- *
- * v1 → v2 dropped the Indian-language axis and moved the country default from
- * India+USA to the whole deck. Both halves matter: a saved `languages: ["ta"]`
- * would now match nothing, and a saved `countries: ["in", "us"]` was never a
- * choice anybody made — it was the old default that got written to storage the
- * first time any other setting was touched. Carrying either one forward leaves
- * a returning player on a silently narrowed deck, which is the empty-pool bug
- * this repo has already shipped once.
- *
- * v2 → v3 made the default deck modern, with anime and superheroes opt-in. The
- * saved types and era were almost always the old everything-on default written
- * back by an unrelated tap, so they reset rather than pinning a returning
- * player to the deck the new default exists to fix. A v2 `era: "classic"` has
- * no meaning any more either.
- */
 function migrate(stored: Partial<Prefs>): Prefs {
   if (stored.v === PREFS_VERSION) return { ...DEFAULT_PREFS, ...stored };
   const { countries, spicy, min, max } = stored;

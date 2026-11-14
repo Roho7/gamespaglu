@@ -1,4 +1,3 @@
-/** Girgit's half of the wire contract. Types and constants only. */
 import type { PlayerId } from "./ids";
 
 export const GIRGIT_MIN_PLAYERS = 4;

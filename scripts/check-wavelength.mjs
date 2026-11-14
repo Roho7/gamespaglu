@@ -1,13 +1,4 @@
 #!/usr/bin/env node
-/*
- * Wavelength check — the spectrum deck and the scoring rules.
- *
- *   node scripts/check-wavelength.mjs
- *
- * The deck fails on duplicate ids or pairs, empty poles, and poles too long
- * to sit beside the dial. The rules are driven through the real reducer, so a
- * scoring or turn-order regression fails here rather than mid-game.
- */
 import { readFileSync } from "node:fs";
 import {
   NEW_GAME,

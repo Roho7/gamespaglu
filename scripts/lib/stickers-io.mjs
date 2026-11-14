@@ -1,10 +1,3 @@
-/*
- * Shared sticker file operations, used by both the bulk seeder
- * (scripts/fetch-stickers.mjs) and the dev picker UI (/dev/stickers).
- *
- * One implementation on purpose: the manifest and the service worker precache
- * list must never drift from what is actually on disk.
- */
 import {
   existsSync,
   mkdirSync,

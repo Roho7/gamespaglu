@@ -1,9 +1,4 @@
 #!/usr/bin/env node
-/*
- * Guard: every palette has five distinct inks and is readable at its roles.
- *
- *   node scripts/check-contrast.mjs
- */
 import { readFileSync } from "node:fs";
 
 const src = readFileSync("src/lib/palettes.ts", "utf8");
@@ -52,9 +47,6 @@ for (const [block, id] of blocks.map((m) => [m[0], m[1]])) {
   console.log(`${id.padEnd(11)} ${distinct ? "ok" : "FAIL"} five distinct inks  ${results.join("  ")}`);
 }
 
-// Plain pages are printed in one palette, flipped: its near-black is the
-// ground, its loud ink the type, and panels sit on its primary. A secondary
-// button on a dark ground is exactly where this went wrong once.
 const groundId = src.match(/export const GROUND = paletteById\("([^"]+)"\)/)?.[1];
 const groundBlock = blocks.find((m) => m[1] === groundId)?.[0];
 if (!groundBlock) {

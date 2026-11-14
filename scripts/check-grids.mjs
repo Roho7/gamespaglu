@@ -1,18 +1,4 @@
 #!/usr/bin/env node
-/*
- * Girgit grid check — run after touching shared/data/grids.json or any pool.
- *
- *   node scripts/check-grids.mjs
- *
- * Grids hold entry IDS, not labels, so that one fame bar covers Who Am I? and
- * Girgit and a renamed label cannot silently orphan a grid cell. That only
- * works if something fails loudly when an id stops resolving — this is that
- * something.
- *
- * It also enforces the two things that are invisible in the data and obvious on
- * a phone: a grid that is not exactly 16 cells, and a word too long to render
- * in an ~85px cell.
- */
 import { readFileSync } from "node:fs";
 
 const load = (f) => JSON.parse(readFileSync(`shared/data/${f}.json`, "utf8"));
@@ -23,7 +9,6 @@ const GRID_SIZE = 16;
 const WARN_LENGTH = 16;
 const FAIL_LENGTH = 20;
 
-/** Every pool a grid may draw from. Object pools carry metadata; flat ones don't. */
 const OBJECT_POOLS = ["movies", "celebrities", "tv", "companies", "places"];
 const FLAT_POOLS = ["animals", "objects", "everyday"];
 
@@ -37,7 +22,6 @@ for (const p of FLAT_POOLS) {
 
 const grids = load("grids");
 const PACK_IDS = ["movies-tv", "people", "characters", "brands", "everyday", "world", "culture"];
-/** A pack with fewer than this repeats itself within one sitting. */
 const MIN_GRIDS_PER_PACK = 3;
 let bad = 0;
 const fail = (m) => {
@@ -63,12 +47,9 @@ for (const g of grids) {
   for (const id of g.cells) {
     const entry = byId.get(id);
     if (!entry) {
-      // The whole point of holding ids: this is a rename nobody propagated.
       fail(`${g.id}: no entry for id "${id}"`);
       continue;
     }
-    // A grid is played out loud with family in the room; the opt-in notoriety
-    // axis does not leak into it.
     if (entry.spicy) fail(`${g.id}: "${entry.label}" is spicy and must not be in a grid`);
 
     const n = entry.label.length;
@@ -81,10 +62,8 @@ for (const g of grids) {
   }
 }
 
-// A single grid is a single round. Too few and a session repeats itself.
 if (grids.length < 20) fail(`only ${grids.length} grids — a session will repeat`);
 
-// And that has to hold for whatever subset a room actually turns on.
 for (const pack of PACK_IDS) {
   const n = grids.filter((g) => g.pack === pack).length;
   if (n < MIN_GRIDS_PER_PACK) {

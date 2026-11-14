@@ -1,4 +1,3 @@
-/** Tiktiki's half of the wire contract. Types, constants, the place list and the score table. */
 import type { PlayerId } from "./ids";
 
 export const TIKTIKI_MIN_PLAYERS = 4;

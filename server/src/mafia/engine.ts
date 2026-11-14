@@ -1,7 +1,3 @@
-/**
- * Mafia rules. Pure: no sockets, no database, no clock, and the deal's randomness is injected, so a
- * whole game plays out in a unit test.
- */
 import {
   MAFIA_MAX_PLAYERS,
   MAFIA_MIN_PLAYERS,

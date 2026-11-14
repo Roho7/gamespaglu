@@ -33,7 +33,6 @@ function picks(s: MafiaState, all: Record<PlayerId, PlayerId>): MafiaState {
 
 const FIRST_NIGHT = { m1: "v1", m2: "v1", doc: "v2", v0: "m1", v1: "m2", v2: "m2", v3: "m2" };
 
-/** One state per phase of a game, so every view rule is checked at every point a player can be. */
 function everyPhase(): MafiaState[] {
   const night1 = picks(fresh(), { m1: "v1", m2: "v2", v0: "m1" });
   const day1 = picks(fresh(), FIRST_NIGHT);

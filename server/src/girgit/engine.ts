@@ -1,7 +1,3 @@
-/**
- * Girgit rules. Pure: no sockets, no database, no React, and randomness and time are injected, so
- * a whole session plays out in a unit test.
- */
 import {
   GIRGIT_MIN_PLAYERS,
   GRID_SIZE,

@@ -54,7 +54,7 @@ export function HomeGameCard({
         ) : null}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-16 flex flex-col px-2 text-[var(--cw-ink)] mix-blend-overlay"
+          className="pointer-events-none absolute inset-x-0 top-16 flex flex-col px-2 text-[var(--cw-primary)] mix-blend-overlay"
         >
           {rows.map((row, i) =>
             row ? (

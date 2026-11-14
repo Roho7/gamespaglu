@@ -40,11 +40,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-/**
- * The worst case on purpose: the longest labels in the real deck.
- * A style guide that shows comfortable content proves nothing about the
- * cell that actually breaks.
- */
 const DEMO_SLIPS: ClueSlip[] = [
   { id: "you", name: "Roho", you: true, clue: "Penalty" },
   { id: "asha", name: "Asha", clue: "Iconic" },

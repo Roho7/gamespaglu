@@ -27,10 +27,6 @@ const CROSSING = [
   ".......s.",
 ];
 
-/**
- * `ring` counts outward from where an organ grows: the flower's centre or a
- * leaf's root. `organ` is 0 for the flower, then one per leaf.
- */
 type Stitch = {
   part: "stem" | "flower" | "leaf";
   ring: number;

@@ -1,6 +1,3 @@
-// Minimal PNG writer — no image deps. Draws the Games Paglu mark:
-// paper ground, thick ink border, hot circle with an offset ink square,
-// echoing the neo-brutalism offset shadow.
 import { deflateSync } from "node:zlib";
 import { writeFileSync } from "node:fs";
 
@@ -41,8 +38,8 @@ function png(size, pixel) {
   const ihdr = Buffer.alloc(13);
   ihdr.writeUInt32BE(size, 0);
   ihdr.writeUInt32BE(size, 4);
-  ihdr[8] = 8; // bit depth
-  ihdr[9] = 2; // truecolour
+  ihdr[8] = 8;
+  ihdr[9] = 2;
   return Buffer.concat([
     Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
     chunk("IHDR", ihdr),
@@ -55,11 +52,9 @@ const mark = (x, y, s) => {
   const border = Math.round(s * 0.07);
   if (x < border || y < border || x >= s - border || y >= s - border) return INK;
 
-  // offset ink square (the shadow)
   const sq = { x0: s * 0.34, y0: s * 0.34, x1: s * 0.78, y1: s * 0.78 };
   const inSquare = x >= sq.x0 && x < sq.x1 && y >= sq.y0 && y < sq.y1;
 
-  // hot circle sitting on top of it
   const cx = s * 0.44;
   const cy = s * 0.44;
   const r = s * 0.22;

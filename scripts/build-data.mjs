@@ -1,21 +1,4 @@
 #!/usr/bin/env node
-/*
- * Refreshes the curated word lists. Run by hand, never at request time.
- *
- *   TMDB_API_KEY=... node scripts/build-data.mjs movies
- *   node scripts/build-data.mjs celebrities            (Wikidata, no key)
- *   node scripts/build-data.mjs images                 (Wikidata, no key)
- *
- * Word lists go to shared/data/<bucket>.candidates.json — NOT straight into
- * the shipped list. The human review pass is the step that makes this product
- * good: cut anyone the room won't recognise, then merge into
- * shared/data/<bucket>.json yourself.
- *
- * `images` matches every shipped entry to a Wikidata item and its main image
- * (P18, always a freely licensed Commons file). It writes shared/data/images.json,
- * which the app reads, and images.audit.json with each match's Wikidata item
- * and description so a wrong match is quick to spot and delete.
- */
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
@@ -66,8 +49,6 @@ async function movies() {
   return out;
 }
 
-/* Celebrity fame is not only film fame — cricketers, singers and politicians
- * matter as much in an Indian room, and TMDB has none of them. Wikidata does. */
 const SPARQL = `
 SELECT ?name (COUNT(?sitelink) AS ?fame) WHERE {
   ?person wdt:P31 wd:Q5 ;
@@ -166,7 +147,6 @@ const NOT_A_PERSON =
   /\b(team|club|organi[sz]ation|league|medal|award|order of|city|town|prefecture|river|village|concept|level of)\b/i;
 const NOT_AN_OBJECT = /geolog|landform|mountain|mineral|rock formation|company|disambiguation/i;
 
-/** What a Wikidata item must be to stand in for an entry of each category. */
 const FITS = {
   celebrity: (kinds, item) =>
     !kinds.some((k) => NOT_A_THING.has(k)) &&
@@ -196,7 +176,6 @@ const FITS = {
 const slug = (label) =>
   label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
-/** Commons thumbnail path, relative to /wikipedia/commons/thumb/. */
 function thumbPath(file) {
   const name = file.replace(/ /g, "_");
   const md5 = createHash("md5").update(name).digest("hex");
@@ -230,12 +209,6 @@ async function pool(items, size, fn) {
   return out;
 }
 
-/**
- * The English Wikipedia article titled exactly like the entry is the best first
- * guess: "Cat" is the animal and "Queen Elizabeth II" redirects to the person,
- * where a Wikidata search ranks a CT scan and a medal first. Disambiguation
- * pages are skipped, so an ambiguous title falls back to search.
- */
 async function wikipediaItems(labels) {
   const found = new Map();
   for (let i = 0; i < labels.length; i += 50) {
