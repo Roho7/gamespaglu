@@ -11,11 +11,6 @@ import { ditherTransitionCss } from "@/lib/dither-transition";
 import { GROUND, paletteCss, theme } from "@/lib/palettes";
 import "./globals.css";
 
-/**
- * Poster type: Bebas Neue for display, a condensed all-caps face, and Montserrat
- * for everything else. Self-hosted by next/font at build time, so the PWA
- * never fetches a font at runtime.
- */
 const poster = Bebas_Neue({
   subsets: ["latin"],
   weight: "400",

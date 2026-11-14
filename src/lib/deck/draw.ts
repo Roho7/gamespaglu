@@ -11,11 +11,6 @@ import type {
   TypeKey,
 } from "@/lib/deck/types";
 
-/**
- * Pure drawing logic — no React, no DOM. A server (rooms, later) can call the
- * identical functions.
- */
-
 const NUMBER_LIMITS = { min: -1_000_000, max: 1_000_000, maxSpan: 1_000_000 };
 const BAGGED_RANGE_LIMIT = 1000;
 
@@ -53,7 +48,6 @@ export function filterPool(
   });
 }
 
-/** Stable identity for a pool, so the shuffle-bag resets when filters change. */
 function poolSignature(category: CategoryId, filters: Filters): string {
   if (category === "number") {
     return `number:${filters.min ?? 1}-${filters.max ?? 100}`;

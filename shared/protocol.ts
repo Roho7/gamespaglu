@@ -1,9 +1,3 @@
-/**
- * The wire contract, imported by both the Next client and the socket server, so an event name or
- * payload the two sides disagree on is a compile error rather than a silent failure mid-game.
- *
- * Types, constants and tiny pure helpers only. Each game's half lives beside it.
- */
 import type { DeviceId, PlayerId, RoomCode } from "./ids";
 import type {
   GirgitAction,

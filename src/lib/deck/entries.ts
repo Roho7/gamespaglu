@@ -30,7 +30,6 @@ function slug(label: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-/** Flat lists are authored as plain strings — far less typing means longer lists. */
 function fromStrings(labels: string[]): Entry[] {
   return labels.map((label) => ({
     id: slug(label),
@@ -110,18 +109,6 @@ export function availableTypes(
   return [...seen];
 }
 
-/**
- * Every lookup goes through here, and it is deliberately total over CategoryId.
- *
- * `number` has no deck — it is a range, not a list — so ENTRIES has no key for
- * it. Callers reach these helpers through `category as Exclude<CategoryId,
- * "number">`, and that cast is a promise the type system cannot keep: it made
- * `category !== "number"` look like an impossible comparison, the guard was
- * removed to satisfy it, and /who-am-i/number crashed on `undefined.some`.
- *
- * Narrowing at the boundary rather than asserting at the call site is what
- * stops that recurring.
- */
 function poolOf(category: CategoryId): Entry[] {
   return category === "number" ? [] : ENTRIES[category];
 }

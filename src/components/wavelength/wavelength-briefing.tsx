@@ -29,7 +29,6 @@ function roundsLine(mode: Mode, rounds: number) {
   }
 }
 
-/** The mode switch, drawn as tabs: picking a tab picks the mode and shows its rules. */
 function ModeTabs({ mode, onMode }: { mode: Mode; onMode: (m: Mode) => void }) {
   const reduceMotion = useReducedMotion();
   return (

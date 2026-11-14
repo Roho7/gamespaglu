@@ -5,7 +5,6 @@ import type {
 } from "../../../shared/protocol";
 import { tally, type RoundState } from "./engine";
 
-/** Mid-ballot the room sees only the standoff that forced a revote, never who is leading. */
 const contested = (state: RoundState): Record<PlayerId, number> =>
   Object.fromEntries((state.candidates ?? []).map((p) => [p, state.tieVotes]));
 

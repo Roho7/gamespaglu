@@ -34,11 +34,6 @@ function rgb(hex: string) {
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 
-/**
- * The photo dithered into the palette the way `DitheredPhoto` does it on the
- * page: an 8x8 ordered dither from `primary` through `base` to `highlight`.
- * The page uses a WebGL shader, which a build has no GPU for.
- */
 async function ditheredPhoto(path: string, palette: Palette) {
   const cols = Math.ceil(PHOTO.width / PHOTO.cell);
   const rows = Math.ceil(PHOTO.height / PHOTO.cell);

@@ -10,13 +10,6 @@ import {
   type PlacedStitch,
 } from "@/components/stitch/vine-tile";
 
-/**
- * The flower vine as an endless horizontal strip, ticking along one stitch at
- * a time. Each flower and leaf opens ring by ring as it comes in over the
- * edge and folds back up as it goes out the other side — the bloom follows
- * position, not a clock, so it can never fall out of step with the travel.
- */
-
 const STEP_MS = 220;
 
 const ROOTS = new Map<string, number[]>();

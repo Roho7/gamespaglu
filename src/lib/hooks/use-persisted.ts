@@ -3,15 +3,6 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { store } from "@/lib/state-adapter";
 
-/**
- * localStorage is an external store, so it is read through
- * useSyncExternalStore rather than copied into state inside an effect. Parsed
- * values are cached so snapshots stay referentially stable between renders —
- * without the cache, React would re-render forever.
- *
- * The server snapshot is the fallback, so SSR and the first client render agree
- * and React swaps in the real value immediately after hydration.
- */
 const cache = new Map<string, unknown>();
 const listeners = new Set<() => void>();
 

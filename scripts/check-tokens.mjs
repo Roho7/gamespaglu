@@ -1,14 +1,4 @@
 #!/usr/bin/env node
-/*
- * Guard: components may not name a colour.
- *
- *   node scripts/check-tokens.mjs
- *
- * Every colour must come from a colourway token so a screen can be recoloured
- * by swapping four variables. Raw hex values and Tailwind colour utilities are
- * how a design system quietly rots, so this fails the build instead of trusting
- * anyone to remember. Palette definitions live in the two allowed files below.
- */
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
@@ -16,7 +6,6 @@ const ROOTS = ["src/components", "src/app", "src/content"];
 const ALLOWED = new Set([
   "src/lib/palettes.ts",
   "src/app/globals.css",
-  // Emblems reference token vars only; icons/manifest need literal brand hex.
   "src/app/manifest.ts",
 ]);
 
@@ -24,17 +13,8 @@ const HEX = /#[0-9a-fA-F]{3,8}\b/;
 const TW_COLOUR =
   /\b(?:bg|text|border|from|via|to|ring|fill|stroke|decoration|outline|shadow)-(?:slate|gray|grey|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d{2,3})?\b/;
 
-/*
- * Third guard: Tailwind reads an arbitrary var() with no type hint as a colour,
- * so border-[var(--rule)] sets no width and the border never draws. Widths
- * must say so: border-[length:var(--rule)].
- */
 const UNTYPED_WIDTH = /\bborder(?:-[trblxy])?-\[var\(--(?:rule|rule-thin)\)\]/;
 
-/*
- * Fourth guard: the print has no rounded corners. Every edge is square, so a
- * rounded utility or a non-zero border-radius anywhere fails, globals included.
- */
 const ROUNDED =
   /\brounded(?!-none\b)(?:-[a-z0-9]+)*(?:-\[[^\]]*\])?|border-radius:(?!\s*0\s*[;}])[^;}]+/;
 
@@ -47,15 +27,9 @@ function walk(dir, out = []) {
   return out;
 }
 
-/*
- * Second guard: a var(--x) that no longer exists renders as nothing, which is
- * how the scoreboard sheet shipped fully transparent and unreadable after the
- * palette was renamed. Every token a component references must be defined.
- */
 const css = readFileSync("src/app/globals.css", "utf8");
 const DEFINED = new Set([
   ...[...css.matchAll(/(--[a-z0-9-]+)\s*:/g)].map((m) => m[1]),
-  // Set at runtime by paletteVars() and groundVars(), and by base-ui's drawer internals.
   "--cw-base",
   "--cw-highlight",
   "--cw-secondary",
@@ -68,7 +42,6 @@ const DEFINED = new Set([
   "--scrim",
   "--loud",
   "--on-loud",
-  // Set by next/font in the root layout.
   "--font-poster",
   "--font-body",
   "--btn-field",

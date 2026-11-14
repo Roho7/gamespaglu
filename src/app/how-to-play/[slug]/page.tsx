@@ -5,7 +5,6 @@ import { PageCorners } from "@/components/layout/page-corners";
 import { StitchBorder } from "@/components/stitch/stitch-border";
 import { StitchedPanel } from "@/components/stitch/stitched-panel";
 import { paletteById, theme } from "@/lib/palettes";
-import { CrossPromo } from "@/components/layout/cross-promo";
 import { CATEGORIES } from "@/lib/deck/categories";
 import { GUIDES, getGuide } from "@/content/guides";
 import { SITE } from "@/lib/site-config";
@@ -191,8 +190,6 @@ export default async function GuidePage({
             </ul>
           </StitchedPanel>
         ) : null}
-
-        {/* <CrossPromo /> */}
       </article>
 
       {guide.playRoute ? (

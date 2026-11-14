@@ -1,4 +1,3 @@
-/** Mafia's half of the wire contract. Types, constants and the role table. */
 import type { PlayerId } from "./ids";
 
 export const MAFIA_MIN_PLAYERS = 5;

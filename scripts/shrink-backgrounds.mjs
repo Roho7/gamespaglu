@@ -1,17 +1,4 @@
 #!/usr/bin/env node
-/*
- * Shrink background photos for the home and rail cards, and the Mafia role cards.
- *
- *   npm run backgrounds
- *
- * Every PNG in public/backgrounds and public/roles becomes a JPEG of the same name, at most
- * 1000px on its long side, quality 80, and the PNG is removed. The cards
- * dither these into two inks, so the detail a large PNG carries never shows,
- * and every byte is precached on a visitor's first load.
- *
- * A PNG with transparency is skipped: JPEG has no alpha, so it would turn
- * black. Uses macOS `sips`.
- */
 import { execFileSync } from "node:child_process";
 import { readdirSync, statSync, unlinkSync } from "node:fs";
 import { join } from "node:path";

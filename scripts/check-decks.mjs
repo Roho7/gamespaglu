@@ -1,18 +1,4 @@
 #!/usr/bin/env node
-/*
- * Deck sanity check — run after touching shared/data or the filter logic.
- *
- *   node scripts/check-decks.mjs
- *
- * Every category, and every filter combination the UI actually offers, must
- * produce a non-empty deck. An empty deck is invisible in a screenshot: the
- * Generate button simply does nothing. Animals and objects shipped broken
- * exactly that way (all tagged "worldwide" while the default filter was
- * India+USA), and "Worldwide" was offered on movies where no entry carries it.
- *
- * The default is now every country, so "defaults" below is the whole deck. The
- * per-country pass is what actually earns its keep.
- */
 import { readFileSync } from "node:fs";
 
 const load = (f) => JSON.parse(readFileSync(`shared/data/${f}.json`, "utf8"));
@@ -26,14 +12,10 @@ const DATA = {
 const HAS_REGION = { celebrity: true, movie: true, place: true, animal: false, object: false };
 const HAS_TYPES = { celebrity: true };
 const ERAS = ["modern", "both"];
-// Mirrors DEFAULT_TYPES and the modern default in src/lib/hooks/use-generator.ts.
 const OPT_IN_TYPES = ["anime", "superhero"];
 
 const uniq = (xs) => [...new Set(xs)];
-// eslint-disable-next-line no-unused-vars
 const availableCountries = (cat) => uniq(DATA[cat].flatMap((e) => e.countries));
-// Mirrors src/lib/entries.ts: a type chip is only offered when it has entries
-// under the other active filters.
 const availableTypes = (cat, era = "both", spicy = false) =>
   uniq(
     DATA[cat]
@@ -57,8 +39,6 @@ function filterPool(cat, { countries, types, era = "both", spicy = false } = {})
 }
 
 let bad = 0;
-// "Leaders" was folded into "Icons". A stray `politics` type would be filtered
-// against a chip that no longer exists, i.e. an entry nobody can ever draw.
 for (const [cat, rows] of Object.entries(DATA)) {
   const stray = rows.filter((e) => (e.types ?? []).includes("politics"));
   if (stray.length) {
@@ -66,9 +46,6 @@ for (const [cat, rows] of Object.entries(DATA)) {
     bad++;
   }
 }
-// The language axis is gone (CLAUDE.md, "popularity over locality"). A stray
-// `languages` key in the data would be silently ignored by the app, so fail
-// loudly instead of letting it rot.
 for (const [cat, rows] of Object.entries(DATA)) {
   const stray = rows.filter((e) => e.languages);
   if (stray.length) {
@@ -106,8 +83,6 @@ for (const cat of Object.keys(HAS_REGION).filter((c) => HAS_REGION[c])) {
 console.log("-- every type, alone, in every era --");
 for (const cat of Object.keys(HAS_TYPES)) {
   for (const era of ERAS) {
-    // Only combinations the UI can actually produce: a chip that isn't offered
-    // under this era (or on this side of the spicy switch) can't be selected.
     for (const spicy of [false, true]) {
       for (const t of availableTypes(cat, era, spicy)) {
         const n = filterPool(cat, { types: [t], era, spicy }).length;

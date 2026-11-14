@@ -1,20 +1,4 @@
 #!/usr/bin/env node
-/*
- * Imports the hand-curated sticker set from the Obsidian note.
- *
- *   npm run stickers                 # reads the default note
- *   npm run stickers -- <path.md>    # or any other markdown file
- *
- * The note is the source of truth: headings are category names, and every
- * giphy.com URL under a heading becomes that category's set. Anything already
- * on disk that is not in the note is removed, so the note and the site can
- * never drift.
- *
- * Curation is deliberately manual. Bulk search results were mostly clip-art
- * noise; a human picking thirteen good ones beats a script picking fifty.
- *
- * A category with no stickers is fine.
- */
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import {
@@ -29,7 +13,6 @@ const DEFAULT_NOTE =
   "/Users/roho7/Documents/MAIN/OBSIDIAN/OB_BRAIN/Cards/Gif Collection.md";
 const notePath = process.argv[2] || DEFAULT_NOTE;
 
-// Headings in the note are written naturally ("Movies"), not as category ids.
 const HEADING_TO_CATEGORY = {
   celebrity: "celebrity",
   celebrities: "celebrity",
@@ -61,7 +44,6 @@ for (const raw of lines) {
   const url = line.match(/https?:\/\/\S*giphy\.com\/\S+/)?.[0];
   if (url) {
     if (!current) continue;
-    // .../<id>/giphy.gif — the id is the segment before the filename.
     const id = url.split("/").filter(Boolean).at(-2);
     if (id) wanted[current].push({ id, url });
     continue;
@@ -71,19 +53,12 @@ for (const raw of lines) {
   if (HEADING_TO_CATEGORY[heading]) current = HEADING_TO_CATEGORY[heading];
 }
 
-// Rebuild from scratch: the note is the whole set, so nothing lingers.
 if (existsSync(STICKER_DIR)) rmSync(STICKER_DIR, { recursive: true });
 
 let count = 0;
 let bytes = 0;
 const key = process.env.GIPHY_API_KEY;
 
-/*
- * The note links to the original file, which for stickers can be megabytes.
- * A card renders at ~120px and the whole set is precached for offline play, so
- * we look the id up and take the 200px rendition of the same sticker instead.
- * Falls back to the note's own URL if the API is unavailable.
- */
 const renditions = new Map();
 const allIds = CATEGORIES.flatMap((c) => wanted[c].map((i) => i.id));
 let metaById = new Map();
@@ -136,8 +111,6 @@ for (const category of CATEGORIES) {
 
 rebuildManifest();
 
-// Attribution: GIPHY's terms expect credit even when the file is self-hosted,
-// and the source link is what makes a sticker traceable later.
 if (metaById.size > 0) {
   for (const category of CATEGORIES) {
     for (const { id } of wanted[category]) {

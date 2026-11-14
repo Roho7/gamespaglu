@@ -40,11 +40,6 @@ export type RoomHandle<G extends GameId> = {
   act: (action: GameTypes[G]["action"]) => Promise<Result<Done>>;
 };
 
-/**
- * Identity, entire: no accounts, and a cleared browser is a new person. Read from the store and
- * minted on demand rather than through React state, because an effect would run while the
- * hydration snapshot still looks empty and overwrite the real id, costing the player their seat.
- */
 function deviceId(): string {
   const existing = store.get<string>(DEVICE_KEY, "");
   if (existing) return existing;
@@ -159,7 +154,6 @@ export function useRoom<G extends GameId>(game: G): RoomHandle<G> {
     setStatus("idle");
   }, [call, setLastCode]);
 
-  /** Resume on every connect: a reload, a phone waking and a redeploy must all restore the seat. */
   useEffect(() => {
     if (!hydrated || !lastCode) return;
     const s = socket();

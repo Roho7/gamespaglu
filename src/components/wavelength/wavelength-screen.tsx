@@ -50,7 +50,6 @@ function deal(): Card {
   return { spectrum, target: Math.round(target * 10) / 10 };
 }
 
-/** What the marquee says: whose turn it is and who holds the phone. */
 function bannerFor(game: Game): { headline: string; detail: string } | null {
   const { phase } = game;
   if (!("card" in phase)) return null;

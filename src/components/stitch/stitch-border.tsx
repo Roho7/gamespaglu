@@ -27,11 +27,6 @@ const CROSS: Pattern = [
 
 const BUD: Pattern = ["..#..", ".#.#.", "#...#", ".#.#.", "..#.."];
 
-/**
- * What each frame stitches into its corners, clockwise from top-left: a card
- * is all flowers, a link card trades the top-right flower for an arrow, and a
- * field (a text box) uses a smaller bud so it never reads as a card.
- */
 const VARIANTS = {
   card: { stitch: 3, corners: [FLOWER, FLOWER, FLOWER, FLOWER] },
   link: { stitch: 3, corners: [FLOWER, ARROW, FLOWER, FLOWER] },

@@ -65,7 +65,6 @@ const io = new Server<ClientToServer, ServerToClient, Record<string, never>, Soc
   pingTimeout: 30_000,
 });
 
-/** Per socket, because every recipient's view differs by `you` and the private half of the round. */
 async function broadcast(code: RoomCode, room: RoomRecord | null) {
   const sockets = await io.in(code).fetchSockets();
   for (const s of sockets) {
@@ -79,7 +78,6 @@ async function broadcast(code: RoomCode, room: RoomRecord | null) {
   }
 }
 
-/** Every handler answers through its ack, so nothing rejects into the void. */
 function handle<T>(ack: Ack<T>, fn: () => Promise<T>) {
   return fn().then(
     (data) => ack({ ok: true, data }),
@@ -167,10 +165,6 @@ io.on("connection", (socket: GameSocket) => {
   });
 });
 
-/**
- * Deadlines live in round state, not in a per-room setTimeout, so a redeploy cannot lose one: the
- * sweep finds anything overdue whatever happened in between.
- */
 setInterval(() => {
   void rooms
     .sweep((code, err) => console.error("[sweep]", code, err))

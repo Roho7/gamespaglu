@@ -1,5 +1,4 @@
-/** FNV-1a, so a seed string lands on the same index on every device. */
-function hash(seed: string): number {
+function fnv1a(seed: string): number {
   let h = 2166136261;
   for (const ch of seed) {
     h ^= ch.charCodeAt(0);
@@ -10,7 +9,7 @@ function hash(seed: string): number {
 
 
 export function whimsy<T>(pool: readonly T[], seed: string): T {
-  return pool[hash(seed) % pool.length];
+  return pool[fnv1a(seed) % pool.length];
 }
 
 export function fill(template: string, slots: Record<string, string>): string {

@@ -1,8 +1,3 @@
-/**
- * The room layer, as pure functions over a room record: seats, host, settings, the deal, and the
- * score applied when a game ends. Each game's rules sit behind its module; storage sits behind the
- * store. Nothing here touches a socket, a database or the clock.
- */
 import {
   ROOM_TTL_MS,
   type DeviceId,
@@ -132,7 +127,6 @@ function withScores(players: PlayerRecord[], delta: Record<PlayerId, number>): P
   return players.map((p) => ({ ...p, score: p.score + (delta[p.id] ?? 0) }));
 }
 
-/** Stores the next game state, scoring it exactly once, on the transition to over. */
 function advance(room: RoomRecord, mod: AnyGameModule, next: unknown): RoomRecord {
   const round = room.round ?? reject("WRONG_PHASE", "No round is running.");
   const ended = !mod.isOver(round.state) && mod.isOver(next);
@@ -143,7 +137,6 @@ function advance(room: RoomRecord, mod: AnyGameModule, next: unknown): RoomRecor
   };
 }
 
-/** The host passes to the longest-seated player, preferring someone connected. */
 function nextHost(players: PlayerRecord[], current: PlayerId | null): PlayerId | null {
   if (current && players.some((p) => p.id === current)) return current;
   const ranked = [...players].sort(
@@ -218,7 +211,6 @@ export function deal(
   return dealNow(room, mod, rng, now);
 }
 
-/** Freezes everyone seated right now into the next deal. */
 function dealNow(room: RoomRecord, mod: AnyGameModule, rng: Rng, now: Now): RoomRecord {
   const seats = [...room.players]
     .sort((a, b) => a.seat - b.seat)

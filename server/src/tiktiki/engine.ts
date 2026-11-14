@@ -1,7 +1,3 @@
-/**
- * Tiktiki rules. Pure: no sockets, no store, and the clock and the deal's randomness are injected,
- * so a whole round plays out in a unit test.
- */
 import {
   PLACE_IDS,
   SCORE_ACCUSER,
@@ -120,7 +116,6 @@ export const jurors = (state: TiktikiState): PlayerId[] =>
 export const trialOutstanding = (state: TiktikiState): PlayerId[] =>
   jurors(state).filter((p) => state.trial?.votes[p] === undefined);
 
-/** Questioning is over: go to the guess, or straight to the end if the Tiktiki has gone. */
 function toGuess(state: TiktikiState, ending: TiktikiEnding): TiktikiState {
   const next = { ...state, ending, deadlineAt: null };
   return isPresent(state, state.tiktikiId)

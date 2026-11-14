@@ -2,14 +2,6 @@
 
 import { store } from "@/lib/state-adapter";
 
-/**
- * Countdown ticks and the reveal hit. Synthesised with WebAudio rather than
- * shipped as files — no assets, no licensing, no cache weight.
- *
- * iOS only allows audio after a user gesture, so the context is created on the
- * tap that starts the countdown. Vibration is Android-only in practice; it is a
- * silent no-op on iOS Safari and that is acceptable.
- */
 let ctx: AudioContext | null = null;
 
 export const MUTE_KEY = "muted";
