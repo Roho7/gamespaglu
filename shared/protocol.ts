@@ -14,6 +14,13 @@ import type {
   MafiaYourRound,
 } from "./mafia";
 import type {
+  ShAction,
+  ShPhase,
+  ShPublicRound,
+  ShSettings,
+  ShYourRound,
+} from "./secret-hitler";
+import type {
   TiktikiAction,
   TiktikiPhase,
   TiktikiPublicRound,
@@ -24,6 +31,7 @@ import type {
 export type { DeviceId, PlayerId, RoomCode } from "./ids";
 export * from "./girgit";
 export * from "./mafia";
+export * from "./secret-hitler";
 export * from "./tiktiki";
 
 /** Bumped when a change is not backward compatible. */
@@ -38,7 +46,7 @@ export const ROOM_CODE_ALPHABET = "BCDFGHJKLMNPQRSTVWXYZ";
 /** How long a room survives with nobody doing anything. */
 export const ROOM_TTL_MS = 2 * 60 * 60 * 1000;
 
-export const GAME_IDS = ["girgit", "mafia", "tiktiki"] as const;
+export const GAME_IDS = ["girgit", "mafia", "tiktiki", "secret-hitler"] as const;
 export type GameId = (typeof GAME_IDS)[number];
 
 /** Everything that differs per game, keyed by game, so `RoomState` narrows on `game`. */
@@ -63,6 +71,13 @@ export type GameTypes = {
     round: TiktikiPublicRound;
     your: TiktikiYourRound;
     action: TiktikiAction;
+  };
+  "secret-hitler": {
+    phase: ShPhase;
+    settings: ShSettings;
+    round: ShPublicRound;
+    your: ShYourRound;
+    action: ShAction;
   };
 };
 
