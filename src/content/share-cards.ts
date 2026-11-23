@@ -5,7 +5,8 @@ export type ShareCardCopy = {
   title: string;
   tagline: string;
   palette: PaletteId;
-  image: string;
+  /** A photo for the left of the card. Without one the title fills the card. */
+  image?: string;
 };
 
 /**
@@ -42,6 +43,11 @@ export const GAME_SHARE_CARDS = {
     tagline: "Everyone knows where you are, except the lizard on the wall.",
     palette: "arcade",
     image: "/backgrounds/tiktiki.jpg",
+  },
+  "secret-hitler": {
+    title: "Secret Hitler",
+    tagline: "Liberals, Fascists and one secret Hitler. A phone each, one shared board.",
+    palette: "pulp",
   },
   scoreboard: {
     title: "Scoreboard",

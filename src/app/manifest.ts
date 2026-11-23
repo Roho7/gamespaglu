@@ -30,6 +30,7 @@ export default function manifest(): MetadataRoute.Manifest {
       { name: "Mafia", url: "/mafia/new" },
       { name: "Girgit", url: "/girgit/new" },
       { name: "Tiktiki", url: "/tiktiki/new" },
+      { name: "Secret Hitler", url: "/secret-hitler/new" },
       { name: "Wavelength", url: "/wavelength" },
       { name: "Who Am I?", url: "/who-am-i" },
     ],

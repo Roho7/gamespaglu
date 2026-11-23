@@ -25,13 +25,8 @@ import { reject } from "../game/errors";
 import type { Rng, Seat } from "../game/module";
 import { shuffle } from "../game/random";
 
-/**
- * Secret Hitler as one reducer over plain data, implementing `RULES.md`. Randomness arrives as an
- * injected rng, so a seeded game replays exactly.
- */
 export type ShState = {
   phase: ShPhase;
-  /** Seat order, which is clockwise. Frozen at the deal. */
   players: PlayerId[];
   names: Record<PlayerId, string>;
   roles: Record<PlayerId, ShRole>;
@@ -69,7 +64,6 @@ export const living = (s: ShState) => s.players.filter((p) => !s.dead.includes(p
 export const vetoUnlocked = (s: ShState) => s.fascist >= VETO_AT;
 export const hitlerOf = (s: ShState) => s.players.find((p) => s.roles[p] === "hitler")!;
 
-/** Who each player's night phase shows them. */
 export function nightKnowledge(s: ShState, id: PlayerId): PlayerId[] {
   const role = s.roles[id];
   if (role === "liberal") return [];
@@ -186,7 +180,6 @@ function policyWin(s: ShState): ShState | null {
   return null;
 }
 
-/** Three failed governments in a row: the top tile goes straight onto the board, powers ignored. */
 function chaos(s: ShState, rng: Rng): { state: ShState; policy: Policy } {
   const [policy, ...deck] = s.deck;
   const placed = place({ ...s, deck, termLimited: null }, policy);
@@ -383,7 +376,6 @@ export function abortSh(s: ShState): ShState {
   return s.phase === "over" ? s : win(s, { winner: null, reason: "aborted" });
 }
 
-/** One point to everyone on the winning side, the dead included. */
 export function scoreSh(s: ShState): Record<PlayerId, number> {
   const winner = s.outcome?.winner;
   return Object.fromEntries(

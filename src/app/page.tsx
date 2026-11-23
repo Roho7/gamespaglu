@@ -84,6 +84,19 @@ export default function Home() {
         />
 
         <HomeGameCard
+          more
+          href="/secret-hitler/new"
+          help="/how-to-play/secret-hitler"
+          palette="pulp"
+          title="Play Secret Hitler"
+          tagline="Find Hitler before it's too late."
+          rows={[
+            { text: "Secret", kind: "title" },
+            { text: "Hitler", kind: "title" },
+          ]}
+        />
+
+        <HomeGameCard
           href="/tiktiki/new"
           help="/how-to-play/tiktiki"
           palette="arcade"

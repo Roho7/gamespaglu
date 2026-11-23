@@ -44,6 +44,7 @@ export function HostOrJoinScreen({
   onJoin,
   busy,
   error,
+  invite,
 }: {
   title: string;
   palette: PaletteId;
@@ -54,11 +55,15 @@ export function HostOrJoinScreen({
   onJoin?: (name: string, code: string) => void;
   busy: boolean;
   error: Err | null;
+  /** A room code from an invite link, which opens Join with the code filled in. */
+  invite?: string | null;
 }) {
   const palette = paletteById(paletteId);
-  const [door, setDoor] = useState<Door | null>(null);
+  const [picked, setDoor] = useState<Door | null | undefined>(undefined);
   const [name, setName] = useState("");
-  const [code, setCode] = useState("");
+  const [typed, setCode] = useState<string | null>(null);
+  const door = picked === undefined ? (invite && onJoin ? "join" : null) : picked;
+  const code = typed ?? invite ?? "";
   const online = useOnline();
 
   useEffect(() => {

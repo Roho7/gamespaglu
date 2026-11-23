@@ -30,7 +30,6 @@ const state = () => room().round!.state as ShState;
 const payload = (you: string) => rooms.view(room(), you) as RoomStateOf<"secret-hitler">;
 const act = (by: string, action: ShAction) => rooms.act(code, by, action);
 
-/** Plays a game through every kind of moment, snapshotting what each phone receives at each one. */
 async function playAndCapture() {
   const snapshots: RoomStateOf<"secret-hitler">[][] = [];
   const moments: { nominated: RoomStateOf<"secret-hitler">; midVote: RoomStateOf<"secret-hitler">[]; cast: Record<string, boolean> }[] = [];

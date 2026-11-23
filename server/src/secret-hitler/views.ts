@@ -7,11 +7,7 @@ import {
 } from "../../../shared/protocol";
 import { isAlive, nightKnowledge, termLimitedNow, vetoUnlocked, type ShState } from "./engine";
 
-/**
- * Everything the table may see: the board, counts, who holds which office and who has voted.
- * Roles appear only once the game is over. The deck, the discards, the hands and the ballots of
- * an open vote never leave the server.
- */
+/** Roles appear only once the game is over. The deck, discards, hands and open-vote ballots never leave the server. */
 export function publicRound(s: ShState, roundNo: number): ShPublicRound {
   const over = s.phase === "over";
   const limited = termLimitedNow(s);
@@ -45,7 +41,6 @@ export function publicRound(s: ShState, roundNo: number): ShPublicRound {
   };
 }
 
-/** What this one player's cards and offices show them. */
 export function yourRound(s: ShState, you: PlayerId): ShYourRound {
   const president = s.president === you;
   const chancellor = s.chancellor === you;

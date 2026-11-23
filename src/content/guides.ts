@@ -364,6 +364,77 @@ export const GUIDES: Guide[] = [
     ],
   },
   {
+    slug: "secret-hitler",
+    title: "How to play Secret Hitler",
+    summary:
+      "Liberals, Fascists and one secret Hitler. Elect governments, pass policies, and work out who's lying before it's too late. Five to ten players, a phone each, one shared board.",
+    palette: "pulp",
+    players: "5 to 10",
+    time: "About thirty to forty-five minutes a game",
+    needs: "A phone each, everyone in the same room",
+    playRoute: "/secret-hitler/new",
+    alsoCalled: ["Secret Hitler online", "Hidden role party game", "Liberals and Fascists game"],
+    intro: [
+      "It's 1932. Most of the table are Liberals trying to hold a shaky government together. A few are secret Fascists, and one of them is Secret Hitler. The Fascists know each other. The Liberals know nothing, and have to work it out from votes, policies and whoever is lying loudest.",
+      "Here every player has their own phone for their secret role and anything only they should see, and every phone shows the same board: both policy tracks, the election tracker, who's President and who's Chancellor. The phones deal, shuffle and keep the discards hidden. The arguing is still yours.",
+      "Secret Hitler is by Mike Boxleiter, Tommy Maranges and Mac Schubert, released under CC BY-NC-SA 4.0. This version runs the official rules, with the cards and the night phase on your phones.",
+    ],
+    steps: [
+      {
+        title: "Gather the government",
+        body: "One person hosts and reads out the four-letter code, or sends the invite link. Everyone else joins on their own phone with just a name. Five to ten players. The host deals once everyone is in.",
+      },
+      {
+        title: "Peek at your card",
+        body: "Press and hold your card to see your role. Fascists also see who the other Fascists are and who Hitler is. With five or six players Hitler sees the Fascist too. With seven or more Hitler sees nobody.",
+      },
+      {
+        title: "Elect a government",
+        body: "The President nominates a Chancellor. The last elected President and Chancellor can't be nominated, though with five players left only the last Chancellor is barred. Everyone alive votes Ja or Nein in secret, and the votes flip together. A tie fails.",
+      },
+      {
+        title: "Pass a policy",
+        body: "The President sees three policies and bins one. The Chancellor sees the other two and enacts one. Nobody else ever sees the discards, so the government can tell you anything.",
+      },
+      {
+        title: "Use the power",
+        body: "Some Fascist policies hand the President a power, depending on the table size: investigate someone's party card, peek at the top three policies, pick the next President, or execute a player. Executing Hitler wins it for the Liberals.",
+      },
+      {
+        title: "Until somebody wins",
+        body: "Three failed elections in a row and the top policy passes on its own. After five Fascist policies the government can veto. Liberals win with five Liberal policies or a dead Hitler. Fascists win with six Fascist policies, or by getting Hitler elected Chancellor once three Fascist policies are down.",
+      },
+    ],
+    variations: [
+      {
+        title: "A phone falls asleep",
+        body: "Locking your phone or reloading the page doesn't cost your seat. Open it again and you're back with your role and any policies in hand. The game waits for you.",
+      },
+      {
+        title: "Someone actually goes home",
+        body: "A secret role can't just walk out, so a player leaving mid-game, or being shown the door by the host, ends the game with no winner and turns every card face up. Deal again with whoever's left.",
+      },
+      {
+        title: "Scoring",
+        body: "Everyone on the winning side scores a point on the room scoreboard, including anyone executed along the way.",
+      },
+    ],
+    faq: [
+      {
+        q: "Does everyone need their own phone?",
+        a: "Yes. Your role, your policies and anything you investigate show only on your phone. The board is the same on every phone.",
+      },
+      {
+        q: "Can other players see my role in the app?",
+        a: "No. The server sends each phone only its own secrets. Nobody's browser ever holds anyone else's role or cards.",
+      },
+      {
+        q: "How many players do we need?",
+        a: "Five at least, ten at most. Five or six get one Fascist plus Hitler, seven or eight get two, nine or ten get three.",
+      },
+    ],
+  },
+  {
     slug: "tiktiki",
     title: "How to play Tiktiki",
     summary:

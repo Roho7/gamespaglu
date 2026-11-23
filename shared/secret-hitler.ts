@@ -15,7 +15,6 @@ export type Policy = ShParty;
 export type ShPower = "investigate" | "special-election" | "peek" | "execute";
 
 /**
- * `nominate`: the President picks a Chancellor. `vote`: everyone alive votes.
  * `president` / `chancellor`: the Legislative Session, each holding their tiles.
  * `veto`: the Chancellor asked to veto and the President decides. `power`: the President owes a power.
  */
@@ -41,7 +40,7 @@ export type ShAction =
 
 export type ShRoleMix = { liberal: number; fascist: number; hitler: 1 };
 
-/** The deal for a table of `players`, from the rulebook's table. Throws nothing; the caller checks the range. */
+/** Throws nothing; the caller checks the range. */
 export function shRoleMix(players: number): ShRoleMix {
   const liberal = Math.floor(players / 2) + 1;
   return { liberal, fascist: players - liberal - 1, hitler: 1 };
@@ -83,7 +82,6 @@ export type ShVoteResult = {
   passed: boolean;
 };
 
-/** The last thing that happened, for the headline every phone prints. */
 export type ShNews =
   | { kind: "dealt" }
   | { kind: "vote"; passed: boolean }
@@ -110,7 +108,6 @@ export type ShPublicRound = {
   chancellor: PlayerId | null;
   power: ShPower | null;
   vetoUnlocked: boolean;
-  /** The Chancellor has asked for a veto this session. */
   vetoAsked: boolean;
   lastVote: ShVoteResult | null;
   news: ShNews;
@@ -123,7 +120,6 @@ export type ShYourRound = {
   alive: boolean;
   /** Who your night phase showed you, with their roles. Empty for Liberals and for Hitler at 7 to 10. */
   knows: { playerId: PlayerId; role: ShRole }[];
-  /** Your own vote in the open election. */
   vote: boolean | null;
   /** Your tiles: 3 as President, 2 as Chancellor, null otherwise. */
   hand: Policy[] | null;
@@ -131,6 +127,5 @@ export type ShYourRound = {
   canVeto: boolean;
   /** The top three tiles, while you hold a Policy Peek. */
   peek: Policy[] | null;
-  /** Every Party Membership you have seen. */
   investigations: { playerId: PlayerId; party: ShParty }[];
 };

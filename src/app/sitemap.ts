@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/girgit/new",
     "/mafia/new",
     "/tiktiki/new",
+    "/secret-hitler/new",
     "/wavelength",
     "/how-to-play",
     ...GUIDES.map((g) => `/how-to-play/${g.slug}`),

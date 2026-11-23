@@ -17,7 +17,6 @@ const F: Policy = "fascist";
 const rng = seeded(7);
 const ids = (n: number) => Array.from({ length: n }, (_, i) => `p${i}`);
 
-/** Liberals first, then Fascists, Hitler in the last seat. p0 holds the first presidency. */
 function table(n: number, over: Partial<ShState> = {}): ShState {
   const dealt = dealSh(seats(ids(n)), rng);
   const liberals = Math.floor(n / 2) + 1;
