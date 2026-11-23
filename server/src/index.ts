@@ -6,6 +6,7 @@ import helmet from "helmet";
 import { Server, type Socket } from "socket.io";
 import { env } from "./env";
 import { GameError } from "./game/errors";
+import { MemoryRoomStore } from "./game/memory-store";
 import { RedisRoomStore } from "./game/redis-store";
 import { createGames } from "./game/registry";
 import type { RoomRecord } from "./game/room";
@@ -26,9 +27,9 @@ const REAP_INTERVAL_MS = 10 * 60 * 1000;
 const INTERNAL: Err = { code: "INTERNAL", message: "Something broke on our side." };
 const DONE: Done = { ok: true };
 
-function roomsFor(redis: RoomRedis) {
+function roomsFor(redis: RoomRedis | null) {
   return new RoomService({
-    store: new RedisRoomStore(redis),
+    store: redis ? new RedisRoomStore(redis) : new MemoryRoomStore(),
     games: createGames(GRIDS),
     rng: Math.random,
     now: Date.now,
@@ -40,10 +41,10 @@ const app = express();
 app.use(helmet());
 app.use(cors({ origin: env.allowedOrigins }));
 
-function health(redis: RoomRedis) {
+function health(redis: RoomRedis | null) {
   app.get("/health", async (_req, res) => {
     try {
-      await redis.ping();
+      await redis?.ping();
       res.json({ ok: true });
     } catch {
       res.status(503).json({ ok: false, redis: false });
@@ -52,7 +53,7 @@ function health(redis: RoomRedis) {
 }
 
 async function main() {
-  const redis = connectRoomRedis(env.redisUrl, env.redisToken);
+  const redis = env.memory ? null : connectRoomRedis(env.redisUrl, env.redisToken);
   const rooms = roomsFor(redis);
   health(redis);
   const server = http.createServer(app);

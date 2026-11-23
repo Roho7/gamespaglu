@@ -16,7 +16,8 @@ plus one spec per game (`Girgit Spec.md`, `Wavelength Spec.md`, `Mafia Spec.md`,
 
 Next.js (App Router) · TypeScript · Tailwind v4 · shadcn/ui · no accounts · **offline-first, except rooms**.
 
-Rooms (Girgit, Mafia, Tiktiki) use a Socket.IO server on Fly (`server/`) and Upstash Redis in Singapore.
+Rooms (Girgit, Mafia, Tiktiki, Secret Hitler) use a Socket.IO server on Fly (`server/`) and Upstash Redis in Singapore.
+To play rooms locally without Redis, run `ROOM_STORE=memory npm run dev` in `server/` beside `npm run dev`.
 `server/scripts/drop-gp.sql` removes the old `gp` schema from the shared officepaglu database.
 Everything else is backendless and works with no signal.
 
