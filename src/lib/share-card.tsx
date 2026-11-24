@@ -71,7 +71,7 @@ export async function shareCard({ title, tagline, palette, image }: ShareCardCop
   const ink = paletteById(palette);
   const [[display, body], photo] = await Promise.all([
     fonts,
-    image ? ditheredPhoto(image, ink) : null,
+    ditheredPhoto(image, ink),
   ]);
 
   return new ImageResponse(
@@ -94,21 +94,19 @@ export async function shareCard({ title, tagline, palette, image }: ShareCardCop
             border: `6px solid ${ink.primary}`,
           }}
         >
-          {photo ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={photo}
-              alt=""
-              width={PHOTO.width}
-              height={PHOTO.height}
-              style={{
-                width: PHOTO.width,
-                height: "100%",
-                objectFit: "cover",
-                borderRight: `6px solid ${ink.primary}`,
-              }}
-            />
-          ) : null}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={photo}
+            alt=""
+            width={PHOTO.width}
+            height={PHOTO.height}
+            style={{
+              width: PHOTO.width,
+              height: "100%",
+              objectFit: "cover",
+              borderRight: `6px solid ${ink.primary}`,
+            }}
+          />
           <div
             style={{
               display: "flex",

@@ -90,6 +90,8 @@ export default function Home() {
           palette="pulp"
           title="Play Secret Hitler"
           tagline="Find Hitler before it's too late."
+          image="/backgrounds/secret-hitler.jpg"
+          originY={0.35}
           rows={[
             { text: "Secret", kind: "title" },
             { text: "Hitler", kind: "title" },
