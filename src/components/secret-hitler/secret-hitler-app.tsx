@@ -19,7 +19,7 @@ export function SecretHitlerApp() {
     return (
       <HostOrJoinScreen
         title="Secret Hitler"
-        palette="pulp"
+        palette="ballot"
         rules={<SecretHitlerRules />}
         aside={{ title: "Who's who", body: <ShRoleTable /> }}
         onCreate={(name) => void room.create(name)}

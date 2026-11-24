@@ -113,6 +113,15 @@ const PALETTE_DEFINITIONS = [
     shadow: "#081C14",
   },
   {
+    id: "ballot",
+    name: "Ballot",
+    base: "#F2A93B",
+    highlight: "#FFF1D6",
+    secondary: "#A3201B",
+    primary: "#2B1A14",
+    shadow: "#140C09",
+  },
+  {
     id: "cobalt",
     name: "Cobalt",
     base: "#4F7BFF",

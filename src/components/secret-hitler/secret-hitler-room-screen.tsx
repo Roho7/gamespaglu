@@ -42,7 +42,7 @@ import {
   type ShPublicRound,
 } from "@shared/protocol";
 
-const PAGE = paletteById("pulp");
+const PAGE = paletteById("ballot");
 const TOAST_MS = 2600;
 
 type ShRoom = RoomStateOf<"secret-hitler">;

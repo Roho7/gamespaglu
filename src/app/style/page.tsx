@@ -499,7 +499,7 @@ export default function StylePage() {
                 ["large", 4, 5, 2, 4, 4],
               ] as const
             ).map(([board, liberal, fascist, tracker, deckCount, discardCount]) => (
-              <div key={board} {...theme("pulp", { flipped: true })} className="p-3">
+              <div key={board} {...theme("ballot", { flipped: true })} className="p-3">
                 <PolicyBoard
                   board={board}
                   liberal={liberal}

@@ -368,7 +368,7 @@ export const GUIDES: Guide[] = [
     title: "How to play Secret Hitler",
     summary:
       "Liberals, Fascists and one secret Hitler. Elect governments, pass policies, and work out who's lying before it's too late. Five to ten players, a phone each, one shared board.",
-    palette: "pulp",
+    palette: "ballot",
     players: "5 to 10",
     time: "About thirty to forty-five minutes a game",
     needs: "A phone each, everyone in the same room",

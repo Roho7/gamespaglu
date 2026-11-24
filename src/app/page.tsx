@@ -87,7 +87,7 @@ export default function Home() {
           more
           href="/secret-hitler/new"
           help="/how-to-play/secret-hitler"
-          palette="pulp"
+          palette="ballot"
           title="Play Secret Hitler"
           tagline="Find Hitler before it's too late."
           image="/backgrounds/secret-hitler.jpg"
