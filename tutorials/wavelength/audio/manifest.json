@@ -1,0 +1,101 @@
+{
+  "voice": {
+    "provider": "higgsfield",
+    "model": null,
+    "voiceId": null
+  },
+  "source": "placeholder",
+  "lines": [
+    {
+      "id": "intro-1",
+      "file": null,
+      "durationSec": 6.9
+    },
+    {
+      "id": "intro-2",
+      "file": null,
+      "durationSec": 5.8
+    },
+    {
+      "id": "setup-1",
+      "file": null,
+      "durationSec": 9.2
+    },
+    {
+      "id": "setup-2",
+      "file": null,
+      "durationSec": 2.7
+    },
+    {
+      "id": "setup-3",
+      "file": null,
+      "durationSec": 9.2
+    },
+    {
+      "id": "setup-4",
+      "file": null,
+      "durationSec": 6.6
+    },
+    {
+      "id": "play-1",
+      "file": null,
+      "durationSec": 5.8
+    },
+    {
+      "id": "play-2",
+      "file": null,
+      "durationSec": 6.2
+    },
+    {
+      "id": "play-3",
+      "file": null,
+      "durationSec": 7.3
+    },
+    {
+      "id": "play-4",
+      "file": null,
+      "durationSec": 6.6
+    },
+    {
+      "id": "play-5",
+      "file": null,
+      "durationSec": 5.8
+    },
+    {
+      "id": "play-6",
+      "file": null,
+      "durationSec": 5.4
+    },
+    {
+      "id": "play-7",
+      "file": null,
+      "durationSec": 8.9
+    },
+    {
+      "id": "rounds-1",
+      "file": null,
+      "durationSec": 6.9
+    },
+    {
+      "id": "rounds-2",
+      "file": null,
+      "durationSec": 5.4
+    },
+    {
+      "id": "win-1",
+      "file": null,
+      "durationSec": 4.6
+    },
+    {
+      "id": "win-2",
+      "file": null,
+      "durationSec": 6.2
+    },
+    {
+      "id": "win-3",
+      "file": null,
+      "durationSec": 6.2
+    }
+  ],
+  "totalSec": 115.7
+}
