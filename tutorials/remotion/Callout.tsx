@@ -1,31 +1,41 @@
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
 
 import { DISPLAY } from "./fonts";
-import { MIAMI } from "./theme";
+import { MIAMI, plate } from "./theme";
 
 export const Callout = ({ text }: { text: string }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const pop = spring({ frame: frame - 8, fps, config: { damping: 14, stiffness: 180 } });
+  const pop = spring({ frame: frame - 6, fps, config: { damping: 13, stiffness: 190 } });
   return (
     <div
       style={{
         position: "absolute",
-        right: 48,
-        top: 64,
-        transform: `translateY(${(1 - pop) * -30}px)`,
-        opacity: pop,
-        background: MIAMI.highlight,
-        color: MIAMI.shadow,
-        boxShadow: `8px 8px 0 ${MIAMI.secondary}`,
-        fontFamily: DISPLAY,
-        fontSize: 48,
-        letterSpacing: 2,
-        padding: "10px 24px 4px",
-        textTransform: "uppercase",
+        left: 0,
+        right: 0,
+        top: 1450,
+        display: "flex",
+        justifyContent: "center",
+        opacity: Math.min(1, pop * 2),
+        transform: `scale(${0.7 + pop * 0.3})`,
       }}
     >
-      {text}
+      <div
+        style={{
+          ...plate(MIAMI.primary, 10),
+          color: MIAMI.highlight,
+          fontFamily: DISPLAY,
+          fontSize: 84,
+          lineHeight: 1,
+          letterSpacing: 3,
+          padding: "16px 36px 8px",
+          textTransform: "uppercase",
+          textAlign: "center",
+          maxWidth: 940,
+        }}
+      >
+        {text}
+      </div>
     </div>
   );
 };

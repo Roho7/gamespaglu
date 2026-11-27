@@ -10,3 +10,12 @@ export const FPS = 30;
 export const WIDTH = 1080;
 export const HEIGHT = 1920;
 export const GAP_SEC = 0.25;
+
+export const XFADE_FRAMES = 4;
+
+export const plate = (background: string, offset: number) =>
+  ({
+    background,
+    boxShadow: `${offset}px ${offset}px 0 ${MIAMI.highlight}`,
+    borderRadius: 0,
+  }) as const;

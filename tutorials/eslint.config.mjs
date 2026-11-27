@@ -4,7 +4,7 @@ import unusedImports from "eslint-plugin-unused-imports";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["node_modules/**", "*/out/**", "*/capture/**"] },
+  { ignores: ["node_modules/**", ".whisper/**", "*/out/**", "*/capture/**"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

@@ -5,7 +5,7 @@ Repeatable pipeline that turns a game's spoken script plus a real captured play-
 ```
 dialogue.json ─┬─> voice   ─> audio/manifest.json ─┐
                └─> capture ─> capture/markers.json ┼─> render ─> out/<game>-tutorial.mp4
-                              capture/footage.webm ┘
+                              capture/footage.mp4 ┘
 ```
 
 Setup: `cd tutorials && npm ci && npx playwright install chromium`. Needs `ffmpeg` and `ffprobe` on PATH.
@@ -18,13 +18,18 @@ Setup: `cd tutorials && npm ci && npx playwright install chromium`. Needs `ffmpe
 
 | Stage | Command | Output |
 |---|---|---|
-| capture | `BASE_URL=http://localhost:3000 npm run capture -- <game>` | `<game>/capture/footage.webm`, `markers.json`, one PNG per shot |
+| capture | `BASE_URL=http://localhost:3000 npm run capture -- <game>` | `<game>/capture/footage.mp4`, `markers.json`, one PNG per shot |
 | voice | `npm run voice -- <game>` | `<game>/audio/manifest.json` |
 | studio | `npm run studio -- <game>` | Remotion Studio on that game's data |
 | render | `npm run render -- <game>` | `<game>/out/<game>-tutorial.mp4` |
+| frames | `npm run frames -- <game>` | `<game>/out/frames/`: one PNG per line (start + 1 s) and per cue (cue word + 0.3 s), for checking the render |
 | typecheck / lint | `npm run typecheck`, `npm run lint`, `npm run lint:fix` | |
 
-Capture needs the app running. Use a production build (`npm run build && npm start` at the repo root): the dev server paints its overlay and "Compiling" badge into the footage. Capture seeds `Math.random` (mulberry32) so the dealt cards repeat. Playwright records at the 390x844 viewport; the footage is upscaled to 780x1688 when converted to `footage.webm`.
+Capture needs the app running. Use a production build (`npm run build && npm start` at the repo root): the dev server paints its overlay and "Compiling" badge into the footage. Capture seeds `Math.random` (mulberry32) so the dealt cards repeat.
+
+The viewport is 432x768 CSS px at device scale 2.5, so the screen is exactly 1080x1920 (9:16) and fills the video with no crop. Playwright's `recordVideo` only records at viewport resolution, so capture uses CDP `Page.startScreencast` (jpeg quality 90, 1080x1920, every frame), keeps each frame's `metadata.timestamp`, sorts frames by it (Chromium occasionally delivers them out of order), and encodes `footage.mp4` at constant 30 fps with ffmpeg concat using the real frame durations. Marker times are seconds since recording start on the same clock. `rec.dwell(sec)` also records where that shot's last dwell ended (`ends`), so a shot never plays into the unmarked setup before the next one.
+
+The composition has no phone frame or background: the footage is the frame and everything else (section label, callout, infographic card, captions) is an overlay plate on top of it.
 
 ## Schemas
 
@@ -32,11 +37,11 @@ All in `pipeline/schema.ts`, parsed with zod at every file boundary.
 
 - `Dialogue = { game, title, route, lines: Line[] }`
 - `Line = { id, section: "intro"|"setup"|"gameplay"|"rounds"|"winning", text, scene, estimateSec }`
-- `Scene = { kind: "footage", shot, callout? } | { kind: "infographic", graphic }`
+- `Scene = { shot, cues?: { word, shot }[], callout?, graphic? }`. Every line is footage. `shot` plays from the line start. `cues[].word` is a 0-based index into `text.split(/\s+/)`: when that word is spoken the video cuts to that cue's shot (4-frame crossfade). Cues must be in range and in word order (checked by the schema). `callout` and `graphic` are overlays on the footage.
 - `Graphic = { type: "stat", icon, value, label } | { type: "list", items: { icon, value, label }[] }`
 - `icon` is a key of `ICONS` in `remotion/icons.ts` (react-icons components). Add a key there to use a new icon.
-- `Markers = { game, file: "footage.webm", fps?, shots: Record<string, number> }`, seconds into the footage. Capture also writes an `end` marker. A footage line plays from its shot's marker to the next marker, then freezes on the last frame if the line is longer.
-- `AudioManifest = { voice, source: "higgsfield"|"placeholder", lines: { id, file, durationSec }[], totalSec }`. Line length in the video is `durationSec + 0.25 s`.
+- `Markers = { game, file: "footage.mp4", fps?, shots: Record<string, number>, ends?: Record<string, number> }`, seconds into the footage. Capture also writes an `end` marker. A segment plays from its shot's marker to `ends[shot]` (else the next marker), then freezes on the last frame if it runs longer.
+- `AudioManifest = { voice, source: "higgsfield"|"placeholder", timing: "whisper"|"estimate", lines: { id, file, durationSec, words: { text, startSec, endSec }[] }[], totalSec }`. `words` are the exact script words (punctuation kept) with times in the trimmed clip, and drive the animated captions and the cue cuts. `timing` is `estimate` only for a placeholder run, where words are spread by character count. Line length in the video is `durationSec + 0.25 s`.
 
 ## Voice
 
@@ -44,10 +49,12 @@ Provider is Higgsfield only, one voice for every game, set in `voice.config.json
 
 1. Generate one clip per line through the Higgsfield MCP connector (`claude.ai Higgsfield`): `generate_audio_batch` with `model`, `voice_type`, `voice_id` from the config, `format: "wav"`, `sample_rate: 48000`, and the line's exact `text` as `prompt`. The account allows 4 concurrent jobs, so submit in groups of 4 and poll with `jobs_wait`.
 2. Download each result to `<game>/audio/raw/<id>.wav`.
-3. `npm run voice -- <game>` trims leading and trailing silence from each raw clip (blips under 0.2 s don't count as speech), writes `<game>/audio/<id>.wav`, measures it with ffprobe and writes `audio/manifest.json` with `source: "higgsfield"`.
+3. `npm run voice -- <game>` trims leading and trailing silence from each raw clip (blips under 0.2 s don't count as speech), writes `<game>/audio/<id>.wav`, measures it with ffprobe, gets word timings and writes `audio/manifest.json` with `source: "higgsfield"`, `timing: "whisper"`.
+
+Word timings (`pipeline/words.ts`) come from local whisper.cpp through `@remotion/install-whisper-cpp` (transcription for timing only, not TTS). The first run builds whisper.cpp 1.5.5 and downloads the `small.en` model into `tutorials/.whisper/` (gitignored); it needs `make` and a C++ compiler. Whisper's heard words are mapped onto the script words by sequence alignment on normalised tokens (lowercase alphanumerics, digits spelled out); unmatched script words are interpolated between neighbours. If under 70% of the script words match it throws `clip <id> doesn't match its text`, which catches stale clips. Whisper tends to stamp the last word before a pause at the pause's end, so silencedetect pauses pull such a word back. Expect word times to be good to roughly 0.1 to 0.3 s.
 
 Some but not all raw clips present: error naming the missing ids. None present: placeholder manifest (`file: null`, `durationSec = estimateSec`) and a silent render that still carries an audio track.
 
 ## Gitignored
 
-`tutorials/.gitignore`: `node_modules`, `<game>/capture/` (footage, markers, screenshots; regenerate with `capture`), `<game>/out/` (MP4, frames), `<game>/audio/*.mp3|wav` and `<game>/audio/raw/`. Committed: `script.md`, `dialogue.json`, `audio/manifest.json`.
+`tutorials/.gitignore`: `node_modules`, `.whisper/`, `<game>/capture/` (footage, markers, screenshots; regenerate with `capture`), `<game>/out/` (MP4, frames), `<game>/audio/*.mp3|wav` and `<game>/audio/raw/`. Committed: `script.md`, `dialogue.json`, `audio/manifest.json`.

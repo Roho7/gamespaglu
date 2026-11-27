@@ -4,6 +4,7 @@ import { join } from "node:path";
 
 import { gameDir, gameFromArgv, readJson, TUTORIALS_DIR } from "./paths";
 import { type AudioManifest, Dialogue, VoiceConfig } from "./schema";
+import { estimateWords, wordTimings } from "./words";
 
 const EXTENSIONS = ["wav", "mp3"] as const;
 const BLIP_SEC = 0.2;
@@ -59,7 +60,7 @@ function probeSeconds(file: string): number {
   return Number.parseFloat(out.trim());
 }
 
-function main() {
+async function main() {
   const game = gameFromArgv();
   const audioDir = join(gameDir(game), "audio");
   const rawDir = join(audioDir, "raw");
@@ -75,20 +76,30 @@ function main() {
     throw new Error(`partial clips in tutorials/${game}/audio/raw, missing: ${missing.join(", ")}`);
   }
 
-  const lines = clips.map(({ line, raw }) => {
-    if (!raw) return { id: line.id, file: null, durationSec: line.estimateSec };
+  const lines: AudioManifest["lines"] = [];
+  for (const { line, raw } of clips) {
+    if (!raw) {
+      lines.push({ id: line.id, file: null, durationSec: line.estimateSec, words: estimateWords(line.text, line.estimateSec) });
+      continue;
+    }
     const file = `${line.id}.wav`;
-    trimTo(raw, join(audioDir, file));
-    return { id: line.id, file, durationSec: probeSeconds(join(audioDir, file)) };
-  });
+    const target = join(audioDir, file);
+    trimTo(raw, target);
+    const durationSec = probeSeconds(target);
+    lines.push({ id: line.id, file, durationSec, words: await wordTimings(line.id, line.text, target, durationSec) });
+  }
   const manifest: AudioManifest = {
     voice,
     source: have.length > 0 ? "higgsfield" : "placeholder",
+    timing: have.length > 0 ? "whisper" : "estimate",
     lines,
     totalSec: Math.round(lines.reduce((s, l) => s + l.durationSec, 0) * 1000) / 1000,
   };
   writeFileSync(join(audioDir, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
-  console.log(`${manifest.source}: ${lines.length} lines, ${manifest.totalSec}s`);
+  console.log(`${manifest.source} (${manifest.timing} timing): ${lines.length} lines, ${manifest.totalSec}s`);
 }
 
-main();
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

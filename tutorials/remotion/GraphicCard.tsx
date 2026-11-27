@@ -3,38 +3,37 @@ import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig } from "remotion"
 import type { Graphic } from "../pipeline/schema";
 import { BODY, DISPLAY } from "./fonts";
 import { ICONS } from "./icons";
-import { MIAMI } from "./theme";
+import { MIAMI, plate } from "./theme";
 
 type Item = { icon: keyof typeof ICONS; value: string; label: string };
 
 const Entry = ({ item, index, big }: { item: Item; index: number; big: boolean }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const pop = spring({ frame: frame - index * 8, fps, config: { damping: 13, stiffness: 150 } });
+  const pop = spring({ frame: frame - 6 - index * 6, fps, config: { damping: 13, stiffness: 150 } });
   const Icon = ICONS[item.icon];
-  const iconSize = big ? 260 : 120;
+  const iconSize = big ? 150 : 84;
   return (
     <div
       style={{
         display: "flex",
         flexDirection: big ? "column" : "row",
         alignItems: "center",
-        gap: big ? 40 : 36,
+        gap: big ? 28 : 32,
         opacity: pop,
-        transform: big ? `scale(${0.6 + pop * 0.4})` : `translateX(${(1 - pop) * -120}px)`,
+        transform: big ? `scale(${0.7 + pop * 0.3})` : `translateX(${(1 - pop) * -80}px)`,
       }}
     >
       <div
         style={{
-          width: iconSize + 60,
-          height: iconSize + 60,
+          width: iconSize + 44,
+          height: iconSize + 44,
           flexShrink: 0,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: MIAMI.primary,
+          background: MIAMI.shadow,
           color: MIAMI.highlight,
-          boxShadow: `10px 10px 0 ${MIAMI.highlight}`,
         }}
       >
         <Icon size={iconSize} />
@@ -43,11 +42,10 @@ const Entry = ({ item, index, big }: { item: Item; index: number; big: boolean }
         <div
           style={{
             fontFamily: DISPLAY,
-            fontSize: big ? (item.value.length > 4 ? 150 : 230) : 130,
+            fontSize: big ? (item.value.length > 4 ? 130 : 190) : 100,
             whiteSpace: "nowrap",
             lineHeight: 0.95,
-            color: MIAMI.primary,
-            textShadow: `${big ? 10 : 6}px ${big ? 10 : 6}px 0 ${MIAMI.highlight}`,
+            color: MIAMI.highlight,
             textTransform: "uppercase",
           }}
         >
@@ -57,8 +55,8 @@ const Entry = ({ item, index, big }: { item: Item; index: number; big: boolean }
           style={{
             fontFamily: BODY,
             fontWeight: 700,
-            fontSize: big ? 40 : 34,
-            color: MIAMI.shadow,
+            fontSize: big ? 38 : 32,
+            color: MIAMI.base,
             textTransform: "uppercase",
             letterSpacing: 2,
             textAlign: big ? "center" : "left",
@@ -71,22 +69,33 @@ const Entry = ({ item, index, big }: { item: Item; index: number; big: boolean }
   );
 };
 
-export const Infographic = ({ graphic }: { graphic: Graphic }) => {
+export const GraphicCard = ({ graphic }: { graphic: Graphic }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const enter = spring({ frame, fps, config: { damping: 14, stiffness: 160 } });
   const items: Item[] = graphic.type === "stat" ? [graphic] : graphic.items;
   const big = graphic.type === "stat";
   return (
-    <AbsoluteFill
-      style={{
-        background: MIAMI.base,
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 40,
-        gap: 56,
-      }}
-    >
-      {items.map((item, i) => (
-        <Entry key={item.label} item={item} index={i} big={big} />
-      ))}
+    <AbsoluteFill style={{ background: `${MIAMI.shadow}8C`, opacity: Math.min(1, enter * 1.5) }}>
+      <div
+        style={{
+          position: "absolute",
+          left: 90,
+          right: 90,
+          top: 470,
+          ...plate(MIAMI.primary, 12),
+          padding: big ? "56px 40px 48px" : "44px 48px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: big ? "center" : "stretch",
+          gap: 36,
+          transform: `translateY(${(1 - enter) * 60}px) scale(${0.92 + enter * 0.08})`,
+        }}
+      >
+        {items.map((item, i) => (
+          <Entry key={item.label} item={item} index={i} big={big} />
+        ))}
+      </div>
     </AbsoluteFill>
   );
 };
