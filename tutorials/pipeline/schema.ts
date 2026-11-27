@@ -37,6 +37,15 @@ export const Dialogue = z.object({
   lines: z.array(Line).min(1),
 });
 
+export const VoiceConfig = z.object({
+  provider: z.literal("higgsfield"),
+  model: z.string().nullable(),
+  voiceType: z.enum(["preset", "element"]).nullable(),
+  voiceId: z.string().nullable(),
+  voiceName: z.string().nullable(),
+});
+export type VoiceConfig = z.infer<typeof VoiceConfig>;
+
 export const Markers = z.object({
   game: z.string(),
   file: z.literal("footage.webm"),
@@ -45,11 +54,7 @@ export const Markers = z.object({
 });
 
 export const AudioManifest = z.object({
-  voice: z.object({
-    provider: z.literal("higgsfield"),
-    model: z.string().nullable(),
-    voiceId: z.string().nullable(),
-  }),
+  voice: VoiceConfig,
   source: z.enum(["higgsfield", "placeholder"]),
   lines: z.array(
     z.object({
@@ -68,9 +73,3 @@ export type Dialogue = z.infer<typeof Dialogue>;
 export type Markers = z.infer<typeof Markers>;
 export type AudioManifest = z.infer<typeof AudioManifest>;
 
-export const VoiceConfig = z.object({
-  provider: z.literal("higgsfield"),
-  model: z.string().nullable(),
-  voiceId: z.string().nullable(),
-});
-export type VoiceConfig = z.infer<typeof VoiceConfig>;

@@ -3,13 +3,51 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { gameDir, gameFromArgv, readJson, TUTORIALS_DIR } from "./paths";
-import { type AudioManifest, Dialogue, type Line, VoiceConfig } from "./schema";
+import { type AudioManifest, Dialogue, VoiceConfig } from "./schema";
 
-const EXTENSIONS = ["mp3", "wav"] as const;
+const EXTENSIONS = ["wav", "mp3"] as const;
+const BLIP_SEC = 0.2;
+const LEAD_SEC = 0.05;
+const TAIL_SEC = 0.12;
 
-function clipFor(audioDir: string, id: string): string | null {
-  const ext = EXTENSIONS.find((e) => existsSync(join(audioDir, `${id}.${e}`)));
-  return ext ? `${id}.${ext}` : null;
+function rawClip(rawDir: string, id: string): string | null {
+  const ext = EXTENSIONS.find((e) => existsSync(join(rawDir, `${id}.${e}`)));
+  return ext ? join(rawDir, `${id}.${ext}`) : null;
+}
+
+function speechBounds(file: string): { start: number; end: number } {
+  const total = probeSeconds(file);
+  const log = spawnSync(
+    "ffmpeg",
+    ["-i", file, "-af", "silencedetect=noise=-45dB:d=0.08", "-f", "null", "-"],
+    { encoding: "utf8" },
+  ).stderr;
+  const marks = [...log.matchAll(/silence_(start|end): ([\d.]+)/g)].map((m) => ({
+    kind: m[1],
+    at: Number.parseFloat(m[2]),
+  }));
+  const spans: { start: number; end: number }[] = [];
+  let cursor = 0;
+  for (const mark of marks) {
+    if (mark.kind === "start") spans.push({ start: cursor, end: mark.at });
+    else cursor = mark.at;
+  }
+  if (marks.at(-1)?.kind !== "start") spans.push({ start: cursor, end: total });
+  const speech = spans.filter((s) => s.end - s.start >= BLIP_SEC);
+  if (speech.length === 0) throw new Error(`no speech found in ${file}`);
+  return {
+    start: Math.max(0, speech[0].start - LEAD_SEC),
+    end: Math.min(total, speech.at(-1)!.end + TAIL_SEC),
+  };
+}
+
+function trimTo(source: string, target: string) {
+  const { start, end } = speechBounds(source);
+  execFileSync("ffmpeg", [
+    "-v", "error", "-y", "-i", source,
+    "-af", `atrim=start=${start}:end=${end},asetpts=PTS-STARTPTS`,
+    target,
+  ]);
 }
 
 function probeSeconds(file: string): number {
@@ -21,73 +59,31 @@ function probeSeconds(file: string): number {
   return Number.parseFloat(out.trim());
 }
 
-function hasBinary(name: string): boolean {
-  return spawnSync("which", [name]).status === 0;
-}
-
-async function generateWithHiggsfield(
-  line: Line,
-  model: string,
-  voiceId: string,
-  audioDir: string,
-): Promise<void> {
-  const out = execFileSync(
-    "higgsfield",
-    ["generate", "create", model, "--prompt", line.text, "--voice", voiceId, "--wait", "--json"],
-    { encoding: "utf8" },
-  );
-  const result: unknown = JSON.parse(out);
-  const url = findUrl(result);
-  if (!url) throw new Error(`higgsfield returned no audio url for ${line.id}`);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`download failed for ${line.id}: ${res.status}`);
-  writeFileSync(join(audioDir, `${line.id}.mp3`), Buffer.from(await res.arrayBuffer()));
-}
-
-function findUrl(value: unknown): string | null {
-  if (typeof value === "string") return /^https?:\/\//.test(value) ? value : null;
-  if (value && typeof value === "object") {
-    for (const v of Object.values(value)) {
-      const found = findUrl(v);
-      if (found) return found;
-    }
-  }
-  return null;
-}
-
-async function main() {
+function main() {
   const game = gameFromArgv();
-  const dir = gameDir(game);
-  const audioDir = join(dir, "audio");
-  mkdirSync(audioDir, { recursive: true });
+  const audioDir = join(gameDir(game), "audio");
+  const rawDir = join(audioDir, "raw");
+  mkdirSync(rawDir, { recursive: true });
 
-  const dialogue = readJson(join(dir, "dialogue.json"), Dialogue);
-  const config = readJson(join(TUTORIALS_DIR, "voice.config.json"), VoiceConfig);
+  const dialogue = readJson(join(gameDir(game), "dialogue.json"), Dialogue);
+  const voice = readJson(join(TUTORIALS_DIR, "voice.config.json"), VoiceConfig);
 
-  const present = dialogue.lines.filter((l) => clipFor(audioDir, l.id));
-  if (present.length === 0 && config.model && config.voiceId && hasBinary("higgsfield")) {
-    console.warn("higgsfield generation has never run against the real service; check each clip");
-    for (const line of dialogue.lines) {
-      await generateWithHiggsfield(line, config.model, config.voiceId, audioDir);
-    }
-  }
-
-  const clips = dialogue.lines.map((l) => ({ line: l, file: clipFor(audioDir, l.id) }));
-  const have = clips.filter((c) => c.file);
+  const clips = dialogue.lines.map((line) => ({ line, raw: rawClip(rawDir, line.id) }));
+  const have = clips.filter((c) => c.raw);
   if (have.length > 0 && have.length < clips.length) {
-    const missing = clips.filter((c) => !c.file).map((c) => c.line.id);
-    throw new Error(`partial clips in tutorials/${game}/audio, missing: ${missing.join(", ")}`);
+    const missing = clips.filter((c) => !c.raw).map((c) => c.line.id);
+    throw new Error(`partial clips in tutorials/${game}/audio/raw, missing: ${missing.join(", ")}`);
   }
 
-  const real = have.length > 0;
-  const lines = clips.map(({ line, file }) => ({
-    id: line.id,
-    file,
-    durationSec: file ? probeSeconds(join(audioDir, file)) : line.estimateSec,
-  }));
+  const lines = clips.map(({ line, raw }) => {
+    if (!raw) return { id: line.id, file: null, durationSec: line.estimateSec };
+    const file = `${line.id}.wav`;
+    trimTo(raw, join(audioDir, file));
+    return { id: line.id, file, durationSec: probeSeconds(join(audioDir, file)) };
+  });
   const manifest: AudioManifest = {
-    voice: config,
-    source: real ? "higgsfield" : "placeholder",
+    voice,
+    source: have.length > 0 ? "higgsfield" : "placeholder",
     lines,
     totalSec: Math.round(lines.reduce((s, l) => s + l.durationSec, 0) * 1000) / 1000,
   };
@@ -95,7 +91,4 @@ async function main() {
   console.log(`${manifest.source}: ${lines.length} lines, ${manifest.totalSec}s`);
 }
 
-main().catch((e) => {
-  console.error(e instanceof Error ? e.message : e);
-  process.exit(1);
-});
+main();

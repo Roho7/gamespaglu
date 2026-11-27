@@ -40,14 +40,14 @@ All in `pipeline/schema.ts`, parsed with zod at every file boundary.
 
 ## Voice
 
-Provider is Higgsfield only, one voice for every game, set in `voice.config.json` (`model` and `voiceId` are `null` until known).
+Provider is Higgsfield only, one voice for every game, set in `voice.config.json`: model `seed_audio` (Seed Audio 1.0), preset voice Juno (`a3ce02fe-4d3e-55bc-b4d4-a4801b9acdb4`).
 
-- Clips `audio/<id>.mp3|wav` present for every line: durations are measured with ffprobe, `source: "higgsfield"`. Some but not all present: error naming the missing ids.
-- No clips, and `model`, `voiceId` set, and a `higgsfield` binary on PATH: runs `higgsfield generate create <model> --prompt <text> --voice <voiceId> --wait --json` and downloads the result URL to `audio/<id>.mp3`. **Unverified.** Higgsfield was unreachable when this was written (CLI not installed, no TTS model id known), so this path has never run.
-- Otherwise: placeholder manifest, `file: null`, `durationSec = estimateSec`. The render is silent but still carries an audio track (muxed with ffmpeg) so audio and video durations match.
+1. Generate one clip per line through the Higgsfield MCP connector (`claude.ai Higgsfield`): `generate_audio_batch` with `model`, `voice_type`, `voice_id` from the config, `format: "wav"`, `sample_rate: 48000`, and the line's exact `text` as `prompt`. The account allows 4 concurrent jobs, so submit in groups of 4 and poll with `jobs_wait`.
+2. Download each result to `<game>/audio/raw/<id>.wav`.
+3. `npm run voice -- <game>` trims leading and trailing silence from each raw clip (blips under 0.2 s don't count as speech), writes `<game>/audio/<id>.wav`, measures it with ffprobe and writes `audio/manifest.json` with `source: "higgsfield"`.
 
-To use real audio: drop one clip per line id into `<game>/audio/`, rerun `voice`, rerun `render`.
+Some but not all raw clips present: error naming the missing ids. None present: placeholder manifest (`file: null`, `durationSec = estimateSec`) and a silent render that still carries an audio track.
 
 ## Gitignored
 
-`tutorials/.gitignore`: `node_modules`, `<game>/capture/` (footage, markers, screenshots; regenerate with `capture`), `<game>/out/` (MP4, frames), `<game>/audio/*.mp3|wav`. Committed: `script.md`, `dialogue.json`, `audio/manifest.json`.
+`tutorials/.gitignore`: `node_modules`, `<game>/capture/` (footage, markers, screenshots; regenerate with `capture`), `<game>/out/` (MP4, frames), `<game>/audio/*.mp3|wav` and `<game>/audio/raw/`. Committed: `script.md`, `dialogue.json`, `audio/manifest.json`.

@@ -1,101 +1,103 @@
 {
   "voice": {
     "provider": "higgsfield",
-    "model": null,
-    "voiceId": null
+    "model": "seed_audio",
+    "voiceType": "preset",
+    "voiceId": "a3ce02fe-4d3e-55bc-b4d4-a4801b9acdb4",
+    "voiceName": "Juno"
   },
-  "source": "placeholder",
+  "source": "higgsfield",
   "lines": [
     {
       "id": "intro-1",
-      "file": null,
-      "durationSec": 6.9
+      "file": "intro-1.wav",
+      "durationSec": 7.572646
     },
     {
       "id": "intro-2",
-      "file": null,
-      "durationSec": 5.8
+      "file": "intro-2.wav",
+      "durationSec": 4.367083
     },
     {
       "id": "setup-1",
-      "file": null,
-      "durationSec": 9.2
+      "file": "setup-1.wav",
+      "durationSec": 7.675083
     },
     {
       "id": "setup-2",
-      "file": null,
-      "durationSec": 2.7
+      "file": "setup-2.wav",
+      "durationSec": 2.862979
     },
     {
       "id": "setup-3",
-      "file": null,
-      "durationSec": 9.2
+      "file": "setup-3.wav",
+      "durationSec": 9.283917
     },
     {
       "id": "setup-4",
-      "file": null,
-      "durationSec": 6.6
+      "file": "setup-4.wav",
+      "durationSec": 6.663917
     },
     {
       "id": "play-1",
-      "file": null,
-      "durationSec": 5.8
+      "file": "play-1.wav",
+      "durationSec": 6.866292
     },
     {
       "id": "play-2",
-      "file": null,
-      "durationSec": 6.2
+      "file": "play-2.wav",
+      "durationSec": 5.737521
     },
     {
       "id": "play-3",
-      "file": null,
-      "durationSec": 7.3
+      "file": "play-3.wav",
+      "durationSec": 7.493604
     },
     {
       "id": "play-4",
-      "file": null,
-      "durationSec": 6.6
+      "file": "play-4.wav",
+      "durationSec": 5.474146
     },
     {
       "id": "play-5",
-      "file": null,
-      "durationSec": 5.8
+      "file": "play-5.wav",
+      "durationSec": 6.707042
     },
     {
       "id": "play-6",
-      "file": null,
-      "durationSec": 5.4
+      "file": "play-6.wav",
+      "durationSec": 5.086729
     },
     {
       "id": "play-7",
-      "file": null,
-      "durationSec": 8.9
+      "file": "play-7.wav",
+      "durationSec": 8.896104
     },
     {
       "id": "rounds-1",
-      "file": null,
-      "durationSec": 6.9
+      "file": "rounds-1.wav",
+      "durationSec": 9.397063
     },
     {
       "id": "rounds-2",
-      "file": null,
-      "durationSec": 5.4
+      "file": "rounds-2.wav",
+      "durationSec": 4.089521
     },
     {
       "id": "win-1",
-      "file": null,
-      "durationSec": 4.6
+      "file": "win-1.wav",
+      "durationSec": 5.668292
     },
     {
       "id": "win-2",
-      "file": null,
-      "durationSec": 6.2
+      "file": "win-2.wav",
+      "durationSec": 5.950938
     },
     {
       "id": "win-3",
-      "file": null,
-      "durationSec": 6.2
+      "file": "win-3.wav",
+      "durationSec": 6.218813
     }
   ],
-  "totalSec": 115.7
+  "totalSec": 116.012
 }
