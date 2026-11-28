@@ -3,6 +3,8 @@ import type { CategoryId } from "@/lib/deck/types";
 import type { Mode } from "@/lib/wavelength/engine";
 import { PLACE_CREDITS } from "@/content/place-art";
 
+export type GuideVideo = { youtubeId: string; title: string };
+
 /**
  * The How to play section. This is where the words live now — the play screens
  * are a colour and a button, and every explanation moved here.
@@ -24,6 +26,7 @@ export type Guide = {
   /** Route to actually play it, if it exists. */
   playRoute?: string;
   alsoCalled?: string[];
+  video?: GuideVideo;
   intro: string[];
   steps: { title: string; body: string }[];
   variations?: { title: string; body: string }[];
@@ -44,6 +47,7 @@ export const GUIDES: Guide[] = [
     time: "About two minutes a card",
     needs: "One phone for the whole table",
     playRoute: "/wavelength",
+    video: { youtubeId: "DG3XotxG2nc", title: "How to play Wavelength" },
     alsoCalled: [
       "Dial guessing game",
       "Spectrum game",

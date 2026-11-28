@@ -5,11 +5,13 @@ import { motion, useReducedMotion } from "motion/react";
 import { BackLink } from "@/components/layout/page-corners";
 import { BriefingPanes } from "@/components/stitch/briefing-panes";
 import { Chip } from "@/components/ui/controls";
-import { WAVELENGTH_MODES } from "@/content/guides";
+import { TutorialVideo } from "@/components/tutorial/tutorial-video";
+import { getGuide, WAVELENGTH_MODES } from "@/content/guides";
 import { MODES, ROUND_OPTIONS, type Mode } from "@/lib/wavelength/engine";
 import { cn } from "@/lib/utils";
 
 const LINK = "mb-caps underline decoration-2 underline-offset-4";
+const VIDEO = getGuide("wavelength")?.video;
 
 function times(n: number) {
   if (n === 1) return "once";
@@ -117,6 +119,7 @@ export function WavelengthBriefing({
                     </li>
                   ))}
                 </motion.ol>
+                {VIDEO ? <TutorialVideo video={VIDEO} className="mt-4" /> : null}
                 <nav className="mt-4">
                   <Link href="/how-to-play/wavelength" className={LINK}>
                     Full rules

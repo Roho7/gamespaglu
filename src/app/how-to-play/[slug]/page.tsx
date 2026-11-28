@@ -10,6 +10,7 @@ import { GUIDES, getGuide } from "@/content/guides";
 import { SITE } from "@/lib/site-config";
 import { pageMetadata } from "@/lib/seo";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
+import { TutorialVideo } from "@/components/tutorial/tutorial-video";
 
 export function generateStaticParams() {
   return GUIDES.map((g) => ({ slug: g.slug }));
@@ -106,6 +107,7 @@ export default async function GuidePage({
         </StitchedPanel>
 
         <StitchedPanel title="The rules">
+          {guide.video ? <TutorialVideo video={guide.video} className="mb-5" /> : null}
           <ol className="space-y-5">
             {guide.steps.map((s, i) => (
               <li key={s.title} className="flex gap-4">
