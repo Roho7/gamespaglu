@@ -43,6 +43,12 @@ export const GAME_SHARE_CARDS = {
     palette: "arcade",
     image: "/backgrounds/tiktiki.jpg",
   },
+  "secret-hitler": {
+    title: "Secret Hitler",
+    tagline: "Liberals, Fascists and one secret Hitler. A phone each, one shared board.",
+    palette: "ballot",
+    image: "/backgrounds/secret-hitler.jpg",
+  },
   scoreboard: {
     title: "Scoreboard",
     tagline: "Retire the back of the envelope. Tap to score, any game, any table.",

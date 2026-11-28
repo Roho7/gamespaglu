@@ -2,6 +2,7 @@ import type { GameId } from "../../../shared/protocol";
 import { girgitModule } from "../girgit/module";
 import type { Grid } from "../girgit/engine";
 import { mafiaModule } from "../mafia/module";
+import { secretHitlerModule } from "../secret-hitler/module";
 import { tiktikiModule } from "../tiktiki/module";
 import type { AnyGameModule } from "./module";
 
@@ -13,5 +14,6 @@ export function createGames(grids: readonly Grid[]): Games {
     girgit: girgitModule(grids) as unknown as AnyGameModule,
     mafia: mafiaModule as unknown as AnyGameModule,
     tiktiki: tiktikiModule as unknown as AnyGameModule,
+    "secret-hitler": secretHitlerModule as unknown as AnyGameModule,
   };
 }

@@ -16,6 +16,7 @@ import { HoldToRevealSecret } from "@/components/girgit/hold-to-reveal-secret";
 import { GameReplay } from "@/components/mafia/game-replay";
 import { SeatBoard, type SeatSlip } from "@/components/mafia/seat-board";
 import { WavelengthDial } from "@/components/wavelength/wavelength-dial";
+import { PolicyBoard } from "@/components/secret-hitler/policy-board";
 import { MarqueeBanner } from "@/components/layout/marquee-banner";
 import { Scoreboard } from "@/components/scoreboard/scoreboard";
 import { PaletteGrain } from "@/components/artwork/palette-grain";
@@ -483,6 +484,29 @@ export default function StylePage() {
                 <MarqueeBanner
                   headline="Pass the phone to Ana"
                   detail="Ana is the Psychic. Everyone else, look away."
+                />
+              </div>
+            ))}
+          </div>
+        </Row>
+
+        <Row title="Secret Hitler — the policy board. Fresh 5-player, 7-player midgame, 9-player with veto unlocked">
+          <div className="grid gap-4 sm:grid-cols-3">
+            {(
+              [
+                ["small", 0, 0, 0, 17, 0],
+                ["medium", 2, 2, 1, 9, 4],
+                ["large", 4, 5, 2, 4, 4],
+              ] as const
+            ).map(([board, liberal, fascist, tracker, deckCount, discardCount]) => (
+              <div key={board} {...theme("ballot", { flipped: true })} className="p-3">
+                <PolicyBoard
+                  board={board}
+                  liberal={liberal}
+                  fascist={fascist}
+                  tracker={tracker}
+                  deckCount={deckCount}
+                  discardCount={discardCount}
                 />
               </div>
             ))}
