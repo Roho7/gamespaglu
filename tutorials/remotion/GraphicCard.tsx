@@ -3,13 +3,14 @@ import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig } from "remotion"
 import type { Graphic } from "../pipeline/schema";
 import { BODY, DISPLAY } from "./fonts";
 import { ICONS } from "./icons";
-import { MIAMI, plate } from "./theme";
+import { plate, usePalette } from "./theme";
 
 type Item = { icon: keyof typeof ICONS; value: string; label: string };
 
 const Entry = ({ item, index, big }: { item: Item; index: number; big: boolean }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const palette = usePalette();
   const pop = spring({ frame: frame - 6 - index * 6, fps, config: { damping: 13, stiffness: 150 } });
   const Icon = ICONS[item.icon];
   const iconSize = big ? 150 : 84;
@@ -32,8 +33,8 @@ const Entry = ({ item, index, big }: { item: Item; index: number; big: boolean }
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: MIAMI.shadow,
-          color: MIAMI.highlight,
+          background: palette.shadow,
+          color: palette.highlight,
         }}
       >
         <Icon size={iconSize} />
@@ -45,7 +46,7 @@ const Entry = ({ item, index, big }: { item: Item; index: number; big: boolean }
             fontSize: big ? (item.value.length > 4 ? 130 : 190) : 100,
             whiteSpace: "nowrap",
             lineHeight: 0.95,
-            color: MIAMI.highlight,
+            color: palette.highlight,
             textTransform: "uppercase",
           }}
         >
@@ -56,7 +57,7 @@ const Entry = ({ item, index, big }: { item: Item; index: number; big: boolean }
             fontFamily: BODY,
             fontWeight: 700,
             fontSize: big ? 38 : 32,
-            color: MIAMI.base,
+            color: palette.base,
             textTransform: "uppercase",
             letterSpacing: 2,
             textAlign: big ? "center" : "left",
@@ -72,18 +73,19 @@ const Entry = ({ item, index, big }: { item: Item; index: number; big: boolean }
 export const GraphicCard = ({ graphic }: { graphic: Graphic }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const palette = usePalette();
   const enter = spring({ frame, fps, config: { damping: 14, stiffness: 160 } });
   const items: Item[] = graphic.type === "stat" ? [graphic] : graphic.items;
   const big = graphic.type === "stat";
   return (
-    <AbsoluteFill style={{ background: `${MIAMI.shadow}8C`, opacity: Math.min(1, enter * 1.5) }}>
+    <AbsoluteFill style={{ background: `${palette.shadow}8C`, opacity: Math.min(1, enter * 1.5) }}>
       <div
         style={{
           position: "absolute",
           left: 90,
           right: 90,
           top: 470,
-          ...plate(MIAMI.primary, 12),
+          ...plate(palette, palette.primary, 12),
           padding: big ? "56px 40px 48px" : "44px 48px",
           display: "flex",
           flexDirection: "column",

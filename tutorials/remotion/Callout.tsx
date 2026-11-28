@@ -1,11 +1,12 @@
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
 
 import { DISPLAY } from "./fonts";
-import { MIAMI, plate } from "./theme";
+import { plate, usePalette } from "./theme";
 
 export const Callout = ({ text }: { text: string }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const palette = usePalette();
   const pop = spring({ frame: frame - 6, fps, config: { damping: 13, stiffness: 190 } });
   return (
     <div
@@ -22,8 +23,8 @@ export const Callout = ({ text }: { text: string }) => {
     >
       <div
         style={{
-          ...plate(MIAMI.primary, 10),
-          color: MIAMI.highlight,
+          ...plate(palette, palette.primary, 10),
+          color: palette.highlight,
           fontFamily: DISPLAY,
           fontSize: 84,
           lineHeight: 1,

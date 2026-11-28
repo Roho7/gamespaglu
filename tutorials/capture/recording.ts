@@ -2,10 +2,10 @@ import { execFileSync } from "node:child_process";
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { type Browser, chromium, type Page } from "playwright";
+import { type Browser, chromium, type Locator, type Page } from "playwright";
 
 import { gameDir } from "../pipeline/paths";
-import type { Markers } from "../pipeline/schema";
+import type { Box, Markers } from "../pipeline/schema";
 
 const VIEWPORT = { width: 432, height: 768 };
 const SCALE = 2.5;
@@ -27,6 +27,7 @@ export type Recording = {
   game: string;
   mark: (shot: string) => Promise<void>;
   dwell: (sec: number) => Promise<void>;
+  focus: (name: string, target: Locator) => Promise<void>;
   baseUrl: string;
 };
 
@@ -91,6 +92,7 @@ export async function record(
   const shots: Record<string, number> = {};
   const unshot: string[] = [];
   const ends: Record<string, number> = {};
+  const focus: Record<string, Box> = {};
   let current: string | null = null;
 
   const rec: Recording = {
@@ -105,6 +107,25 @@ export async function record(
       }
       await page.waitForTimeout((sec * 1000) / 2);
       if (current) ends[current] = now();
+    },
+    focus: async (name, target) => {
+      const box = await target.evaluate((el) => {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const text = range.getBoundingClientRect();
+        const r = text.width > 0 && text.height > 0 ? text : el.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 ? { x: r.x, y: r.y, width: r.width, height: r.height } : null;
+      });
+      if (!box) throw new Error(`focus "${name}" is not visible`);
+      const unit = (n: number) => Math.min(1, Math.max(0, round3(n)));
+      const x = unit(box.x / VIEWPORT.width);
+      const y = unit(box.y / VIEWPORT.height);
+      focus[name] = {
+        x,
+        y,
+        w: unit(Math.min(box.width / VIEWPORT.width, 1 - x)),
+        h: unit(Math.min(box.height / VIEWPORT.height, 1 - y)),
+      };
     },
     mark: async (shot) => {
       current = shot;
@@ -131,7 +152,7 @@ export async function record(
   relative[0].at = 0;
   encode(dir, framesDir, relative, endAt - t0, join(dir, "footage.mp4"));
 
-  const markers: Markers = { game, file: "footage.mp4", fps: FPS, shots, ends };
+  const markers: Markers = { game, file: "footage.mp4", fps: FPS, shots, ends, focus };
   writeFileSync(join(dir, "markers.json"), `${JSON.stringify(markers, null, 2)}\n`);
   return markers;
 }
