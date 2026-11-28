@@ -35,8 +35,22 @@ function normalise(word: string): string[] {
 
 type Heard = { key: string; startSec: number; endSec: number };
 
-function heardWords(captions: { text: string; startMs: number; endMs: number }[]): Heard[] {
-  return captions.flatMap((c) =>
+type Gap = { start: number; end: number };
+
+type Caption = { text: string; startMs: number; endMs: number };
+
+function joinTokens(captions: Caption[]): Caption[] {
+  const words: Caption[] = [];
+  for (const c of captions) {
+    const last = words.at(-1);
+    if (last && !/^\s/.test(c.text)) words[words.length - 1] = { ...last, text: last.text + c.text, endMs: c.endMs };
+    else words.push({ ...c });
+  }
+  return words;
+}
+
+function heardWords(captions: Caption[]): Heard[] {
+  return joinTokens(captions).flatMap((c) =>
     normalise(c.text).map((key) => ({ key, startSec: c.startMs / 1000, endSec: c.endMs / 1000 })),
   );
 }
@@ -80,7 +94,7 @@ export function estimateWords(text: string, durationSec: number): Word[] {
 }
 
 /** Map whisper's heard words onto the script's words; unmatched script words are interpolated between neighbours. */
-export function alignWords(id: string, text: string, heard: Heard[], durationSec: number): Word[] {
+export function alignWords(id: string, text: string, heard: Heard[], durationSec: number, gaps: Gap[] = []): Word[] {
   const words = scriptWords(text);
   const keys = words.map((w) => normalise(w).join(""));
   const pairs = matchPairs(keys, heard);
@@ -99,8 +113,10 @@ export function alignWords(id: string, text: string, heard: Heard[], durationSec
     }
     let end = i;
     while (end < words.length && !timed[end]) end++;
-    const from = i > 0 ? timed[i - 1]!.endSec : 0;
     const to = end < words.length ? timed[end]!.startSec : durationSec;
+    const after = i > 0 ? timed[i - 1]!.endSec : 0;
+    const pause = gaps.find((g) => g.start >= after - 0.05 && g.end < to);
+    const from = pause ? pause.end : after;
     spread(words.slice(i, end), from, Math.max(from, to)).forEach((t, k) => {
       timed[i + k] = t;
     });
@@ -112,8 +128,6 @@ export function alignWords(id: string, text: string, heard: Heard[], durationSec
     return { text: w, startSec, endSec: Math.min(durationSec, Math.max(startSec, t.endSec)) };
   });
 }
-
-type Gap = { start: number; end: number };
 
 function pauses(file: string): Gap[] {
   const log = spawnSync(
@@ -172,8 +186,9 @@ export async function wordTimings(id: string, text: string, clip: string, durati
       tokenLevelTimestamps: true,
       language: "en",
     });
-    const aligned = alignWords(id, text, heardWords(toCaptions({ whisperCppOutput: output }).captions), durationSec);
-    return pullBackFromPauses(aligned, pauses(clip));
+    const gaps = pauses(clip);
+    const aligned = alignWords(id, text, heardWords(toCaptions({ whisperCppOutput: output }).captions), durationSec, gaps);
+    return pullBackFromPauses(aligned, gaps);
   } finally {
     rmSync(tmp, { recursive: true, force: true });
   }
