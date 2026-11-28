@@ -1,8 +1,8 @@
 import type { IconType } from "react-icons";
-import { FaBullseye, FaHandshake, FaTrophy, FaUsers } from "react-icons/fa";
+import { FaBullseye, FaCheck, FaHandshake, FaMobileAlt, FaTimes, FaTrophy, FaUsers } from "react-icons/fa";
 import { MdOutlineWifiOff, MdSignalCellularNodata } from "react-icons/md";
 import { PiArrowsHorizontalBold, PiTargetBold } from "react-icons/pi";
-import { TbRepeat } from "react-icons/tb";
+import { TbArrowsShuffle, TbRepeat } from "react-icons/tb";
 
 export const ICONS = {
   players: FaUsers,
@@ -14,6 +14,10 @@ export const ICONS = {
   trophy: FaTrophy,
   tie: FaHandshake,
   static: MdSignalCellularNodata,
+  yes: FaCheck,
+  no: FaTimes,
+  shuffle: TbArrowsShuffle,
+  phone: FaMobileAlt,
 } as const satisfies Record<string, IconType>;
 
 export type IconName = keyof typeof ICONS;

@@ -1,0 +1,392 @@
+{
+  "game": "who-am-i",
+  "title": "How to play Who Am I?",
+  "route": "/who-am-i",
+  "palette": {
+    "base": "#FF7A2F",
+    "highlight": "#FFD84D",
+    "secondary": "#B8341A",
+    "primary": "#3A1F14",
+    "shadow": "#1C0F0A"
+  },
+  "sectionLabels": {
+    "rounds": "decks & settings"
+  },
+  "lines": [
+    {
+      "id": "intro-1",
+      "section": "intro",
+      "subject": "hook",
+      "text": "Everyone at the table knows who you are. Except you.",
+      "scene": {
+        "shot": "home"
+      },
+      "estimateSec": 4.1
+    },
+    {
+      "id": "setup-1",
+      "section": "setup",
+      "subject": "deck",
+      "text": "Grab your phones, open Who Am I, and pick a deck.",
+      "scene": {
+        "shot": "rail-celebrity",
+        "graphic": {
+          "type": "stat",
+          "icon": "phone",
+          "value": "3+",
+          "label": "players, a phone each"
+        }
+      },
+      "estimateSec": 4.5
+    },
+    {
+      "id": "setup-2",
+      "section": "setup",
+      "subject": "deck",
+      "text": "Celebrity, Movies, Animals, Places, Objects, or Numbers.",
+      "scene": {
+        "shot": "rail-celebrity",
+        "cues": [
+          {
+            "word": 1,
+            "shot": "rail-movie"
+          },
+          {
+            "word": 2,
+            "shot": "rail-animal"
+          },
+          {
+            "word": 3,
+            "shot": "rail-place"
+          },
+          {
+            "word": 4,
+            "shot": "rail-object"
+          },
+          {
+            "word": 6,
+            "shot": "rail-number"
+          }
+        ]
+      },
+      "estimateSec": 3.0
+    },
+    {
+      "id": "setup-3",
+      "section": "setup",
+      "subject": "deck",
+      "text": "Tonight, we're doing Celebrity.",
+      "scene": {
+        "shot": "rail-back",
+        "zooms": [
+          {
+            "focus": "rail-pick",
+            "word": 3
+          }
+        ]
+      },
+      "estimateSec": 1.9
+    },
+    {
+      "id": "play-1",
+      "section": "gameplay",
+      "subject": "turn",
+      "text": "Asha goes first. She generates a name, turns her phone sideways, and holds it up to her forehead.",
+      "scene": {
+        "shot": "briefing",
+        "cues": [
+          {
+            "word": 4,
+            "shot": "countdown"
+          }
+        ],
+        "zooms": [
+          {
+            "focus": "generate",
+            "word": 0,
+            "until": 2
+          },
+          {
+            "focus": "countdown-hint",
+            "word": 10
+          }
+        ]
+      },
+      "estimateSec": 7.1
+    },
+    {
+      "id": "play-2",
+      "section": "gameplay",
+      "subject": "turn",
+      "text": "Ben and Kiko can see the screen. Asha can't.",
+      "scene": {
+        "shot": "reveal",
+        "zooms": [
+          {
+            "focus": "name",
+            "word": 4
+          }
+        ]
+      },
+      "estimateSec": 3.7
+    },
+    {
+      "id": "play-3",
+      "section": "gameplay",
+      "subject": "questions",
+      "text": "Now she has to figure out who she is.",
+      "scene": {
+        "shot": "ask-1"
+      },
+      "estimateSec": 3.7
+    },
+    {
+      "id": "play-4",
+      "section": "gameplay",
+      "subject": "questions",
+      "text": "She can ask anything, but the table can only answer yes or no.",
+      "scene": {
+        "shot": "ask-2"
+      },
+      "estimateSec": 5.2
+    },
+    {
+      "id": "play-5",
+      "section": "gameplay",
+      "subject": "questions",
+      "text": "Am I alive? Am I an actor? Have I been in a Marvel movie?",
+      "scene": {
+        "shot": "ask-3",
+        "zooms": [
+          {
+            "focus": "name"
+          }
+        ]
+      },
+      "estimateSec": 5.6
+    },
+    {
+      "id": "play-6",
+      "section": "gameplay",
+      "subject": "house-rule",
+      "text": "You can keep asking as long as the answers are yes. Get a no, and it's the next person's turn.",
+      "scene": {
+        "shot": "ask-4",
+        "graphic": {
+          "type": "list",
+          "items": [
+            {
+              "icon": "yes",
+              "value": "Yes",
+              "label": "Ask again"
+            },
+            {
+              "icon": "no",
+              "value": "No",
+              "label": "Next person's turn"
+            }
+          ]
+        }
+      },
+      "estimateSec": 7.8
+    },
+    {
+      "id": "play-7",
+      "section": "gameplay",
+      "subject": "house-rule",
+      "text": "That's a house rule, by the way.",
+      "scene": {
+        "shot": "ask-5",
+        "callout": "House rule"
+      },
+      "estimateSec": 3.0
+    },
+    {
+      "id": "play-8",
+      "section": "gameplay",
+      "subject": "pace",
+      "text": "There's no timer, so take your time. The name stays on screen until you regenerate.",
+      "scene": {
+        "shot": "stays",
+        "zooms": [
+          {
+            "focus": "regenerate",
+            "word": 12
+          }
+        ]
+      },
+      "estimateSec": 6.0
+    },
+    {
+      "id": "play-9",
+      "section": "gameplay",
+      "subject": "pace",
+      "text": "And don't worry about getting the same person twice. The deck won't repeat anyone until you've gone through the whole thing.",
+      "scene": {
+        "shot": "regenerated",
+        "graphic": {
+          "type": "stat",
+          "icon": "shuffle",
+          "value": "No repeats",
+          "label": "until the whole deck is dealt"
+        }
+      },
+      "estimateSec": 8.2
+    },
+    {
+      "id": "decks-1",
+      "section": "rounds",
+      "subject": "cartoon",
+      "text": "Playing with kids? There's a Cartoon mode for that.",
+      "scene": {
+        "shot": "settings",
+        "cues": [
+          {
+            "word": 5,
+            "shot": "cartoon"
+          }
+        ],
+        "zooms": [
+          {
+            "focus": "chip-cartoon",
+            "word": 5
+          }
+        ]
+      },
+      "estimateSec": 3.7
+    },
+    {
+      "id": "decks-2",
+      "section": "rounds",
+      "subject": "region",
+      "text": "Got friends from outside India? You can switch India off in the settings.",
+      "scene": {
+        "shot": "where-from",
+        "cues": [
+          {
+            "word": 7,
+            "shot": "india-off"
+          }
+        ],
+        "zooms": [
+          {
+            "focus": "chip-india",
+            "word": 4
+          }
+        ]
+      },
+      "estimateSec": 5.2
+    },
+    {
+      "id": "decks-3",
+      "section": "rounds",
+      "subject": "historical",
+      "text": "Want Gandhi, Einstein, or other historical figures in the mix? There's a toggle for that too.",
+      "scene": {
+        "shot": "historical",
+        "cues": [
+          {
+            "word": 12,
+            "shot": "historical-on"
+          }
+        ],
+        "zooms": [
+          {
+            "focus": "historical-toggle",
+            "word": 5
+          }
+        ]
+      },
+      "estimateSec": 6.3
+    },
+    {
+      "id": "decks-4",
+      "section": "rounds",
+      "subject": "movies",
+      "text": "Movies come with their release year, just in case your memory of that one film is a little fuzzy.",
+      "scene": {
+        "shot": "movie-reveal",
+        "zooms": [
+          {
+            "focus": "movie-year",
+            "word": 4
+          }
+        ]
+      },
+      "estimateSec": 7.4
+    },
+    {
+      "id": "decks-5",
+      "section": "rounds",
+      "subject": "numbers",
+      "text": "Numbers is a surprisingly fun one. Pick a range, then start asking. Am I even? Am I bigger than fifty?",
+      "scene": {
+        "shot": "number-range",
+        "cues": [
+          {
+            "word": 12,
+            "shot": "number-reveal"
+          }
+        ],
+        "zooms": [
+          {
+            "focus": "range-chips",
+            "word": 6,
+            "until": 11
+          },
+          {
+            "focus": "number-label",
+            "word": 12
+          }
+        ]
+      },
+      "estimateSec": 7.8
+    },
+    {
+      "id": "decks-6",
+      "section": "rounds",
+      "subject": "same",
+      "text": "Places, Animals, and Objects work exactly the same way. Just a different kind of guessing.",
+      "scene": {
+        "shot": "place-reveal",
+        "cues": [
+          {
+            "word": 1,
+            "shot": "animal-reveal"
+          },
+          {
+            "word": 3,
+            "shot": "object-reveal"
+          }
+        ]
+      },
+      "estimateSec": 6.0
+    },
+    {
+      "id": "win-1",
+      "section": "winning",
+      "subject": "win",
+      "text": "Once you've figured it out, tap regenerate and hand it to the next person.",
+      "scene": {
+        "shot": "win",
+        "zooms": [
+          {
+            "focus": "regenerate",
+            "word": 5
+          }
+        ]
+      },
+      "estimateSec": 5.6
+    },
+    {
+      "id": "win-2",
+      "section": "winning",
+      "subject": "win",
+      "text": "Or keep going. Nobody's stopping you.",
+      "scene": {
+        "shot": "win-next"
+      },
+      "estimateSec": 2.6
+    }
+  ]
+}
