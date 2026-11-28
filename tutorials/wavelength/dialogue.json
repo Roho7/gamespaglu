@@ -1,0 +1,292 @@
+{
+  "game": "wavelength",
+  "title": "How to play Wavelength",
+  "route": "/wavelength",
+  "lines": [
+    {
+      "id": "intro-1",
+      "section": "intro",
+      "text": "Wavelength is a mind-reading game. Can your friends land the dial where you were thinking?",
+      "scene": {
+        "shot": "home"
+      },
+      "estimateSec": 6.2
+    },
+    {
+      "id": "setup-1",
+      "section": "setup",
+      "text": "You need two to sixteen players and one phone. No room to join, no accounts, no signal. Just pass the phone round.",
+      "scene": {
+        "shot": "briefing",
+        "graphic": {
+          "type": "stat",
+          "icon": "players",
+          "value": "2–16",
+          "label": "players, one phone"
+        }
+      },
+      "estimateSec": 8.9
+    },
+    {
+      "id": "setup-3",
+      "section": "setup",
+      "text": "Open Wavelength and pick a mode. There are three: One Psychic, One Guesser, and Teams.",
+      "scene": {
+        "shot": "briefing",
+        "cues": [
+          {
+            "word": 9,
+            "shot": "modes-psychic"
+          },
+          {
+            "word": 11,
+            "shot": "modes-guesser"
+          },
+          {
+            "word": 14,
+            "shot": "modes-teams"
+          }
+        ]
+      },
+      "estimateSec": 6.2
+    },
+    {
+      "id": "setup-4",
+      "section": "setup",
+      "text": "Pick how many rounds, from one to six. Then add everyone's names and tap Start game.",
+      "scene": {
+        "shot": "rounds",
+        "cues": [
+          {
+            "word": 8,
+            "shot": "players"
+          }
+        ],
+        "callout": "Add players"
+      },
+      "estimateSec": 6.6
+    },
+    {
+      "id": "play-1",
+      "section": "gameplay",
+      "text": "Let's play One Psychic. Every card is a spectrum between two ends, and somewhere on it hides a target.",
+      "scene": {
+        "shot": "card",
+        "callout": "One Psychic"
+      },
+      "estimateSec": 7.7
+    },
+    {
+      "id": "play-2",
+      "section": "gameplay",
+      "text": "The Psychic presses and holds the dial to peek at the target. Nobody else looks.",
+      "scene": {
+        "shot": "peek",
+        "callout": "Press and hold"
+      },
+      "estimateSec": 6.2
+    },
+    {
+      "id": "play-3",
+      "section": "gameplay",
+      "text": "Then they say a clue out loud, and can type it for the table. Stuck? Skip the card.",
+      "scene": {
+        "shot": "clue",
+        "callout": "Give a clue"
+      },
+      "estimateSec": 7.3
+    },
+    {
+      "id": "play-4",
+      "section": "gameplay",
+      "text": "Now the phone goes round. Each guesser turns the dial in secret and locks it in.",
+      "scene": {
+        "shot": "guess",
+        "callout": "Lock it in"
+      },
+      "estimateSec": 6.6
+    },
+    {
+      "id": "play-5",
+      "section": "gameplay",
+      "text": "Reveal! The bullseye scores four, right next to it two, and the edge one.",
+      "scene": {
+        "shot": "reveal",
+        "graphic": {
+          "type": "list",
+          "items": [
+            {
+              "icon": "bullseye",
+              "value": "4",
+              "label": "Bullseye"
+            },
+            {
+              "icon": "near",
+              "value": "2",
+              "label": "Right next to it"
+            },
+            {
+              "icon": "edge",
+              "value": "1",
+              "label": "The edge"
+            }
+          ]
+        }
+      },
+      "estimateSec": 5.8
+    },
+    {
+      "id": "play-6",
+      "section": "gameplay",
+      "text": "The Psychic scores the average of everyone's guesses, so a good clue pays.",
+      "scene": {
+        "shot": "reveal",
+        "callout": "Psychic scores the average"
+      },
+      "estimateSec": 5.4
+    },
+    {
+      "id": "guesser-1",
+      "section": "gameplay",
+      "text": "One Guesser, for two or more players, flips it around. One player looks away.",
+      "scene": {
+        "shot": "guesser-lookaway",
+        "callout": "One Guesser"
+      },
+      "estimateSec": 5.8
+    },
+    {
+      "id": "guesser-2",
+      "section": "gameplay",
+      "text": "Everyone else holds the dial to see the target, and agrees on clues together.",
+      "scene": {
+        "shot": "guesser-peek",
+        "callout": "Everyone else peeks"
+      },
+      "estimateSec": 5.8
+    },
+    {
+      "id": "guesser-3",
+      "section": "gameplay",
+      "text": "Then hand over the phone. The guesser turns the dial alone, and keeps whatever it scores.",
+      "scene": {
+        "shot": "guesser-guess",
+        "cues": [
+          {
+            "word": 12,
+            "shot": "guesser-reveal"
+          }
+        ]
+      },
+      "estimateSec": 6.6
+    },
+    {
+      "id": "teams-1",
+      "section": "gameplay",
+      "text": "Teams needs four or more players, split into two teams of at least two.",
+      "scene": {
+        "shot": "teams-players",
+        "callout": "Teams"
+      },
+      "estimateSec": 5.8
+    },
+    {
+      "id": "teams-2",
+      "section": "gameplay",
+      "text": "Teams take turns. Each team's Psychic gives a clue, then their own team talks it over and turns the dial.",
+      "scene": {
+        "shot": "teams-turn",
+        "cues": [
+          {
+            "word": 9,
+            "shot": "teams-guess"
+          }
+        ]
+      },
+      "estimateSec": 8.1
+    },
+    {
+      "id": "teams-3",
+      "section": "gameplay",
+      "text": "Only the active team scores. Then the turn passes, with a new Psychic each time around.",
+      "scene": {
+        "shot": "teams-reveal",
+        "callout": "Only the active team scores"
+      },
+      "estimateSec": 6.6
+    },
+    {
+      "id": "rounds-1",
+      "section": "rounds",
+      "text": "A round is one turn for every player, or one card per team in Teams.",
+      "scene": {
+        "shot": "card",
+        "graphic": {
+          "type": "stat",
+          "icon": "rounds",
+          "value": "1 round",
+          "label": "one turn each"
+        }
+      },
+      "estimateSec": 6.2
+    },
+    {
+      "id": "rounds-2",
+      "section": "rounds",
+      "text": "The counter up top shows the round, and the scoreboard keeps every point.",
+      "scene": {
+        "shot": "scoreboard",
+        "callout": "Scoreboard"
+      },
+      "estimateSec": 5.4
+    },
+    {
+      "id": "win-1",
+      "section": "winning",
+      "text": "After the last card, tap Final score. The highest total wins.",
+      "scene": {
+        "shot": "over",
+        "callout": "Highest total wins"
+      },
+      "estimateSec": 4.6
+    },
+    {
+      "id": "win-2",
+      "section": "winning",
+      "text": "Level at the top? It's a tie. And if nobody scores at all, it's static.",
+      "scene": {
+        "shot": "over",
+        "graphic": {
+          "type": "list",
+          "items": [
+            {
+              "icon": "trophy",
+              "value": "Top",
+              "label": "Wins"
+            },
+            {
+              "icon": "tie",
+              "value": "Level",
+              "label": "It's a tie"
+            },
+            {
+              "icon": "static",
+              "value": "0",
+              "label": "Static"
+            }
+          ]
+        }
+      },
+      "estimateSec": 6.2
+    },
+    {
+      "id": "win-3",
+      "section": "winning",
+      "text": "Play again, or change the settings. Now go find your wavelength.",
+      "scene": {
+        "shot": "over-actions"
+      },
+      "estimateSec": 4.6
+    }
+  ]
+}

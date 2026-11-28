@@ -1,0 +1,40 @@
+{
+  "name": "gamespaglu-tutorials",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture": "tsx pipeline/capture.ts",
+    "voice": "tsx pipeline/voice.ts",
+    "frames": "tsx pipeline/frames.ts",
+    "studio": "tsx pipeline/studio.ts",
+    "render": "tsx pipeline/render.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.547",
+    "@remotion/cli": "4.0.547",
+    "@remotion/google-fonts": "4.0.547",
+    "@remotion/install-whisper-cpp": "4.0.547",
+    "@remotion/renderer": "4.0.547",
+    "playwright": "^1.65.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-icons": "^5.7.0",
+    "remotion": "4.0.547",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^26.6.11",
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.74.0"
+  }
+}

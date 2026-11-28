@@ -35,5 +35,5 @@
   // server/ is a separate package with its own tsconfig, CommonJS target and
   // node-only deps. Compiling it here would fail on imports the web app has no
   // reason to install.
-  "exclude": ["node_modules", "server"]
+  "exclude": ["node_modules", "server", "tutorials"]
 }

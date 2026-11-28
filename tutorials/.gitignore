@@ -1,0 +1,7 @@
+node_modules
+*/capture/
+*/out/
+*/audio/*.mp3
+*/audio/*.wav
+*/audio/raw/
+.whisper/
